@@ -1,0 +1,9 @@
+# Genus build artifacts (regenerable; reports summarized in docs / collect_mq_results.py)
+syn/build_*/
+syn/outputs_*/
+syn/*.log
+syn/*.cmd
+syn/*.out
+fv/
+# third-party paper PDFs
+ref/

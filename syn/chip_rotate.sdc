@@ -1,0 +1,11 @@
+create_clock [get_ports clk] -name clk -period 2.0 -waveform {0 1.0}
+set_clock_uncertainty 0.05 [get_clocks clk]
+set_clock_transition -rise 0.02 [get_clocks clk]
+set_clock_transition -fall 0.02 [get_clocks clk]
+set_input_delay  [expr {2.0*0.30}] -clock clk [remove_from_collection [all_inputs] [get_ports clk]]
+set_output_delay [expr {2.0*0.30}] -clock clk [all_outputs]
+set_max_transition [expr {2.0*0.20}] [current_design]
+set_max_fanout 32 [current_design]
+set_driving_cell -lib_cell BUFFD4BWP30P140 [remove_from_collection [all_inputs] [get_ports clk]]
+set_load 0.005 [all_outputs]
+set_false_path -from [get_ports rst_n]
