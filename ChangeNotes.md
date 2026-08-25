@@ -124,5 +124,41 @@ wxy：
 
 等我回国登老贾的服务器，再康康28nm macro(希望我账号还在)
 
+---
+
+## cy 回复（2026-08-25）：softmax 不用 stream，只有 P 是 stream
+
+宸逸问的"softmax 要不要 streaming、512KB buffer 是不是太糙"——结论是：
+**softmax 本体就是 buffer 式，不用 stream；真正 stream 的只有 P。**
+和 AttAcc 原文对齐后的口径（论文 `audit/2026-08-25_bank_dataflow_reuse.md`）：
+
+1. **softmax 天生要 buffer。** 它要先拿到整条长度 `L` 的 score 才能算
+   `max` / `sum` / 归一，做不到不存就出结果（除非上 flash/online 那套带
+   running-max 的 rescale，我们不用）。所以 `score_bank + exp_bank` 存整条
+   是**必需**的，不是糙——AttAcc 那个 512 KB buffer 就是这个 input+output
+   buffer，本身没问题。**我们和 AttAcc 的唯一区别是容量按 `n_q` 放大**：
+   AttAcc 存 1 条 context，Fugue 的 MQ 要存 `n_q` 条 per-agent 向量
+   （`CONTEXTS=16` → 256 KiB，正是你算的那个数，< 512 KiB）。
+
+2. **真正流式的是 P，依据是复用次数（AttAcc 是一 head 一 channel=64 banks，
+   一个 head 的 L 个 token 摊在该 channel 的 16 个 bank group 上）：**
+   - **Q 复用 = `L/16`**：一段 `d_head/4` 的 Q 片，本 bank 那 `L/16` 个
+     token 每个都要用它扫一遍 → 复用极高 → **驻留在 GEMV buffer 里**。
+   - **P 复用 = 2**：一个 `P[t]` 对应 `d_head/4 = 32` 个输出维，但一拍只算
+     16 个 lane，32/16 = **2 拍**就用完 → `P[t]` 只被用 2 次 → 复用近零 →
+     **驻留买不到东西 → 从 die 流给 bank 的乘法器（stream）**。
+   MQ 批 `n_q` 个 agent 时更不该驻留 `n_q` 份 P，所以 P 一律流式。
+
+3. **所以 `streaming_softmax_unit` 里的 "streaming" 名字有点误导。** 它其实是
+   (a) 16-lane tile 逐块扫这条 score，(b) normalize 阶段把算出的 P **流给**
+   context GEMV——softmax core（`score_mem` + `exp_mem` 两块 SRAM）**仍然是
+   buffer**，就是 AttAcc 那 512 KB 的东西。它**不是**不存整条的 flash/online
+   流式。改天要不把模块改名叫 `tiled_softmax_unit` 之类，省得读的人以为
+   softmax 本身不缓存。
+
+4. **落地口径：** die 上 softmax = **一个按 `n_q` 放大的 buffer**
+   （`CONTEXTS=16` → 256 KiB，容量口径没问题，别误用 AttAcc 的 1-context 容量）；
+   **只有 P 是 stream**（走 TSV，容量轴只约束 Q）。后续接入项 1/2 照这个来就对。
+
 
 
