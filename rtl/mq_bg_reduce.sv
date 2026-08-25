@@ -18,8 +18,8 @@
 // Like the rest of this repo: an area/timing exploration model with
 // representative control, not a functional sign-off.
 module mq_bg_reduce #(
-    parameter int unsigned N_Q = 16,  // score-side resident query slots
-    parameter int unsigned N_C = 2    // context-side resident P slots
+    parameter integer N_Q = 16,  // score-side resident query slots
+    parameter integer N_C = 2    // context-side resident P slots
 ) (
     input  logic                       clk,
     input  logic                       rst_n,

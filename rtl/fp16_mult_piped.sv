@@ -3,7 +3,7 @@
 // cloud followed by NUM_PIPE registers that retiming (retime=true) distributes
 // across the 11x11 multiply + normalize + round. NUM_PIPE=1 == original fp16_mult.
 module fp16_mult_piped #(
-    parameter int unsigned NUM_PIPE = 2
+    parameter integer NUM_PIPE = 2
 ) (
     input  logic        clk,
     input  logic        rst_n,

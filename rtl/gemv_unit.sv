@@ -12,9 +12,11 @@
 //     scalar partial dot-product per cycle that is then accumulated into
 //     the result register.
 //
-// One control bit (`op_is_score`) selects between score (Q·K^T) and context
-// (S·V); both ops use the same datapath — only the buffer fill stream
-// differs from outside this block.
+// `op_is_score` selects the reduction axis:
+//   score (Q·K^T): 16 lane products are reduced to one scalar and accumulated
+//                   across d_head chunks.
+//   context (S·V): each of the 16 lane products is accumulated independently
+//                   across sequence-score chunks, producing a 256-bit word.
 module gemv_unit (
     input  logic         clk,
     input  logic         rst_n,
@@ -40,7 +42,9 @@ module gemv_unit (
     input  logic         accum_clr,           // 1=clear accumulator
     input  logic         accum_en,            // 1=add product into accumulator
     output logic [15:0]  result,
-    output logic         result_valid
+    output logic         result_valid,
+    output logic [255:0] context_result,
+    output logic         context_result_valid
 );
     // ---------------------------------------------------------------------
     // Storage: two double-buffered banks
@@ -143,7 +147,7 @@ module gemv_unit (
         );
     endgenerate
 
-    // Accumulator (16th FP16 adder).
+    // Score-mode scalar accumulator (16th FP16 adder after the reduction tree).
     logic [15:0] acc;
     logic [15:0] acc_in;
     logic        acc_in_v;
@@ -152,23 +156,26 @@ module gemv_unit (
 
     // accum_en/clr are control signals timed by the caller relative to start.
     // We pipe them along with the multiplier valid so they line up with s4.
-    logic [5:0] ctrl_pipe_en, ctrl_pipe_clr;
+    logic [5:0] ctrl_pipe_en, ctrl_pipe_clr, ctrl_pipe_score;
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             ctrl_pipe_en  <= '0;
             ctrl_pipe_clr <= '0;
+            ctrl_pipe_score <= '0;
         end else begin
             ctrl_pipe_en  <= {ctrl_pipe_en[4:0],  accum_en};
             ctrl_pipe_clr <= {ctrl_pipe_clr[4:0], accum_clr};
+            ctrl_pipe_score <= {ctrl_pipe_score[4:0], op_is_score};
         end
     end
 
-    logic accum_en_aligned, accum_clr_aligned;
+    logic accum_en_aligned, accum_clr_aligned, score_mode_aligned;
     assign accum_en_aligned  = ctrl_pipe_en[5];
     assign accum_clr_aligned = ctrl_pipe_clr[5];
+    assign score_mode_aligned = ctrl_pipe_score[5];
 
     assign acc_in   = accum_clr_aligned ? 16'd0 : acc;
-    assign acc_in_v = s4_v & accum_en_aligned;
+    assign acc_in_v = s4_v & accum_en_aligned & score_mode_aligned;
 
     fp16_add u_acc_add (
         .clk(clk), .rst_n(rst_n),
@@ -179,21 +186,77 @@ module gemv_unit (
         .out_valid(acc_sum_v)
     );
 
+    logic result_valid_q;
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n)            acc <= 16'd0;
-        else if (acc_sum_v)    acc <= acc_sum;
-        else if (accum_clr_aligned) acc <= 16'd0;
+        if (!rst_n) begin
+            acc            <= 16'd0;
+            result_valid_q <= 1'b0;
+        end else begin
+            result_valid_q <= acc_sum_v;
+            if (acc_sum_v) acc <= acc_sum;
+            else if (accum_clr_aligned) acc <= 16'd0;
+        end
     end
 
-    // The score-vs-context flag picks between two upstream data sources
-    // outside this block; here it only feeds an output tag pipeline so the
-    // synthesizer can't optimize it away.
-    logic op_tag;
+    // ---------------------------------------------------------------------
+    // Context-mode vector accumulator.  Unlike the score path, products must
+    // NOT be reduced across lanes: lane l is output dimension l and accumulates
+    // S[token] * V[token][l] over token chunks.  The one-cycle bypass preserves
+    // correctness for back-to-back starts despite the registered FP16 add.
+    // ---------------------------------------------------------------------
+    logic [15:0] ctx_acc [16], ctx_sum [16];
+    logic [15:0] ctx_old [16];
+    logic        ctx_sum_v [16];
+    logic        context_result_valid_q;
+    logic [1:0]  ctx_en_pipe, ctx_clr_pipe, ctx_mode_pipe;
+    logic        ctx_issue_v, ctx_clear_aligned;
+
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) op_tag <= 1'b0;
-        else        op_tag <= op_is_score;
+        if (!rst_n) begin
+            ctx_en_pipe   <= '0;
+            ctx_clr_pipe  <= '0;
+            ctx_mode_pipe <= '0;
+        end else begin
+            ctx_en_pipe   <= {ctx_en_pipe[0], accum_en};
+            ctx_clr_pipe  <= {ctx_clr_pipe[0], accum_clr};
+            ctx_mode_pipe <= {ctx_mode_pipe[0], op_is_score};
+        end
     end
 
-    assign result       = acc ^ {15'd0, op_tag};
-    assign result_valid = acc_sum_v;
+    assign ctx_clear_aligned = ctx_clr_pipe[1];
+    assign ctx_issue_v       = prod_v[0] & ctx_en_pipe[1] & ~ctx_mode_pipe[1];
+
+    generate
+        for (i = 0; i < 16; i++) begin : g_ctx_acc
+            // A previous lane-add result is forwarded while its register is
+            // being committed, avoiding a read-after-write bubble.
+            assign ctx_old[i] = ctx_clear_aligned ? 16'd0
+                              : (ctx_sum_v[i] ? ctx_sum[i] : ctx_acc[i]);
+            fp16_add u_ctx_add (
+                .clk(clk), .rst_n(rst_n), .in_valid(ctx_issue_v),
+                .a(prod[i]), .b(ctx_old[i]),
+                .y(ctx_sum[i]), .out_valid(ctx_sum_v[i])
+            );
+            always_ff @(posedge clk or negedge rst_n) begin
+                if (!rst_n) ctx_acc[i] <= '0;
+                else if (ctx_sum_v[i]) ctx_acc[i] <= ctx_sum[i];
+                else if (ctx_clear_aligned) ctx_acc[i] <= '0;
+            end
+            assign context_result[i*16 +: 16] = ctx_acc[i];
+        end
+    endgenerate
+
+    // ctx_acc is committed on the edge after ctx_sum_v is asserted.  Delay
+    // the externally visible valid by that edge so context_result always
+    // denotes the newly committed 16-lane accumulator state.
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) context_result_valid_q <= 1'b0;
+        else        context_result_valid_q <= ctx_sum_v[0];
+    end
+
+    // Score and context are separate interfaces; never corrupt a numerical
+    // result with a mode tag.  Both valids are aligned to their own datapaths.
+    assign result       = acc;
+    assign result_valid = result_valid_q;
+    assign context_result_valid = context_result_valid_q;
 endmodule

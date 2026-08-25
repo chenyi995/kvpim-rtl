@@ -3,8 +3,8 @@
 // flips the role of the two banks. Implemented in flops (≈8 kbit total) so
 // no SRAM macros are required for synthesis area exploration.
 module dbuf_16x256 #(
-    parameter int unsigned DEPTH = 16,
-    parameter int unsigned WIDTH = 256
+    parameter integer DEPTH = 16,
+    parameter integer WIDTH = 256
 ) (
     input  logic                       clk,
     input  logic                       rst_n,

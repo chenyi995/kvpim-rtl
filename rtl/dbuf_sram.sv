@@ -19,8 +19,8 @@
 // Like the rest of this repo: representative control, no functional
 // sign-off.  BIST/sleep/mirror pins are tied off.
 module dbuf_16x256 #(
-    parameter int unsigned DEPTH = 16,
-    parameter int unsigned WIDTH = 256
+    parameter integer DEPTH = 16,
+    parameter integer WIDTH = 256
 ) (
     input  logic                       clk,
     input  logic                       rst_n,
@@ -47,8 +47,7 @@ module dbuf_16x256 #(
 
     always_comb begin
         for (int h = 0; h < 2; h++) begin
-            automatic logic is_fill = (fill_sel == h[0]);
-            if (is_fill) begin                    // write-only half
+            if (fill_sel == h[0]) begin                    // write-only half
                 ceb[h]  = ~wr_en;
                 web[h]  = 1'b0;
                 addr[h] = 7'(wr_addr);

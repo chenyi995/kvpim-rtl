@@ -8,7 +8,7 @@
 // so no latches are inferred.  Single-instruction-at-a-time execution; the FIFO
 // smooths host issue.
 module attacc_controller import fugue_pkg::*; #(
-    parameter int unsigned QDEPTH = 8
+    parameter integer QDEPTH = 8
 ) (
     input  logic                clk,
     input  logic                rst_n,
@@ -56,7 +56,7 @@ module attacc_controller import fugue_pkg::*; #(
     output logic [SM_WIDX_W-1:0] meta_wr_idx,
     output logic [SM_LANES-1:0]  meta_wr_mask
 );
-    localparam int unsigned PW = (QDEPTH <= 1) ? 1 : $clog2(QDEPTH);
+    localparam integer PW = (QDEPTH <= 1) ? 1 : $clog2(QDEPTH);
 
     // ---- config register file ----
     logic [31:0] cfg [NUM_CFG];
@@ -76,6 +76,8 @@ module attacc_controller import fugue_pkg::*; #(
 
     // ---- decode of the head instruction ----
     instr_t cur;
+    instr_t head;
+    assign head = fifo_mem[rd_ptr];
     logic [LADDR_W-1:0] laddr;      // running logical address for MAC
     logic [15:0]        beat, len;
 
@@ -114,8 +116,8 @@ module attacc_controller import fugue_pkg::*; #(
         end else begin
             // ---- FIFO write ----
             if (push) begin
-                fifo_mem[wr_ptr] <= instr_t'(instr_word);
-                wr_ptr <= (wr_ptr == PW'(QDEPTH-1)) ? '0 : wr_ptr + 1'b1;
+                fifo_mem[wr_ptr] <= instr_word;
+                wr_ptr <= (wr_ptr == (QDEPTH-1)) ? '0 : wr_ptr + 1'b1;
             end
             cnt <= cnt + (push ? 1 : 0) - (pop ? 1 : 0);
 
@@ -135,18 +137,18 @@ module attacc_controller import fugue_pkg::*; #(
                 S_IDLE: begin
                     if (~empty) begin
                         cur    <= fifo_mem[rd_ptr];
-                        rd_ptr <= (rd_ptr == PW'(QDEPTH-1)) ? '0 : rd_ptr + 1'b1;
-                        unique case (fifo_mem[rd_ptr].op)
+                        rd_ptr <= (rd_ptr == (QDEPTH-1)) ? '0 : rd_ptr + 1'b1;
+                        unique case (head.op)
                             PIM_SET_CONFIG: state <= S_CFG;
                             PIM_ROTATE:     state <= S_ROT;
                             PIM_SFM:        state <= S_SFM;
                             PIM_SET_META:   state <= S_META;
                             PIM_MAC_AB: begin
-                                op_mode <= opmode_e'(fifo_mem[rd_ptr].mode);
-                                len     <= fifo_mem[rd_ptr].len;
+                                op_mode <= head.mode;
+                                len     <= head.len;
                                 beat    <= 16'd0;
-                                laddr   <= fifo_mem[rd_ptr].vaddr;
-                                state   <= (fifo_mem[rd_ptr].len == 16'd0) ? S_MAC_DONE : S_MAC_TLB;
+                                laddr   <= head.vaddr;
+                                state   <= (head.len == 16'd0) ? S_MAC_DONE : S_MAC_TLB;
                             end
                             default:        state <= S_MISC;   // ACT_AB / MV_* / WR / RD / NOP
                         endcase

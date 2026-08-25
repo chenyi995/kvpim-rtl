@@ -5,7 +5,7 @@
 //
 // Written for N = NUM_GEMV = 4 (2-stage tree). Reuses fp16_add.
 module accumulator import fugue_pkg::*; #(
-    parameter int unsigned N = NUM_GEMV
+    parameter integer N = NUM_GEMV
 ) (
     input  logic               clk,
     input  logic               rst_n,
@@ -32,15 +32,20 @@ module accumulator import fugue_pkg::*; #(
     assign clr_al = clr_pipe[1];
 
     logic [15:0] acc_q, acc_in, acc_sum;
-    logic        v_acc;
+    logic        v_acc, out_valid_q;
     assign acc_in = clr_al ? 16'd0 : acc_q;
     fp16_add a_acc (.clk(clk),.rst_n(rst_n),.in_valid(v0123),.a(s0123),.b(acc_in),.y(acc_sum),.out_valid(v_acc));
 
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n)     acc_q <= 16'd0;
-        else if (v_acc) acc_q <= acc_sum;
+        if (!rst_n) begin
+            acc_q       <= 16'd0;
+            out_valid_q <= 1'b0;
+        end else begin
+            out_valid_q <= v_acc;
+            if (v_acc) acc_q <= acc_sum;
+        end
     end
 
     assign acc       = acc_q;
-    assign out_valid = v_acc;
+    assign out_valid = out_valid_q;
 endmodule

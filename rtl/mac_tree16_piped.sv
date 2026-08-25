@@ -3,8 +3,8 @@
 // fp16_add_piped) so register *retiming* can push the clock past the single-op
 // limit. Total pipeline depth = MPIPE (multiply) + 4*APIPE (four adder levels).
 module mac_tree16_piped #(
-    parameter int unsigned MPIPE = 2,   // sub-stages per FP16 multiply
-    parameter int unsigned APIPE = 2    // sub-stages per FP16 add
+    parameter integer MPIPE = 2,   // sub-stages per FP16 multiply
+    parameter integer APIPE = 2    // sub-stages per FP16 add
 ) (
     input  logic         clk,
     input  logic         rst_n,

@@ -21,9 +21,9 @@
 // Data paths are combinational over the registered mask, so the decoder inserts
 // no extra latency between the banks and the softmax buffer.
 module diff_decoder import fugue_pkg::*; #(
-    parameter int unsigned LANES  = SM_LANES,   // FP32 score lanes per word
-    parameter int unsigned W      = 32,         // FP32
-    parameter int unsigned NWORDS = SM_WORDS
+    parameter integer LANES  = SM_LANES,   // FP32 score lanes per word
+    parameter integer W      = 32,         // FP32
+    parameter integer NWORDS = SM_WORDS
 ) (
     input  logic                     clk,
     input  logic                     rst_n,
@@ -50,7 +50,7 @@ module diff_decoder import fugue_pkg::*; #(
     output logic [LANES-1:0][W-1:0]  to_diff,
     output logic                     rev_valid_o
 );
-    localparam int unsigned RANKW = (LANES <= 1) ? 1 : $clog2(LANES);
+    localparam integer RANKW = (LANES <= 1) ? 1 : $clog2(LANES);
 
     // ---- metadata buffer: one LANES-bit diff mask per score word ----
     logic [LANES-1:0] diff_mask [NWORDS];
@@ -68,7 +68,7 @@ module diff_decoder import fugue_pkg::*; #(
     // per-lane rank = # set mask bits strictly below l (index into diff_stream)
     logic [RANKW-1:0] rank [LANES];
     always_comb begin
-        automatic int unsigned acc;
+        integer acc;
         acc = 0;
         for (int l = 0; l < LANES; l++) begin
             rank[l] = acc[RANKW-1:0];

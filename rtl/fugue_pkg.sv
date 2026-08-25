@@ -7,33 +7,35 @@
 package fugue_pkg;
 
   // ---- Datapath widths ---------------------------------------------------
-  localparam int unsigned FP16_W = 16;
-  localparam int unsigned FP32_W = 32;
-  localparam int unsigned LANES  = 16;               // FP16 lanes per word
-  localparam int unsigned VEC_W  = LANES * FP16_W;   // 256-bit datapath word
+  localparam integer FP16_W = 16;
+  localparam integer FP32_W = 32;
+  localparam integer LANES  = 16;               // FP16 lanes per word
+  localparam integer VEC_W  = LANES * FP16_W;   // 256-bit datapath word
 
   // ---- Structural counts -------------------------------------------------
-  localparam int unsigned NUM_GEMV = 4;    // GEMV units per slice (AttAcc_bank-like)
-  localparam int unsigned SM_LANES = 16;   // softmax parallel lanes (paper: up to 256)
-  localparam int unsigned SM_WORDS = 8;    // score words held by the diff-mask table
-  localparam int unsigned SM_WIDX_W= $clog2(SM_WORDS);
-  localparam int unsigned HEAD_DIM = 128;  // d_head (GPT-3 175B)
+  localparam integer NUM_GEMV = 4;    // GEMV units per slice (AttAcc_bank-like)
+  localparam integer SM_LANES = 16;   // softmax parallel lanes (paper: up to 256)
+  // A 2048-token attention row is processed as 128 sixteen-score tiles.
+  // This is also the minimum depth of the Fugue per-word diff-mask table.
+  localparam integer SM_WORDS = 128;
+  localparam integer SM_WIDX_W= $clog2(SM_WORDS);
+  localparam integer HEAD_DIM = 128;  // d_head (GPT-3 175B)
 
   // ---- Physical DRAM address geometry (8-Hi HBM3, per pseudo-channel) -----
-  localparam int unsigned BANK_W = 4;   // 16 banks / pCH
-  localparam int unsigned ROW_W  = 16;  // rows / bank
-  localparam int unsigned COL_W  = 6;   // 256-bit columns / row (column granularity)
+  localparam integer BANK_W = 4;   // 16 banks / pCH
+  localparam integer ROW_W  = 16;  // rows / bank
+  localparam integer COL_W  = 6;   // 256-bit columns / row (column granularity)
 
   // ---- Logical (virtual) KV address --------------------------------------
-  localparam int unsigned LADDR_W = 32;                 // logical KV / operand addr
-  localparam int unsigned PGOFF_W = COL_W;              // page offset (columns in a page)
-  localparam int unsigned VPN_W   = LADDR_W - PGOFF_W;  // virtual page number
-  localparam int unsigned PPN_W   = BANK_W + ROW_W;     // physical page number
-  localparam int unsigned PADDR_W = PPN_W + PGOFF_W;    // physical address
+  localparam integer LADDR_W = 32;                 // logical KV / operand addr
+  localparam integer PGOFF_W = COL_W;              // page offset (columns in a page)
+  localparam integer VPN_W   = LADDR_W - PGOFF_W;  // virtual page number
+  localparam integer PPN_W   = BANK_W + ROW_W;     // physical page number
+  localparam integer PADDR_W = PPN_W + PGOFF_W;    // physical address
 
   // ---- TLB ---------------------------------------------------------------
-  localparam int unsigned TLB_ENTRIES = 32;
-  localparam int unsigned TLB_IDX_W   = $clog2(TLB_ENTRIES);
+  localparam integer TLB_ENTRIES = 32;
+  localparam integer TLB_IDX_W   = $clog2(TLB_ENTRIES);
 
   // ---- PIM opcodes (extends AttAcc's PIM command set with ROTATE) ---------
   typedef enum logic [3:0] {
@@ -67,7 +69,7 @@ package fugue_pkg;
     CFG_PARTMODE = 4'h4,
     CFG_ROPEBASE = 4'h5   // RoPE theta base (seed for angle generator)
   } cfg_idx_e;
-  localparam int unsigned NUM_CFG = 8;
+  localparam integer NUM_CFG = 8;
 
   // ---- Packed instruction word: {op, mode, cfg_idx, vaddr, len, imm} ------
   typedef struct packed {
@@ -78,7 +80,7 @@ package fugue_pkg;
     logic [15:0]        len;      // rows / elements
     logic [15:0]        imm;      // immediate (token position for ROTATE, etc.)
   } instr_t;
-  localparam int unsigned INSTR_W = $bits(instr_t);
+  localparam integer INSTR_W = $bits(instr_t);
 
   // ---- DRAM command ------------------------------------------------------
   typedef enum logic [2:0] {

@@ -8,7 +8,7 @@
 // deepened. Data pipe regs are reset-less to give retiming maximum freedom;
 // the valid pipe is reset.
 module fp16_add_piped #(
-    parameter int unsigned NUM_PIPE = 2
+    parameter integer NUM_PIPE = 2
 ) (
     input  logic        clk,
     input  logic        rst_n,

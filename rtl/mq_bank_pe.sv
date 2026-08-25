@@ -25,11 +25,11 @@
 // Like the rest of this repo this is an area/timing exploration model, not a
 // functional sign-off (representative control, no DRAM protocol).
 module mq_bank_pe #(
-    parameter int unsigned N_Q       = 16,  // score-side resident query slots
-    parameter int unsigned N_C       = 2,   // context-side resident P slots
-    parameter int unsigned VEC_DEPTH = 32,  // operand store entries per half
-    parameter int unsigned MPIPE     = 2,   // fp16 mult sub-stages
-    parameter int unsigned APIPE     = 2    // fp16 add sub-stages
+    parameter integer N_Q       = 16,  // score-side resident query slots
+    parameter integer N_C       = 2,   // context-side resident P slots
+    parameter integer VEC_DEPTH = 32,  // operand store entries per half
+    parameter integer MPIPE     = 2,   // fp16 mult sub-stages
+    parameter integer APIPE     = 2    // fp16 add sub-stages
 ) (
     input  logic                          clk,
     input  logic                          rst_n,
@@ -64,7 +64,7 @@ module mq_bank_pe #(
     output logic [255:0]                  drain_data,
     output logic                          busy
 );
-    localparam int unsigned QW = $clog2(N_Q);
+    localparam integer QW = $clog2(N_Q);
 
     // ------------------------------------------------------------------
     // Column operand latch: one DRAM read serves every resident slot.
@@ -121,7 +121,7 @@ module mq_bank_pe #(
     assign busy        = rotating;
 
     // Slot tag pipeline alongside the datapath.
-    localparam int unsigned TREE_LAT = MPIPE + 4*APIPE + 1; // + buffer read
+    localparam integer TREE_LAT = MPIPE + 4*APIPE + 1; // + buffer read
     logic [QW-1:0] slot_pipe   [TREE_LAT+1];
     logic          valid_pipe  [TREE_LAT+1];
     always_ff @(posedge clk or negedge rst_n) begin
@@ -213,7 +213,7 @@ module mq_bank_pe #(
     // mode the per-column result accumulates into the slot's output word
     // (per-lane writeback bypass covers the N_C == adder-latency corner).
     // ------------------------------------------------------------------
-    localparam int unsigned CW = (N_C <= 1) ? 1 : $clog2(N_C);
+    localparam integer CW = (N_C <= 1) ? 1 : $clog2(N_C);
     logic [255:0] ctx_acc [2][N_C][2];
     logic         ctx_add_in_v;
     logic [15:0]  ctx_sum;

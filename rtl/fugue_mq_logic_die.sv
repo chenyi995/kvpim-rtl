@@ -15,10 +15,10 @@
 //
 // Everything else (controller, TLB, GEMV substrate, softmax) is fugue2's.
 module mq_score_store import fugue_pkg::*; #(
-    parameter int unsigned AGENTS = 16,
-    parameter int unsigned LANES  = SM_LANES,
-    parameter int unsigned W      = 32,
-    parameter int unsigned NWORDS = SM_WORDS
+    parameter integer AGENTS = 16,
+    parameter integer LANES  = SM_LANES,
+    parameter integer W      = 32,
+    parameter integer NWORDS = SM_WORDS
 ) (
     input  logic                      clk,
     input  logic                      rst_n,
@@ -54,7 +54,7 @@ endmodule
 
 
 module fugue_mq_logic_die import fugue_pkg::*; #(
-    parameter int unsigned AGENTS = 16
+    parameter integer AGENTS = 16
 ) (
     input  logic                       clk,
     input  logic                       rst_n,

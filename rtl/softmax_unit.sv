@@ -11,7 +11,7 @@
 //   fp32_recip, fp32_mul.  Control is valid-driven, so it tolerates whatever
 //   fixed latency each leaf reports.
 module softmax_unit import fugue_pkg::*; #(
-    parameter int unsigned LANES = SM_LANES   // 16 (paper: up to 256)
+    parameter integer LANES = SM_LANES   // 16 (paper: up to 256)
 ) (
     input  logic                    clk,
     input  logic                    rst_n,

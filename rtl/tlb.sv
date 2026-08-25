@@ -9,8 +9,8 @@
 //
 // Single outstanding request; `busy` stalls the caller during a miss walk.
 module tlb import fugue_pkg::*; #(
-    parameter int unsigned ENTRIES  = TLB_ENTRIES,
-    parameter int unsigned MISS_LAT = 8
+    parameter integer ENTRIES  = TLB_ENTRIES,
+    parameter integer MISS_LAT = 8
 ) (
     input  logic             clk,
     input  logic             rst_n,
@@ -22,8 +22,8 @@ module tlb import fugue_pkg::*; #(
     output logic             resp_valid,
     output logic             busy
 );
-    localparam int unsigned IDXW = (ENTRIES <= 1) ? 1 : $clog2(ENTRIES);
-    localparam int unsigned LATW = $clog2(MISS_LAT + 2);
+    localparam integer IDXW = (ENTRIES <= 1) ? 1 : $clog2(ENTRIES);
+    localparam integer LATW = $clog2(MISS_LAT + 2);
 
     // Fully-associative CAM: valid + tag + ppn per entry.
     logic             v_arr   [ENTRIES];

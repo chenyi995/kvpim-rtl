@@ -12,7 +12,7 @@
 // so its area/timing INCLUDES the coefficient generator. Latency = sincos (3) +
 // multiply (1) + add (1) = 5 cycles, registered and valid-piped.
 module rotate_q_bf16 #(
-    parameter int unsigned PAIRS = 8      // 8 pairs = 16 BF16 lanes = one 256b word
+    parameter integer PAIRS = 8      // 8 pairs = 16 BF16 lanes = one 256b word
 ) (
     input  logic                     clk,
     input  logic                     rst_n,
@@ -24,7 +24,7 @@ module rotate_q_bf16 #(
     output logic [PAIRS-1:0][15:0]   y_odd,
     output logic                     out_valid
 );
-    localparam int unsigned SC_LAT = 3;       // sincos_bf16 latency
+    localparam integer SC_LAT = 3;       // sincos_bf16 latency
 
     logic [PAIRS-1:0] pair_ov;
 
