@@ -235,3 +235,22 @@ fugue2/fugue_mq_a16）Genus elaboration 通过。
 **给仿真器的 preset 建议**：n_cap=8 → 1.5 GHz / interval 7.4 tCK
 （替代 1.733 GHz / 6 tCK——能量口径下 6 tCK 地板不可达）；
 n_cap=16 → 3.0 GHz / 8.25 tCK。是否改 preset 待 chenyi9 拍板。
+
+---
+
+## cy 勘误（2026-08-27）：间隔取整（chenyi9 指出）
+
+能量限间隔此前按分数 tCK 报数（n=8 报 7.4）——错：列命令间隔是
+**整数个 tCK**（与仿真器 `mq_interval_cycles` 同口径），能量项应取
+ceiling。修正后（`asap7_sweep_analysis.py`、`plot_balance.py`、
+两份 docs 已同步）：
+
+| n | 修正前 | 修正后 | 平衡频率变化 |
+|---|---|---|---|
+| 4 | 6.6 tCK @1.05 GHz | **7 tCK @≥0.74 GHz** | 门槛下移 |
+| 8 | 7.4 tCK @1.5 GHz | **8 tCK @≥1.31 GHz**（实测点 1.5） | 提速修正 2.2×→**2.0×** |
+| 16 | 8.25 tCK @3.0 GHz | **9 tCK @≥2.31 GHz**（实测点 2.6） | 平衡点 3.0→**2.6 GHz**（更便宜：面积 16.1k→14.6k µm²） |
+
+结论更干净：取整后平衡点之上的收益**精确为零**（n=8 在 1.5–3.0 GHz
+恒 8 tCK），"再提频纯浪费"从近似变成精确陈述。preset 建议同步改为
+n_cap=8 → 1.5 GHz / 8 tCK，n_cap=16 → 2.6 GHz / 9 tCK。

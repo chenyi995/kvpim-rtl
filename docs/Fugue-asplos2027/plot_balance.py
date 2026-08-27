@@ -62,7 +62,9 @@ def main():
         p["e_op_cal"] = E_OP_SIM_PJ * p["e_hat"]
         p["i_cp"] = math.ceil(N / (p["f_ghz"] * TCK_NS))
         p["i_pw"] = FLOOR * (E_COL_PJ + N * E_OP_SIM_PJ * p["e_hat"]) / E_6_PJ
-        p["i_eff"] = max(FLOOR, p["i_cp"], p["i_pw"])
+        # the issued interval is a whole number of command clocks: ceil the
+        # power term (the fractional line stays on the plot for readability)
+        p["i_eff"] = max(FLOOR, p["i_cp"], math.ceil(p["i_pw"]))
 
     for p in allpts:
         if "e_hat" not in p:
@@ -70,15 +72,16 @@ def main():
             p["e_op_cal"] = E_OP_SIM_PJ * p["e_hat"]
             p["i_cp"] = math.ceil(N / (p["f_ghz"] * TCK_NS))
             p["i_pw"] = FLOOR * (E_COL_PJ + N * E_OP_SIM_PJ * p["e_hat"]) / E_6_PJ
-            p["i_eff"] = max(FLOOR, p["i_cp"], p["i_pw"])
+            p["i_eff"] = max(FLOOR, p["i_cp"], math.ceil(p["i_pw"]))
     with open(os.path.join(HERE, "data_n8.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(allpts[0].keys()))
         w.writeheader()
         w.writerows(allpts)
 
+    # balance = the SLOWEST (cheapest) point already at the plateau minimum
+    i_min = min(p["i_eff"] for p in pts)
+    knee = next(p for p in pts if p["i_eff"] == i_min)
     best = min(pts, key=lambda p: p["i_eff"])
-    # the knee: the slowest point whose effective interval is power-limited
-    knee = next(p for p in pts if p["i_pw"] >= p["i_cp"])
 
     f = [p["f_ghz"] for p in pts]
     fig, (ax1, ax2) = plt.subplots(
@@ -107,8 +110,9 @@ def main():
              linewidth=2, label=f"compute-limited  ⌈n/(f·tCK)⌉")
     ax2.plot(f, [p["i_pw"] for p in pts], "-o", color=C_POWER, linewidth=2,
              markersize=4.5, label="power-limited  6·E_cmd(f)/E₆")
-    ax2.plot(f, [p["i_eff"] for p in pts], color=C_EFF, linewidth=3.2,
-             alpha=0.55, label="effective  I(f) = max(·)", zorder=1)
+    ax2.step(f, [p["i_eff"] for p in pts], where="post", color=C_EFF,
+             linewidth=3.2, alpha=0.55, zorder=1,
+             label="effective  I(f) = max(·), whole tCK")
     ax2.axhline(FLOOR, color=MUTED, linewidth=1.2, linestyle=(0, (4, 3)))
     ax2.text(0.33, FLOOR - 1.3, "DRAM floor nCCDAB = 6", fontsize=8,
              color=MUTED, ha="left")
@@ -116,13 +120,14 @@ def main():
     ax2.plot([knee["f_ghz"]], [knee["i_eff"]], "o", color=INK, markersize=8,
              markerfacecolor="white", markeredgewidth=2, zorder=5)
     ax2.annotate(
-        f"balance ≈ {knee['f_ghz']:.1f} GHz, {knee['i_eff']:.1f} tCK\n"
-        f"(beyond: pinned by the power budget)",
+        f"balance ≈ {knee['f_ghz']:.1f} GHz, {knee['i_eff']:.0f} tCK\n"
+        f"(whole-tCK issue; beyond: pinned at "
+        f"{knee['i_eff']:.0f} by the power budget)",
         xy=(knee["f_ghz"], knee["i_eff"]), xytext=(1.7, 13.5), fontsize=9,
         color=INK, arrowprops=dict(arrowstyle="->", color=INK, lw=1.2))
     ax2.annotate(
-        f"AttAcc stock PE: 0.67 GHz → {math.ceil(N/(0.667*TCK_NS))} tCK",
-        xy=(0.667, math.ceil(N / (0.667 * TCK_NS))), xytext=(0.85, 22),
+        f"AttAcc stock PE:\n0.67 GHz → {math.ceil(N/(0.667*TCK_NS))} tCK",
+        xy=(0.667, math.ceil(N / (0.667 * TCK_NS))), xytext=(0.95, 19),
         fontsize=8, color=INK,
         arrowprops=dict(arrowstyle="->", color=MUTED, lw=1))
 

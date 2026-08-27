@@ -82,7 +82,9 @@ def interval(n, f_ghz, e_hat):
     i_cp = math.ceil(n / (f_ghz * TCK_NS))
     e_cmd = E_COL_PJ + n * E_OP_SIM_PJ * e_hat
     i_pw = FLOOR * e_cmd / E_6_PJ
-    return max(FLOOR, i_cp, i_pw), i_cp, i_pw
+    # a command interval is a whole number of command clocks (same integer-
+    # cycle convention as the simulator's mq_interval_cycles)
+    return max(FLOOR, i_cp, math.ceil(i_pw)), i_cp, i_pw
 
 
 def main():
