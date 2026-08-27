@@ -25,3 +25,4 @@ run tb_softmax_buffer rtl/softmax_buffer.sv
 run tb_attacc_controller rtl/fugue_pkg.sv rtl/attacc_controller.sv
 run tb_attacc_controller_mac rtl/fugue_pkg.sv rtl/attacc_controller.sv
 run tb_mq_bank_pe rtl/fp16_add.sv rtl/fp16_mult.sv rtl/fp16_add_piped.sv rtl/fp16_mult_piped.sv rtl/mac_tree16_piped.sv rtl/dbuf_16x256.sv rtl/mq_bank_pe.sv
+run tb_attacc_top_link rtl/fugue_pkg.sv rtl/fp16_add.sv rtl/fp16_mult.sv rtl/fp32_add.sv rtl/fp32_mul.sv rtl/fp32_exp.sv rtl/fp32_recip.sv rtl/dbuf_16x256.sv rtl/gemv_unit.sv rtl/accumulator.sv rtl/streaming_softmax_unit.sv rtl/fp_convert.sv rtl/attacc_controller.sv rtl/attacc_logic_die.sv

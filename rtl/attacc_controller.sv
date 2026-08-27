@@ -45,6 +45,9 @@ module attacc_controller import fugue_pkg::*; #(
     output logic [15:0]         rotate_pos,
     output logic                sfm_start,
     output logic                acc_clr,
+    // one-cycle pulse when a MAC_AB instruction retires; with op_mode it lets
+    // the top's score collector commit one finished token score per score MAC
+    output logic                mac_done,
 
     // ---- config broadcast ----
     output logic [31:0]         cfg_nhead,
@@ -112,6 +115,7 @@ module attacc_controller import fugue_pkg::*; #(
             gemv_start <= 1'b0; gemv_row_addr <= '0; gemv_vec_addr <= '0;
             gemv_accum_en <= 1'b0; gemv_accum_clr <= 1'b0; op_mode <= OP_SCORE;
             rotate_start <= 1'b0; rotate_pos <= '0; sfm_start <= 1'b0; acc_clr <= 1'b0;
+            mac_done <= 1'b0;
             meta_wr_en <= 1'b0; meta_wr_idx <= '0; meta_wr_mask <= '0;
         end else begin
             // ---- FIFO write ----
@@ -130,6 +134,7 @@ module attacc_controller import fugue_pkg::*; #(
             rotate_start   <= 1'b0;
             sfm_start      <= 1'b0;
             acc_clr        <= 1'b0;
+            mac_done       <= 1'b0;
             meta_wr_en     <= 1'b0;
 
             unique case (state)
@@ -144,7 +149,7 @@ module attacc_controller import fugue_pkg::*; #(
                             PIM_SFM:        state <= S_SFM;
                             PIM_SET_META:   state <= S_META;
                             PIM_MAC_AB: begin
-                                op_mode <= head.mode;
+                                op_mode <= opmode_e'(head.mode);
                                 len     <= head.len;
                                 beat    <= 16'd0;
                                 laddr   <= head.vaddr;
@@ -221,7 +226,10 @@ module attacc_controller import fugue_pkg::*; #(
                     laddr <= laddr + 1'b1;
                     state <= (beat + 16'd1 < len) ? S_MAC_TLB : S_MAC_DONE;
                 end
-                S_MAC_DONE: state <= S_IDLE;
+                S_MAC_DONE: begin
+                    mac_done <= 1'b1;
+                    state    <= S_IDLE;
+                end
 
                 default: state <= S_IDLE;
             endcase

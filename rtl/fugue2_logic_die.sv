@@ -90,7 +90,7 @@ module fugue2_logic_die import fugue_pkg::*; (
         .gemv_vec_addr(gemv_vec_addr), .gemv_accum_en(gemv_accum_en),
         .gemv_accum_clr(gemv_accum_clr), .op_mode(op_mode),
         .rotate_start(rotate_start), .rotate_pos(rotate_pos),
-        .sfm_start(sfm_start), .acc_clr(acc_clr),
+        .sfm_start(sfm_start), .acc_clr(acc_clr), .mac_done(),
         .cfg_nhead(cfg_nhead), .cfg_dhead(cfg_dhead), .cfg_seqlen(cfg_seqlen),
         .meta_wr_en(meta_wr_en), .meta_wr_idx(meta_wr_idx), .meta_wr_mask(meta_wr_mask)
     );

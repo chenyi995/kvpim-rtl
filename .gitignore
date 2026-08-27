@@ -7,3 +7,5 @@ syn/*.out
 fv/
 # third-party paper PDFs
 ref/
+syn/noretime_*/
+__pycache__/

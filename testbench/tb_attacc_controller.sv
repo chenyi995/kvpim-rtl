@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 module tb_attacc_controller;
- logic clk=0,rst_n=0,instr_valid,instr_ready,idle,tlb_resp_hit,tlb_resp_valid,tlb_busy;logic[73:0]instr_word;logic[19:0]tlb_resp_ppn,tlb_base_ppn;logic tlb_req_valid;logic[25:0]tlb_req_vpn;logic[2:0]dram_cmd;logic[3:0]dram_bank;logic[15:0]dram_row;logic[5:0]dram_col;logic gemv_start,gemv_accum_en,gemv_accum_clr,rotate_start,sfm_start,acc_clr,meta_wr_en;logic[3:0]gemv_row_addr,gemv_vec_addr;logic[1:0]op_mode;logic[15:0]rotate_pos;logic[31:0]cfg_nhead,cfg_dhead,cfg_seqlen;logic[2:0]meta_wr_idx;logic[15:0]meta_wr_mask;
+ logic clk=0,rst_n=0,instr_valid,instr_ready,idle,tlb_resp_hit,tlb_resp_valid,tlb_busy;logic[73:0]instr_word;logic[19:0]tlb_resp_ppn,tlb_base_ppn;logic tlb_req_valid;logic[25:0]tlb_req_vpn;logic[2:0]dram_cmd;logic[3:0]dram_bank;logic[15:0]dram_row;logic[5:0]dram_col;logic gemv_start,gemv_accum_en,gemv_accum_clr,rotate_start,sfm_start,acc_clr,mac_done,meta_wr_en;logic[3:0]gemv_row_addr,gemv_vec_addr;logic[1:0]op_mode;logic[15:0]rotate_pos;logic[31:0]cfg_nhead,cfg_dhead,cfg_seqlen;logic[6:0]meta_wr_idx;logic[15:0]meta_wr_mask;
  always #5 clk=~clk;
  attacc_controller #(.QDEPTH(2)) dut(.*);
  task automatic issue(input [73:0] w);begin @(negedge clk);instr_word=w;instr_valid=1;@(negedge clk);instr_valid=0;end endtask

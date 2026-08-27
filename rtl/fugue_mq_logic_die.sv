@@ -54,7 +54,11 @@ endmodule
 
 
 module fugue_mq_logic_die import fugue_pkg::*; #(
-    parameter integer AGENTS = 16
+    parameter integer AGENTS = 16,
+    // per-agent softmax row capacity of the flop-model streaming softmax; the
+    // architected capacity (2048 tokens x AGENTS = 256 KiB at AGENTS=16) needs
+    // the SRAM-macro wrapper (softmax_buffer) — see ChangeNotes.
+    parameter integer SM_MAX_TOKENS = 256
 ) (
     input  logic                       clk,
     input  logic                       rst_n,
@@ -134,7 +138,7 @@ module fugue_mq_logic_die import fugue_pkg::*; #(
         .gemv_vec_addr(gemv_vec_addr), .gemv_accum_en(gemv_accum_en),
         .gemv_accum_clr(gemv_accum_clr), .op_mode(op_mode),
         .rotate_start(rotate_start), .rotate_pos(rotate_pos),
-        .sfm_start(sfm_start), .acc_clr(acc_clr),
+        .sfm_start(sfm_start), .acc_clr(acc_clr), .mac_done(),
         .cfg_nhead(cfg_nhead), .cfg_dhead(cfg_dhead), .cfg_seqlen(cfg_seqlen),
         .meta_wr_en(meta_wr_en), .meta_wr_idx(meta_wr_idx), .meta_wr_mask(meta_wr_mask)
     );
@@ -181,6 +185,17 @@ module fugue_mq_logic_die import fugue_pkg::*; #(
     logic [SM_LANES-1:0]        corrected_mask;
     logic                       corrected_valid;
 
+    // streaming-softmax link nets (declared ahead of the decoder/store insts)
+    localparam integer SSM_WORDS  = (SM_MAX_TOKENS + SM_LANES - 1) / SM_LANES;
+    localparam integer SSM_WIDX_W = (SSM_WORDS <= 1) ? 1 : $clog2(SSM_WORDS);
+    localparam integer AGW = (AGENTS <= 1) ? 1 : $clog2(AGENTS);
+    logic                  ld_valid_q;
+    logic [AGW-1:0]        ld_agent_q;
+    logic [SM_WIDX_W-1:0]  ld_idx_q;
+    logic [SSM_WIDX_W-1:0] ssm_out_word_idx;
+    logic [SM_WIDX_W-1:0]  rev_word_idx;
+    logic                  ssm_in_ready;
+
     mq_diff_decoder #(.AGENTS(AGENTS)) u_mqdiff (
         .clk(clk), .rst_n(rst_n),
         .meta_wr_en(meta_wr_en), .meta_wr_agent(meta_agent),
@@ -193,7 +208,7 @@ module fugue_mq_logic_die import fugue_pkg::*; #(
         .master_score(sm_scores), .diff_stream(diff_stream),
         .corrected_score(corrected_score), .corrected_mask(corrected_mask),
         .corrected_valid(corrected_valid),
-        .rev_valid(sm_valid), .rev_word_idx(sm_word_idx),
+        .rev_valid(sm_valid), .rev_word_idx(rev_word_idx),
         .prob(sm_out),
         .to_master(ctx_to_master), .to_diff(ctx_to_diff),
         .rev_valid_o()
@@ -208,22 +223,48 @@ module fugue_mq_logic_die import fugue_pkg::*; #(
         // diff path: writes its lanes unconditionally (causal-gated)
         .dwr_valid(sm_start_ext), .dwr_agent(agent_sel), .dwr_idx(sm_word_idx),
         .dwr_lanes(corrected_mask & ~causal_drop), .dwr_data(corrected_score),
-        .rd_agent(agent_sel), .rd_idx(sm_word_idx),
+        .rd_agent(ld_agent_q), .rd_idx(ld_idx_q),
         .rd_data(assembled)
     );
 
-    // ---------------- softmax over the assembled per-agent word ----------------
-    softmax_unit #(.LANES(SM_LANES)) u_sfm (
+    // ---------------- streaming softmax over the assembled words -------------
+    // The store read trails the merge write by one cycle, so each in_valid
+    // presents the freshly assembled (master overwritten-by-diff) word of the
+    // selected agent. Convention: one agent's row streams contiguously, words
+    // in order 0..nwords-1 (the streaming core latches the context at word 0);
+    // per-agent state lives in the CONTEXTS-deep score/exp banks.
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            ld_valid_q <= 1'b0;
+            ld_agent_q <= '0;
+            ld_idx_q   <= '0;
+        end else begin
+            ld_valid_q <= sm_start_ext;
+            ld_agent_q <= agent_sel;
+            ld_idx_q   <= sm_word_idx;
+        end
+    end
+
+    streaming_softmax_unit #(
+        .LANES(SM_LANES), .MAX_TOKENS(SM_MAX_TOKENS), .CONTEXTS(AGENTS)
+    ) u_ssm (
         .clk(clk), .rst_n(rst_n),
-        .start(sm_start_ext | sfm_start), .in_data(assembled),
-        .out_data(sm_out), .out_valid(sm_valid), .busy(sm_busy)
+        .in_valid(ld_valid_q), .in_ready(ssm_in_ready),
+        .in_context(ld_agent_q),
+        .seq_len((cfg_seqlen == 0 || cfg_seqlen > SM_MAX_TOKENS)
+                 ? 32'(SM_MAX_TOKENS) : cfg_seqlen),
+        .in_data(assembled),
+        .out_data(sm_out), .out_lane_valid(),
+        .out_word_idx(ssm_out_word_idx), .out_context(),
+        .out_valid(sm_valid), .busy(sm_busy)
     );
+    assign rev_word_idx = SM_WIDX_W'(ssm_out_word_idx);
     assign sm_probs = sm_out;
 
     // Keep control-only broadcasts observable so they are not trimmed away.
     wire _unused = rotate_start | (|rotate_pos) | (|cfg_nhead) | (|cfg_dhead)
                  | (|cfg_seqlen) | sm_busy | tlb_resp_hit | corrected_valid
-                 | (|corrected_mask);
+                 | (|corrected_mask) | sfm_start | ssm_in_ready;
 endmodule
 
 // ---------------------------------------------------------------------------

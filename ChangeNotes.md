@@ -162,3 +162,47 @@ wxy：
 
 
 
+
+---
+
+## cy 更新（2026-08-27）：顶层链接已实现（接入项 1/2）
+
+**接入项 1 — AttAcc 顶层（`attacc_logic_die`）完整数据流已链接**：
+
+```text
+score MAC_AB 流 → accumulator 标量 score（FP16）
+  → score collector（fp16→fp32，凑 16-lane word，按 token 计数）
+  → streaming_softmax_unit（CONTEXTS=1，score/exp 两 bank buffer）
+  → P word（FP32）→ fp32→fp16 → 回写 GEMV vec buffer（P 是 stream）
+  → context MAC_AB（OP_CONTEXT，per-lane 累加）→ ctx_out[255:0]
+```
+
+实现要点：
+- `attacc_controller` 新增 `mac_done` 一拍脉冲（`S_MAC_DONE`）。score 模式下
+  每条 MAC_AB 退休 = 一个 token score 完成；顶层把该脉冲延迟 12 拍
+  （覆盖 buffer 读 + mult + 4 级 tree + 跨 unit accumulator 的流水延迟）后
+  提交 accumulator 的最新值到 collect word。下一条 MAC 的首个结果最早在
+  `mac_done+17` 才会落地，12 拍提交点安全（TB 实测验证）。
+- 新增 `rtl/fp_convert.sv`：`fp16_to_fp32`（精确加宽）/ `fp32_to_fp16`
+  （RNE + FTZ，上溢→inf），风格与库内 fp16 单元一致。
+- P 回写占用 vec 写口（内部优先，外部 host 填充让路），地址 =
+  softmax `out_word_idx`。vec buffer 16 word ⇒ 一次驻留 context 相位覆盖
+  L≤256（`SM_MAX_TOKENS` 顶层参数，默认 256，flop 模型防面积爆炸；
+  2048-token 的完整容量走 `softmax_buffer` SRAM wrapper，口径不变）。
+- `gemv_unit` 的 `context_result` 首次接到顶层：`ctx_out`/`ctx_out_valid`
+  输出 unit0 的 16 lane，其余 unit 经 parity fold（`ctx_chk`）保持可观测。
+- 旧的单 tile `softmax_unit` 从 AttAcc 顶层移除（fugue/fugue2 顶层暂保留原状）。
+
+**接入项 2 — MQ 顶层（`fugue_mq_logic_die`）**：`softmax_unit` 换成
+`streaming_softmax_unit`（`CONTEXTS=AGENTS`，per-agent score/exp bank）。
+`mq_score_store` 读口比合并写晚一拍，把"master 被 diff 覆写后"的 assembled
+word 依序喂入 softmax；反向 P 流经 `mq_diff_decoder` 的 rev 口按
+`out_word_idx` 做 master/diff 拆分。约定：一个 agent 的整行连续流入
+（word 0..n-1，agent 在 word 0 锁存），per-agent 状态住在 CONTEXTS 维的
+bank 里。
+
+**验证**：新增 `testbench/tb_attacc_top_link.sv`（已入 `run_tests.sh`），
+端到端：32 token 等值 score → P=1/32（`fp32_recip` LUT 近似差 ~1ULP，
+容差判定；fp16 narrowing 后精确 0x2800）→ P 回写 → context MAC →
+`ctx_out` 全 lane 精确 = 2.0。VCS 实测 PASS。四个 top（attacc/fugue/
+fugue2/fugue_mq_a16）Genus elaboration 通过。
