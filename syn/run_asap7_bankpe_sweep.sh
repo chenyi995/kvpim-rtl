@@ -12,6 +12,14 @@ CPUS=${CPUS:-4}
 run_one() {  # top filelist tag period_ps
   local top=$1 fl=$2 tag=$3 pps=$4
   local bdir="build_asap7_${tag}"
+  # resumable: skip finished points (reports on disk) and points another
+  # runner instance is currently synthesizing
+  if ls "$bdir"/reports_"$tag"/*_qor.rpt >/dev/null 2>&1; then
+    echo "skip ${tag} (done)"; return 0
+  fi
+  if pgrep -f "log genus_${tag}$" >/dev/null 2>&1; then
+    echo "skip ${tag} (in flight)"; return 0
+  fi
   mkdir -p "$bdir"
   cp run_syn_asap7.tcl asap7_mmmc.tcl "$bdir"/
   ( cd "$bdir" && \
