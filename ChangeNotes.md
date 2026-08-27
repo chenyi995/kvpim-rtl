@@ -206,3 +206,32 @@ bank 里。
 容差判定；fp16 narrowing 后精确 0x2800）→ P 回写 → context MAC →
 `ctx_out` 全 lane 精确 = 2.0。VCS 实测 PASS。四个 top（attacc/fugue/
 fugue2/fugue_mq_a16）Genus elaboration 通过。
+
+---
+
+## cy 更新（2026-08-27）：ASAP7 频率扫描完成，平衡点定案
+
+25 点扫描全部收敛（`syn/build_asap7_*`，retiming 开，TT 0.7V）。
+模型与口径见 `docs/README_balance_model.md`；论文证据包（n=8）在
+`docs/Fugue-asplos2027/`（原始数据 + 图 + README）。
+
+**平衡点（I = max(6, ⌈n/(f·tCK)⌉, 6·(E_col+n·E_op·ê)/E₆)）：**
+
+| n | 平衡频率 | 间隔 I | 对 666 MHz 原版 | 备注 |
+|---|---|---|---|---|
+| 1（AttAcc 原版） | 任意 ≥0.22 GHz | 6 tCK（地板） | 1× | DRAM 限 |
+| 4 | ≈1.05 GHz | 6.6 tCK | 1.7×（11→6.6） | |
+| **8（论文口径，原装 512B buffer）** | **≈1.5 GHz** | **7.4 tCK** | **2.2×（16→7.4）** | 1.5→3.0 GHz 仅 +5% |
+| 16 | ≈3.0 GHz | 8.25 tCK | 3.9×（32→8.25） | 2/2 流水即收敛 |
+
+**关键数据**：每 op 能量（校准后）0.4→3.33 GHz 单调降 5.6→3.6 pJ
+（漏电摊薄，3.33 GHz 内无换 VT 惩罚拐点）；能量限间隔因列读
+（140.8 pJ）占预算大头而全程平坦（n=8：~7.4；n=16：~8.3–9.5）。
+**mp4（4+4 深流水）把 3.33 GHz 收住**（2/2 在 300ps 失败 → Fmax
+软约束成立），n=16 在 3.33 GHz 仅再 +2.5%（8.25→8.04），确认拐点。
+面积：13.4k（0.4 GHz）→14.1k（1.5 GHz，+3.9%）→16.0k µm²
+（3.0 GHz，+20%）。attaccpe 基线（无流水）2.0 GHz 收敛、3.0 失败。
+
+**给仿真器的 preset 建议**：n_cap=8 → 1.5 GHz / interval 7.4 tCK
+（替代 1.733 GHz / 6 tCK——能量口径下 6 tCK 地板不可达）；
+n_cap=16 → 3.0 GHz / 8.25 tCK。是否改 preset 待 chenyi9 拍板。

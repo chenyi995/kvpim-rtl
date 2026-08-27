@@ -1,0 +1,11 @@
+create_clock [get_ports clk] -name clk -period 2500 -waveform {0 1250.0}
+set_clock_uncertainty 75.0 [get_clocks clk]
+set_clock_transition -rise 25.0 [get_clocks clk]
+set_clock_transition -fall 25.0 [get_clocks clk]
+set_input_delay  [expr {2500*0.10}] -clock clk [remove_from_collection [all_inputs] [get_ports clk]]
+set_output_delay [expr {2500*0.10}] -clock clk [all_outputs]
+set_max_transition [expr {2500*0.20}] [current_design]
+set_max_fanout 32 [current_design]
+set_driving_cell -lib_cell BUFx4_ASAP7_75t_R [remove_from_collection [all_inputs] [get_ports clk]]
+set_load 5 [all_outputs]
+set_false_path -from [get_ports rst_n]
