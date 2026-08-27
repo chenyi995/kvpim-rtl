@@ -339,6 +339,39 @@ module mq_pe_16x2_d32 (  // (16, 2), buffer x2 (1 KiB)
     mq_bank_pe #(.N_Q(16), .N_C(2), .VEC_DEPTH(32)) u_pe (.*);
 endmodule
 
+// Deep-pipe variants of the (16,2) config for the high-frequency end of the
+// ASAP7 sweep: Fmax is a soft limit — a failing point re-runs with more
+// mult/add sub-stages (1 op still issues per cycle; only latency grows).
+module mq_pe_16x2_d32_mp3 (  // MPIPE=3, APIPE=3
+    input  logic clk, input logic rst_n,
+    input  logic vec_wr_en, input logic [4:0] vec_wr_addr,
+    input  logic [255:0] vec_wr_data, input logic vec_swap,
+    input  logic col_wr_en, input logic [255:0] col_data,
+    input  logic col_is_second, input logic ctx_word_sel,
+    input  logic start, input logic [4:0] n_active, input logic op_is_score,
+    input  logic [4:0] slot_base, input logic [3:0] token_lane,
+    input  logic stage_swap, input logic drain_en, input logic drain_sel_ctx,
+    input  logic [3:0] drain_slot, input logic drain_word,
+    output logic [255:0] drain_data, output logic busy
+);
+    mq_bank_pe #(.N_Q(16), .N_C(2), .VEC_DEPTH(32), .MPIPE(3), .APIPE(3)) u_pe (.*);
+endmodule
+
+module mq_pe_16x2_d32_mp4 (  // MPIPE=4, APIPE=4
+    input  logic clk, input logic rst_n,
+    input  logic vec_wr_en, input logic [4:0] vec_wr_addr,
+    input  logic [255:0] vec_wr_data, input logic vec_swap,
+    input  logic col_wr_en, input logic [255:0] col_data,
+    input  logic col_is_second, input logic ctx_word_sel,
+    input  logic start, input logic [4:0] n_active, input logic op_is_score,
+    input  logic [4:0] slot_base, input logic [3:0] token_lane,
+    input  logic stage_swap, input logic drain_en, input logic drain_sel_ctx,
+    input  logic [3:0] drain_slot, input logic drain_word,
+    output logic [255:0] drain_data, output logic busy
+);
+    mq_bank_pe #(.N_Q(16), .N_C(2), .VEC_DEPTH(32), .MPIPE(4), .APIPE(4)) u_pe (.*);
+endmodule
+
 module mq_pe_32x4_d64 (  // (32, 4), buffer x4 (2 KiB)
     input  logic clk, input logic rst_n,
     input  logic vec_wr_en, input logic [5:0] vec_wr_addr,

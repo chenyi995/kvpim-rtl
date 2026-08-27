@@ -58,6 +58,17 @@ clean:
 	rm -rf outputs_* reports_* fv .cadence genus_*.log genus_*.cmd chip_*.sdc \
 	       build_attacc build_fugue build_attacc_hier build_fugue_hier build_rotbf16 *.rc.log syn_*.out
 
+# ---- ASAP7 flow (period in PS — the ASAP7 liberty time unit) ----
+# Single point: make asap7run TOP=mq_pe_16x2_d32 FL=filelist_bankpe.f TAG=t PERIOD_PS=1000
+# Frequency sweep (16 cores): ./run_asap7_bankpe_sweep.sh ; analysis:
+# python3 asap7_sweep_analysis.py
+PERIOD_PS ?= 1500
+asap7run:
+	mkdir -p build_asap7_$(TAG) && cp run_syn_asap7.tcl asap7_mmmc.tcl build_asap7_$(TAG)/
+	cd build_asap7_$(TAG) && FUGUE_TOP=$(TOP) FUGUE_FILELIST=$(abspath $(FL)) \
+		FUGUE_PERIOD_PS=$(PERIOD_PS) FUGUE_TAG=$(TAG) \
+		$(GENUS) -no_gui -overwrite -f run_syn_asap7.tcl -log genus_$(TAG)
+
 # ---- MQ microarchitecture study (in-bank PE + AGENTS logic-die sweep) ----
 # Generic parameterized run: make mqrun TOP=<top> FL=<filelist> TAG=<tag> PERIOD_NS=<ns>
 mqrun:
