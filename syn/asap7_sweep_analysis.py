@@ -79,7 +79,7 @@ def collect(prefix, top):
 
 
 def interval(n, f_ghz, e_hat):
-    i_cp = math.ceil(n / (f_ghz * TCK_NS))
+    i_cp = math.ceil(n / (f_ghz * TCK_NS) - 1e-9)
     e_cmd = E_COL_PJ + n * E_OP_SIM_PJ * e_hat
     i_pw = FLOOR * e_cmd / E_6_PJ
     # a command interval is a whole number of command clocks (same integer-
