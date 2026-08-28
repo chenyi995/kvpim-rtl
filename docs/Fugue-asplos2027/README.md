@@ -72,9 +72,7 @@ DRAM 预算红线（= E₆/6·tCK）→ 被禁止**，间隔从此钉在 8 tCK�
 不再上升。这就是"功率随频率增加、直到预算钳住节奏"的完整故事。
 
 **8 tCK 需要的精确频率**：compute 项 ⌈8/(f·tCK)⌉ ≤ 8 ⟺
-**f\* = 8/(8·tCK) = 1/tCK = 1.3004 GHz**——一个干净的设计点：
-**PE 时钟 = DRAM 命令时钟（769 ps），每个 tCK 恰好一次 MAC，8 个 tCK
-恰好扫完 8 条驻留查询**。扫描网格上 769 ps 频点正好落在此处且时序
+**f\* = 8/(8·tCK) = 1.3004 GHz**。扫描网格上 769 ps 频点正好落在此处且时序
 满足；该点 compute 恰好 8.000 tCK 零裕度，工程上可取稍高时钟（如
 网格上的 1.5 GHz 点）留 margin，间隔不变仍为 8。
 
@@ -119,7 +117,7 @@ n=8 间隔仍是 ⌈6×182.6/146⌉ = 8 tCK，平衡点不动。
 下图：三条线。compute 项从 27 tCK（0.4 GHz）一路降；能量项（分数值
 ~7.2–7.6，列读 140.8 pJ 占预算大头，PE 项只有 8×5.23·ê ≈ 30–42 pJ）
 按整 tCK 取整后全程 = **8 tCK**；compute 项降到 ≤8 需要
-**f\* = 1/tCK = 1.3004 GHz**（见 §4 开头的精确推导）。**平衡点
+**f\* = 1.3004 GHz**（见 §4 开头的精确推导）。**平衡点
 1.30 GHz，I = 8 tCK**。之后间隔被功耗预算精确钉死在 8：1.3→3.0 GHz
 收益为 **0**；6 tCK 地板在能量口径下不可达（要到 ~3.3 GHz、ê≤0.71
 才降到 7 tCK——为 1 tCK 付 2.5× 频率，不值）。
@@ -128,15 +126,14 @@ n=8 间隔仍是 ⌈6×182.6/146⌉ = 8 tCK，平衡点不动。
 |---|---|---|---|---|
 | AttAcc 原版（n=1） | 0.67 GHz | 6 tCK（地板） | 64 MAC | 1× |
 | 原版 PE 直接跑 MQ n=8 | 0.67 GHz | 16 tCK | 512 MAC | 计算受限 |
-| **Fugue 平衡点（n=8）** | **1.30 GHz（=1/tCK；留裕度 1.5） ** | **8 tCK** | **512 MAC** | **间隔 -50%，吞吐 2.0×** |
+| **Fugue 平衡点（n=8）** | **1.30 GHz（留裕度 1.5）** | **8 tCK** | **512 MAC** | **间隔 -50%，吞吐 2.0×** |
 
 （每 ACT：一行 64 列、每 token 2 列 → 32 token × 8 查询 = 512 次
 16-lane MAC；行占用 64 × 8 = 512 tCK ≈ 0.39 µs。）
 
 **论文 claim 的最终表述**：不增加 SRAM（n=8 恰驻原装 512 B buffer）、
 **不加流水级、数据通路原封不动**（AttAcc 原版单拍 FP16 乘/加），只把
-PE 时钟从 666 MHz 提到 **1.30 GHz（= DRAM 命令时钟 1/tCK，每 tCK 一次
-MAC）**，MQ 命令间隔即达功耗约束允许的平衡值 **8 tCK**（每 8 tCK 一次
+PE 时钟从 666 MHz 提到 **1.30 GHz**，MQ 命令间隔即达功耗约束允许的平衡值 **8 tCK**（每 8 tCK 一次
 列读、8 次 16-lane MAC）；再提频被 DRAM 功耗预算精确钳在 8 tCK、收益
 为零，属于面积/时序的纯浪费。频率代价温和：无流水版 1.3 GHz 点
 14,120 µm²/PE（较 667 MHz 基线 +4.3%，ASAP7 TT 实测 met/slack 0）；
@@ -152,6 +149,8 @@ python3 plot_balance.py      # 重新解析 raw_data/ → data_n8.csv + 图
   （qor/area/power/timing/gates + SDC），top=`mq_pe_16x2_d32`
   （rtl/mq_bank_pe.sv），retiming 开。综合脚本与库配置同目录：
   `run_syn_asap7.tcl`、`asap7_mmmc.tcl`、`filelist_bankpe.f`。
+- `raw_data/mq16x2mp1_769ps/` — 平衡点的无流水直接验证
+  （`mq_pe_16x2_d32_mp1`，单拍乘/加 @1.3 GHz，met/slack 0）。
 - `data_n8.csv` — 逐点：f/met/P/E/ê/compute 项/能量项/有效间隔
   （含未收敛的 3.3 GHz 目标点，图中剔除）。
 - `power_vs_freq_n8.png / .pdf` — 论文图（PDF 矢量版投稿用）。
@@ -167,10 +166,10 @@ python3 plot_balance.py      # 重新解析 raw_data/ → data_n8.csv + 图
 3. compute 项按满流水 1 MAC/cycle，忽略流水灌入/排空零头（同偏，
    不移动交点）。
 4. Fmax 为软约束：收不住的点可加深乘/加子流水（`_mp3/_mp4` 变体，
-   吞吐不变）；n=8 的平衡点 1.5 GHz 远在 2/2 流水的收敛范围内，
-   不依赖此机制。
+   吞吐不变）；n=8 的平衡点 1.3 GHz 用**无流水**的单拍乘/加即收敛
+   （§4 的 mp1 直接验证），完全不依赖此机制。
 5. 能量常数与仿真器（`attacc_drampim_822`）完全同源，间隔取整口径也
    与 `mq_interval_cycles` 一致；对应的仿真器 preset 建议：
-   n_cap=8 → **1.3 GHz（=1/tCK）/ interval 8 tCK**（替代现行
+   n_cap=8 → **1.3 GHz / interval 8 tCK**（替代现行
    1.733 GHz / 6 tCK 的"恰好塞满"配平，后者在能量口径下不可达）；
    n_cap=16 → 2.6 GHz / 9 tCK。

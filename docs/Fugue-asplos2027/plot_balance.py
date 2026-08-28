@@ -82,7 +82,7 @@ def main():
     i_min = min(p["i_eff"] for p in pts)
     knee = next(p for p in pts if p["i_eff"] == i_min)
     print(f"balance: f={knee['f_ghz']:.3f} GHz  I={knee['i_eff']:.2f} tCK  "
-          f"(exact threshold: f* = 1/tCK = {1.0/TCK_NS:.4f} GHz)")
+          f"(exact threshold: f* = {1.0/TCK_NS:.4f} GHz)")
 
     power_figure(pts)
 
@@ -94,7 +94,7 @@ def power_figure(pts):
     dropping by one tCK as the PE keeps up with a faster pace); the step that
     would cross the DRAM power budget is forbidden, so the interval pins at
     8 tCK — the balance frequency is where that last admissible step begins:
-    f* = 8 MACs / 8 tCK = 1/tCK = 1.30 GHz (PE clock = DRAM command clock).
+    f* = 8 MACs / 8 tCK = 1.30 GHz.
     """
     budget_mw = E_6_PJ / (FLOOR * TCK_NS)          # 146.03 pJ / 4.614 ns
     fgrid = [0.4 + 0.002 * i for i in range(int((3.05 - 0.4) / 0.002) + 1)]
@@ -143,8 +143,8 @@ def power_figure(pts):
     ax.axvline(f_bal, color=MUTED, linewidth=1, linestyle=(0, (2, 2)))
     ax.plot([f_bal], [pavg(f_bal, 8)], "o", color=INK, markersize=8,
             markerfacecolor="white", markeredgewidth=2, zorder=5)
-    ax.annotate("balance  f* = 1/tCK = 1.30 GHz\n"
-                "(one MAC per command clock;\n 8 MACs in 8 tCK, 29.4 mW)",
+    ax.annotate("balance  f* = 1.30 GHz\n"
+                "(8 MACs in 8 tCK, 29.4 mW)",
                 xy=(f_bal, pavg(f_bal, 8)), xytext=(1.52, 22.5), fontsize=9,
                 color=INK, arrowprops=dict(arrowstyle="->", color=INK, lw=1.2))
     ax.annotate("next step (7 tCK) would\ncross the budget → forbidden",
