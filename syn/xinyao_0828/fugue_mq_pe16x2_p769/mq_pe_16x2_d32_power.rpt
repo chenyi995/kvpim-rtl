@@ -1,0 +1,61 @@
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : mq_pe_16x2_d32
+Version: P-2019.03-SP5-6
+Date   : Fri Aug 28 23:32:48 2026
+****************************************
+
+
+Library(s) Used:
+
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 0.7  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ps
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  =  31.4180 mW   (94%)
+  Net Switching Power  =   2.1281 mW    (6%)
+                         ---------
+Total Dynamic Power    =  33.5461 mW  (100%)
+
+Cell Leakage Power     =  11.0230 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register          30.4875        8.1210e-02        4.6169e+06           30.5733  (  91.10%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational      0.9319            2.0469        6.4060e+06            2.9853  (   8.90%)
+--------------------------------------------------------------------------------------------------
+Total             31.4194 mW         2.1281 mW     1.1023e+07 pW        33.5586 mW
+1

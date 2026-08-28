@@ -155,13 +155,15 @@ module fugue2_logic_die import fugue_pkg::*; import kv_tlb_pkg::*; (
     );
 
     // ---------------- diff_decoder (master-diff merge) + softmax ----------------
-    wire sm_start = sfm_start | sm_start_ext;
+    wire sm_start = sm_start_ext;
 
     logic [SM_LANES-1:0][31:0] corrected_score;
     logic [SM_LANES-1:0]       corrected_mask;
     logic                      corrected_valid;
     logic [SM_LANES-1:0][31:0] sm_out;
     logic                      sm_busy;
+    logic [SM_WIDX_W-1:0]      sm_out_word;
+    logic [4:0]                 sm_out_context;
 
     diff_decoder u_diff (
         .clk(clk), .rst_n(rst_n),
@@ -172,16 +174,17 @@ module fugue2_logic_die import fugue_pkg::*; import kv_tlb_pkg::*; (
         .corrected_score(corrected_score), .corrected_mask(corrected_mask),
         .corrected_valid(corrected_valid),
         // reverse: softmax probabilities split by mask
-        .rev_valid(sm_valid), .rev_word_idx(sm_word_idx),
+        .rev_valid(sm_valid), .rev_word_idx(sm_out_word),
         .prob(sm_out),
         .to_master(ctx_to_master), .to_diff(ctx_to_diff),
         .rev_valid_o()
     );
 
-    softmax_unit #(.LANES(SM_LANES)) u_sfm (
+    streaming_softmax_unit #(.LANES(SM_LANES), .MAX_TOKENS(2048), .CONTEXTS(32)) u_sfm (
         .clk(clk), .rst_n(rst_n),
-        .start(sm_start), .in_data(corrected_score),
-        .out_data(sm_out), .out_valid(sm_valid), .busy(sm_busy)
+        .in_valid(corrected_valid), .in_ready(), .in_context(5'd0), .seq_len(cfg_seqlen), .in_data(corrected_score),
+        .out_data(sm_out), .out_lane_valid(), .out_word_idx(sm_out_word), .out_context(sm_out_context),
+        .out_valid(sm_valid), .busy(sm_busy)
     );
     assign sm_probs = sm_out;
 
@@ -189,7 +192,7 @@ module fugue2_logic_die import fugue_pkg::*; import kv_tlb_pkg::*; (
     // rotate_start/rotate_pos are still decoded by the controller (the GPU does
     // the actual rotation); observing them keeps the controller identical.
     wire _unused = rotate_start | (|rotate_pos) | (|cfg_nhead) | (|cfg_dhead)
-                 | (|cfg_seqlen) | sm_busy | addr_fault | (|kv_run_value_base) | corrected_valid
+                 | (|cfg_seqlen) | sm_busy | sfm_start | addr_fault | (|kv_run_value_base) | corrected_valid
                  | (|corrected_mask);
 
 endmodule

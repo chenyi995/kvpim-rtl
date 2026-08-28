@@ -1,0 +1,87 @@
+Error: Width mismatch on port 'in_context' of reference to 'streaming_softmax_unit' in 'attacc_logic_die'. (LINK-3)
+Error: Unable to match ports of cell u_sfm ('streaming_softmax_unit') to 'streaming_softmax_unit_LANES16_MAX_TOKENS2048_CONTEXTS32'. (LINK-25)
+Information: Updating design information... (UID-85)
+Warning: Design 'attacc_logic_die' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : qor
+Design : attacc_logic_die
+Version: P-2019.03-SP5-6
+Date   : Sat Aug 29 00:00:44 2026
+****************************************
+
+
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:              51.00
+  Critical Path Length:       1184.47
+  Critical Path Slack:        -481.66
+  Critical Path Clk Period:    769.00
+  Total Negative Slack:   -1383624.50
+  No. of Violating Paths:     3123.00
+  Worst Hold Violation:         -3.05
+  Total Hold Violation:       -829.63
+  No. of Hold Violations:      722.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:        609
+  Hierarchical Port Count:      37861
+  Leaf Cell Count:             193414
+  Buf/Inv Cell Count:           58553
+  Buf Cell Count:                 753
+  Inv Cell Count:               57800
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:    187682
+  Sequential Cell Count:         5732
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:    14176.031945
+  Noncombinational Area:  2072.576141
+  Buf/Inv Area:           2673.899132
+  Total Buffer Area:            68.57
+  Total Inverter Area:        2605.33
+  Macro/Black Box Area:  31890.308594
+  Net Area:                  0.000000
+  -----------------------------------
+  Cell Area:             48138.916680
+  Design Area:           48138.916680
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:        202778
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: thu-olden
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                  201.86
+  Logic Optimization:               1484.95
+  Mapping Optimization:              478.24
+  -----------------------------------------
+  Overall Compile Time:             2195.65
+  Overall Compile Wall Clock Time:  2235.66
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 481.66  TNS: 1383624.50  Number of Violating Paths: 3123
+
+
+  Design (Hold)  WNS: 3.05  TNS: 829.63  Number of Violating Paths: 722
+
+  --------------------------------------------------------------------
+
+
+1

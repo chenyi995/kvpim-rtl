@@ -1,0 +1,85 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'kv_tlb_e32' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : qor
+Design : kv_tlb_e32
+Version: P-2019.03-SP5-6
+Date   : Fri Aug 28 23:28:44 2026
+****************************************
+
+
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:              20.00
+  Critical Path Length:        702.09
+  Critical Path Slack:           0.01
+  Critical Path Clk Period:    769.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:         -3.05
+  Total Hold Violation:       -306.62
+  No. of Hold Violations:      113.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:         19
+  Hierarchical Port Count:       3091
+  Leaf Cell Count:              40160
+  Buf/Inv Cell Count:            9604
+  Buf Cell Count:                1844
+  Inv Cell Count:                7760
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:     34563
+  Sequential Cell Count:         5597
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:     2703.350698
+  Noncombinational Area:  2121.710746
+  Buf/Inv Area:            471.896285
+  Total Buffer Area:           124.28
+  Total Inverter Area:         347.62
+  Macro/Black Box Area:      0.000000
+  Net Area:                  0.000000
+  -----------------------------------
+  Cell Area:              4825.061444
+  Design Area:            4825.061444
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:         40539
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: thu-olden
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                   26.49
+  Logic Optimization:                178.05
+  Mapping Optimization:               86.77
+  -----------------------------------------
+  Overall Compile Time:              301.03
+  Overall Compile Wall Clock Time:   322.92
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+
+  Design (Hold)  WNS: 3.05  TNS: 306.62  Number of Violating Paths: 113
+
+  --------------------------------------------------------------------
+
+
+1

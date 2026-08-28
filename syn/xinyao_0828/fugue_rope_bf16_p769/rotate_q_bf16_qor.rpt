@@ -1,0 +1,85 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'rotate_q_bf16' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : qor
+Design : rotate_q_bf16
+Version: P-2019.03-SP5-6
+Date   : Fri Aug 28 23:34:52 2026
+****************************************
+
+
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:              63.00
+  Critical Path Length:       1249.41
+  Critical Path Slack:        -765.49
+  Critical Path Clk Period:    769.00
+  Total Negative Slack:    -978470.56
+  No. of Violating Paths:     1488.00
+  Worst Hold Violation:         -3.05
+  Total Hold Violation:      -2342.33
+  No. of Hold Violations:      768.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:        600
+  Hierarchical Port Count:      19920
+  Leaf Cell Count:              84552
+  Buf/Inv Cell Count:           27946
+  Buf Cell Count:                 939
+  Inv Cell Count:               27007
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:     81448
+  Sequential Cell Count:         3104
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:     6198.803642
+  Noncombinational Area:  1176.664312
+  Buf/Inv Area:           1324.520114
+  Total Buffer Area:            82.81
+  Total Inverter Area:        1241.71
+  Macro/Black Box Area:      0.000000
+  Net Area:                  0.000000
+  -----------------------------------
+  Cell Area:              7375.467954
+  Design Area:            7375.467954
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:         88283
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: thu-olden
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                   53.78
+  Logic Optimization:                269.51
+  Mapping Optimization:              326.72
+  -----------------------------------------
+  Overall Compile Time:              666.78
+  Overall Compile Wall Clock Time:   690.93
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 765.49  TNS: 978470.56  Number of Violating Paths: 1488
+
+
+  Design (Hold)  WNS: 3.05  TNS: 2342.33  Number of Violating Paths: 768
+
+  --------------------------------------------------------------------
+
+
+1

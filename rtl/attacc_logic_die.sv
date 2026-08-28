@@ -26,7 +26,9 @@ module attacc_logic_die import fugue_pkg::*; import kv_tlb_pkg::*; (
     input  logic [VEC_W-1:0]           vec_wr_data,
     input  logic                       vec_swap,
 
-    // ---- softmax score load / probability out ----
+    // ---- complete-sequence softmax score stream / probability stream ----
+    // sm_start_ext is now a per-16-score-word valid.  Hold cfg_seqlen stable
+    // while streaming all ceil(cfg_seqlen/16) words for one context.
     input  logic                       sm_start_ext,
     input  logic [SM_LANES-1:0][31:0]  sm_scores,
     output logic [SM_LANES-1:0][31:0]  sm_probs,
@@ -126,18 +128,20 @@ module attacc_logic_die import fugue_pkg::*; import kv_tlb_pkg::*; (
         .acc(result), .out_valid(result_valid)
     );
 
-    // ---------------- softmax (fed directly; no diff overwrite) ----------------
-    wire sm_start = sfm_start | sm_start_ext;
+    // ---------------- 2048-token buffered softmax (no diff overwrite) ---------
     logic sm_busy;
-    softmax_unit #(.LANES(SM_LANES)) u_sfm (
+    logic [SM_WIDX_W-1:0] sm_out_word;
+    logic [0:0] sm_out_context;
+    streaming_softmax_unit #(.LANES(SM_LANES), .MAX_TOKENS(2048), .CONTEXTS(32)) u_sfm (
         .clk(clk), .rst_n(rst_n),
-        .start(sm_start), .in_data(sm_scores),
-        .out_data(sm_probs), .out_valid(sm_valid), .busy(sm_busy)
+        .in_valid(sm_start_ext), .in_ready(), .in_context(1'b0), .seq_len(cfg_seqlen), .in_data(sm_scores),
+        .out_data(sm_probs), .out_lane_valid(), .out_word_idx(sm_out_word), .out_context(sm_out_context),
+        .out_valid(sm_valid), .busy(sm_busy)
     );
 
     // Keep control-only broadcasts observable (rotate/meta unused in baseline).
     wire _unused = rotate_start | (|rotate_pos) | (|cfg_nhead) | (|cfg_dhead)
-                 | (|cfg_seqlen) | sm_busy | meta_wr_en | (|meta_wr_idx)
+                 | (|cfg_seqlen) | sm_busy | sfm_start | meta_wr_en | (|meta_wr_idx) | (|sm_out_word) | (|sm_out_context)
                  | (|meta_wr_mask);
 
 endmodule

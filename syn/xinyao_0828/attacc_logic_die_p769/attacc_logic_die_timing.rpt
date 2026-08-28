@@ -1,0 +1,1705 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : attacc_logic_die
+Version: P-2019.03-SP5-6
+Date   : Sat Aug 29 00:00:48 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[14]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.47    78.47 r
+  g_gemv[0].u_gemv/u_buf_vec/rd_data[158] (dbuf_16x256_7)     0.00    78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/b[14] (fp16_mult_55)     0.00     78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U82/Y (OR5x2_ASAP7_75t_R)    44.55   123.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U81/Y (INVx6_ASAP7_75t_R)    19.40   142.42 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U36/Y (NOR2x1p5_ASAP7_75t_R)    13.84   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/B[8] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U39/Y (BUFx6f_ASAP7_75t_R)    20.05   176.31 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U51/Y (AND2x2_ASAP7_75t_R)    22.84   199.15 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U5/Y (NAND2x1_ASAP7_75t_R)    10.51   209.66 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U38/Y (INVx2_ASAP7_75t_R)    10.13   219.80 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_2_8/SN (FAx1_ASAP7_75t_R)    36.83   256.63 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U88/Y (INVx1_ASAP7_75t_R)    16.63   273.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_3_7/SN (FAx1_ASAP7_75t_R)    38.82   312.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U121/Y (INVx1_ASAP7_75t_R)    16.64   328.71 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.82   367.53 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U154/Y (INVx1_ASAP7_75t_R)    16.64   384.17 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.82   422.99 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U187/Y (INVx1_ASAP7_75t_R)    16.64   439.63 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.82   478.45 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U220/Y (INVx1_ASAP7_75t_R)    16.64   495.09 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.74   531.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U253/Y (INVx1_ASAP7_75t_R)    16.61   548.43 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.71   570.14 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U281/Y (INVx1_ASAP7_75t_R)    18.89   589.04 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   613.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U311/Y (INVx1_ASAP7_75t_R)    18.89   632.65 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   657.37 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U333/Y (INVx1_ASAP7_75t_R)    16.45   673.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U11/Y (AND2x2_ASAP7_75t_R)    24.82   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/B[12] (fp16_mult_55_DW01_add_3)     0.00   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    26.57   725.21 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U27/Y (NOR2x1_ASAP7_75t_R)    14.54   739.75 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.22   752.97 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    19.34   772.31 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.24   792.55 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U16/Y (XOR2xp5_ASAP7_75t_R)    30.47   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_55_DW01_add_3)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/PRODUCT[21] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U39/Y (INVx2_ASAP7_75t_R)    17.24   840.26 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U38/Y (INVx6_ASAP7_75t_R)    16.81   857.07 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U80/Y (AO21x2_ASAP7_75t_R)    22.17   879.24 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U79/Y (NAND2x1p5_ASAP7_75t_R)    10.84   890.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U136/SN (FAx1_ASAP7_75t_R)    42.74   932.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    20.12   952.94 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U15/Y (INVxp67_ASAP7_75t_R)    10.84   963.78 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U141/Y (NAND2xp5_ASAP7_75t_R)    14.07   977.85 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U149/Y (OAI21xp5_ASAP7_75t_R)    20.06   997.91 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U19/Y (INVx2_ASAP7_75t_R)    11.85  1009.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U48/Y (AND3x1_ASAP7_75t_R)    28.10  1037.87 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    17.83  1055.70 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.13  1072.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.45  1084.28 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U67/Y (NOR3xp33_ASAP7_75t_R)    16.62  1100.90 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U78/Y (AOI31xp33_ASAP7_75t_R)    14.50  1115.40 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    19.95  1135.36 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    28.87  1164.22 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U64/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[14]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.47 r
+  data arrival time                                               1184.47
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[14]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.47
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.66
+
+
+  Startpoint: g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[13]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.47    78.47 r
+  g_gemv[0].u_gemv/u_buf_vec/rd_data[158] (dbuf_16x256_7)     0.00    78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/b[14] (fp16_mult_55)     0.00     78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U82/Y (OR5x2_ASAP7_75t_R)    44.55   123.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U81/Y (INVx6_ASAP7_75t_R)    19.40   142.42 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U36/Y (NOR2x1p5_ASAP7_75t_R)    13.84   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/B[8] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U39/Y (BUFx6f_ASAP7_75t_R)    20.05   176.31 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U51/Y (AND2x2_ASAP7_75t_R)    22.84   199.15 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U5/Y (NAND2x1_ASAP7_75t_R)    10.51   209.66 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U38/Y (INVx2_ASAP7_75t_R)    10.13   219.80 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_2_8/SN (FAx1_ASAP7_75t_R)    36.83   256.63 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U88/Y (INVx1_ASAP7_75t_R)    16.63   273.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_3_7/SN (FAx1_ASAP7_75t_R)    38.82   312.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U121/Y (INVx1_ASAP7_75t_R)    16.64   328.71 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.82   367.53 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U154/Y (INVx1_ASAP7_75t_R)    16.64   384.17 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.82   422.99 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U187/Y (INVx1_ASAP7_75t_R)    16.64   439.63 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.82   478.45 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U220/Y (INVx1_ASAP7_75t_R)    16.64   495.09 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.74   531.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U253/Y (INVx1_ASAP7_75t_R)    16.61   548.43 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.71   570.14 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U281/Y (INVx1_ASAP7_75t_R)    18.89   589.04 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   613.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U311/Y (INVx1_ASAP7_75t_R)    18.89   632.65 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   657.37 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U333/Y (INVx1_ASAP7_75t_R)    16.45   673.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U11/Y (AND2x2_ASAP7_75t_R)    24.82   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/B[12] (fp16_mult_55_DW01_add_3)     0.00   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    26.57   725.21 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U27/Y (NOR2x1_ASAP7_75t_R)    14.54   739.75 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.22   752.97 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    19.34   772.31 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.24   792.55 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U16/Y (XOR2xp5_ASAP7_75t_R)    30.47   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_55_DW01_add_3)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/PRODUCT[21] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U39/Y (INVx2_ASAP7_75t_R)    17.24   840.26 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U38/Y (INVx6_ASAP7_75t_R)    16.81   857.07 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U80/Y (AO21x2_ASAP7_75t_R)    22.17   879.24 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U79/Y (NAND2x1p5_ASAP7_75t_R)    10.84   890.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U136/SN (FAx1_ASAP7_75t_R)    42.74   932.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    20.12   952.94 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U15/Y (INVxp67_ASAP7_75t_R)    10.84   963.78 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U141/Y (NAND2xp5_ASAP7_75t_R)    14.07   977.85 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U149/Y (OAI21xp5_ASAP7_75t_R)    20.06   997.91 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U19/Y (INVx2_ASAP7_75t_R)    11.85  1009.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U48/Y (AND3x1_ASAP7_75t_R)    28.10  1037.87 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    17.83  1055.70 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.13  1072.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.45  1084.28 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U67/Y (NOR3xp33_ASAP7_75t_R)    16.62  1100.90 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U78/Y (AOI31xp33_ASAP7_75t_R)    14.50  1115.40 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    19.95  1135.36 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    28.87  1164.22 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U63/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[13]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.47 r
+  data arrival time                                               1184.47
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[13]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.47
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.66
+
+
+  Startpoint: g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[12]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.47    78.47 r
+  g_gemv[0].u_gemv/u_buf_vec/rd_data[158] (dbuf_16x256_7)     0.00    78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/b[14] (fp16_mult_55)     0.00     78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U82/Y (OR5x2_ASAP7_75t_R)    44.55   123.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U81/Y (INVx6_ASAP7_75t_R)    19.40   142.42 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U36/Y (NOR2x1p5_ASAP7_75t_R)    13.84   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/B[8] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U39/Y (BUFx6f_ASAP7_75t_R)    20.05   176.31 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U51/Y (AND2x2_ASAP7_75t_R)    22.84   199.15 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U5/Y (NAND2x1_ASAP7_75t_R)    10.51   209.66 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U38/Y (INVx2_ASAP7_75t_R)    10.13   219.80 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_2_8/SN (FAx1_ASAP7_75t_R)    36.83   256.63 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U88/Y (INVx1_ASAP7_75t_R)    16.63   273.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_3_7/SN (FAx1_ASAP7_75t_R)    38.82   312.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U121/Y (INVx1_ASAP7_75t_R)    16.64   328.71 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.82   367.53 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U154/Y (INVx1_ASAP7_75t_R)    16.64   384.17 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.82   422.99 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U187/Y (INVx1_ASAP7_75t_R)    16.64   439.63 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.82   478.45 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U220/Y (INVx1_ASAP7_75t_R)    16.64   495.09 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.74   531.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U253/Y (INVx1_ASAP7_75t_R)    16.61   548.43 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.71   570.14 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U281/Y (INVx1_ASAP7_75t_R)    18.89   589.04 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   613.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U311/Y (INVx1_ASAP7_75t_R)    18.89   632.65 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   657.37 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U333/Y (INVx1_ASAP7_75t_R)    16.45   673.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U11/Y (AND2x2_ASAP7_75t_R)    24.82   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/B[12] (fp16_mult_55_DW01_add_3)     0.00   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    26.57   725.21 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U27/Y (NOR2x1_ASAP7_75t_R)    14.54   739.75 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.22   752.97 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    19.34   772.31 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.24   792.55 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U16/Y (XOR2xp5_ASAP7_75t_R)    30.47   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_55_DW01_add_3)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/PRODUCT[21] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U39/Y (INVx2_ASAP7_75t_R)    17.24   840.26 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U38/Y (INVx6_ASAP7_75t_R)    16.81   857.07 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U80/Y (AO21x2_ASAP7_75t_R)    22.17   879.24 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U79/Y (NAND2x1p5_ASAP7_75t_R)    10.84   890.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U136/SN (FAx1_ASAP7_75t_R)    42.74   932.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    20.12   952.94 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U15/Y (INVxp67_ASAP7_75t_R)    10.84   963.78 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U141/Y (NAND2xp5_ASAP7_75t_R)    14.07   977.85 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U149/Y (OAI21xp5_ASAP7_75t_R)    20.06   997.91 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U19/Y (INVx2_ASAP7_75t_R)    11.85  1009.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U48/Y (AND3x1_ASAP7_75t_R)    28.10  1037.87 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    17.83  1055.70 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.13  1072.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.45  1084.28 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U67/Y (NOR3xp33_ASAP7_75t_R)    16.62  1100.90 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U78/Y (AOI31xp33_ASAP7_75t_R)    14.50  1115.40 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    19.95  1135.36 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    28.87  1164.22 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U62/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[12]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.47 r
+  data arrival time                                               1184.47
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[12]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.47
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.66
+
+
+  Startpoint: g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[11]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.47    78.47 r
+  g_gemv[0].u_gemv/u_buf_vec/rd_data[158] (dbuf_16x256_7)     0.00    78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/b[14] (fp16_mult_55)     0.00     78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U82/Y (OR5x2_ASAP7_75t_R)    44.55   123.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U81/Y (INVx6_ASAP7_75t_R)    19.40   142.42 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U36/Y (NOR2x1p5_ASAP7_75t_R)    13.84   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/B[8] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U39/Y (BUFx6f_ASAP7_75t_R)    20.05   176.31 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U51/Y (AND2x2_ASAP7_75t_R)    22.84   199.15 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U5/Y (NAND2x1_ASAP7_75t_R)    10.51   209.66 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U38/Y (INVx2_ASAP7_75t_R)    10.13   219.80 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_2_8/SN (FAx1_ASAP7_75t_R)    36.83   256.63 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U88/Y (INVx1_ASAP7_75t_R)    16.63   273.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_3_7/SN (FAx1_ASAP7_75t_R)    38.82   312.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U121/Y (INVx1_ASAP7_75t_R)    16.64   328.71 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.82   367.53 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U154/Y (INVx1_ASAP7_75t_R)    16.64   384.17 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.82   422.99 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U187/Y (INVx1_ASAP7_75t_R)    16.64   439.63 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.82   478.45 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U220/Y (INVx1_ASAP7_75t_R)    16.64   495.09 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.74   531.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U253/Y (INVx1_ASAP7_75t_R)    16.61   548.43 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.71   570.14 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U281/Y (INVx1_ASAP7_75t_R)    18.89   589.04 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   613.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U311/Y (INVx1_ASAP7_75t_R)    18.89   632.65 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   657.37 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U333/Y (INVx1_ASAP7_75t_R)    16.45   673.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U11/Y (AND2x2_ASAP7_75t_R)    24.82   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/B[12] (fp16_mult_55_DW01_add_3)     0.00   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    26.57   725.21 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U27/Y (NOR2x1_ASAP7_75t_R)    14.54   739.75 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.22   752.97 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    19.34   772.31 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.24   792.55 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U16/Y (XOR2xp5_ASAP7_75t_R)    30.47   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_55_DW01_add_3)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/PRODUCT[21] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U39/Y (INVx2_ASAP7_75t_R)    17.24   840.26 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U38/Y (INVx6_ASAP7_75t_R)    16.81   857.07 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U80/Y (AO21x2_ASAP7_75t_R)    22.17   879.24 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U79/Y (NAND2x1p5_ASAP7_75t_R)    10.84   890.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U136/SN (FAx1_ASAP7_75t_R)    42.74   932.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    20.12   952.94 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U15/Y (INVxp67_ASAP7_75t_R)    10.84   963.78 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U141/Y (NAND2xp5_ASAP7_75t_R)    14.07   977.85 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U149/Y (OAI21xp5_ASAP7_75t_R)    20.06   997.91 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U19/Y (INVx2_ASAP7_75t_R)    11.85  1009.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U48/Y (AND3x1_ASAP7_75t_R)    28.10  1037.87 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    17.83  1055.70 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.13  1072.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.45  1084.28 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U67/Y (NOR3xp33_ASAP7_75t_R)    16.62  1100.90 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U78/Y (AOI31xp33_ASAP7_75t_R)    14.50  1115.40 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    19.95  1135.36 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    28.87  1164.22 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U61/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[11]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.47 r
+  data arrival time                                               1184.47
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[11]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.47
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.66
+
+
+  Startpoint: g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[10]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[0].u_gemv/u_buf_vec/g_slice[9].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.47    78.47 r
+  g_gemv[0].u_gemv/u_buf_vec/rd_data[158] (dbuf_16x256_7)     0.00    78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/b[14] (fp16_mult_55)     0.00     78.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U82/Y (OR5x2_ASAP7_75t_R)    44.55   123.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U81/Y (INVx6_ASAP7_75t_R)    19.40   142.42 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U36/Y (NOR2x1p5_ASAP7_75t_R)    13.84   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/B[8] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   156.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U39/Y (BUFx6f_ASAP7_75t_R)    20.05   176.31 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U51/Y (AND2x2_ASAP7_75t_R)    22.84   199.15 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U5/Y (NAND2x1_ASAP7_75t_R)    10.51   209.66 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U38/Y (INVx2_ASAP7_75t_R)    10.13   219.80 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_2_8/SN (FAx1_ASAP7_75t_R)    36.83   256.63 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U88/Y (INVx1_ASAP7_75t_R)    16.63   273.26 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_3_7/SN (FAx1_ASAP7_75t_R)    38.82   312.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U121/Y (INVx1_ASAP7_75t_R)    16.64   328.71 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.82   367.53 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U154/Y (INVx1_ASAP7_75t_R)    16.64   384.17 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.82   422.99 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U187/Y (INVx1_ASAP7_75t_R)    16.64   439.63 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.82   478.45 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U220/Y (INVx1_ASAP7_75t_R)    16.64   495.09 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.74   531.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U253/Y (INVx1_ASAP7_75t_R)    16.61   548.43 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.71   570.14 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U281/Y (INVx1_ASAP7_75t_R)    18.89   589.04 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   613.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U311/Y (INVx1_ASAP7_75t_R)    18.89   632.65 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   657.37 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U333/Y (INVx1_ASAP7_75t_R)    16.45   673.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/U11/Y (AND2x2_ASAP7_75t_R)    24.82   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/B[12] (fp16_mult_55_DW01_add_3)     0.00   698.64 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    26.57   725.21 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U27/Y (NOR2x1_ASAP7_75t_R)    14.54   739.75 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.22   752.97 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    19.34   772.31 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.24   792.55 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/U16/Y (XOR2xp5_ASAP7_75t_R)    30.47   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_55_DW01_add_3)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/mult_35/PRODUCT[21] (fp16_mult_55_DW02_mult_0_DW02_mult_54)     0.00   823.02 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U39/Y (INVx2_ASAP7_75t_R)    17.24   840.26 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U38/Y (INVx6_ASAP7_75t_R)    16.81   857.07 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U80/Y (AO21x2_ASAP7_75t_R)    22.17   879.24 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U79/Y (NAND2x1p5_ASAP7_75t_R)    10.84   890.08 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U136/SN (FAx1_ASAP7_75t_R)    42.74   932.82 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    20.12   952.94 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U15/Y (INVxp67_ASAP7_75t_R)    10.84   963.78 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U141/Y (NAND2xp5_ASAP7_75t_R)    14.07   977.85 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U149/Y (OAI21xp5_ASAP7_75t_R)    20.06   997.91 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U19/Y (INVx2_ASAP7_75t_R)    11.85  1009.76 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U48/Y (AND3x1_ASAP7_75t_R)    28.10  1037.87 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    17.83  1055.70 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.13  1072.83 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.45  1084.28 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U67/Y (NOR3xp33_ASAP7_75t_R)    16.62  1100.90 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U78/Y (AOI31xp33_ASAP7_75t_R)    14.50  1115.40 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    19.95  1135.36 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    28.87  1164.22 f
+  g_gemv[0].u_gemv/g_mul[9].u_mul/U60/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.47 r
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[10]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.47 r
+  data arrival time                                               1184.47
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[0].u_gemv/g_mul[9].u_mul/y_reg[10]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.47
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.66
+
+
+  Startpoint: g_gemv[2].u_gemv/ctx_clr_pipe_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/y_reg[13]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[2].u_gemv/ctx_clr_pipe_reg[1]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  g_gemv[2].u_gemv/ctx_clr_pipe_reg[1]/QN (DFFASRHQNx1_ASAP7_75t_R)    59.85    59.85 r
+  g_gemv[2].u_gemv/U61/Y (BUFx6f_ASAP7_75t_R)            32.56      92.41 r
+  g_gemv[2].u_gemv/U3/Y (CKINVDCx16_ASAP7_75t_R)         19.63     112.03 f
+  g_gemv[2].u_gemv/U427/Y (NAND2x2_ASAP7_75t_R)          32.78     144.81 r
+  g_gemv[2].u_gemv/U45/Y (OAI21xp5_ASAP7_75t_R)          31.27     176.09 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/b[14] (fp16_add_39)     0.00   176.09 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U160/Y (INVx2_ASAP7_75t_R)    16.05   192.13 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U138/Y (OA22x2_ASAP7_75t_R)    24.11   216.25 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U109/Y (NAND2xp5_ASAP7_75t_R)    12.71   228.96 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U303/Y (NAND2xp5_ASAP7_75t_R)    17.06   246.02 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U304/Y (INVx1_ASAP7_75t_R)    13.82   259.84 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U69/Y (NAND2x1p5_ASAP7_75t_R)    17.39   277.23 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U329/Y (NAND2xp5_ASAP7_75t_R)    18.19   295.42 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U331/Y (INVx1_ASAP7_75t_R)    12.19   307.61 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U175/Y (NAND2xp5_ASAP7_75t_R)    15.98   323.60 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U347/Y (NAND2xp5_ASAP7_75t_R)    19.08   342.68 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U348/Y (NAND3xp33_ASAP7_75t_R)    23.26   365.94 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U349/SN (FAx1_ASAP7_75t_R)    96.94   462.88 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U236/Y (NAND2xp5_ASAP7_75t_R)    55.51   518.39 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U450/Y (INVx1_ASAP7_75t_R)    21.65   540.04 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U205/Y (AOI22xp5_ASAP7_75t_R)    18.50   558.54 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U451/Y (NAND2xp5_ASAP7_75t_R)    12.23   570.77 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U456/Y (AO222x2_ASAP7_75t_R)    51.46   622.23 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/B[5] (fp16_add_39_DW01_sub_13)     0.00   622.23 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U34/Y (NAND2x1p5_ASAP7_75t_R)    15.48   637.71 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U104/Y (INVx1_ASAP7_75t_R)     9.64   647.35 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U103/Y (OR2x2_ASAP7_75t_R)    24.33   671.68 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U102/Y (INVx1_ASAP7_75t_R)     8.14   679.82 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U25/Y (AND2x2_ASAP7_75t_R)    19.28   699.10 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U101/Y (NAND2xp5_ASAP7_75t_R)    10.55   709.64 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U40/Y (AOI31xp33_ASAP7_75t_R)    20.78   730.42 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U99/Y (NAND2xp5_ASAP7_75t_R)    19.34   749.76 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U3/Y (INVx2_ASAP7_75t_R)    13.05   762.81 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U5/Y (O2A1O1Ixp33_ASAP7_75t_R)    15.72   778.53 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/U76/Y (XNOR2xp5_ASAP7_75t_R)    26.41   804.94 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/sub_75/DIFF[12] (fp16_add_39_DW01_sub_13)     0.00   804.94 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U33/Y (AOI22xp33_ASAP7_75t_R)    20.42   825.36 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U228/Y (AND4x2_ASAP7_75t_R)    44.79   870.16 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U73/Y (NAND2xp67_ASAP7_75t_R)    11.38   881.54 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U83/Y (NOR4xp25_ASAP7_75t_R)    21.19   902.73 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U72/Y (AOI21xp5_ASAP7_75t_R)    23.37   926.10 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U39/Y (NAND2xp33_ASAP7_75t_R)    51.55   977.65 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U742/Y (OAI221xp5_ASAP7_75t_R)    36.45  1014.10 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U752/Y (INVx1_ASAP7_75t_R)    22.38  1036.48 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U753/Y (A2O1A1Ixp33_ASAP7_75t_R)    24.49  1060.98 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U815/Y (INVx1_ASAP7_75t_R)    11.87  1072.84 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U119/Y (NOR2xp33_ASAP7_75t_R)    13.52  1086.37 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U816/Y (OAI21xp5_ASAP7_75t_R)    16.72  1103.08 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U848/Y (NAND2xp5_ASAP7_75t_R)    19.22  1122.31 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U86/Y (NAND4xp25_ASAP7_75t_R)    26.06  1148.37 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U5/Y (AOI21xp5_ASAP7_75t_R)    13.23  1161.60 f
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/U224/Y (AOI221xp5_ASAP7_75t_R)    21.13  1182.73 r
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/y_reg[13]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1182.73 r
+  data arrival time                                               1182.73
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[2].u_gemv/g_ctx_acc[13].u_ctx_add/y_reg[13]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -17.92     701.08
+  data required time                                               701.08
+  --------------------------------------------------------------------------
+  data required time                                               701.08
+  data arrival time                                              -1182.73
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.65
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[14]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/dataout[13] (srambank_64x4x16_6t122)    78.20    78.20 r
+  g_gemv[3].u_gemv/u_buf_vec/rd_data[221] (dbuf_16x256_1)     0.00    78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/b[13] (fp16_mult_3)     0.00     78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U72/Y (OR5x2_ASAP7_75t_R)    43.90   122.10 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U52/Y (AND2x2_ASAP7_75t_R)    38.81   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/B[9] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U5/Y (AND2x4_ASAP7_75t_R)    25.03   185.93 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U39/Y (NAND2x1_ASAP7_75t_R)     9.53   195.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U41/Y (INVx2_ASAP7_75t_R)     9.89   205.36 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.77   242.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   258.76 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    35.43   294.19 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U4/Y (INVxp67_ASAP7_75t_R)    19.10   313.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    40.42   353.71 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U148/Y (INVx1_ASAP7_75t_R)    16.88   370.59 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.89   409.48 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   426.12 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   462.86 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   479.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   501.18 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   520.07 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   544.79 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.89   563.69 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   588.41 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   604.78 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   621.42 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   658.16 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.41   674.57 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U36/Y (AND2x2_ASAP7_75t_R)    23.76   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/B[12] (fp16_mult_3_DW01_add_3)     0.00   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    22.96   721.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U7/Y (NOR2xp67_ASAP7_75t_R)    15.74   737.02 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.78   750.80 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    20.15   770.95 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.55   791.50 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U2/Y (XOR2x2_ASAP7_75t_R)    30.53   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_3_DW01_add_3)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/PRODUCT[21] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U22/Y (INVx2_ASAP7_75t_R)    13.61   835.64 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U69/Y (INVx6_ASAP7_75t_R)    15.08   850.72 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U26/Y (AO21x1_ASAP7_75t_R)    27.41   878.14 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U63/Y (NAND2x1p5_ASAP7_75t_R)    13.38   891.52 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U130/SN (FAx1_ASAP7_75t_R)    40.53   932.05 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U36/Y (AND2x2_ASAP7_75t_R)    27.73   959.77 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U135/Y (NAND2xp5_ASAP7_75t_R)    14.94   974.71 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U136/Y (INVx1_ASAP7_75t_R)    11.92   986.63 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    17.84  1004.47 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U12/Y (INVxp67_ASAP7_75t_R)    15.49  1019.97 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U9/Y (XOR2x2_ASAP7_75t_R)    36.01  1055.98 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U174/Y (INVx1_ASAP7_75t_R)     7.40  1063.38 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U21/Y (NOR4xp25_ASAP7_75t_R)    23.66  1087.03 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U175/Y (NAND3xp33_ASAP7_75t_R)    21.90  1108.93 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    21.35  1130.28 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    34.85  1165.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U221/Y (OAI21xp5_ASAP7_75t_R)    19.74  1184.87 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[14]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.87 r
+  data arrival time                                               1184.87
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[14]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -15.78     703.22
+  data required time                                               703.22
+  --------------------------------------------------------------------------
+  data required time                                               703.22
+  data arrival time                                              -1184.87
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.65
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[13]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/dataout[13] (srambank_64x4x16_6t122)    78.20    78.20 r
+  g_gemv[3].u_gemv/u_buf_vec/rd_data[221] (dbuf_16x256_1)     0.00    78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/b[13] (fp16_mult_3)     0.00     78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U72/Y (OR5x2_ASAP7_75t_R)    43.90   122.10 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U52/Y (AND2x2_ASAP7_75t_R)    38.81   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/B[9] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U5/Y (AND2x4_ASAP7_75t_R)    25.03   185.93 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U39/Y (NAND2x1_ASAP7_75t_R)     9.53   195.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U41/Y (INVx2_ASAP7_75t_R)     9.89   205.36 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.77   242.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   258.76 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    35.43   294.19 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U4/Y (INVxp67_ASAP7_75t_R)    19.10   313.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    40.42   353.71 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U148/Y (INVx1_ASAP7_75t_R)    16.88   370.59 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.89   409.48 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   426.12 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   462.86 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   479.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   501.18 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   520.07 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   544.79 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.89   563.69 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   588.41 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   604.78 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   621.42 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   658.16 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.41   674.57 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U36/Y (AND2x2_ASAP7_75t_R)    23.76   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/B[12] (fp16_mult_3_DW01_add_3)     0.00   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    22.96   721.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U7/Y (NOR2xp67_ASAP7_75t_R)    15.74   737.02 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.78   750.80 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    20.15   770.95 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.55   791.50 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U2/Y (XOR2x2_ASAP7_75t_R)    30.53   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_3_DW01_add_3)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/PRODUCT[21] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U22/Y (INVx2_ASAP7_75t_R)    13.61   835.64 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U69/Y (INVx6_ASAP7_75t_R)    15.08   850.72 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U26/Y (AO21x1_ASAP7_75t_R)    27.41   878.14 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U63/Y (NAND2x1p5_ASAP7_75t_R)    13.38   891.52 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U130/SN (FAx1_ASAP7_75t_R)    40.53   932.05 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U36/Y (AND2x2_ASAP7_75t_R)    27.73   959.77 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U135/Y (NAND2xp5_ASAP7_75t_R)    14.94   974.71 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U136/Y (INVx1_ASAP7_75t_R)    11.92   986.63 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    17.84  1004.47 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U12/Y (INVxp67_ASAP7_75t_R)    15.49  1019.97 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U9/Y (XOR2x2_ASAP7_75t_R)    36.01  1055.98 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U174/Y (INVx1_ASAP7_75t_R)     7.40  1063.38 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U21/Y (NOR4xp25_ASAP7_75t_R)    23.66  1087.03 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U175/Y (NAND3xp33_ASAP7_75t_R)    21.90  1108.93 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    21.35  1130.28 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    34.85  1165.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U220/Y (OAI21xp5_ASAP7_75t_R)    19.74  1184.87 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[13]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.87 r
+  data arrival time                                               1184.87
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[13]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -15.78     703.22
+  data required time                                               703.22
+  --------------------------------------------------------------------------
+  data required time                                               703.22
+  data arrival time                                              -1184.87
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.65
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[12]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/dataout[13] (srambank_64x4x16_6t122)    78.20    78.20 r
+  g_gemv[3].u_gemv/u_buf_vec/rd_data[221] (dbuf_16x256_1)     0.00    78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/b[13] (fp16_mult_3)     0.00     78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U72/Y (OR5x2_ASAP7_75t_R)    43.90   122.10 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U52/Y (AND2x2_ASAP7_75t_R)    38.81   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/B[9] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U5/Y (AND2x4_ASAP7_75t_R)    25.03   185.93 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U39/Y (NAND2x1_ASAP7_75t_R)     9.53   195.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U41/Y (INVx2_ASAP7_75t_R)     9.89   205.36 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.77   242.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   258.76 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    35.43   294.19 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U4/Y (INVxp67_ASAP7_75t_R)    19.10   313.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    40.42   353.71 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U148/Y (INVx1_ASAP7_75t_R)    16.88   370.59 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.89   409.48 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   426.12 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   462.86 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   479.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   501.18 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   520.07 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   544.79 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.89   563.69 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   588.41 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   604.78 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   621.42 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   658.16 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.41   674.57 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U36/Y (AND2x2_ASAP7_75t_R)    23.76   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/B[12] (fp16_mult_3_DW01_add_3)     0.00   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    22.96   721.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U7/Y (NOR2xp67_ASAP7_75t_R)    15.74   737.02 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.78   750.80 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    20.15   770.95 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.55   791.50 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U2/Y (XOR2x2_ASAP7_75t_R)    30.53   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_3_DW01_add_3)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/PRODUCT[21] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U22/Y (INVx2_ASAP7_75t_R)    13.61   835.64 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U69/Y (INVx6_ASAP7_75t_R)    15.08   850.72 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U26/Y (AO21x1_ASAP7_75t_R)    27.41   878.14 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U63/Y (NAND2x1p5_ASAP7_75t_R)    13.38   891.52 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U130/SN (FAx1_ASAP7_75t_R)    40.53   932.05 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U36/Y (AND2x2_ASAP7_75t_R)    27.73   959.77 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U135/Y (NAND2xp5_ASAP7_75t_R)    14.94   974.71 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U136/Y (INVx1_ASAP7_75t_R)    11.92   986.63 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    17.84  1004.47 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U12/Y (INVxp67_ASAP7_75t_R)    15.49  1019.97 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U9/Y (XOR2x2_ASAP7_75t_R)    36.01  1055.98 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U174/Y (INVx1_ASAP7_75t_R)     7.40  1063.38 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U21/Y (NOR4xp25_ASAP7_75t_R)    23.66  1087.03 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U175/Y (NAND3xp33_ASAP7_75t_R)    21.90  1108.93 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    21.35  1130.28 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    34.85  1165.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U219/Y (OAI21xp5_ASAP7_75t_R)    19.74  1184.87 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[12]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.87 r
+  data arrival time                                               1184.87
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[12]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -15.78     703.22
+  data required time                                               703.22
+  --------------------------------------------------------------------------
+  data required time                                               703.22
+  data arrival time                                              -1184.87
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.65
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[11]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/dataout[13] (srambank_64x4x16_6t122)    78.20    78.20 r
+  g_gemv[3].u_gemv/u_buf_vec/rd_data[221] (dbuf_16x256_1)     0.00    78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/b[13] (fp16_mult_3)     0.00     78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U72/Y (OR5x2_ASAP7_75t_R)    43.90   122.10 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U52/Y (AND2x2_ASAP7_75t_R)    38.81   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/B[9] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U5/Y (AND2x4_ASAP7_75t_R)    25.03   185.93 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U39/Y (NAND2x1_ASAP7_75t_R)     9.53   195.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U41/Y (INVx2_ASAP7_75t_R)     9.89   205.36 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.77   242.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   258.76 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    35.43   294.19 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U4/Y (INVxp67_ASAP7_75t_R)    19.10   313.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    40.42   353.71 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U148/Y (INVx1_ASAP7_75t_R)    16.88   370.59 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.89   409.48 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   426.12 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   462.86 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   479.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   501.18 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   520.07 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   544.79 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.89   563.69 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   588.41 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   604.78 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   621.42 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   658.16 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.41   674.57 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U36/Y (AND2x2_ASAP7_75t_R)    23.76   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/B[12] (fp16_mult_3_DW01_add_3)     0.00   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    22.96   721.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U7/Y (NOR2xp67_ASAP7_75t_R)    15.74   737.02 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.78   750.80 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    20.15   770.95 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.55   791.50 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U2/Y (XOR2x2_ASAP7_75t_R)    30.53   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_3_DW01_add_3)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/PRODUCT[21] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U22/Y (INVx2_ASAP7_75t_R)    13.61   835.64 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U69/Y (INVx6_ASAP7_75t_R)    15.08   850.72 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U26/Y (AO21x1_ASAP7_75t_R)    27.41   878.14 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U63/Y (NAND2x1p5_ASAP7_75t_R)    13.38   891.52 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U130/SN (FAx1_ASAP7_75t_R)    40.53   932.05 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U36/Y (AND2x2_ASAP7_75t_R)    27.73   959.77 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U135/Y (NAND2xp5_ASAP7_75t_R)    14.94   974.71 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U136/Y (INVx1_ASAP7_75t_R)    11.92   986.63 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    17.84  1004.47 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U12/Y (INVxp67_ASAP7_75t_R)    15.49  1019.97 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U9/Y (XOR2x2_ASAP7_75t_R)    36.01  1055.98 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U174/Y (INVx1_ASAP7_75t_R)     7.40  1063.38 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U21/Y (NOR4xp25_ASAP7_75t_R)    23.66  1087.03 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U175/Y (NAND3xp33_ASAP7_75t_R)    21.90  1108.93 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    21.35  1130.28 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    34.85  1165.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U218/Y (OAI21xp5_ASAP7_75t_R)    19.74  1184.87 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[11]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.87 r
+  data arrival time                                               1184.87
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[11]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -15.78     703.22
+  data required time                                               703.22
+  --------------------------------------------------------------------------
+  data required time                                               703.22
+  data arrival time                                              -1184.87
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.65
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[10]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_vec/g_slice[13].u_mem/dataout[13] (srambank_64x4x16_6t122)    78.20    78.20 r
+  g_gemv[3].u_gemv/u_buf_vec/rd_data[221] (dbuf_16x256_1)     0.00    78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/b[13] (fp16_mult_3)     0.00     78.20 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U72/Y (OR5x2_ASAP7_75t_R)    43.90   122.10 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U52/Y (AND2x2_ASAP7_75t_R)    38.81   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/B[9] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   160.91 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U5/Y (AND2x4_ASAP7_75t_R)    25.03   185.93 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U39/Y (NAND2x1_ASAP7_75t_R)     9.53   195.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U41/Y (INVx2_ASAP7_75t_R)     9.89   205.36 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.77   242.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   258.76 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    35.43   294.19 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U4/Y (INVxp67_ASAP7_75t_R)    19.10   313.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    40.42   353.71 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U148/Y (INVx1_ASAP7_75t_R)    16.88   370.59 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.89   409.48 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   426.12 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   462.86 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   479.47 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   501.18 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   520.07 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   544.79 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.89   563.69 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   588.41 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   604.78 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   621.42 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   658.16 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.41   674.57 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/U36/Y (AND2x2_ASAP7_75t_R)    23.76   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/B[12] (fp16_mult_3_DW01_add_3)     0.00   698.33 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U74/Y (NAND2xp5_ASAP7_75t_R)    22.96   721.29 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U7/Y (NOR2xp67_ASAP7_75t_R)    15.74   737.02 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U26/Y (NAND2xp5_ASAP7_75t_R)    13.78   750.80 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U25/Y (OAI311xp33_ASAP7_75t_R)    20.15   770.95 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    20.55   791.50 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/U2/Y (XOR2x2_ASAP7_75t_R)    30.53   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_3_DW01_add_3)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/mult_35/PRODUCT[21] (fp16_mult_3_DW02_mult_0_DW02_mult_2)     0.00   822.03 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U22/Y (INVx2_ASAP7_75t_R)    13.61   835.64 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U69/Y (INVx6_ASAP7_75t_R)    15.08   850.72 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U26/Y (AO21x1_ASAP7_75t_R)    27.41   878.14 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U63/Y (NAND2x1p5_ASAP7_75t_R)    13.38   891.52 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U130/SN (FAx1_ASAP7_75t_R)    40.53   932.05 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U36/Y (AND2x2_ASAP7_75t_R)    27.73   959.77 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U135/Y (NAND2xp5_ASAP7_75t_R)    14.94   974.71 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U136/Y (INVx1_ASAP7_75t_R)    11.92   986.63 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    17.84  1004.47 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U12/Y (INVxp67_ASAP7_75t_R)    15.49  1019.97 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U9/Y (XOR2x2_ASAP7_75t_R)    36.01  1055.98 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U174/Y (INVx1_ASAP7_75t_R)     7.40  1063.38 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U21/Y (NOR4xp25_ASAP7_75t_R)    23.66  1087.03 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U175/Y (NAND3xp33_ASAP7_75t_R)    21.90  1108.93 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    21.35  1130.28 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    34.85  1165.13 f
+  g_gemv[3].u_gemv/g_mul[13].u_mul/U216/Y (OAI21xp5_ASAP7_75t_R)    19.74  1184.87 r
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[10]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.87 r
+  data arrival time                                               1184.87
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[13].u_mul/y_reg[10]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -15.78     703.22
+  data required time                                               703.22
+  --------------------------------------------------------------------------
+  data required time                                               703.22
+  data arrival time                                              -1184.87
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.65
+
+
+  Startpoint: g_gemv[1].u_gemv/ctx_clr_pipe_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/y_reg[9]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[1].u_gemv/ctx_clr_pipe_reg[1]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  g_gemv[1].u_gemv/ctx_clr_pipe_reg[1]/QN (DFFASRHQNx1_ASAP7_75t_R)   101.96   101.96 f
+  g_gemv[1].u_gemv/U505/Y (INVx3_ASAP7_75t_R)            21.25     123.21 r
+  g_gemv[1].u_gemv/U19/Y (BUFx16f_ASAP7_75t_R)           31.45     154.66 r
+  g_gemv[1].u_gemv/U585/Y (NAND2x2_ASAP7_75t_R)          24.32     178.98 f
+  g_gemv[1].u_gemv/U961/Y (OAI21xp5_ASAP7_75t_R)         29.78     208.75 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/b[13] (fp16_add_79)     0.00   208.75 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U12/Y (INVx2_ASAP7_75t_R)    17.96   226.71 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U108/Y (AND2x2_ASAP7_75t_R)    23.50   250.21 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U279/Y (NOR5xp2_ASAP7_75t_R)    23.74   273.96 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U280/Y (OAI211xp5_ASAP7_75t_R)    27.87   301.83 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U19/Y (INVxp67_ASAP7_75t_R)    22.68   324.51 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U41/Y (OAI21x1_ASAP7_75t_R)    17.97   342.47 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U192/Y (NAND2x1p5_ASAP7_75t_R)    22.38   364.85 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U31/Y (INVx3_ASAP7_75t_R)    11.79   376.64 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U34/Y (NAND2x1p5_ASAP7_75t_R)    11.58   388.22 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U16/Y (AND2x4_ASAP7_75t_R)    20.99   409.21 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U153/Y (OAI22x1_ASAP7_75t_R)    11.25   420.46 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U343/Y (AOI311xp33_ASAP7_75t_R)    40.53   460.99 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U25/Y (XOR2x2_ASAP7_75t_R)    36.61   497.60 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U35/Y (INVx2_ASAP7_75t_R)     9.28   506.89 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U349/Y (NAND2xp5_ASAP7_75t_R)    15.79   522.68 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U43/Y (INVx2_ASAP7_75t_R)    13.46   536.14 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U175/Y (NAND2x1p5_ASAP7_75t_R)    13.93   550.07 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U152/Y (AO21x2_ASAP7_75t_R)    30.34   580.41 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U415/Y (AOI31xp67_ASAP7_75t_R)    20.19   600.60 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/B[3] (fp16_add_79_DW01_sub_11)     0.00   600.60 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U110/Y (NAND2xp5_ASAP7_75t_R)    16.38   616.98 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U97/Y (NAND2xp5_ASAP7_75t_R)    16.26   633.24 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U4/Y (INVx1_ASAP7_75t_R)     9.17   642.41 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U22/Y (AND2x2_ASAP7_75t_R)    22.36   664.77 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U12/Y (NAND2x1p5_ASAP7_75t_R)    12.07   676.84 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U94/Y (OAI31xp67_ASAP7_75t_R)    12.99   689.83 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U93/Y (AOI21x1_ASAP7_75t_R)    27.29   717.12 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U66/Y (OAI21xp5_ASAP7_75t_R)    26.09   743.21 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/U34/Y (XNOR2x1_ASAP7_75t_R)    27.93   771.14 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/sub_75/DIFF[11] (fp16_add_79_DW01_sub_11)     0.00   771.14 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U150/Y (NAND2x1p5_ASAP7_75t_R)    18.55   789.69 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U460/Y (NAND5xp2_ASAP7_75t_R)    31.60   821.29 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U477/Y (NOR5xp2_ASAP7_75t_R)    34.40   855.69 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U484/Y (NAND2xp5_ASAP7_75t_R)    19.61   875.30 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U534/Y (NAND2xp5_ASAP7_75t_R)    18.62   893.92 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U42/Y (INVx2_ASAP7_75t_R)    15.29   909.20 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U535/Y (NAND3xp33_ASAP7_75t_R)    21.39   930.59 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U163/Y (INVx1_ASAP7_75t_R)    18.41   949.00 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U185/Y (NAND2x2_ASAP7_75t_R)    21.66   970.66 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U221/Y (INVx4_ASAP7_75t_R)    12.07   982.73 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U566/Y (NAND2xp5_ASAP7_75t_R)    18.17  1000.90 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U577/Y (OAI322xp33_ASAP7_75t_R)    31.14  1032.04 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U23/Y (NAND2xp33_ASAP7_75t_R)    33.28  1065.32 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U721/Y (INVx1_ASAP7_75t_R)    18.04  1083.36 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U730/Y (NAND2xp5_ASAP7_75t_R)    16.88  1100.24 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U734/Y (INVx1_ASAP7_75t_R)    11.31  1111.54 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U735/Y (NAND2xp5_ASAP7_75t_R)    16.62  1128.16 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U749/Y (INVx1_ASAP7_75t_R)    10.13  1138.29 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U752/Y (NAND2xp5_ASAP7_75t_R)    13.53  1151.82 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U757/Y (NAND2xp5_ASAP7_75t_R)    10.47  1162.29 f
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/U780/Y (AOI32xp33_ASAP7_75t_R)    21.49  1183.79 r
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/y_reg[9]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1183.79 r
+  data arrival time                                               1183.79
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[1].u_gemv/g_ctx_acc[5].u_ctx_add/y_reg[9]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.86     702.14
+  data required time                                               702.14
+  --------------------------------------------------------------------------
+  data required time                                               702.14
+  data arrival time                                              -1183.79
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.64
+
+
+  Startpoint: g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[12]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/dataout[11] (srambank_64x4x16_6t122)    80.56    80.56 r
+  g_gemv[2].u_gemv/u_buf_vec/rd_data[251] (dbuf_16x256_3)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/b[11] (fp16_mult_17)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U68/Y (OR5x2_ASAP7_75t_R)    41.04   121.60 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U35/Y (AND2x2_ASAP7_75t_R)    38.45   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/B[9] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U42/Y (AND2x4_ASAP7_75t_R)    25.01   185.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U4/Y (AND2x4_ASAP7_75t_R)    19.07   204.13 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.22   240.36 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   256.98 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.82   295.80 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U116/Y (INVx1_ASAP7_75t_R)    16.63   312.43 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.25 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U43/Y (INVx1_ASAP7_75t_R)    16.63   367.87 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   406.69 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   423.33 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   460.07 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   476.68 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   498.39 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   517.28 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   542.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.90   560.91 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   585.63 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   602.00 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   618.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   655.38 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.59   671.97 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U47/Y (XNOR2xp5_ASAP7_75t_R)    24.44   696.41 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U338/Y (INVx1_ASAP7_75t_R)    14.17   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/A[11] (fp16_mult_17_DW01_add_3)     0.00   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U78/Y (OR2x2_ASAP7_75t_R)    26.50   737.08 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U4/Y (NAND4xp75_ASAP7_75t_R)    18.90   755.98 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U8/Y (NOR3x1_ASAP7_75t_R)    17.49   773.48 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    13.19   786.66 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U19/Y (XOR2xp5_ASAP7_75t_R)    25.88   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_17_DW01_add_3)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/PRODUCT[21] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U42/Y (INVx2_ASAP7_75t_R)    15.60   828.14 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U14/Y (INVx4_ASAP7_75t_R)    18.06   846.21 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U120/Y (AO21x1_ASAP7_75t_R)    30.44   876.65 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U61/Y (NAND2x1p5_ASAP7_75t_R)    18.26   894.91 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U126/SN (FAx1_ASAP7_75t_R)    37.81   932.72 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U129/Y (NAND2xp5_ASAP7_75t_R)    18.38   951.11 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U130/Y (INVx1_ASAP7_75t_R)    11.13   962.23 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    14.40   976.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U49/Y (OAI21xp33_ASAP7_75t_R)    15.69   992.32 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U142/Y (INVx1_ASAP7_75t_R)    15.21  1007.53 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U33/Y (AND3x1_ASAP7_75t_R)    29.42  1036.95 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U176/Y (NAND3xp33_ASAP7_75t_R)    19.23  1056.18 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U177/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.82  1074.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U178/Y (INVx1_ASAP7_75t_R)    11.76  1085.77 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U66/Y (NOR3xp33_ASAP7_75t_R)    15.33  1101.10 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U65/Y (AOI31xp33_ASAP7_75t_R)    14.29  1115.39 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    19.86  1135.25 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    28.95  1164.20 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U45/Y (OAI21xp33_ASAP7_75t_R)    20.25  1184.45 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[12]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.45 r
+  data arrival time                                               1184.45
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[12]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.45
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.63
+
+
+  Startpoint: g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[14]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/dataout[11] (srambank_64x4x16_6t122)    80.56    80.56 r
+  g_gemv[2].u_gemv/u_buf_vec/rd_data[251] (dbuf_16x256_3)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/b[11] (fp16_mult_17)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U68/Y (OR5x2_ASAP7_75t_R)    41.04   121.60 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U35/Y (AND2x2_ASAP7_75t_R)    38.45   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/B[9] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U42/Y (AND2x4_ASAP7_75t_R)    25.01   185.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U4/Y (AND2x4_ASAP7_75t_R)    19.07   204.13 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.22   240.36 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   256.98 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.82   295.80 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U116/Y (INVx1_ASAP7_75t_R)    16.63   312.43 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.25 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U43/Y (INVx1_ASAP7_75t_R)    16.63   367.87 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   406.69 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   423.33 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   460.07 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   476.68 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   498.39 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   517.28 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   542.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.90   560.91 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   585.63 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   602.00 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   618.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   655.38 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.59   671.97 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U47/Y (XNOR2xp5_ASAP7_75t_R)    24.44   696.41 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U338/Y (INVx1_ASAP7_75t_R)    14.17   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/A[11] (fp16_mult_17_DW01_add_3)     0.00   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U78/Y (OR2x2_ASAP7_75t_R)    26.50   737.08 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U4/Y (NAND4xp75_ASAP7_75t_R)    18.90   755.98 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U8/Y (NOR3x1_ASAP7_75t_R)    17.49   773.48 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    13.19   786.66 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U19/Y (XOR2xp5_ASAP7_75t_R)    25.88   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_17_DW01_add_3)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/PRODUCT[21] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U42/Y (INVx2_ASAP7_75t_R)    15.60   828.14 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U14/Y (INVx4_ASAP7_75t_R)    18.06   846.21 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U120/Y (AO21x1_ASAP7_75t_R)    30.44   876.65 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U61/Y (NAND2x1p5_ASAP7_75t_R)    18.26   894.91 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U126/SN (FAx1_ASAP7_75t_R)    37.81   932.72 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U129/Y (NAND2xp5_ASAP7_75t_R)    18.38   951.11 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U130/Y (INVx1_ASAP7_75t_R)    11.13   962.23 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    14.40   976.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U49/Y (OAI21xp33_ASAP7_75t_R)    15.69   992.32 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U142/Y (INVx1_ASAP7_75t_R)    15.21  1007.53 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U33/Y (AND3x1_ASAP7_75t_R)    29.42  1036.95 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U176/Y (NAND3xp33_ASAP7_75t_R)    19.23  1056.18 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U177/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.82  1074.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U178/Y (INVx1_ASAP7_75t_R)    11.76  1085.77 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U66/Y (NOR3xp33_ASAP7_75t_R)    15.33  1101.10 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U65/Y (AOI31xp33_ASAP7_75t_R)    14.29  1115.39 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    19.86  1135.25 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    28.95  1164.20 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U47/Y (OAI21xp33_ASAP7_75t_R)    20.25  1184.45 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[14]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.45 r
+  data arrival time                                               1184.45
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[14]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.45
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.63
+
+
+  Startpoint: g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[13]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/dataout[11] (srambank_64x4x16_6t122)    80.56    80.56 r
+  g_gemv[2].u_gemv/u_buf_vec/rd_data[251] (dbuf_16x256_3)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/b[11] (fp16_mult_17)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U68/Y (OR5x2_ASAP7_75t_R)    41.04   121.60 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U35/Y (AND2x2_ASAP7_75t_R)    38.45   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/B[9] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U42/Y (AND2x4_ASAP7_75t_R)    25.01   185.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U4/Y (AND2x4_ASAP7_75t_R)    19.07   204.13 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.22   240.36 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   256.98 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.82   295.80 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U116/Y (INVx1_ASAP7_75t_R)    16.63   312.43 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.25 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U43/Y (INVx1_ASAP7_75t_R)    16.63   367.87 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   406.69 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   423.33 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   460.07 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   476.68 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   498.39 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   517.28 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   542.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.90   560.91 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   585.63 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   602.00 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   618.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   655.38 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.59   671.97 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U47/Y (XNOR2xp5_ASAP7_75t_R)    24.44   696.41 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U338/Y (INVx1_ASAP7_75t_R)    14.17   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/A[11] (fp16_mult_17_DW01_add_3)     0.00   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U78/Y (OR2x2_ASAP7_75t_R)    26.50   737.08 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U4/Y (NAND4xp75_ASAP7_75t_R)    18.90   755.98 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U8/Y (NOR3x1_ASAP7_75t_R)    17.49   773.48 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    13.19   786.66 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U19/Y (XOR2xp5_ASAP7_75t_R)    25.88   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_17_DW01_add_3)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/PRODUCT[21] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U42/Y (INVx2_ASAP7_75t_R)    15.60   828.14 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U14/Y (INVx4_ASAP7_75t_R)    18.06   846.21 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U120/Y (AO21x1_ASAP7_75t_R)    30.44   876.65 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U61/Y (NAND2x1p5_ASAP7_75t_R)    18.26   894.91 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U126/SN (FAx1_ASAP7_75t_R)    37.81   932.72 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U129/Y (NAND2xp5_ASAP7_75t_R)    18.38   951.11 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U130/Y (INVx1_ASAP7_75t_R)    11.13   962.23 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    14.40   976.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U49/Y (OAI21xp33_ASAP7_75t_R)    15.69   992.32 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U142/Y (INVx1_ASAP7_75t_R)    15.21  1007.53 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U33/Y (AND3x1_ASAP7_75t_R)    29.42  1036.95 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U176/Y (NAND3xp33_ASAP7_75t_R)    19.23  1056.18 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U177/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.82  1074.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U178/Y (INVx1_ASAP7_75t_R)    11.76  1085.77 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U66/Y (NOR3xp33_ASAP7_75t_R)    15.33  1101.10 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U65/Y (AOI31xp33_ASAP7_75t_R)    14.29  1115.39 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    19.86  1135.25 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    28.95  1164.20 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U46/Y (OAI21xp33_ASAP7_75t_R)    20.25  1184.45 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[13]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.45 r
+  data arrival time                                               1184.45
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[13]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.45
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.63
+
+
+  Startpoint: g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[11]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/dataout[11] (srambank_64x4x16_6t122)    80.56    80.56 r
+  g_gemv[2].u_gemv/u_buf_vec/rd_data[251] (dbuf_16x256_3)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/b[11] (fp16_mult_17)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U68/Y (OR5x2_ASAP7_75t_R)    41.04   121.60 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U35/Y (AND2x2_ASAP7_75t_R)    38.45   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/B[9] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U42/Y (AND2x4_ASAP7_75t_R)    25.01   185.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U4/Y (AND2x4_ASAP7_75t_R)    19.07   204.13 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.22   240.36 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   256.98 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.82   295.80 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U116/Y (INVx1_ASAP7_75t_R)    16.63   312.43 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.25 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U43/Y (INVx1_ASAP7_75t_R)    16.63   367.87 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   406.69 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   423.33 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   460.07 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   476.68 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   498.39 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   517.28 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   542.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.90   560.91 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   585.63 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   602.00 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   618.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   655.38 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.59   671.97 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U47/Y (XNOR2xp5_ASAP7_75t_R)    24.44   696.41 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U338/Y (INVx1_ASAP7_75t_R)    14.17   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/A[11] (fp16_mult_17_DW01_add_3)     0.00   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U78/Y (OR2x2_ASAP7_75t_R)    26.50   737.08 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U4/Y (NAND4xp75_ASAP7_75t_R)    18.90   755.98 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U8/Y (NOR3x1_ASAP7_75t_R)    17.49   773.48 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    13.19   786.66 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U19/Y (XOR2xp5_ASAP7_75t_R)    25.88   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_17_DW01_add_3)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/PRODUCT[21] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U42/Y (INVx2_ASAP7_75t_R)    15.60   828.14 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U14/Y (INVx4_ASAP7_75t_R)    18.06   846.21 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U120/Y (AO21x1_ASAP7_75t_R)    30.44   876.65 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U61/Y (NAND2x1p5_ASAP7_75t_R)    18.26   894.91 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U126/SN (FAx1_ASAP7_75t_R)    37.81   932.72 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U129/Y (NAND2xp5_ASAP7_75t_R)    18.38   951.11 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U130/Y (INVx1_ASAP7_75t_R)    11.13   962.23 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    14.40   976.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U49/Y (OAI21xp33_ASAP7_75t_R)    15.69   992.32 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U142/Y (INVx1_ASAP7_75t_R)    15.21  1007.53 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U33/Y (AND3x1_ASAP7_75t_R)    29.42  1036.95 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U176/Y (NAND3xp33_ASAP7_75t_R)    19.23  1056.18 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U177/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.82  1074.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U178/Y (INVx1_ASAP7_75t_R)    11.76  1085.77 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U66/Y (NOR3xp33_ASAP7_75t_R)    15.33  1101.10 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U65/Y (AOI31xp33_ASAP7_75t_R)    14.29  1115.39 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    19.86  1135.25 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    28.95  1164.20 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U44/Y (OAI21xp33_ASAP7_75t_R)    20.25  1184.45 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[11]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.45 r
+  data arrival time                                               1184.45
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[11]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.45
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.63
+
+
+  Startpoint: g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[10]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[2].u_gemv/u_buf_vec/g_slice[15].u_mem/dataout[11] (srambank_64x4x16_6t122)    80.56    80.56 r
+  g_gemv[2].u_gemv/u_buf_vec/rd_data[251] (dbuf_16x256_3)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/b[11] (fp16_mult_17)     0.00    80.56 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U68/Y (OR5x2_ASAP7_75t_R)    41.04   121.60 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U35/Y (AND2x2_ASAP7_75t_R)    38.45   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/B[9] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   160.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U42/Y (AND2x4_ASAP7_75t_R)    25.01   185.06 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U4/Y (AND2x4_ASAP7_75t_R)    19.07   204.13 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    36.22   240.36 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U83/Y (INVx1_ASAP7_75t_R)    16.63   256.98 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.82   295.80 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U116/Y (INVx1_ASAP7_75t_R)    16.63   312.43 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.25 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U43/Y (INVx1_ASAP7_75t_R)    16.63   367.87 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   406.69 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U181/Y (INVx1_ASAP7_75t_R)    16.64   423.33 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    36.74   460.07 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U214/Y (INVx1_ASAP7_75t_R)    16.61   476.68 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    21.71   498.39 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U243/Y (INVx1_ASAP7_75t_R)    18.89   517.28 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.72   542.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U273/Y (INVx1_ASAP7_75t_R)    18.90   560.91 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   585.63 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   602.00 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U307/Y (INVx1_ASAP7_75t_R)    16.64   618.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    36.74   655.38 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U332/Y (INVx1_ASAP7_75t_R)    16.59   671.97 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U47/Y (XNOR2xp5_ASAP7_75t_R)    24.44   696.41 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/U338/Y (INVx1_ASAP7_75t_R)    14.17   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/A[11] (fp16_mult_17_DW01_add_3)     0.00   710.58 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U78/Y (OR2x2_ASAP7_75t_R)    26.50   737.08 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U4/Y (NAND4xp75_ASAP7_75t_R)    18.90   755.98 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U8/Y (NOR3x1_ASAP7_75t_R)    17.49   773.48 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U23/Y (AOI211x1_ASAP7_75t_R)    13.19   786.66 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/U19/Y (XOR2xp5_ASAP7_75t_R)    25.88   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_17_DW01_add_3)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/mult_35/PRODUCT[21] (fp16_mult_17_DW02_mult_0_DW02_mult_16)     0.00   812.54 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U42/Y (INVx2_ASAP7_75t_R)    15.60   828.14 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U14/Y (INVx4_ASAP7_75t_R)    18.06   846.21 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U120/Y (AO21x1_ASAP7_75t_R)    30.44   876.65 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U61/Y (NAND2x1p5_ASAP7_75t_R)    18.26   894.91 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U126/SN (FAx1_ASAP7_75t_R)    37.81   932.72 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U129/Y (NAND2xp5_ASAP7_75t_R)    18.38   951.11 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U130/Y (INVx1_ASAP7_75t_R)    11.13   962.23 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    14.40   976.64 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U49/Y (OAI21xp33_ASAP7_75t_R)    15.69   992.32 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U142/Y (INVx1_ASAP7_75t_R)    15.21  1007.53 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U33/Y (AND3x1_ASAP7_75t_R)    29.42  1036.95 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U176/Y (NAND3xp33_ASAP7_75t_R)    19.23  1056.18 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U177/Y (A2O1A1Ixp33_ASAP7_75t_R)    17.82  1074.00 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U178/Y (INVx1_ASAP7_75t_R)    11.76  1085.77 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U66/Y (NOR3xp33_ASAP7_75t_R)    15.33  1101.10 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U65/Y (AOI31xp33_ASAP7_75t_R)    14.29  1115.39 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U186/Y (NAND3xp33_ASAP7_75t_R)    19.86  1135.25 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U215/Y (NAND3xp33_ASAP7_75t_R)    28.95  1164.20 f
+  g_gemv[2].u_gemv/g_mul[15].u_mul/U43/Y (OAI21xp33_ASAP7_75t_R)    20.25  1184.45 r
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[10]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.45 r
+  data arrival time                                               1184.45
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[2].u_gemv/g_mul[15].u_mul/y_reg[10]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.45
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.63
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[12]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.26    78.26 r
+  g_gemv[3].u_gemv/u_buf_mat/rd_data[110] (dbuf_16x256_2)     0.00    78.26 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/a[14] (fp16_mult_10)     0.00     78.26 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U56/Y (OR5x2_ASAP7_75t_R)    41.49   119.76 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U9/Y (INVx4_ASAP7_75t_R)    18.30   138.05 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U32/Y (NOR2xp67_ASAP7_75t_R)    15.23   153.28 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/A[2] (fp16_mult_10_DW02_mult_0_DW02_mult_9)     0.00   153.28 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U43/Y (BUFx3_ASAP7_75t_R)    24.51   177.80 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U70/Y (AND2x2_ASAP7_75t_R)    24.08   201.88 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    38.56   240.44 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U86/Y (INVx1_ASAP7_75t_R)    16.61   257.06 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   295.87 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U2/Y (INVx1_ASAP7_75t_R)    16.63   312.50 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.31 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U151/Y (INVx1_ASAP7_75t_R)    16.70   368.01 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.84   406.85 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U184/Y (INVx1_ASAP7_75t_R)    16.70   423.54 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_6_5/CON (FAx1_ASAP7_75t_R)    18.11   441.65 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    15.65   457.30 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U42/Y (INVxp67_ASAP7_75t_R)    19.04   476.34 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    22.83   499.17 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U245/Y (INVx1_ASAP7_75t_R)    19.08   518.25 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.78   543.02 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U275/Y (INVx1_ASAP7_75t_R)    18.90   561.92 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   586.64 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   603.02 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U309/Y (INVx1_ASAP7_75t_R)    16.70   619.71 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    38.84   658.55 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U334/Y (INVx1_ASAP7_75t_R)    15.98   674.53 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U48/Y (NAND2xp5_ASAP7_75t_R)    15.90   690.43 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U3/Y (INVx2_ASAP7_75t_R)    13.94   704.36 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/B[12] (fp16_mult_10_DW01_add_3)     0.00   704.36 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U51/Y (OR2x2_ASAP7_75t_R)    21.69   726.05 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U16/Y (NAND4xp25_ASAP7_75t_R)    15.46   741.51 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U23/Y (OAI311xp33_ASAP7_75t_R)    29.85   771.37 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U21/Y (AOI211x1_ASAP7_75t_R)    17.47   788.83 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U2/Y (XOR2xp5_ASAP7_75t_R)    25.89   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_10_DW01_add_3)     0.00   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/PRODUCT[21] (fp16_mult_10_DW02_mult_0_DW02_mult_9)     0.00   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U11/Y (INVx2_ASAP7_75t_R)    18.34   833.05 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U55/Y (INVx6_ASAP7_75t_R)    16.47   849.52 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U57/Y (AO21x2_ASAP7_75t_R)    30.79   880.31 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U69/Y (NAND2x1p5_ASAP7_75t_R)    17.02   897.33 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U125/SN (FAx1_ASAP7_75t_R)    38.02   935.36 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U127/Y (NAND2xp5_ASAP7_75t_R)    19.07   954.43 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U6/Y (INVxp67_ASAP7_75t_R)    10.70   965.13 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U130/Y (NAND2xp5_ASAP7_75t_R)    15.16   980.29 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U131/Y (INVx1_ASAP7_75t_R)    11.92   992.21 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    16.78  1008.99 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U22/Y (OA21x2_ASAP7_75t_R)    28.13  1037.12 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    16.66  1053.78 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    16.99  1070.77 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.51  1082.29 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U44/Y (NOR3xp33_ASAP7_75t_R)    16.64  1098.93 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U68/Y (AOI31xp33_ASAP7_75t_R)    19.12  1118.05 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    18.33  1136.38 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    27.81  1164.20 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U48/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.43 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[12]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.43 r
+  data arrival time                                               1184.43
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[12]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.43
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.62
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[11]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.26    78.26 r
+  g_gemv[3].u_gemv/u_buf_mat/rd_data[110] (dbuf_16x256_2)     0.00    78.26 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/a[14] (fp16_mult_10)     0.00     78.26 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U56/Y (OR5x2_ASAP7_75t_R)    41.49   119.76 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U9/Y (INVx4_ASAP7_75t_R)    18.30   138.05 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U32/Y (NOR2xp67_ASAP7_75t_R)    15.23   153.28 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/A[2] (fp16_mult_10_DW02_mult_0_DW02_mult_9)     0.00   153.28 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U43/Y (BUFx3_ASAP7_75t_R)    24.51   177.80 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U70/Y (AND2x2_ASAP7_75t_R)    24.08   201.88 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    38.56   240.44 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U86/Y (INVx1_ASAP7_75t_R)    16.61   257.06 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   295.87 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U2/Y (INVx1_ASAP7_75t_R)    16.63   312.50 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.31 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U151/Y (INVx1_ASAP7_75t_R)    16.70   368.01 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.84   406.85 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U184/Y (INVx1_ASAP7_75t_R)    16.70   423.54 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_6_5/CON (FAx1_ASAP7_75t_R)    18.11   441.65 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    15.65   457.30 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U42/Y (INVxp67_ASAP7_75t_R)    19.04   476.34 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    22.83   499.17 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U245/Y (INVx1_ASAP7_75t_R)    19.08   518.25 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.78   543.02 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U275/Y (INVx1_ASAP7_75t_R)    18.90   561.92 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   586.64 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   603.02 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U309/Y (INVx1_ASAP7_75t_R)    16.70   619.71 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    38.84   658.55 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U334/Y (INVx1_ASAP7_75t_R)    15.98   674.53 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U48/Y (NAND2xp5_ASAP7_75t_R)    15.90   690.43 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U3/Y (INVx2_ASAP7_75t_R)    13.94   704.36 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/B[12] (fp16_mult_10_DW01_add_3)     0.00   704.36 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U51/Y (OR2x2_ASAP7_75t_R)    21.69   726.05 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U16/Y (NAND4xp25_ASAP7_75t_R)    15.46   741.51 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U23/Y (OAI311xp33_ASAP7_75t_R)    29.85   771.37 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U21/Y (AOI211x1_ASAP7_75t_R)    17.47   788.83 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U2/Y (XOR2xp5_ASAP7_75t_R)    25.89   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_10_DW01_add_3)     0.00   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/PRODUCT[21] (fp16_mult_10_DW02_mult_0_DW02_mult_9)     0.00   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U11/Y (INVx2_ASAP7_75t_R)    18.34   833.05 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U55/Y (INVx6_ASAP7_75t_R)    16.47   849.52 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U57/Y (AO21x2_ASAP7_75t_R)    30.79   880.31 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U69/Y (NAND2x1p5_ASAP7_75t_R)    17.02   897.33 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U125/SN (FAx1_ASAP7_75t_R)    38.02   935.36 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U127/Y (NAND2xp5_ASAP7_75t_R)    19.07   954.43 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U6/Y (INVxp67_ASAP7_75t_R)    10.70   965.13 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U130/Y (NAND2xp5_ASAP7_75t_R)    15.16   980.29 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U131/Y (INVx1_ASAP7_75t_R)    11.92   992.21 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    16.78  1008.99 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U22/Y (OA21x2_ASAP7_75t_R)    28.13  1037.12 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    16.66  1053.78 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    16.99  1070.77 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.51  1082.29 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U44/Y (NOR3xp33_ASAP7_75t_R)    16.64  1098.93 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U68/Y (AOI31xp33_ASAP7_75t_R)    19.12  1118.05 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    18.33  1136.38 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    27.81  1164.20 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U47/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.43 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[11]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.43 r
+  data arrival time                                               1184.43
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[11]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.43
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.62
+
+
+  Startpoint: g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[10]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem/clk (srambank_64x4x16_6t122)     0.00 #     0.00 r
+  g_gemv[3].u_gemv/u_buf_mat/g_slice[6].u_mem/dataout[14] (srambank_64x4x16_6t122)    78.26    78.26 r
+  g_gemv[3].u_gemv/u_buf_mat/rd_data[110] (dbuf_16x256_2)     0.00    78.26 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/a[14] (fp16_mult_10)     0.00     78.26 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U56/Y (OR5x2_ASAP7_75t_R)    41.49   119.76 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U9/Y (INVx4_ASAP7_75t_R)    18.30   138.05 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U32/Y (NOR2xp67_ASAP7_75t_R)    15.23   153.28 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/A[2] (fp16_mult_10_DW02_mult_0_DW02_mult_9)     0.00   153.28 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U43/Y (BUFx3_ASAP7_75t_R)    24.51   177.80 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U70/Y (AND2x2_ASAP7_75t_R)    24.08   201.88 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S3_2_9/SN (FAx1_ASAP7_75t_R)    38.56   240.44 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U86/Y (INVx1_ASAP7_75t_R)    16.61   257.06 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   295.87 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U2/Y (INVx1_ASAP7_75t_R)    16.63   312.50 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.82   351.31 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U151/Y (INVx1_ASAP7_75t_R)    16.70   368.01 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.84   406.85 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U184/Y (INVx1_ASAP7_75t_R)    16.70   423.54 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_6_5/CON (FAx1_ASAP7_75t_R)    18.11   441.65 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_6_5/SN (FAx1_ASAP7_75t_R)    15.65   457.30 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U42/Y (INVxp67_ASAP7_75t_R)    19.04   476.34 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_7_4/CON (FAx1_ASAP7_75t_R)    22.83   499.17 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U245/Y (INVx1_ASAP7_75t_R)    19.08   518.25 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_8_4/CON (FAx1_ASAP7_75t_R)    24.78   543.02 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U275/Y (INVx1_ASAP7_75t_R)    18.90   561.92 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_9_4/CON (FAx1_ASAP7_75t_R)    24.72   586.64 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S2_9_4/SN (FAx1_ASAP7_75t_R)    16.37   603.02 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U309/Y (INVx1_ASAP7_75t_R)    16.70   619.71 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/S4_3/SN (FAx1_ASAP7_75t_R)    38.84   658.55 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U334/Y (INVx1_ASAP7_75t_R)    15.98   674.53 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U48/Y (NAND2xp5_ASAP7_75t_R)    15.90   690.43 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/U3/Y (INVx2_ASAP7_75t_R)    13.94   704.36 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/B[12] (fp16_mult_10_DW01_add_3)     0.00   704.36 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U51/Y (OR2x2_ASAP7_75t_R)    21.69   726.05 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U16/Y (NAND4xp25_ASAP7_75t_R)    15.46   741.51 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U23/Y (OAI311xp33_ASAP7_75t_R)    29.85   771.37 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U21/Y (AOI211x1_ASAP7_75t_R)    17.47   788.83 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/U2/Y (XOR2xp5_ASAP7_75t_R)    25.89   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/FS_1/SUM[19] (fp16_mult_10_DW01_add_3)     0.00   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/mult_35/PRODUCT[21] (fp16_mult_10_DW02_mult_0_DW02_mult_9)     0.00   814.72 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U11/Y (INVx2_ASAP7_75t_R)    18.34   833.05 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U55/Y (INVx6_ASAP7_75t_R)    16.47   849.52 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U57/Y (AO21x2_ASAP7_75t_R)    30.79   880.31 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U69/Y (NAND2x1p5_ASAP7_75t_R)    17.02   897.33 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U125/SN (FAx1_ASAP7_75t_R)    38.02   935.36 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U127/Y (NAND2xp5_ASAP7_75t_R)    19.07   954.43 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U6/Y (INVxp67_ASAP7_75t_R)    10.70   965.13 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U130/Y (NAND2xp5_ASAP7_75t_R)    15.16   980.29 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U131/Y (INVx1_ASAP7_75t_R)    11.92   992.21 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U133/Y (NAND2xp5_ASAP7_75t_R)    16.78  1008.99 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U22/Y (OA21x2_ASAP7_75t_R)    28.13  1037.12 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U179/Y (NAND3xp33_ASAP7_75t_R)    16.66  1053.78 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U180/Y (A2O1A1Ixp33_ASAP7_75t_R)    16.99  1070.77 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U181/Y (INVx1_ASAP7_75t_R)    11.51  1082.29 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U44/Y (NOR3xp33_ASAP7_75t_R)    16.64  1098.93 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U68/Y (AOI31xp33_ASAP7_75t_R)    19.12  1118.05 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U189/Y (NAND3xp33_ASAP7_75t_R)    18.33  1136.38 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U218/Y (NAND3xp33_ASAP7_75t_R)    27.81  1164.20 f
+  g_gemv[3].u_gemv/g_mul[6].u_mul/U46/Y (OAI21xp33_ASAP7_75t_R)    20.24  1184.43 r
+  g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[10]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1184.43 r
+  data arrival time                                               1184.43
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  g_gemv[3].u_gemv/g_mul[6].u_mul/y_reg[10]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -16.19     702.81
+  data required time                                               702.81
+  --------------------------------------------------------------------------
+  data required time                                               702.81
+  data arrival time                                              -1184.43
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -481.62
+
+
+1

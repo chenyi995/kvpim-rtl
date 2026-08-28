@@ -1,0 +1,94 @@
+Information: Building the design 'softmax_buffer_sram' instantiated from design 'streaming_softmax_unit_LANES16_MAX_TOKENS2048_CONTEXTS32' with
+	the parameters "NUM_CONTEXTS=32,SEQ_LEN=2048,LANES=16". (HDL-193)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/softmax_buffer_sram.sv:78: signed to unsigned conversion occurs. (VER-318)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/softmax_buffer_sram.sv:80: signed to unsigned conversion occurs. (VER-318)
+Error:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/softmax_buffer_sram.sv:102: Array index out of bounds score_wr_data[63:0], valid bounds are [15:0]. (ELAB-298)
+*** Presto compilation terminated with 1 errors. ***
+Information: Building the design 'softmax_buffer_sram' instantiated from design 'streaming_softmax_unit_LANES16_MAX_TOKENS2048_CONTEXTS32' with
+	the parameters "NUM_CONTEXTS=32,SEQ_LEN=2048,LANES=16". (HDL-193)
+Warning: Unable to resolve reference 'softmax_buffer_sram' in 'streaming_softmax_unit_LANES16_MAX_TOKENS2048_CONTEXTS32'. (LINK-5)
+Information: Updating design information... (UID-85)
+Warning: Design 'fugue_logic_die' contains 5 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : qor
+Design : fugue_logic_die
+Version: P-2019.03-SP5-6
+Date   : Sat Aug 29 00:27:04 2026
+****************************************
+
+
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:             234.00
+  Critical Path Length:       4062.80
+  Critical Path Slack:       -3591.14
+  Critical Path Clk Period:    769.00
+  Total Negative Slack:  -11444669.00
+  No. of Violating Paths:    11279.00
+  Worst Hold Violation:         -3.05
+  Total Hold Violation:      -4226.15
+  No. of Hold Violations:     2183.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:       1864
+  Hierarchical Port Count:     108565
+  Leaf Cell Count:             447049
+  Buf/Inv Cell Count:          162730
+  Buf Cell Count:                6161
+  Inv Cell Count:              156569
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:    425401
+  Sequential Cell Count:        21648
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:    34795.709377
+  Noncombinational Area:  8106.013382
+  Buf/Inv Area:           7531.430304
+  Total Buffer Area:           549.61
+  Total Inverter Area:        6981.82
+  Macro/Black Box Area:  31890.308594
+  Net Area:                  0.000000
+  -----------------------------------
+  Cell Area:             74792.031352
+  Design Area:           74792.031352
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:        489489
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: thu-olden
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                 1200.65
+  Logic Optimization:                472.91
+  Mapping Optimization:              941.99
+  -----------------------------------------
+  Overall Compile Time:             2696.18
+  Overall Compile Wall Clock Time:  2741.85
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 3591.14  TNS: 11444669.00  Number of Violating Paths: 11279
+
+
+  Design (Hold)  WNS: 3.05  TNS: 4226.24  Number of Violating Paths: 2183
+
+  --------------------------------------------------------------------
+
+
+1

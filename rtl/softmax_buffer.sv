@@ -96,9 +96,10 @@ module softmax_buffer_attacc (
     );
 endmodule
 
-// Sixteen resident Fugue Q contexts: 16 x AttAcc's two-bank capacity = 256 KiB.
+// Thirty-two resident Fugue Q contexts.  The SRAM implementation has 256 KiB
+// of score storage and 256 KiB of exp/probability storage, for 512 KiB total.
 module softmax_buffer_fugue #(
-    parameter integer NUM_Q = 16,
+    parameter integer NUM_Q = 32,
     parameter integer Q_W   = (NUM_Q <= 1) ? 1 : $clog2(NUM_Q)
 ) (
     input logic clk, input logic rst_n,
@@ -113,7 +114,7 @@ module softmax_buffer_fugue #(
     input logic [6:0] exp_rd_word, output logic [15:0][31:0] exp_rd_data,
     output logic exp_rd_valid
 );
-    softmax_buffer #(.NUM_CONTEXTS(NUM_Q), .SEQ_LEN(2048), .LANES(16)) u_buf (
+    softmax_buffer_sram #(.NUM_CONTEXTS(NUM_Q), .SEQ_LEN(2048), .LANES(16)) u_buf (
         .clk, .rst_n,
         .score_wr_en, .score_wr_context(score_wr_q), .score_wr_word, .score_wr_data,
         .score_rd_en, .score_rd_context(score_rd_q), .score_rd_word, .score_rd_data, .score_rd_valid,

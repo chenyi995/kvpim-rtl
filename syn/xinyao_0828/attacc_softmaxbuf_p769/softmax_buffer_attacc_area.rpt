@@ -1,0 +1,48 @@
+ 
+****************************************
+Report : area
+Design : softmax_buffer_attacc
+Version: P-2019.03-SP5-6
+Date   : Sat Aug 29 00:00:26 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+
+Number of ports:                         4172
+Number of nets:                        397018
+Number of cells:                       393875
+Number of combinational cells:         261776
+Number of sequential cells:            132098
+Number of macros/black boxes:               0
+Number of buf/inv:                      35006
+Number of references:                       2
+
+Combinational area:              23115.350702
+Buf/Inv area:                     1991.205203
+Noncombinational area:           38609.529827
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 61724.880530
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area            Local cell area
+                                  -------------------  ------------------------------ 
+Hierarchical cell                 Absolute    Percent  Combi-      Noncombi-   Black-
+                                  Total       Total    national    national    boxes   Design
+--------------------------------  ----------  -------  ----------  ----------  ------  ------------------------------------------------
+softmax_buffer_attacc             61724.8805    100.0      0.0437      0.0000  0.0000  softmax_buffer_attacc
+u_buf                             61724.8368    100.0  23115.3070  38609.5298  0.0000  softmax_buffer_NUM_CONTEXTS1_SEQ_LEN2048_LANES16
+--------------------------------  ----------  -------  ----------  ----------  ------  ------------------------------------------------
+Total                                                  23115.3507  38609.5298  0.0000
+
+1

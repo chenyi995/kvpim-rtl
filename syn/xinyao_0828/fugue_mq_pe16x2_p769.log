@@ -1,0 +1,2704 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version P-2019.03-SP5-6 for linux64 - Aug 20, 2020 
+
+                    Copyright (c) 1988 - 2020 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+# Reproducible module/top synthesis using the bundled open ASAP7 RVT/TT NLDM
+# libraries.  All constraints are deliberately identical across profiles.
+#
+# Example (from syn/):
+#   . /home/common/profile_synopsys
+#   SYN_TOP=softmax_unit SYN_PROFILE=logic SYN_TAG=softmax_p20 #     SYN_PERIOD_NS=2.0 dc_shell -f run_dc_asap7.tcl
+set script_dir [file dirname [file normalize [info script]]]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn
+set root_dir   [file normalize [file join $script_dir ..]]
+/thu-bloor/xinyao-w23/kvpim-rtl
+set rtl_dir    [file join $root_dir rtl]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl
+set lib_dir    [file join $root_dir third_party asap7_lib db]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db
+set sram_dir   [file join $root_dir third_party asap7 asap7_sram_0p0 generated]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated
+proc envdef {name default} {
+    return [expr {[info exists ::env($name)] ? $::env($name) : $default}]
+}
+set top_module [envdef SYN_TOP attacc_logic_die]
+mq_pe_16x2_d32
+set profile    [envdef SYN_PROFILE logic]
+bankpe
+set tag        [envdef SYN_TAG $top_module]
+fugue_mq_pe16x2_p769
+set period_ns  [envdef SYN_PERIOD_NS 2.0]
+0.769
+set max_cores  [envdef SYN_MAX_CORES 4]
+1
+set period     [expr {$period_ns * 1000.0}]
+769.0
+set out_root   [envdef SYN_OUT_ROOT dc_asap7]
+xinyao_0828
+if {[file pathtype $out_root] ne "absolute"} {
+    set out_root [file join $script_dir $out_root]
+}
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/xinyao_0828
+set out_dir    [file join $out_root $tag]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/xinyao_0828/fugue_mq_pe16x2_p769
+file mkdir $out_dir
+set target_library [glob -nocomplain [file join $lib_dir *.db]]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+if {[llength $target_library] == 0} {
+    error "No ASAP7 .db views in $lib_dir"
+}
+set link_library "* $target_library"
+* /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+set search_path [list $rtl_dir $lib_dir $sram_dir [file join $sram_dir verilog]]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/verilog
+# Bound a single DC invocation to the requested local CPU budget.  The matrix
+# shell driver runs jobs sequentially, so SYN_MAX_CORES=4 means at most four
+# CPU cores are used by this flow (rather than four concurrent DC jobs).
+set_host_options -max_cores $max_cores
+1
+# Profiles keep package/source ordering deterministic and only compile RTL used
+# by the requested hardware block.
+set common_logic [list     fugue_pkg.sv kv_tlb_pkg.sv fp16_mult.sv fp16_add.sv dbuf_16x256.sv     fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv gemv_unit.sv     accumulator.sv softmax_unit.sv]
+fugue_pkg.sv kv_tlb_pkg.sv fp16_mult.sv fp16_add.sv dbuf_16x256.sv fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv gemv_unit.sv accumulator.sv softmax_unit.sv
+set sram_common [list     fugue_pkg.sv kv_tlb_pkg.sv fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv     fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv gemv_unit.sv     accumulator.sv softmax_buffer_sram.sv softmax_buffer.sv streaming_softmax_unit.sv]
+fugue_pkg.sv kv_tlb_pkg.sv fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv gemv_unit.sv accumulator.sv softmax_buffer_sram.sv softmax_buffer.sv streaming_softmax_unit.sv
+proc enable_asap7_sram {sram_dir} {
+    global target_library link_library
+    foreach name {srambank_256x4x64_6t122 srambank_64x4x16_6t122} {
+        set db [file join $sram_dir db ${name}.db]
+        if {![file exists $db]} { error "Missing $db. Run: lc_shell -f compile_asap7_sram_libs.tcl" }
+        lappend target_library $db
+    }
+    set link_library "* $target_library"
+}
+switch -- $profile {
+    logic {
+        set sources $common_logic
+    }
+    diff {
+        set sources [concat $common_logic [list diff_decoder.sv]]
+    }
+    attacc {
+        set sources [concat $common_logic [list direct_addr_plan.sv attacc_controller.sv attacc_logic_die.sv]]
+    }
+    attacc_sram {
+        enable_asap7_sram $sram_dir
+        set sources [concat $sram_common [list direct_addr_plan.sv attacc_controller.sv attacc_logic_die.sv             [file join $sram_dir verilog srambank_256x4x64_6t122.v]             [file join $sram_dir verilog srambank_64x4x16_6t122.v]]]
+    }
+    fugue2 {
+        set sources [concat $common_logic [list kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue2_logic_die.sv]]
+    }
+    fugue2_sram {
+        enable_asap7_sram $sram_dir
+        set sources [concat $sram_common [list kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue2_logic_die.sv             [file join $sram_dir verilog srambank_256x4x64_6t122.v]             [file join $sram_dir verilog srambank_64x4x16_6t122.v]]]
+    }
+    fugue {
+        set sources [concat $common_logic [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue_logic_die.sv]]
+    }
+    fugue_sram {
+        enable_asap7_sram $sram_dir
+        set sources [concat $sram_common [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue_logic_die.sv             [file join $sram_dir verilog srambank_256x4x64_6t122.v]             [file join $sram_dir verilog srambank_64x4x16_6t122.v]]]
+    }
+    kvtlb {
+        set sources [list kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv kv_tlb_variants.sv]
+    }
+    rotate {
+        set sources [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv]
+    }
+    smbuf {
+        set sources [list fugue_pkg.sv softmax_buffer.sv]
+    }
+    smbuf_sram {
+        set sram_db [file join $sram_dir db srambank_256x4x64_6t122.db]
+        if {![file exists $sram_db]} {
+            error "Missing $sram_db. Run: lc_shell -f compile_asap7_sram_libs.tcl"
+        }
+        lappend target_library $sram_db
+        set link_library "* $target_library"
+        set sources [list fugue_pkg.sv softmax_buffer_sram.sv softmax_buffer.sv             [file join $sram_dir verilog srambank_256x4x64_6t122.v]]
+    }
+    bankpe {
+        set sources [list fugue_pkg.sv fp16_mult.sv fp16_add.sv fp16_mult_piped.sv fp16_add_piped.sv mac_tree16_piped.sv dbuf_16x256.sv gemv_unit.sv mq_bank_pe.sv]
+    }
+    default { error "Unknown SYN_PROFILE=$profile" }
+}
+fugue_pkg.sv fp16_mult.sv fp16_add.sv fp16_mult_piped.sv fp16_add_piped.sv mac_tree16_piped.sv dbuf_16x256.sv gemv_unit.sv mq_bank_pe.sv
+set src_paths {}
+foreach source $sources {
+    if {[file pathtype $source] eq "absolute"} { lappend src_paths $source }     else { lappend src_paths [file join $rtl_dir $source] }
+}
+define_design_lib WORK -path [file join $out_dir WORK]
+1
+analyze -format sverilog $src_paths
+Running PRESTO HDLC
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/fugue_pkg.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_mult.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_add.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_mult_piped.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_add_piped.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/mac_tree16_piped.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/dbuf_16x256.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/gemv_unit.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv
+Presto compilation completed successfully.
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+1
+elaborate $top_module
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/gtech.db'
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/standard.sldb'
+  Loading link library 'asap7sc7p5t_AO_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_INVBUF_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_OA_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_SEQ_RVT_TT_nldm_220123'
+  Loading link library 'asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (mq_pe_16x2_d32)
+Elaborated 1 design.
+Current design is now 'mq_pe_16x2_d32'.
+Information: Building the design 'mq_bank_pe' instantiated from design 'mq_pe_16x2_d32' with
+	the parameters "N_Q=16,N_C=2,VEC_DEPTH=32". (HDL-193)
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 73 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    col_latch_reg    | Flip-flop |  256  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 77 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   ctx_word_q_reg    | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  col_second_q_reg   | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 103 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    rotating_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    slot_ctr_reg     | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 127 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    slot_pipe_reg    | Flip-flop |  48   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 149 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  tree_in_valid_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 181 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  acc_slot_pipe_reg  | Flip-flop |  12   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 189 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      q_acc_reg      | Flip-flop |  256  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 199 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    stage_sel_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 205 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  token_lane_q_reg   | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|      stage_reg      | Flip-flop | 8192  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 240 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  ctx_slot_pipe_reg  | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  ctx_word_pipe_reg  | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 258 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     ctx_acc_reg     | Flip-flop | 2048  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32 line 274 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/mq_bank_pe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     drain_r_reg     | Flip-flop |  256  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+===========================================================================
+|           block name/line             | Inputs | Outputs | # sel inputs |
+===========================================================================
+| mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32/176 |   16   |   16    |      4       |
+| mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32/271 |   16   |   256   |      4       |
+===========================================================================
+Presto compilation completed successfully. (mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32)
+Information: Building the design 'dbuf_16x256' instantiated from design 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32' with
+	the parameters "DEPTH=32". (HDL-193)
+
+Inferred memory devices in process
+	in routine dbuf_16x256_DEPTH32 line 29 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/dbuf_16x256.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       mem_reg       | Flip-flop | 8192  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine dbuf_16x256_DEPTH32 line 34 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/dbuf_16x256.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    rd_data_r_reg    | Flip-flop |  256  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+============================================================
+|    block name/line     | Inputs | Outputs | # sel inputs |
+============================================================
+| dbuf_16x256_DEPTH32/36 |   32   |   256   |      5       |
+============================================================
+Presto compilation completed successfully. (dbuf_16x256_DEPTH32)
+Information: Building the design 'mac_tree16_piped' instantiated from design 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32' with
+	the parameters "MPIPE=2,APIPE=2". (HDL-193)
+Presto compilation completed successfully. (mac_tree16_piped_MPIPE2_APIPE2)
+Information: Building the design 'fp16_add_piped' instantiated from design 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32' with
+	the parameters "NUM_PIPE=2". (HDL-193)
+
+Statistics for case statements in always block at line 83 in file
+	'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_add_piped.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            91            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine fp16_add_piped_NUM_PIPE2 line 160 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_add_piped.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     v_pipe_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine fp16_add_piped_NUM_PIPE2 line 168 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_add_piped.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     d_pipe_reg      | Flip-flop |  32   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (fp16_add_piped_NUM_PIPE2)
+Information: Building the design 'fp16_mult_piped' instantiated from design 'mac_tree16_piped_MPIPE2_APIPE2' with
+	the parameters "NUM_PIPE=2". (HDL-193)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_mult_piped.sv:83: signed to unsigned part selection occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine fp16_mult_piped_NUM_PIPE2 line 90 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_mult_piped.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     v_pipe_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine fp16_mult_piped_NUM_PIPE2 line 98 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/fp16_mult_piped.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     d_pipe_reg      | Flip-flop |  32   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (fp16_mult_piped_NUM_PIPE2)
+1
+current_design $top_module
+Current design is 'mq_pe_16x2_d32'.
+{mq_pe_16x2_d32}
+link
+
+  Linking design 'mq_pe_16x2_d32'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (6 designs)               /thu-bloor/xinyao-w23/kvpim-rtl/syn/mq_pe_16x2_d32.db, etc
+  asap7sc7p5t_AO_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db
+  asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db
+  asap7sc7p5t_OA_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db
+  asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db
+  asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+
+1
+create_clock -name clk -period $period [get_ports clk]
+1
+set_clock_uncertainty 50.0 [get_clocks clk]
+1
+set_clock_transition 20.0 [get_clocks clk]
+1
+set data_ports [remove_from_collection [all_inputs] [get_ports {clk rst_n}]]
+{vec_wr_en vec_wr_addr[4] vec_wr_addr[3] vec_wr_addr[2] vec_wr_addr[1] vec_wr_addr[0] vec_wr_data[255] vec_wr_data[254] vec_wr_data[253] vec_wr_data[252] vec_wr_data[251] vec_wr_data[250] vec_wr_data[249] vec_wr_data[248] vec_wr_data[247] vec_wr_data[246] vec_wr_data[245] vec_wr_data[244] vec_wr_data[243] vec_wr_data[242] vec_wr_data[241] vec_wr_data[240] vec_wr_data[239] vec_wr_data[238] vec_wr_data[237] vec_wr_data[236] vec_wr_data[235] vec_wr_data[234] vec_wr_data[233] vec_wr_data[232] vec_wr_data[231] vec_wr_data[230] vec_wr_data[229] vec_wr_data[228] vec_wr_data[227] vec_wr_data[226] vec_wr_data[225] vec_wr_data[224] vec_wr_data[223] vec_wr_data[222] vec_wr_data[221] vec_wr_data[220] vec_wr_data[219] vec_wr_data[218] vec_wr_data[217] vec_wr_data[216] vec_wr_data[215] vec_wr_data[214] vec_wr_data[213] vec_wr_data[212] vec_wr_data[211] vec_wr_data[210] vec_wr_data[209] vec_wr_data[208] vec_wr_data[207] vec_wr_data[206] vec_wr_data[205] vec_wr_data[204] vec_wr_data[203] vec_wr_data[202] vec_wr_data[201] vec_wr_data[200] vec_wr_data[199] vec_wr_data[198] vec_wr_data[197] vec_wr_data[196] vec_wr_data[195] vec_wr_data[194] vec_wr_data[193] vec_wr_data[192] vec_wr_data[191] vec_wr_data[190] vec_wr_data[189] vec_wr_data[188] vec_wr_data[187] vec_wr_data[186] vec_wr_data[185] vec_wr_data[184] vec_wr_data[183] vec_wr_data[182] vec_wr_data[181] vec_wr_data[180] vec_wr_data[179] vec_wr_data[178] vec_wr_data[177] vec_wr_data[176] vec_wr_data[175] vec_wr_data[174] vec_wr_data[173] vec_wr_data[172] vec_wr_data[171] vec_wr_data[170] vec_wr_data[169] vec_wr_data[168] vec_wr_data[167] vec_wr_data[166] vec_wr_data[165] vec_wr_data[164] vec_wr_data[163] vec_wr_data[162] ...}
+set_input_delay [expr {$period * 0.30}] -clock clk $data_ports
+1
+set_output_delay [expr {$period * 0.30}] -clock clk [all_outputs]
+1
+set_driving_cell -lib_cell BUFx2_ASAP7_75t_R $data_ports
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+1
+set_load 0.005 [all_outputs]
+1
+set_false_path -from [get_ports rst_n]
+1
+# Low effort keeps the full matrix practical for the ~0.5 mm² logic-die tops.
+# It remains timing/area-driven technology mapping, with identical effort for
+# every A/B point; this is not a sign-off/PPA-closure run.
+compile -map_effort low -area_effort low
+Warning: The compile -map_effort low is obsolete. Setting this variable now defaults to compile -map_effort medium. Please update your script accordingly. (OPT-1303)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.4 |     *     |
+| Licensed DW Building Blocks        |                         |           |
+============================================================================
+
+
+Information: There are 26 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'fp16_add_piped_NUM_PIPE2_0'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0'
+  Processing 'mac_tree16_piped_MPIPE2_APIPE2'
+  Processing 'dbuf_16x256_DEPTH32'
+Warning: Target library does not contain any 2-1 multiplexor. (OPT-853)
+  Processing 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32'
+Warning: Target library does not contain any 2-1 multiplexor. (OPT-853)
+  Processing 'mq_pe_16x2_d32'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+Warning: Target library does not contain any 2-1 multiplexor. (OPT-853)
+  Processing 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32_DW01_add_0'
+  Processing 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32_DW01_inc_0'
+  Processing 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32_DW01_cmp6_0'
+  Processing 'mq_bank_pe_N_Q16_N_C2_VEC_DEPTH32_DW01_dec_0'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_inc_0_DW01_inc_1'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_add_0_DW01_add_1'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_sub_0'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_cmp2_0'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_ash_0'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_inc_1_DW01_inc_2'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_sub_1'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_add_1_DW01_add_2'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_ash_1'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_sub_2'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW_rash_0'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_cmp2_1'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_sub_3'
+  Processing 'fp16_add_piped_NUM_PIPE2_16_DW01_cmp2_2'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_inc_0_DW01_inc_3'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_add_0_DW01_add_3'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_sub_0_DW01_sub_4'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_cmp2_0_DW01_cmp2_3'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_ash_0_DW01_ash_2'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_inc_1_DW01_inc_4'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_sub_1_DW01_sub_5'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_add_1_DW01_add_4'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_ash_1_DW01_ash_3'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_sub_2_DW01_sub_6'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW_rash_0_DW_rash_1'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_cmp2_1_DW01_cmp2_4'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_sub_3_DW01_sub_7'
+  Processing 'fp16_add_piped_NUM_PIPE2_0_DW01_cmp2_2_DW01_cmp2_5'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_inc_0_DW01_inc_5'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_add_0_DW01_add_5'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_sub_0_DW01_sub_8'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_cmp2_0_DW01_cmp2_6'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_ash_0_DW01_ash_4'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_inc_1_DW01_inc_6'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_sub_1_DW01_sub_9'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_add_1_DW01_add_6'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_ash_1_DW01_ash_5'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_sub_2_DW01_sub_10'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW_rash_0_DW_rash_2'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_cmp2_1_DW01_cmp2_7'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_sub_3_DW01_sub_11'
+  Processing 'fp16_add_piped_NUM_PIPE2_1_DW01_cmp2_2_DW01_cmp2_8'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_inc_0_DW01_inc_7'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_add_0_DW01_add_7'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_sub_0_DW01_sub_12'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_cmp2_0_DW01_cmp2_9'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_ash_0_DW01_ash_6'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_inc_1_DW01_inc_8'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_sub_1_DW01_sub_13'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_add_1_DW01_add_8'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_ash_1_DW01_ash_7'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_sub_2_DW01_sub_14'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW_rash_0_DW_rash_3'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_cmp2_1_DW01_cmp2_10'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_sub_3_DW01_sub_15'
+  Processing 'fp16_add_piped_NUM_PIPE2_2_DW01_cmp2_2_DW01_cmp2_11'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_inc_0_DW01_inc_9'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_add_0_DW01_add_9'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_sub_0_DW01_sub_16'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_cmp2_0_DW01_cmp2_12'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_ash_0_DW01_ash_8'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_inc_1_DW01_inc_10'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_sub_1_DW01_sub_17'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_add_1_DW01_add_10'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_ash_1_DW01_ash_9'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_sub_2_DW01_sub_18'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW_rash_0_DW_rash_4'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_cmp2_1_DW01_cmp2_13'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_sub_3_DW01_sub_19'
+  Processing 'fp16_add_piped_NUM_PIPE2_3_DW01_cmp2_2_DW01_cmp2_14'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_inc_0_DW01_inc_11'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_add_0_DW01_add_11'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_sub_0_DW01_sub_20'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_cmp2_0_DW01_cmp2_15'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_ash_0_DW01_ash_10'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_inc_1_DW01_inc_12'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_sub_1_DW01_sub_21'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_add_1_DW01_add_12'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_ash_1_DW01_ash_11'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_sub_2_DW01_sub_22'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW_rash_0_DW_rash_5'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_cmp2_1_DW01_cmp2_16'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_sub_3_DW01_sub_23'
+  Processing 'fp16_add_piped_NUM_PIPE2_4_DW01_cmp2_2_DW01_cmp2_17'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_inc_0_DW01_inc_13'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_add_0_DW01_add_13'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_sub_0_DW01_sub_24'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_cmp2_0_DW01_cmp2_18'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_ash_0_DW01_ash_12'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_inc_1_DW01_inc_14'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_sub_1_DW01_sub_25'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_add_1_DW01_add_14'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_ash_1_DW01_ash_13'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_sub_2_DW01_sub_26'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW_rash_0_DW_rash_6'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_cmp2_1_DW01_cmp2_19'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_sub_3_DW01_sub_27'
+  Processing 'fp16_add_piped_NUM_PIPE2_5_DW01_cmp2_2_DW01_cmp2_20'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_inc_0_DW01_inc_15'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_add_0_DW01_add_15'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_sub_0_DW01_sub_28'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_cmp2_0_DW01_cmp2_21'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_ash_0_DW01_ash_14'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_inc_1_DW01_inc_16'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_sub_1_DW01_sub_29'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_add_1_DW01_add_16'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_ash_1_DW01_ash_15'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_sub_2_DW01_sub_30'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW_rash_0_DW_rash_7'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_cmp2_1_DW01_cmp2_22'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_sub_3_DW01_sub_31'
+  Processing 'fp16_add_piped_NUM_PIPE2_6_DW01_cmp2_2_DW01_cmp2_23'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_inc_0_DW01_inc_17'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_add_0_DW01_add_17'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_sub_0_DW01_sub_32'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_cmp2_0_DW01_cmp2_24'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_ash_0_DW01_ash_16'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_inc_1_DW01_inc_18'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_sub_1_DW01_sub_33'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_add_1_DW01_add_18'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_ash_1_DW01_ash_17'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_sub_2_DW01_sub_34'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW_rash_0_DW_rash_8'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_cmp2_1_DW01_cmp2_25'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_sub_3_DW01_sub_35'
+  Processing 'fp16_add_piped_NUM_PIPE2_7_DW01_cmp2_2_DW01_cmp2_26'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_inc_0_DW01_inc_19'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_add_0_DW01_add_19'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_sub_0_DW01_sub_36'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_cmp2_0_DW01_cmp2_27'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_ash_0_DW01_ash_18'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_inc_1_DW01_inc_20'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_sub_1_DW01_sub_37'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_add_1_DW01_add_20'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_ash_1_DW01_ash_19'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_sub_2_DW01_sub_38'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW_rash_0_DW_rash_9'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_cmp2_1_DW01_cmp2_28'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_sub_3_DW01_sub_39'
+  Processing 'fp16_add_piped_NUM_PIPE2_8_DW01_cmp2_2_DW01_cmp2_29'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_inc_0_DW01_inc_21'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_add_0_DW01_add_21'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_sub_0_DW01_sub_40'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_cmp2_0_DW01_cmp2_30'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_ash_0_DW01_ash_20'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_inc_1_DW01_inc_22'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_sub_1_DW01_sub_41'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_add_1_DW01_add_22'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_ash_1_DW01_ash_21'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_sub_2_DW01_sub_42'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW_rash_0_DW_rash_10'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_cmp2_1_DW01_cmp2_31'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_sub_3_DW01_sub_43'
+  Processing 'fp16_add_piped_NUM_PIPE2_9_DW01_cmp2_2_DW01_cmp2_32'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_inc_0_DW01_inc_23'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_add_0_DW01_add_23'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_sub_0_DW01_sub_44'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_cmp2_0_DW01_cmp2_33'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_ash_0_DW01_ash_22'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_inc_1_DW01_inc_24'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_sub_1_DW01_sub_45'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_add_1_DW01_add_24'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_ash_1_DW01_ash_23'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_sub_2_DW01_sub_46'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW_rash_0_DW_rash_11'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_cmp2_1_DW01_cmp2_34'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_sub_3_DW01_sub_47'
+  Processing 'fp16_add_piped_NUM_PIPE2_10_DW01_cmp2_2_DW01_cmp2_35'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_inc_0_DW01_inc_25'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_add_0_DW01_add_25'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_sub_0_DW01_sub_48'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_cmp2_0_DW01_cmp2_36'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_ash_0_DW01_ash_24'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_inc_1_DW01_inc_26'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_sub_1_DW01_sub_49'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_add_1_DW01_add_26'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_ash_1_DW01_ash_25'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_sub_2_DW01_sub_50'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW_rash_0_DW_rash_12'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_cmp2_1_DW01_cmp2_37'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_sub_3_DW01_sub_51'
+  Processing 'fp16_add_piped_NUM_PIPE2_11_DW01_cmp2_2_DW01_cmp2_38'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_inc_0_DW01_inc_27'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_add_0_DW01_add_27'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_sub_0_DW01_sub_52'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_cmp2_0_DW01_cmp2_39'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_ash_0_DW01_ash_26'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_inc_1_DW01_inc_28'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_sub_1_DW01_sub_53'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_add_1_DW01_add_28'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_ash_1_DW01_ash_27'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_sub_2_DW01_sub_54'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW_rash_0_DW_rash_13'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_cmp2_1_DW01_cmp2_40'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_sub_3_DW01_sub_55'
+  Processing 'fp16_add_piped_NUM_PIPE2_12_DW01_cmp2_2_DW01_cmp2_41'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_inc_0_DW01_inc_29'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_add_0_DW01_add_29'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_sub_0_DW01_sub_56'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_cmp2_0_DW01_cmp2_42'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_ash_0_DW01_ash_28'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_inc_1_DW01_inc_30'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_sub_1_DW01_sub_57'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_add_1_DW01_add_30'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_ash_1_DW01_ash_29'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_sub_2_DW01_sub_58'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW_rash_0_DW_rash_14'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_cmp2_1_DW01_cmp2_43'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_sub_3_DW01_sub_59'
+  Processing 'fp16_add_piped_NUM_PIPE2_13_DW01_cmp2_2_DW01_cmp2_44'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_inc_0_DW01_inc_31'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_add_0_DW01_add_31'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_sub_0_DW01_sub_60'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_cmp2_0_DW01_cmp2_45'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_ash_0_DW01_ash_30'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_inc_1_DW01_inc_32'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_sub_1_DW01_sub_61'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_add_1_DW01_add_32'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_ash_1_DW01_ash_31'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_sub_2_DW01_sub_62'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW_rash_0_DW_rash_15'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_cmp2_1_DW01_cmp2_46'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_sub_3_DW01_sub_63'
+  Processing 'fp16_add_piped_NUM_PIPE2_14_DW01_cmp2_2_DW01_cmp2_47'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_inc_0_DW01_inc_33'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_add_0_DW01_add_33'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_sub_0_DW01_sub_64'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_cmp2_0_DW01_cmp2_48'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_ash_0_DW01_ash_32'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_inc_1_DW01_inc_34'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_sub_1_DW01_sub_65'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_add_1_DW01_add_34'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_ash_1_DW01_ash_33'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_sub_2_DW01_sub_66'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW_rash_0_DW_rash_16'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_cmp2_1_DW01_cmp2_49'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_sub_3_DW01_sub_67'
+  Processing 'fp16_add_piped_NUM_PIPE2_15_DW01_cmp2_2_DW01_cmp2_50'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW01_cmp2_0_DW01_cmp2_51'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW01_cmp2_1_DW01_cmp2_52'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW01_inc_0_DW01_inc_35'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW01_add_0_DW01_add_35'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW01_cmp2_0_DW01_cmp2_53'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW01_cmp2_1_DW01_cmp2_54'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW01_inc_0_DW01_inc_36'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW01_add_0_DW01_add_36'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW01_cmp2_0_DW01_cmp2_55'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW01_cmp2_1_DW01_cmp2_56'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW01_inc_0_DW01_inc_37'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW01_add_0_DW01_add_37'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW01_cmp2_0_DW01_cmp2_57'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW01_cmp2_1_DW01_cmp2_58'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW01_inc_0_DW01_inc_38'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW01_add_0_DW01_add_38'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW01_cmp2_0_DW01_cmp2_59'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW01_cmp2_1_DW01_cmp2_60'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW01_inc_0_DW01_inc_39'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW01_add_0_DW01_add_39'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW01_cmp2_0_DW01_cmp2_61'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW01_cmp2_1_DW01_cmp2_62'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW01_inc_0_DW01_inc_40'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW01_add_0_DW01_add_40'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW01_cmp2_0_DW01_cmp2_63'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW01_cmp2_1_DW01_cmp2_64'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW01_inc_0_DW01_inc_41'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW01_add_0_DW01_add_41'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW01_cmp2_0_DW01_cmp2_65'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW01_cmp2_1_DW01_cmp2_66'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW01_inc_0_DW01_inc_42'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW01_add_0_DW01_add_42'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW01_cmp2_0_DW01_cmp2_67'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW01_cmp2_1_DW01_cmp2_68'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW01_inc_0_DW01_inc_43'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW01_add_0_DW01_add_43'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW01_cmp2_0_DW01_cmp2_69'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW01_cmp2_1_DW01_cmp2_70'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW01_inc_0_DW01_inc_44'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW01_add_0_DW01_add_44'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW01_cmp2_0_DW01_cmp2_71'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW01_cmp2_1_DW01_cmp2_72'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW01_inc_0_DW01_inc_45'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW01_add_0_DW01_add_45'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW01_cmp2_0_DW01_cmp2_73'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW01_cmp2_1_DW01_cmp2_74'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW01_inc_0_DW01_inc_46'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW01_add_0_DW01_add_46'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW01_cmp2_0_DW01_cmp2_75'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW01_cmp2_1_DW01_cmp2_76'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW01_inc_0_DW01_inc_47'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW01_add_0_DW01_add_47'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW01_cmp2_0_DW01_cmp2_77'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW01_cmp2_1_DW01_cmp2_78'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW01_inc_0_DW01_inc_48'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW01_add_0_DW01_add_48'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW01_cmp2_0_DW01_cmp2_79'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW01_cmp2_1_DW01_cmp2_80'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW01_inc_0_DW01_inc_49'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW01_add_0_DW01_add_49'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW01_cmp2_0_DW01_cmp2_81'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW01_cmp2_1_DW01_cmp2_82'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW01_inc_0_DW01_inc_50'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW01_add_0_DW01_add_50'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW02_mult_0'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW01_add_1_DW01_add_51'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW01_add_1_DW01_add_52'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW02_mult_0_DW02_mult_2'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW01_add_1_DW01_add_53'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW02_mult_0_DW02_mult_3'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW01_add_1_DW01_add_54'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW02_mult_0_DW02_mult_4'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW01_add_1_DW01_add_55'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW02_mult_0_DW02_mult_5'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW01_add_1_DW01_add_56'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW02_mult_0_DW02_mult_6'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW01_add_1_DW01_add_57'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW02_mult_0_DW02_mult_7'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW01_add_1_DW01_add_58'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW02_mult_0_DW02_mult_8'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW01_add_1_DW01_add_59'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW02_mult_0_DW02_mult_9'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW01_add_1_DW01_add_60'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW02_mult_0_DW02_mult_10'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW01_add_1_DW01_add_61'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW02_mult_0_DW02_mult_11'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW01_add_1_DW01_add_62'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW02_mult_0_DW02_mult_12'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW01_add_1_DW01_add_63'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW02_mult_0_DW02_mult_13'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW01_add_1_DW01_add_64'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW02_mult_0_DW02_mult_14'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW01_add_1_DW01_add_65'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW02_mult_0_DW02_mult_15'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW01_add_1_DW01_add_66'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW01_sub_0_DW01_sub_68'
+  Processing 'fp16_mult_piped_NUM_PIPE2_0_DW01_add_2_DW01_add_67'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW01_sub_0_DW01_sub_69'
+  Processing 'fp16_mult_piped_NUM_PIPE2_15_DW01_add_2_DW01_add_68'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW01_sub_0_DW01_sub_70'
+  Processing 'fp16_mult_piped_NUM_PIPE2_14_DW01_add_2_DW01_add_69'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW01_sub_0_DW01_sub_71'
+  Processing 'fp16_mult_piped_NUM_PIPE2_13_DW01_add_2_DW01_add_70'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW01_sub_0_DW01_sub_72'
+  Processing 'fp16_mult_piped_NUM_PIPE2_12_DW01_add_2_DW01_add_71'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW01_sub_0_DW01_sub_73'
+  Processing 'fp16_mult_piped_NUM_PIPE2_11_DW01_add_2_DW01_add_72'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW01_sub_0_DW01_sub_74'
+  Processing 'fp16_mult_piped_NUM_PIPE2_10_DW01_add_2_DW01_add_73'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW01_sub_0_DW01_sub_75'
+  Processing 'fp16_mult_piped_NUM_PIPE2_9_DW01_add_2_DW01_add_74'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW01_sub_0_DW01_sub_76'
+  Processing 'fp16_mult_piped_NUM_PIPE2_8_DW01_add_2_DW01_add_75'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW01_sub_0_DW01_sub_77'
+  Processing 'fp16_mult_piped_NUM_PIPE2_7_DW01_add_2_DW01_add_76'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW01_sub_0_DW01_sub_78'
+  Processing 'fp16_mult_piped_NUM_PIPE2_6_DW01_add_2_DW01_add_77'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW01_sub_0_DW01_sub_79'
+  Processing 'fp16_mult_piped_NUM_PIPE2_5_DW01_add_2_DW01_add_78'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW01_sub_0_DW01_sub_80'
+  Processing 'fp16_mult_piped_NUM_PIPE2_4_DW01_add_2_DW01_add_79'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW01_sub_0_DW01_sub_81'
+  Processing 'fp16_mult_piped_NUM_PIPE2_3_DW01_add_2_DW01_add_80'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW01_sub_0_DW01_sub_82'
+  Processing 'fp16_mult_piped_NUM_PIPE2_2_DW01_add_2_DW01_add_81'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW01_sub_0_DW01_sub_83'
+  Processing 'fp16_mult_piped_NUM_PIPE2_1_DW01_add_2_DW01_add_82'
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+LNC WARNING: Found output_to_output lib arc on HAxp5_ASAP7_75t_R.
+  Mapping Optimization (Phase 1)
+  Mapping Optimization (Phase 2)
+  Mapping Optimization (Phase 3)
+  Mapping Optimization (Phase 4)
+  Mapping Optimization (Phase 5)
+  Mapping Optimization (Phase 6)
+  Mapping Optimization (Phase 7)
+  Mapping Optimization (Phase 8)
+  Mapping Optimization (Phase 9)
+  Mapping Optimization (Phase 10)
+  Mapping Optimization (Phase 11)
+  Mapping Optimization (Phase 12)
+  Mapping Optimization (Phase 13)
+  Mapping Optimization (Phase 14)
+  Mapping Optimization (Phase 15)
+  Mapping Optimization (Phase 16)
+  Mapping Optimization (Phase 17)
+  Mapping Optimization (Phase 18)
+  Mapping Optimization (Phase 19)
+  Mapping Optimization (Phase 20)
+  Mapping Optimization (Phase 21)
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:05:24   12084.9  18134.41 74841552.0 6712914.0                          
+    0:05:24   12084.9  18134.41 74841552.0 6712914.0                          
+    0:05:24   12129.0  18134.41 74841552.0 6712914.0                          
+    0:05:24   12173.1  18134.41 74841552.0 6712914.0                          
+    0:05:33   12656.5    864.15  552046.6       0.0                          
+    0:05:55   13412.5    609.38  403358.3       0.0                          
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:05:55   13412.5    609.38  403358.3       0.0                          
+    0:06:06   13447.7    572.61  386326.3       0.0 u_pe/u_tree/g_l1[6].u_add/d_pipe_reg[0][8]/D
+    0:06:07   13448.7    564.57  383898.0       0.0 u_pe/u_tree/g_l2[2].u_add/d_pipe_reg[0][12]/D
+    0:06:08   13448.9    561.28  381953.7       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][10]/D
+    0:06:09   13448.7    557.85  380264.3       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][10]/D
+    0:06:09   13448.1    556.00  378998.6       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][14]/D
+    0:06:09   13447.9    554.27  377688.1       0.0 u_pe/u_tree/g_l1[6].u_add/d_pipe_reg[0][8]/D
+    0:06:10   13448.2    552.80  377167.8       0.0 u_pe/u_tree/g_l1[7].u_add/d_pipe_reg[0][12]/D
+    0:06:10   13447.8    551.36  376584.2       0.0 u_pe/u_tree/g_l1[0].u_add/d_pipe_reg[0][9]/D
+    0:06:10   13448.7    550.91  376000.9       0.0 u_pe/u_score_acc/d_pipe_reg[0][7]/D
+    0:06:11   13448.2    549.85  375469.8       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:11   13448.4    549.20  375263.8       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:11   13448.4    548.47  374962.9       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][14]/D
+    0:06:11   13448.6    547.90  374571.2       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][9]/D
+    0:06:12   13449.3    546.95  373897.3       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:12   13449.6    546.13  373576.8       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][10]/D
+    0:06:12   13449.8    545.65  373381.1       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][14]/D
+    0:06:12   13449.8    544.99  373204.1       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][14]/D
+    0:06:12   13450.3    544.64  373050.9       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:13   13450.1    543.78  372465.9       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][0]/D
+    0:06:13   13450.2    543.45  372438.2       0.0 u_pe/u_ctx_acc/d_pipe_reg[0][6]/SE
+    0:06:13   13450.4    543.28  372371.3       0.0 u_pe/u_tree/g_l1[4].u_add/d_pipe_reg[0][13]/D
+    0:06:13   13450.1    543.06  372048.7       0.0 u_pe/u_tree/g_l1[6].u_add/d_pipe_reg[0][8]/D
+    0:06:14   13450.0    542.62  371628.6       0.0 u_pe/u_tree/g_l1[0].u_add/d_pipe_reg[0][8]/D
+    0:06:14   13450.0    541.84  371336.6       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:14   13450.2    541.37  371055.0       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][0]/D
+    0:06:15   13450.0    540.86  370598.1       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][0]/D
+    0:06:15   13450.3    540.01  369936.9       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][14]/D
+    0:06:15   13450.5    539.33  369737.7       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][14]/D
+    0:06:15   13451.0    539.15  369681.5       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][0]/D
+    0:06:16   13451.0    539.15  369675.6       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][10]/D
+    0:06:16   13451.0    539.15  369675.6       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][10]/D
+    0:06:20   13451.0    539.15  369675.5       0.0                          
+    0:06:21   13443.9    539.15  334876.9       0.0                          
+    0:06:22   13443.9    538.71  334483.1       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][0]/D
+    0:06:22   13444.0    538.31  334336.8       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:22   13444.0    537.70  334138.8       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][0]/D
+    0:06:23   13444.0    537.16  333759.4       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][10]/D
+    0:06:23   13444.1    536.63  333461.2       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][0]/D
+    0:06:23   13444.3    536.12  333143.6       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][14]/D
+    0:06:23   13444.2    535.46  332771.5       0.0 u_pe/u_tree/g_l1[4].u_add/d_pipe_reg[0][13]/D
+    0:06:24   13444.3    535.19  332592.4       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:06:24   13443.9    534.80  332428.2       0.0 u_pe/u_tree/g_l1[5].u_add/d_pipe_reg[0][8]/D
+    0:06:24   13444.0    534.27  332139.0       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][0]/D
+    0:06:24   13443.8    533.81  331988.2       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:25   13444.2    532.65  331432.4       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:25   13444.4    532.19  331294.2       0.0 u_pe/u_tree/g_l2[3].u_add/d_pipe_reg[0][12]/D
+    0:06:25   13444.0    531.68  331071.6       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:06:25   13443.8    531.45  330921.8       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][14]/D
+    0:06:25   13443.8    531.04  330647.8       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][0]/D
+    0:06:26   13443.6    530.71  330564.3       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:26   13444.0    530.48  330444.7       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][14]/D
+    0:06:26   13444.0    530.26  330389.3       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:26   13443.9    529.99  330261.1       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:26   13444.0    529.95  330030.7       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][0]/D
+    0:06:27   13444.6    529.65  329903.8       0.0 u_pe/u_tree/g_l1[3].u_add/d_pipe_reg[0][2]/SE
+    0:06:27   13444.6    529.48  329797.9       0.0 u_pe/u_ctx_acc/d_pipe_reg[0][0]/SE
+    0:06:28   13444.6    529.11  329530.3       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][14]/D
+    0:06:28   13444.0    528.89  329392.4       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:28   13444.4    528.11  328867.1       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:29   13445.3    527.28  328326.1       0.0 u_pe/u_tree/g_l1[0].u_add/d_pipe_reg[0][9]/D
+    0:06:29   13445.6    527.01  328023.8       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:30   13445.8    526.64  327730.7       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][0]/D
+    0:06:30   13446.3    525.97  327409.6       0.0 u_pe/u_ctx_acc/d_pipe_reg[0][0]/SE
+    0:06:31   13446.5    525.75  327235.9       0.0 u_pe/u_ctx_acc/d_pipe_reg[0][0]/SE
+    0:06:31   13446.4    525.56  327116.5       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][10]/D
+    0:06:31   13446.7    525.32  327049.0       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:06:31   13446.7    525.02  326851.2       0.0 u_pe/u_tree/g_l3[0].u_add/d_pipe_reg[0][8]/D
+    0:06:31   13446.8    524.78  326745.2       0.0 u_pe/u_tree/g_l1[4].u_add/d_pipe_reg[0][9]/D
+    0:06:32   13446.9    524.57  326687.4       0.0 u_pe/u_tree/g_l3[0].u_add/d_pipe_reg[0][8]/D
+    0:06:32   13446.9    524.19  326511.6       0.0 u_pe/u_tree/g_l2[2].u_add/d_pipe_reg[0][12]/D
+    0:06:32   13447.0    523.72  326343.0       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:33   13447.2    523.31  326017.8       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:33   13447.4    523.08  325825.8       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:06:33   13447.8    522.87  325557.8       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][0]/D
+    0:06:33   13448.2    522.24  325279.0       0.0 u_pe/u_tree/g_l3[1].u_add/d_pipe_reg[0][12]/D
+    0:06:34   13448.3    521.87  325182.9       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:06:34   13448.6    521.61  324955.8       0.0 u_pe/u_tree/g_l2[2].u_add/d_pipe_reg[0][12]/D
+    0:06:34   13448.8    521.37  324898.0       0.0 u_pe/u_tree/g_l3[0].u_add/d_pipe_reg[0][12]/D
+    0:06:34   13448.9    521.10  324861.5       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:34   13449.0    521.02  324844.8       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:35   13449.9    520.72  324630.9       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:35   13450.1    520.53  324534.2       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:35   13450.4    519.99  324379.1       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:06:35   13450.8    519.55  324241.3       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:36   13451.3    519.29  324030.2       0.0 u_pe/u_tree/g_l2[2].u_add/d_pipe_reg[0][12]/D
+    0:06:36   13451.1    519.04  323926.6       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][14]/D
+    0:06:36   13451.2    518.81  323849.9       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:36   13451.5    518.65  323596.9       0.0 u_pe/u_tree/g_l2[0].u_add/d_pipe_reg[0][12]/D
+    0:06:37   13451.9    518.37  323433.0       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][0]/D
+    0:06:37   13451.9    518.37  323426.1       0.0 u_pe/u_tree/g_l1[4].u_add/d_pipe_reg[0][8]/D
+    0:06:37   13452.2    518.32  323378.9       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][10]/D
+    0:06:38   13451.9    518.06  323217.8       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:06:38   13452.1    517.99  323158.9       0.0 u_pe/u_ctx_acc/d_pipe_reg[0][0]/SE
+    0:06:38   13452.1    517.83  323066.7       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][14]/D
+    0:06:38   13452.1    517.69  322974.6       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:38   13452.3    517.66  322936.5       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:06:39   13452.6    517.44  322767.8       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:06:39   13453.1    517.32  322705.2       0.0 u_pe/u_tree/g_l2[2].u_add/d_pipe_reg[0][12]/D
+    0:06:39   13453.2    517.22  322591.5       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][0]/D
+    0:06:39   13453.1    516.87  322379.1       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:39   13453.4    516.73  322288.1       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:06:40   13453.9    516.13  322046.8       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:06:40   13454.2    515.81  321965.0       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][14]/D
+    0:06:40   13454.5    515.54  321861.0       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:06:40   13454.7    515.43  321789.4       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][0]/D
+    0:06:40   13455.0    515.22  321625.4       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][0]/D
+    0:06:41   13455.2    514.93  321505.1       0.0 u_pe/u_tree/g_l1[0].u_add/d_pipe_reg[0][8]/D
+    0:06:41   13455.1    514.58  321333.5       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][0]/D
+    0:06:41   13455.2    514.30  321258.6       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][0]/D
+    0:06:41   13455.1    514.18  321159.9       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:06:42   13455.4    513.90  320862.7       0.0 u_pe/u_tree/g_l3[0].u_add/d_pipe_reg[0][12]/D
+    0:06:42   13455.4    513.91  320855.7       0.0                          
+    0:06:43   13455.6    513.91  320598.6       0.0                          
+    0:06:43   13455.5    513.91  320261.3       0.0                          
+    0:06:43   13455.5    513.91  320080.7       0.0                          
+    0:06:43   13455.5    513.91  319977.6       0.0                          
+    0:06:43   13455.4    513.91  319820.0       0.0                          
+    0:06:44   13455.6    513.43  319529.5       0.0                          
+    0:06:44   13455.7    513.43  319273.5       0.0                          
+    0:06:44   13455.9    513.43  319140.5       0.0                          
+    0:06:44   13456.2    513.43  318918.1       0.0                          
+    0:06:44   13456.2    513.43  318858.8       0.0                          
+    0:06:44   13456.4    513.43  318490.1       0.0                          
+    0:06:45   13454.2    513.43  318217.5       0.0                          
+    0:06:45   13454.4    513.09  317626.6       0.0                          
+    0:06:45   13454.5    513.09  317536.2       0.0                          
+    0:06:45   13455.0    513.09  317099.7       0.0                          
+    0:06:45   13455.2    513.09  316660.7       0.0                          
+    0:06:46   13455.4    513.09  316582.6       0.0                          
+    0:06:46   13455.5    513.09  316465.2       0.0                          
+    0:06:46   13455.9    513.09  316307.3       0.0                          
+    0:06:46   13456.2    513.09  316255.6       0.0                          
+    0:06:46   13456.7    513.09  315709.5       0.0                          
+    0:06:46   13456.7    513.09  315651.7       0.0                          
+    0:06:46   13456.9    513.09  315170.3       0.0                          
+    0:06:47   13457.4    513.09  314930.0       0.0                          
+    0:06:47   13457.4    513.09  314905.3       0.0                          
+    0:06:47   13457.4    513.09  314760.6       0.0                          
+    0:06:47   13457.6    513.09  314712.4       0.0                          
+    0:06:47   13458.1    513.09  314537.2       0.0                          
+    0:06:47   13458.1    513.09  314518.3       0.0                          
+    0:06:48   13458.1    513.09  314055.4       0.0                          
+    0:06:48   13458.3    513.09  313952.0       0.0                          
+    0:06:48   13458.4    513.09  313895.7       0.0                          
+    0:06:48   13458.3    513.09  313636.6       0.0                          
+    0:06:48   13458.2    513.09  313449.6       0.0                          
+    0:06:48   13458.6    513.09  313371.8       0.0                          
+    0:06:49   13458.9    513.09  313309.1       0.0                          
+    0:06:49   13458.6    513.09  313195.4       0.0                          
+    0:06:49   13458.8    513.09  313002.2       0.0                          
+    0:06:49   13458.9    513.09  312870.3       0.0                          
+    0:06:49   13459.0    513.09  312735.0       0.0                          
+    0:06:49   13458.9    513.09  312640.8       0.0                          
+    0:06:49   13459.2    513.09  312405.0       0.0                          
+    0:06:50   13458.5    513.09  312287.3       0.0                          
+    0:06:50   13458.6    513.09  312217.0       0.0                          
+    0:06:50   13458.9    513.09  311955.0       0.0                          
+    0:06:50   13458.9    513.09  311870.2       0.0                          
+    0:06:50   13458.9    513.09  311646.4       0.0                          
+    0:06:51   13459.0    513.09  311599.8       0.0                          
+    0:06:51   13458.7    513.09  311535.5       0.0                          
+    0:06:51   13458.8    513.09  311488.5       0.0                          
+    0:06:51   13458.8    513.09  311482.7       0.0                          
+    0:06:51   13458.1    513.09  311363.2       0.0                          
+    0:06:51   13458.2    513.09  311076.0       0.0                          
+    0:06:51   13458.2    513.09  310983.4       0.0                          
+    0:06:52   13458.4    513.09  310914.0       0.0                          
+    0:06:52   13458.4    513.09  310689.9       0.0                          
+    0:06:52   13458.6    513.09  310412.0       0.0                          
+    0:06:52   13458.8    513.09  310337.5       0.0                          
+    0:06:52   13458.6    513.09  310250.7       0.0                          
+    0:06:52   13457.7    513.09  310195.3       0.0                          
+    0:06:52   13458.1    513.09  309704.7       0.0                          
+    0:06:53   13458.2    513.09  309604.7       0.0                          
+    0:06:53   13458.4    513.09  309348.1       0.0                          
+    0:06:53   13458.5    513.09  309213.6       0.0                          
+    0:06:53   13458.7    513.09  308925.1       0.0                          
+    0:06:53   13459.1    513.09  308534.6       0.0                          
+    0:06:53   13459.1    513.09  308486.2       0.0                          
+    0:06:54   13459.4    513.09  308097.7       0.0                          
+    0:06:54   13459.5    513.09  307945.2       0.0                          
+    0:06:54   13460.0    513.09  307788.8       0.0                          
+    0:06:54   13460.3    513.09  307346.0       0.0                          
+    0:06:55   13459.7    513.09  306685.7       0.0                          
+    0:06:55   13460.1    513.09  306527.8       0.0                          
+    0:06:55   13459.7    513.09  306156.0       0.0                          
+    0:06:55   13459.3    513.09  305834.6       0.0                          
+    0:06:55   13459.5    513.09  305493.6       0.0                          
+    0:06:56   13459.3    513.09  305370.8       0.0                          
+    0:06:56   13459.3    513.09  305255.5       0.0                          
+    0:06:57   13459.6    513.09  305035.1       0.0                          
+    0:06:57   13459.5    513.09  304831.0       0.0                          
+    0:06:57   13459.3    513.09  304509.6       0.0                          
+    0:06:57   13459.5    513.09  304399.8       0.0                          
+    0:06:57   13459.0    513.09  304281.7       0.0                          
+    0:06:58   13459.0    513.09  304067.8       0.0                          
+    0:06:58   13459.1    513.09  303927.1       0.0                          
+    0:06:58   13459.5    513.09  303772.6       0.0                          
+    0:06:58   13459.6    513.09  303662.8       0.0                          
+    0:06:58   13459.7    513.09  303414.1       0.0                          
+    0:06:59   13460.0    513.09  303305.6       0.0                          
+    0:06:59   13459.8    513.09  302957.1       0.0                          
+    0:06:59   13459.8    513.09  302795.6       0.0                          
+    0:06:59   13460.2    513.09  302640.7       0.0                          
+    0:07:00   13460.6    513.09  302378.7       0.0                          
+    0:07:00   13461.0    513.09  302168.2       0.0                          
+    0:07:00   13461.1    513.09  301913.5       0.0                          
+    0:07:00   13461.3    513.09  301729.8       0.0                          
+    0:07:01   13461.2    513.09  301481.3       0.0                          
+    0:07:01   13461.2    513.09  301380.1       0.0                          
+    0:07:01   13461.3    513.09  301158.4       0.0                          
+    0:07:01   13461.3    513.09  300900.4       0.0                          
+    0:07:02   13461.2    513.09  300606.0       0.0                          
+    0:07:02   13460.9    513.09  300286.5       0.0                          
+    0:07:02   13460.8    513.09  299887.2       0.0                          
+    0:07:02   13460.9    513.09  299816.6       0.0                          
+    0:07:02   13461.1    513.09  299486.5       0.0                          
+    0:07:03   13461.3    513.09  299317.2       0.0                          
+    0:07:03   13461.3    513.09  299153.5       0.0                          
+    0:07:03   13461.3    513.09  299057.4       0.0                          
+    0:07:03   13461.4    513.09  299009.8       0.0                          
+    0:07:03   13461.5    513.09  298893.4       0.0                          
+    0:07:04   13461.1    513.09  298514.8       0.0                          
+    0:07:04   13461.0    513.09  298247.4       0.0                          
+    0:07:04   13461.1    513.09  298120.9       0.0                          
+    0:07:04   13461.1    513.09  297993.3       0.0                          
+    0:07:04   13461.4    513.09  297866.8       0.0                          
+    0:07:04   13461.5    513.09  297733.4       0.0                          
+    0:07:05   13461.7    513.09  297603.6       0.0                          
+    0:07:05   13462.0    513.09  297473.9       0.0                          
+    0:07:05   13461.9    513.09  297289.0       0.0                          
+    0:07:05   13461.8    513.09  297163.9       0.0                          
+    0:07:05   13461.7    513.09  297049.6       0.0                          
+    0:07:05   13461.5    513.09  296882.1       0.0                          
+    0:07:06   13461.9    513.09  296581.3       0.0                          
+    0:07:06   13461.8    513.09  296542.2       0.0                          
+    0:07:06   13461.8    513.09  296431.0       0.0                          
+    0:07:06   13461.3    513.09  296265.8       0.0                          
+    0:07:06   13461.5    513.09  296133.8       0.0                          
+    0:07:06   13461.5    513.09  296053.1       0.0                          
+    0:07:07   13462.3    513.09  295905.3       0.0                          
+    0:07:07   13462.7    513.09  295774.0       0.0                          
+    0:07:07   13462.8    513.09  295599.8       0.0                          
+    0:07:07   13463.3    513.09  295478.5       0.0                          
+    0:07:07   13463.2    513.09  295409.1       0.0                          
+    0:07:07   13463.3    513.09  295239.6       0.0                          
+    0:07:08   13463.4    513.09  295168.9       0.0                          
+    0:07:08   13463.6    513.09  295059.5       0.0                          
+    0:07:08   13464.4    513.09  294996.3       0.0                          
+    0:07:08   13464.7    513.09  294861.2       0.0                          
+    0:07:08   13464.5    513.09  294787.8       0.0                          
+    0:07:08   13464.6    513.09  294693.9       0.0                          
+    0:07:09   13465.0    513.09  294488.8       0.0                          
+    0:07:09   13465.2    513.09  294233.8       0.0                          
+    0:07:09   13465.2    513.09  294127.3       0.0                          
+    0:07:09   13465.4    513.09  294024.9       0.0                          
+    0:07:09   13465.5    513.09  293895.8       0.0                          
+    0:07:10   13465.4    513.09  293838.8       0.0                          
+    0:07:10   13465.3    513.09  293679.3       0.0                          
+    0:07:10   13465.3    513.09  293623.7       0.0                          
+    0:07:10   13465.2    513.09  293452.8       0.0                          
+    0:07:10   13465.8    513.09  293318.5       0.0                          
+    0:07:10   13465.5    513.09  293128.3       0.0                          
+    0:07:11   13465.5    513.09  293026.3       0.0                          
+    0:07:11   13466.2    513.09  292840.3       0.0                          
+    0:07:11   13466.3    513.09  292668.4       0.0                          
+    0:07:11   13466.5    513.09  292528.4       0.0                          
+    0:07:11   13466.5    513.09  292417.7       0.0                          
+    0:07:12   13466.6    513.09  292308.5       0.0                          
+    0:07:12   13466.5    513.09  292166.2       0.0                          
+    0:07:12   13466.4    513.09  292121.0       0.0                          
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:07:12   13466.4    513.09  292121.0       0.0                          
+    0:07:12   13466.4    513.09  292121.0       0.0                          
+    0:07:19   13212.4    513.34  288673.4       0.0                          
+    0:07:24   13119.4    510.73  287589.5       0.0                          
+    0:07:26   13030.5    510.73  285919.9       0.0                          
+    0:07:28   12939.3    510.73  285119.9       0.0                          
+    0:07:31   12870.5    510.73  284270.8       0.0                          
+    0:07:33   12820.9    510.73  284361.2       0.0                          
+    0:07:35   12763.9    510.73  284039.3       0.0                          
+    0:07:37   12728.0    510.73  279039.1       0.0                          
+    0:07:39   12688.1    510.73  276588.6       0.0                          
+    0:07:41   12652.5    510.73  274107.2       0.0                          
+    0:07:45   12630.1    510.73  274116.2       0.0                          
+    0:07:46   12603.1    510.73  274116.2       0.0                          
+    0:07:47   12584.3    510.73  274120.8       0.0                          
+    0:07:49   12572.1    510.73  274118.4       0.0                          
+    0:07:50   12565.0    510.73  274136.3       0.0                          
+    0:07:51   12557.3    510.73  274092.3       0.0                          
+    0:07:53   12552.0    510.73  274098.1       0.0                          
+    0:07:54   12547.4    510.73  274103.8       0.0                          
+    0:07:55   12542.5    510.73  274114.6       0.0                          
+    0:07:57   12537.0    510.73  274133.8       0.0                          
+    0:07:58   12532.4    510.73  274142.2       0.0                          
+    0:07:59   12530.4    510.73  273918.2       0.0                          
+    0:08:00   12527.8    510.73  273732.3       0.0                          
+    0:08:00   12526.6    510.73  273758.6       0.0                          
+    0:08:01   12526.0    510.73  273577.3       0.0                          
+    0:08:02   12525.3    510.73  273393.2       0.0                          
+    0:08:02   12523.8    510.73  273187.7       0.0                          
+    0:08:03   12521.7    510.73  272985.6       0.0                          
+    0:08:03   12519.6    510.73  272783.8       0.0                          
+    0:08:04   12518.1    510.73  272583.1       0.0                          
+    0:08:04   12516.9    510.73  272583.1       0.0                          
+    0:08:05   12515.7    510.73  272583.1       0.0                          
+    0:08:05   12514.7    510.73  272583.1       0.0                          
+    0:08:05   12514.7    510.73  272583.1       0.0                          
+    0:08:05   12516.3    498.72  271656.7       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][9]/D
+    0:08:05   12516.5    497.79  271597.4       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][10]/D
+    0:08:06   12516.7    495.41  271185.3       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][10]/D
+    0:08:06   12517.0    493.43  270973.8       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][10]/D
+    0:08:06   12517.1    492.86  270961.6       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][10]/D
+    0:08:06   12517.3    492.00  270880.4       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:08:06   12517.5    491.46  270842.9       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][9]/D
+    0:08:07   12517.6    490.65  270757.8       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][3]/D
+    0:08:08   12517.7    490.44  270725.8       0.0                          
+    0:08:13   12178.7    503.97  270488.0       0.0                          
+    0:08:14   12159.5    505.15  270787.8       0.0                          
+    0:08:15   12153.6    504.32  271129.8       0.0                          
+    0:08:15   12152.4    504.67  271246.4       0.0                          
+    0:08:16   12152.4    504.67  271246.4       0.0                          
+    0:08:16   12152.4    504.67  271246.4       0.0                          
+    0:08:16   12152.4    504.67  271246.4       0.0                          
+    0:08:16   12152.4    504.67  271246.4       0.0                          
+    0:08:17   12152.6    493.55  270175.8       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][10]/D
+    0:08:19   12152.6    492.31  270054.6       0.0                          
+    0:08:19   12152.5    492.31  270054.6       0.0                          
+    0:08:19   12152.4    492.31  270051.0       0.0                          
+    0:08:19   12152.5    492.31  270010.7       0.0                          
+    0:08:19   12152.7    492.31  269991.8       0.0                          
+    0:08:19   12152.9    492.31  269942.4       0.0                          
+    0:08:19   12152.8    492.31  269881.1       0.0                          
+    0:08:20   12153.0    492.31  269806.7       0.0                          
+    0:08:20   12153.1    492.31  269641.4       0.0                          
+    0:08:20   12153.9    492.31  269415.2       0.0                          
+    0:08:20   12154.3    492.31  269324.1       0.0                          
+    0:08:20   12154.3    492.31  269298.9       0.0                          
+    0:08:20   12154.3    492.31  269291.6       0.0                          
+    0:08:20   12154.3    492.31  269223.3       0.0                          
+    0:08:20   12154.6    492.31  269168.0       0.0                          
+    0:08:21   12154.7    492.31  269065.1       0.0                          
+    0:08:21   12154.7    492.31  269010.7       0.0                          
+    0:08:21   12154.9    492.31  268968.5       0.0                          
+    0:08:21   12155.0    492.31  268891.2       0.0                          
+    0:08:21   12155.1    492.31  268860.1       0.0                          
+    0:08:21   12155.2    492.31  268779.5       0.0                          
+    0:08:21   12155.2    492.31  268651.9       0.0                          
+    0:08:21   12155.2    492.31  268623.2       0.0                          
+    0:08:21   12155.1    492.31  268595.4       0.0                          
+    0:08:21   12155.1    492.31  268568.4       0.0                          
+    0:08:21   12155.4    492.31  268487.2       0.0                          
+    0:08:22   12155.4    492.31  268425.0       0.0                          
+    0:08:22   12155.7    492.31  268293.2       0.0                          
+    0:08:22   12155.6    492.31  268170.3       0.0                          
+    0:08:22   12155.8    492.31  268086.7       0.0                          
+    0:08:22   12155.7    492.31  268062.8       0.0                          
+    0:08:22   12156.5    492.31  267886.7       0.0                          
+    0:08:22   12156.6    492.31  267829.2       0.0                          
+    0:08:22   12156.7    492.31  267717.2       0.0                          
+    0:08:22   12156.7    492.31  267694.6       0.0                          
+    0:08:23   12156.8    492.31  267633.2       0.0                          
+    0:08:23   12157.1    492.31  267589.0       0.0                          
+    0:08:23   12157.2    492.31  267553.6       0.0                          
+    0:08:23   12157.3    492.31  267528.2       0.0                          
+    0:08:23   12157.4    492.31  267418.7       0.0                          
+    0:08:23   12157.4    492.31  267420.5       0.0                          
+    0:08:23   12157.3    492.31  267416.0       0.0                          
+    0:08:23   12157.4    492.31  267356.6       0.0                          
+    0:08:23   12157.5    492.31  267331.7       0.0                          
+    0:08:23   12157.8    492.31  267299.0       0.0                          
+    0:08:24   12157.6    492.31  267249.7       0.0                          
+    0:08:24   12157.7    492.31  267224.7       0.0                          
+    0:08:24   12157.8    492.31  267214.8       0.0                          
+    0:08:24   12157.8    492.31  267192.0       0.0                          
+    0:08:24   12158.0    492.31  267139.7       0.0                          
+    0:08:24   12158.0    492.31  267099.4       0.0                          
+    0:08:24   12158.0    492.31  267082.6       0.0                          
+    0:08:24   12158.3    492.31  267019.2       0.0                          
+    0:08:24   12158.5    492.31  266921.7       0.0                          
+    0:08:24   12158.9    492.31  266841.2       0.0                          
+    0:08:25   12159.0    492.31  266744.5       0.0                          
+    0:08:25   12158.9    492.31  266720.0       0.0                          
+    0:08:25   12159.0    492.31  266634.0       0.0                          
+    0:08:25   12159.2    492.31  266562.1       0.0                          
+    0:08:25   12159.2    492.31  266537.8       0.0                          
+    0:08:25   12159.2    492.31  266525.9       0.0                          
+    0:08:25   12159.2    492.31  266456.7       0.0                          
+    0:08:25   12159.3    492.31  266330.9       0.0                          
+    0:08:25   12159.4    492.31  266222.6       0.0                          
+    0:08:26   12159.3    492.31  266183.4       0.0                          
+    0:08:26   12159.4    492.31  266151.5       0.0                          
+    0:08:26   12159.5    492.31  266118.1       0.0                          
+    0:08:26   12159.7    492.31  266079.7       0.0                          
+    0:08:26   12159.8    492.31  266017.8       0.0                          
+    0:08:26   12160.1    492.31  265971.5       0.0                          
+    0:08:26   12160.1    492.31  265846.5       0.0                          
+    0:08:26   12160.2    492.31  265843.0       0.0                          
+    0:08:26   12160.2    492.31  265845.3       0.0                          
+    0:08:27   12160.4    492.31  265707.8       0.0                          
+    0:08:27   12160.3    492.31  265622.3       0.0                          
+    0:08:27   12160.2    492.31  265535.3       0.0                          
+    0:08:27   12160.2    492.31  265499.6       0.0                          
+    0:08:27   12160.3    492.31  265490.7       0.0                          
+    0:08:27   12160.3    492.31  265418.1       0.0                          
+    0:08:27   12160.5    492.31  265370.2       0.0                          
+    0:08:27   12160.8    492.31  265121.5       0.0                          
+    0:08:27   12160.8    492.31  265052.3       0.0                          
+    0:08:27   12160.9    492.31  264992.4       0.0                          
+    0:08:28   12160.9    492.31  264976.0       0.0                          
+    0:08:28   12161.7    492.31  264830.1       0.0                          
+    0:08:28   12161.9    492.31  264769.0       0.0                          
+    0:08:28   12161.8    492.31  264741.8       0.0                          
+    0:08:28   12162.0    492.31  264636.5       0.0                          
+    0:08:28   12162.0    492.31  264549.2       0.0                          
+    0:08:28   12162.0    492.31  264522.6       0.0                          
+    0:08:28   12162.0    492.31  264455.5       0.0                          
+    0:08:29   12162.1    492.31  263888.8       0.0                          
+    0:08:29   12162.0    492.31  263740.2       0.0                          
+    0:08:29   12162.1    492.31  263698.2       0.0                          
+    0:08:29   12162.2    492.31  263672.0       0.0                          
+    0:08:29   12162.6    492.31  263583.4       0.0                          
+    0:08:29   12163.0    492.31  263332.8       0.0                          
+    0:08:29   12163.0    492.31  263244.0       0.0                          
+    0:08:29   12163.1    492.31  263128.6       0.0                          
+    0:08:30   12163.3    492.31  263017.2       0.0                          
+    0:08:30   12163.4    492.31  262844.2       0.0                          
+    0:08:30   12163.8    492.31  262745.5       0.0                          
+    0:08:30   12164.4    492.31  262275.3       0.0                          
+    0:08:31   12164.6    492.31  262113.4       0.0                          
+    0:08:31   12164.7    492.31  261988.8       0.0                          
+    0:08:31   12164.9    492.31  261664.1       0.0                          
+    0:08:31   12165.1    492.31  261402.6       0.0                          
+    0:08:31   12165.6    492.31  260848.6       0.0                          
+    0:08:31   12165.6    492.31  260780.7       0.0                          
+    0:08:32   12165.8    492.31  260592.7       0.0                          
+    0:08:32   12166.0    492.31  260538.0       0.0                          
+    0:08:32   12166.5    492.31  260412.4       0.0                          
+    0:08:32   12166.9    492.31  260367.5       0.0                          
+    0:08:32   12167.0    492.31  260334.3       0.0                          
+    0:08:32   12167.0    492.31  260219.2       0.0                          
+    0:08:33   12167.2    492.31  260076.1       0.0                          
+    0:08:33   12167.4    492.31  259696.1       0.0                          
+    0:08:33   12167.9    492.31  259560.4       0.0                          
+    0:08:33   12168.3    492.31  259404.6       0.0                          
+    0:08:33   12168.4    492.31  259238.7       0.0                          
+    0:08:33   12168.5    492.31  259171.5       0.0                          
+    0:08:34   12168.6    492.31  259118.0       0.0                          
+    0:08:34   12168.8    492.31  259079.1       0.0                          
+    0:08:34   12168.8    492.31  258985.1       0.0                          
+    0:08:34   12168.9    492.31  258945.0       0.0                          
+    0:08:34   12169.1    492.31  258787.7       0.0                          
+    0:08:34   12169.2    492.31  258609.6       0.0                          
+    0:08:35   12169.7    492.31  258160.8       0.0                          
+    0:08:35   12169.8    492.31  258015.3       0.0                          
+    0:08:35   12169.6    492.31  257849.8       0.0                          
+    0:08:35   12169.7    492.31  257744.0       0.0                          
+    0:08:35   12170.1    492.31  257522.8       0.0                          
+    0:08:35   12170.4    492.31  257449.9       0.0                          
+    0:08:35   12170.5    492.31  257284.8       0.0                          
+    0:08:36   12170.7    492.31  257180.7       0.0                          
+    0:08:36   12170.8    492.31  256922.6       0.0                          
+    0:08:36   12170.9    492.31  256637.0       0.0                          
+    0:08:36   12171.0    492.31  256592.9       0.0                          
+    0:08:36   12171.3    492.31  256512.7       0.0                          
+    0:08:36   12171.3    492.31  256432.4       0.0                          
+    0:08:36   12171.4    492.31  256331.2       0.0                          
+    0:08:37   12171.7    492.31  256302.2       0.0                          
+    0:08:37   12171.8    492.31  256201.6       0.0                          
+    0:08:37   12172.1    492.31  256083.0       0.0                          
+    0:08:37   12172.3    492.31  255959.8       0.0                          
+    0:08:37   12172.6    492.31  255879.1       0.0                          
+    0:08:37   12172.6    492.31  255832.5       0.0                          
+    0:08:37   12173.0    492.31  255655.2       0.0                          
+    0:08:38   12173.0    492.31  255506.6       0.0                          
+    0:08:38   12173.1    492.31  255389.2       0.0                          
+    0:08:38   12173.6    492.31  255246.9       0.0                          
+    0:08:38   12173.6    492.31  255117.2       0.0                          
+    0:08:38   12173.8    492.31  254978.9       0.0                          
+    0:08:38   12173.9    492.31  254899.5       0.0                          
+    0:08:38   12173.9    492.31  254745.9       0.0                          
+    0:08:38   12174.1    492.31  254691.7       0.0                          
+    0:08:39   12174.2    492.31  254603.8       0.0                          
+    0:08:39   12174.6    492.31  254510.2       0.0                          
+    0:08:39   12175.2    492.31  254410.6       0.0                          
+    0:08:39   12175.5    492.31  254325.9       0.0                          
+    0:08:39   12175.5    492.31  254202.3       0.0                          
+    0:08:39   12175.8    492.31  254047.6       0.0                          
+    0:08:40   12175.9    492.31  253982.7       0.0                          
+    0:08:40   12176.0    492.31  253744.3       0.0                          
+    0:08:40   12176.0    492.31  253695.4       0.0                          
+    0:08:40   12176.1    492.31  253574.8       0.0                          
+    0:08:40   12176.2    492.31  253501.9       0.0                          
+    0:08:40   12176.3    492.31  253450.1       0.0                          
+    0:08:40   12176.4    492.31  253353.8       0.0                          
+    0:08:40   12176.5    492.31  253310.6       0.0                          
+    0:08:40   12176.5    492.31  253160.8       0.0                          
+    0:08:41   12176.5    492.31  253149.7       0.0                          
+    0:08:41   12176.6    492.31  253041.2       0.0                          
+    0:08:41   12176.6    492.31  252993.3       0.0                          
+    0:08:41   12176.7    492.31  252945.4       0.0                          
+    0:08:41   12176.7    492.31  252840.6       0.0                          
+    0:08:41   12176.7    492.31  252749.5       0.0                          
+    0:08:41   12176.7    492.31  252707.8       0.0                          
+    0:08:41   12176.9    492.31  252618.2       0.0                          
+    0:08:42   12177.1    492.31  252502.6       0.0                          
+    0:08:42   12177.2    492.31  252493.8       0.0                          
+    0:08:42   12177.2    492.31  252413.3       0.0                          
+    0:08:42   12177.2    492.31  252393.1       0.0                          
+    0:08:42   12177.4    492.31  252317.9       0.0                          
+    0:08:42   12177.8    492.31  252257.3       0.0                          
+    0:08:42   12178.0    492.31  252127.9       0.0                          
+    0:08:42   12178.0    492.31  252080.7       0.0                          
+    0:08:42   12178.1    492.31  252043.4       0.0                          
+    0:08:43   12178.3    486.80  251968.0       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:43   12178.6    485.43  251928.2       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:43   12178.7    484.03  251892.0       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:43   12178.8    483.41  251875.2       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:43   12179.0    483.02  251865.4       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][0]/D
+    0:08:43   12179.0    481.98  251832.1       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:43   12179.2    480.30  251782.4       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:43   12179.5    479.36  251746.0       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][7]/D
+    0:08:44   12179.7    478.40  251691.6       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][0]/D
+    0:08:44   12179.8    476.55  251605.2       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][10]/D
+    0:08:44   12180.0    476.23  251583.0       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][10]/D
+    0:08:44   12180.4    475.62  251492.9       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][7]/D
+    0:08:44   12180.4    474.80  251437.2       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:44   12180.8    474.66  251394.9       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:44   12181.0    474.22  251373.2       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:44   12181.2    473.83  251346.5       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:45   12181.3    473.31  251306.6       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:45   12181.3    473.22  251289.0       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:08:45   12181.6    472.69  251247.1       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][0]/D
+    0:08:45   12181.7    472.32  251224.5       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][14]/D
+    0:08:45   12181.7    472.12  251196.8       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:08:45   12181.9    471.99  251142.4       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:45   12182.3    471.16  251078.7       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][7]/D
+    0:08:46   12182.6    470.94  250966.5       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][10]/D
+    0:08:46   12182.7    470.77  250962.0       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][10]/D
+    0:08:46   12183.0    470.59  250929.1       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][7]/D
+    0:08:46   12183.4    469.76  250843.7       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][7]/D
+    0:08:46   12183.5    469.41  250828.8       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][7]/D
+    0:08:46   12183.5    469.27  250794.4       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][11]/D
+    0:08:46   12183.8    469.17  250762.5       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][0]/D
+    0:08:47   12183.8    468.88  250732.8       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:08:47   12183.9    468.68  250679.7       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:08:47   12184.0    468.47  250671.6       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:47   12183.8    468.19  250646.3       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:47   12183.8    468.04  250627.0       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:47   12183.8    467.97  250586.6       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:08:47   12184.0    467.86  250508.0       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:08:48   12184.0    467.71  250497.1       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][7]/D
+    0:08:48   12184.3    467.53  250487.9       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:08:48   12184.3    467.45  250469.2       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][1]/D
+    0:08:48   12184.3    467.36  250448.3       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:48   12184.4    467.19  250409.4       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:08:48   12184.4    467.02  250380.2       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][7]/D
+    0:08:48   12184.5    466.82  250367.2       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:49   12184.7    466.66  250334.0       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][14]/D
+    0:08:49   12184.8    466.50  250297.5       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:08:49   12184.9    466.30  250270.5       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][7]/D
+    0:08:49   12185.4    465.95  250190.0       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:08:49   12185.7    465.63  250145.1       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][1]/D
+    0:08:49   12186.1    465.42  250095.9       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][10]/D
+    0:08:50   12186.3    464.92  250021.7       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][7]/D
+    0:08:50   12186.7    464.59  249980.8       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:50   12187.0    464.30  249836.8       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:50   12187.2    464.14  249816.2       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:50   12188.1    463.76  249781.5       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][7]/D
+    0:08:50   12188.5    463.51  249740.4       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][7]/D
+    0:08:50   12188.6    463.25  249698.8       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][1]/D
+    0:08:50   12189.0    462.87  249628.5       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:50   12189.1    462.76  249616.2       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:08:51   12189.5    462.54  249543.0       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][10]/D
+    0:08:51   12189.7    462.29  249510.1       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:08:51   12189.7    462.06  249461.2       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:08:51   12189.9    461.73  249430.8       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:08:51   12190.0    461.60  249409.9       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][7]/D
+    0:08:51   12190.1    461.44  249367.5       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:08:51   12190.1    461.22  249346.3       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:08:51   12190.1    461.06  249328.2       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:51   12190.3    460.93  249283.6       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:08:51   12190.5    460.89  249262.2       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:52   12190.7    460.71  249236.0       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][3]/D
+    0:08:52   12190.9    460.47  249165.7       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][3]/D
+    0:08:52   12191.2    460.20  249118.0       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:08:52   12191.5    459.69  249016.9       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:08:52   12191.9    459.23  248960.1       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][10]/D
+    0:08:52   12191.9    459.11  248914.9       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][10]/D
+    0:08:52   12192.1    458.98  248894.5       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][4]/D
+    0:08:52   12192.3    458.72  248840.7       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][1]/D
+    0:08:53   12192.4    458.45  248805.8       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][3]/D
+    0:08:53   12192.6    458.14  248713.1       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:53   12192.9    457.89  248645.1       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][1]/D
+    0:08:53   12193.3    457.44  248597.7       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:08:53   12194.4    457.28  248530.5       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:08:53   12194.5    457.14  248433.5       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:08:53   12194.8    456.92  248395.7       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][1]/D
+    0:08:53   12194.9    456.72  248336.1       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:53   12195.0    456.30  248299.2       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:54   12196.1    456.04  248208.1       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][0]/D
+    0:08:54   12196.4    455.88  248158.8       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:54   12196.6    455.78  248144.9       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][12]/D
+    0:08:54   12196.9    455.55  248033.3       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][1]/D
+    0:08:54   12197.4    455.09  247939.7       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:54   12197.4    454.82  247911.0       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:08:54   12197.7    454.64  247834.6       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:54   12198.6    454.31  247773.7       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:08:54   12198.9    453.95  247732.5       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:55   12199.3    453.73  247663.8       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:55   12199.7    453.24  247592.7       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:55   12199.6    453.14  247547.0       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:08:55   12199.7    452.98  247517.5       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][3]/D
+    0:08:55   12200.0    452.81  247439.9       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][9]/D
+    0:08:55   12200.3    452.51  247395.5       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][9]/D
+    0:08:55   12200.5    452.43  247385.9       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:08:55   12200.7    452.27  247340.0       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][10]/D
+    0:08:55   12201.6    452.00  247279.6       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][9]/D
+    0:08:56   12201.8    451.68  247250.1       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D
+    0:08:56   12201.8    451.47  247206.6       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:08:56   12202.2    451.26  247174.7       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:08:56   12202.4    451.10  247107.9       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][14]/D
+    0:08:56   12202.6    450.94  247040.8       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:56   12203.0    450.71  246973.3       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][10]/D
+    0:08:56   12203.1    450.43  246912.8       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:56   12203.4    450.23  246868.9       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:56   12203.7    450.02  246780.6       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][4]/D
+    0:08:57   12204.0    449.88  246754.2       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:57   12204.4    449.69  246705.4       0.0 u_pe/u_tree/g_mul[15].u_mul/d_pipe_reg[0][10]/D
+    0:08:57   12204.9    449.43  246646.8       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:57   12205.9    449.17  246592.6       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][12]/D
+    0:08:57   12206.0    449.15  246572.5       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:08:57   12206.2    448.86  246508.9       0.0 u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][3]/D
+    0:08:57   12206.4    448.34  246439.9       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][11]/D
+    0:08:58   12206.4    448.29  246435.7       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:08:58   12206.4    448.18  246404.8       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:08:58   12206.4    448.10  246399.3       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:58   12206.5    448.03  246379.8       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][14]/D
+    0:08:58   12207.0    447.93  246376.1       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:08:58   12207.1    447.92  246371.0       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:08:58   12207.2    447.83  246340.5       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:08:59   12207.2    447.81  246339.2       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:08:59   12207.3    447.75  246324.1       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D
+    0:08:59   12207.4    447.74  246311.6       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][4]/D
+    0:08:59   12207.4    447.67  246296.2       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:08:59   12207.5    447.59  246285.5       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D
+    0:08:59   12207.6    447.43  246257.9       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D
+    0:08:59   12207.7    447.38  246246.5       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][11]/D
+    0:08:59   12207.7    447.35  246223.8       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D
+    0:09:00   12207.6    447.19  246189.9       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][4]/D
+    0:09:00   12207.6    447.13  246184.8       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:09:00   12207.7    447.01  246165.5       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][12]/D
+    0:09:00   12208.0    446.91  246119.9       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:09:00   12208.5    446.78  246097.9       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:09:00   12208.6    446.77  246089.6       0.0 u_pe/u_tree/g_mul[2].u_mul/d_pipe_reg[0][3]/D
+    0:09:00   12208.7    446.70  246077.3       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:09:00   12208.7    446.63  246051.4       0.0 u_pe/u_tree/g_mul[14].u_mul/d_pipe_reg[0][4]/D
+    0:09:01   12208.9    446.51  246027.0       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][4]/D
+    0:09:01   12209.0    446.27  245969.0       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D
+    0:09:01   12209.1    446.13  245948.7       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D
+    0:09:01   12209.2    445.98  245934.7       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:09:01   12209.3    445.93  245914.5       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:09:01   12209.1    445.84  245887.6       0.0 u_pe/u_tree/g_mul[0].u_mul/d_pipe_reg[0][10]/D
+    0:09:01   12209.4    445.69  245877.7       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][4]/D
+    0:09:01   12209.6    445.48  245845.1       0.0 u_pe/u_tree/g_mul[3].u_mul/d_pipe_reg[0][4]/D
+    0:09:01   12209.9    445.42  245820.5       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][4]/D
+    0:09:01   12210.0    445.35  245752.9       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:09:02   12210.1    445.27  245735.3       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][4]/D
+    0:09:02   12210.5    445.05  245685.1       0.0 u_pe/u_tree/g_mul[11].u_mul/d_pipe_reg[0][0]/D
+    0:09:02   12210.9    444.96  245654.6       0.0 u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][3]/D
+    0:09:02   12211.0    444.89  245618.4       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][3]/D
+    0:09:02   12211.1    444.82  245579.1       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:09:02   12211.2    444.66  245566.5       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][3]/D
+    0:09:02   12211.4    444.52  245537.7       0.0 u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D
+    0:09:03   12211.4    444.49  245525.6       0.0 u_pe/u_tree/g_mul[5].u_mul/d_pipe_reg[0][3]/D
+    0:09:03   12211.7    444.33  245521.6       0.0 u_pe/u_tree/g_mul[12].u_mul/d_pipe_reg[0][9]/D
+    0:09:03   12211.7    444.33  245519.3       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:09:03   12211.9    444.23  245504.3       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:09:03   12212.0    444.17  245484.8       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][4]/D
+    0:09:03   12212.0    444.08  245477.0       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:09:03   12212.2    443.93  245402.0       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:09:03   12212.4    443.85  245381.5       0.0 u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][0]/D
+    0:09:04   12212.5    443.79  245375.9       0.0 u_pe/u_tree/g_mul[13].u_mul/d_pipe_reg[0][2]/D
+    0:09:04   12212.5    443.73  245342.0       0.0 u_pe/u_tree/g_mul[8].u_mul/d_pipe_reg[0][4]/D
+    0:09:04   12212.6    443.64  245315.5       0.0 u_pe/u_tree/g_mul[6].u_mul/d_pipe_reg[0][4]/D
+    0:09:04   12212.6    443.60  245297.0       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:09:04   12212.6    443.55  245289.3       0.0 u_pe/u_tree/g_mul[7].u_mul/d_pipe_reg[0][9]/D
+    0:09:06   12181.1    443.49  245284.0       0.0                          
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'mq_pe_16x2_d32' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'u_pe/u_tree/g_mul[1].u_mul/clk': 20658 load(s), 1 driver(s)
+1
+report_qor -nosplit > [file join $out_dir ${top_module}_qor.rpt]
+report_area -hierarchy -nosplit > [file join $out_dir ${top_module}_area.rpt]
+# Keeps the SRAM macro count, reference and mapped area explicit instead of
+# folding it into the surrounding softmax-buffer hierarchy.
+report_reference -hierarchy -nosplit > [file join $out_dir ${top_module}_references.rpt]
+report_timing -delay_type max -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing.rpt]
+report_power -nosplit > [file join $out_dir ${top_module}_power.rpt]
+write -format verilog -hierarchy -output [file join $out_dir ${top_module}_mapped.v]
+Writing verilog file '/thu-bloor/xinyao-w23/kvpim-rtl/syn/xinyao_0828/fugue_mq_pe16x2_p769/mq_pe_16x2_d32_mapped.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_15 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_14 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_13 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_12 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_11 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_10 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_9 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_8 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_7 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_6 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_5 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_4 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_3 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_2 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_1 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_0 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_piped_NUM_PIPE2_16 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+1
+write_sdc [file join $out_dir ${top_module}.sdc]
+1
+quit
+
+Thank you...

@@ -1,0 +1,1673 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : mq_pe_16x2_d32
+Version: P-2019.03-SP5-6
+Date   : Fri Aug 28 23:32:40 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][14]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U14/Y (BUFx6f_ASAP7_75t_R)    22.05   852.10 r
+  u_pe/u_tree/g_mul[1].u_mul/U66/Y (MAJx2_ASAP7_75t_R)    24.13    876.23 r
+  u_pe/u_tree/g_mul[1].u_mul/U67/Y (OA21x2_ASAP7_75t_R)    26.59   902.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U101/Y (OAI22x1_ASAP7_75t_R)    16.11   918.93 f
+  u_pe/u_tree/g_mul[1].u_mul/U40/Y (AOI21xp5_ASAP7_75t_R)    26.44   945.37 r
+  u_pe/u_tree/g_mul[1].u_mul/U179/SN (FAx1_ASAP7_75t_R)    55.61  1000.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U181/Y (XOR2xp5_ASAP7_75t_R)    34.68  1035.66 r
+  u_pe/u_tree/g_mul[1].u_mul/U182/Y (NAND3xp33_ASAP7_75t_R)    15.66  1051.33 f
+  u_pe/u_tree/g_mul[1].u_mul/U184/Y (OAI32xp33_ASAP7_75t_R)    22.41  1073.74 r
+  u_pe/u_tree/g_mul[1].u_mul/U87/Y (INVxp33_ASAP7_75t_R)    24.13  1097.87 f
+  u_pe/u_tree/g_mul[1].u_mul/U84/Y (OAI21xp33_ASAP7_75t_R)    38.22  1136.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U106/Y (OAI21xp33_ASAP7_75t_R)    22.96  1159.04 f
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][14]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1159.04 f
+  data arrival time                                               1159.04
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][14]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                     -3.45     715.55
+  data required time                                               715.55
+  --------------------------------------------------------------------------
+  data required time                                               715.55
+  data arrival time                                              -1159.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.49
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][13]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U14/Y (BUFx6f_ASAP7_75t_R)    22.05   852.10 r
+  u_pe/u_tree/g_mul[1].u_mul/U66/Y (MAJx2_ASAP7_75t_R)    24.13    876.23 r
+  u_pe/u_tree/g_mul[1].u_mul/U67/Y (OA21x2_ASAP7_75t_R)    26.59   902.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U101/Y (OAI22x1_ASAP7_75t_R)    16.11   918.93 f
+  u_pe/u_tree/g_mul[1].u_mul/U40/Y (AOI21xp5_ASAP7_75t_R)    26.44   945.37 r
+  u_pe/u_tree/g_mul[1].u_mul/U179/SN (FAx1_ASAP7_75t_R)    55.61  1000.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U181/Y (XOR2xp5_ASAP7_75t_R)    34.68  1035.66 r
+  u_pe/u_tree/g_mul[1].u_mul/U182/Y (NAND3xp33_ASAP7_75t_R)    15.66  1051.33 f
+  u_pe/u_tree/g_mul[1].u_mul/U184/Y (OAI32xp33_ASAP7_75t_R)    22.41  1073.74 r
+  u_pe/u_tree/g_mul[1].u_mul/U87/Y (INVxp33_ASAP7_75t_R)    24.13  1097.87 f
+  u_pe/u_tree/g_mul[1].u_mul/U84/Y (OAI21xp33_ASAP7_75t_R)    38.22  1136.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U105/Y (OAI21xp33_ASAP7_75t_R)    22.96  1159.04 f
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][13]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1159.04 f
+  data arrival time                                               1159.04
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][13]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                     -3.45     715.55
+  data required time                                               715.55
+  --------------------------------------------------------------------------
+  data required time                                               715.55
+  data arrival time                                              -1159.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.49
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][12]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U14/Y (BUFx6f_ASAP7_75t_R)    22.05   852.10 r
+  u_pe/u_tree/g_mul[1].u_mul/U66/Y (MAJx2_ASAP7_75t_R)    24.13    876.23 r
+  u_pe/u_tree/g_mul[1].u_mul/U67/Y (OA21x2_ASAP7_75t_R)    26.59   902.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U101/Y (OAI22x1_ASAP7_75t_R)    16.11   918.93 f
+  u_pe/u_tree/g_mul[1].u_mul/U40/Y (AOI21xp5_ASAP7_75t_R)    26.44   945.37 r
+  u_pe/u_tree/g_mul[1].u_mul/U179/SN (FAx1_ASAP7_75t_R)    55.61  1000.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U181/Y (XOR2xp5_ASAP7_75t_R)    34.68  1035.66 r
+  u_pe/u_tree/g_mul[1].u_mul/U182/Y (NAND3xp33_ASAP7_75t_R)    15.66  1051.33 f
+  u_pe/u_tree/g_mul[1].u_mul/U184/Y (OAI32xp33_ASAP7_75t_R)    22.41  1073.74 r
+  u_pe/u_tree/g_mul[1].u_mul/U87/Y (INVxp33_ASAP7_75t_R)    24.13  1097.87 f
+  u_pe/u_tree/g_mul[1].u_mul/U84/Y (OAI21xp33_ASAP7_75t_R)    38.22  1136.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U104/Y (OAI21xp33_ASAP7_75t_R)    22.96  1159.04 f
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][12]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1159.04 f
+  data arrival time                                               1159.04
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][12]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                     -3.45     715.55
+  data required time                                               715.55
+  --------------------------------------------------------------------------
+  data required time                                               715.55
+  data arrival time                                              -1159.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.49
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][11]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U14/Y (BUFx6f_ASAP7_75t_R)    22.05   852.10 r
+  u_pe/u_tree/g_mul[1].u_mul/U66/Y (MAJx2_ASAP7_75t_R)    24.13    876.23 r
+  u_pe/u_tree/g_mul[1].u_mul/U67/Y (OA21x2_ASAP7_75t_R)    26.59   902.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U101/Y (OAI22x1_ASAP7_75t_R)    16.11   918.93 f
+  u_pe/u_tree/g_mul[1].u_mul/U40/Y (AOI21xp5_ASAP7_75t_R)    26.44   945.37 r
+  u_pe/u_tree/g_mul[1].u_mul/U179/SN (FAx1_ASAP7_75t_R)    55.61  1000.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U181/Y (XOR2xp5_ASAP7_75t_R)    34.68  1035.66 r
+  u_pe/u_tree/g_mul[1].u_mul/U182/Y (NAND3xp33_ASAP7_75t_R)    15.66  1051.33 f
+  u_pe/u_tree/g_mul[1].u_mul/U184/Y (OAI32xp33_ASAP7_75t_R)    22.41  1073.74 r
+  u_pe/u_tree/g_mul[1].u_mul/U87/Y (INVxp33_ASAP7_75t_R)    24.13  1097.87 f
+  u_pe/u_tree/g_mul[1].u_mul/U84/Y (OAI21xp33_ASAP7_75t_R)    38.22  1136.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U103/Y (OAI21xp33_ASAP7_75t_R)    22.96  1159.04 f
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][11]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1159.04 f
+  data arrival time                                               1159.04
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][11]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                     -3.45     715.55
+  data required time                                               715.55
+  --------------------------------------------------------------------------
+  data required time                                               715.55
+  data arrival time                                              -1159.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.49
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U14/Y (BUFx6f_ASAP7_75t_R)    22.05   852.10 r
+  u_pe/u_tree/g_mul[1].u_mul/U66/Y (MAJx2_ASAP7_75t_R)    24.13    876.23 r
+  u_pe/u_tree/g_mul[1].u_mul/U67/Y (OA21x2_ASAP7_75t_R)    26.59   902.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U101/Y (OAI22x1_ASAP7_75t_R)    16.11   918.93 f
+  u_pe/u_tree/g_mul[1].u_mul/U40/Y (AOI21xp5_ASAP7_75t_R)    26.44   945.37 r
+  u_pe/u_tree/g_mul[1].u_mul/U179/SN (FAx1_ASAP7_75t_R)    55.61  1000.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U181/Y (XOR2xp5_ASAP7_75t_R)    34.68  1035.66 r
+  u_pe/u_tree/g_mul[1].u_mul/U182/Y (NAND3xp33_ASAP7_75t_R)    15.66  1051.33 f
+  u_pe/u_tree/g_mul[1].u_mul/U184/Y (OAI32xp33_ASAP7_75t_R)    22.41  1073.74 r
+  u_pe/u_tree/g_mul[1].u_mul/U87/Y (INVxp33_ASAP7_75t_R)    24.13  1097.87 f
+  u_pe/u_tree/g_mul[1].u_mul/U84/Y (OAI21xp33_ASAP7_75t_R)    38.22  1136.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U102/Y (OAI21xp33_ASAP7_75t_R)    22.96  1159.04 f
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1159.04 f
+  data arrival time                                               1159.04
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][10]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                     -3.45     715.55
+  data required time                                               715.55
+  --------------------------------------------------------------------------
+  data required time                                               715.55
+  data arrival time                                              -1159.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.49
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[174]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[174]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[174]/QN (DFFASRHQNx1_ASAP7_75t_R)    78.49    78.49 f
+  u_pe/u_vec_store/rd_data[174] (dbuf_16x256_DEPTH32)     0.00      78.49 f
+  u_pe/u_tree/b_word[174] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    78.49 f
+  u_pe/u_tree/g_mul[10].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_6)     0.00    78.49 f
+  u_pe/u_tree/g_mul[10].u_mul/U49/Y (OR5x1_ASAP7_75t_R)    54.15   132.64 f
+  u_pe/u_tree/g_mul[10].u_mul/U48/Y (BUFx6f_ASAP7_75t_R)    22.93   155.56 f
+  u_pe/u_tree/g_mul[10].u_mul/U66/Y (AND2x4_ASAP7_75t_R)    19.58   175.15 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/B[9] (fp16_mult_piped_NUM_PIPE2_6_DW02_mult_0_DW02_mult_10)     0.00   175.15 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U71/Y (AND2x4_ASAP7_75t_R)    18.72   193.87 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U26/Y (AND2x4_ASAP7_75t_R)    17.88   211.75 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   247.22 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U108/Y (INVx1_ASAP7_75t_R)    16.61   263.83 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   302.64 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U141/Y (INVx1_ASAP7_75t_R)    16.94   319.58 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   358.49 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U173/Y (INVx1_ASAP7_75t_R)    16.63   375.12 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   413.94 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U205/Y (INVx1_ASAP7_75t_R)    16.63   430.57 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   469.38 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U238/Y (INVx1_ASAP7_75t_R)    16.90   486.28 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    36.82   523.10 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U270/Y (INVx1_ASAP7_75t_R)    16.76   539.86 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_8_3/CON (FAx1_ASAP7_75t_R)    21.76   561.62 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U299/Y (INVx1_ASAP7_75t_R)    18.90   580.53 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_9_3/CON (FAx1_ASAP7_75t_R)    24.72   605.25 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_9_3/SN (FAx1_ASAP7_75t_R)    16.37   621.62 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U331/Y (INVx1_ASAP7_75t_R)    16.64   638.26 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    38.53   676.79 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U2/Y (INVxp33_ASAP7_75t_R)    23.45   700.24 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U37/Y (XOR2x2_ASAP7_75t_R)    40.29   740.53 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/A[10] (fp16_mult_piped_NUM_PIPE2_6_DW01_add_3)     0.00   740.53 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U85/Y (INVx1_ASAP7_75t_R)    11.67   752.20 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U34/Y (OA31x2_ASAP7_75t_R)    26.18   778.38 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U79/Y (OAI21xp5_ASAP7_75t_R)    22.02   800.39 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U73/Y (INVx1_ASAP7_75t_R)    11.65   812.04 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U29/Y (OA21x2_ASAP7_75t_R)    25.95   837.99 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U71/Y (OAI21xp5_ASAP7_75t_R)    16.38   854.37 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U67/Y (XNOR2xp5_ASAP7_75t_R)    22.25   876.62 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/SUM[15] (fp16_mult_piped_NUM_PIPE2_6_DW01_add_3)     0.00   876.62 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/PRODUCT[17] (fp16_mult_piped_NUM_PIPE2_6_DW02_mult_0_DW02_mult_10)     0.00   876.62 r
+  u_pe/u_tree/g_mul[10].u_mul/U75/Y (NAND2xp33_ASAP7_75t_R)    12.79   889.41 f
+  u_pe/u_tree/g_mul[10].u_mul/U73/Y (OAI21xp33_ASAP7_75t_R)    14.87   904.28 r
+  u_pe/u_tree/g_mul[10].u_mul/U154/Y (AND4x1_ASAP7_75t_R)    32.28   936.56 r
+  u_pe/u_tree/g_mul[10].u_mul/U165/Y (NAND3xp33_ASAP7_75t_R)    17.98   954.53 f
+  u_pe/u_tree/g_mul[10].u_mul/U166/Y (INVx1_ASAP7_75t_R)    19.08   973.61 r
+  u_pe/u_tree/g_mul[10].u_mul/U5/Y (NAND2x1_ASAP7_75t_R)    14.27   987.89 f
+  u_pe/u_tree/g_mul[10].u_mul/U189/Y (INVx1_ASAP7_75t_R)    10.49   998.38 r
+  u_pe/u_tree/g_mul[10].u_mul/U113/Y (NAND4xp25_ASAP7_75t_R)    31.72  1030.10 f
+  u_pe/u_tree/g_mul[10].u_mul/U193/Y (A2O1A1Ixp33_ASAP7_75t_R)    22.09  1052.19 r
+  u_pe/u_tree/g_mul[10].u_mul/U194/Y (INVx1_ASAP7_75t_R)    12.76  1064.95 f
+  u_pe/u_tree/g_mul[10].u_mul/U107/Y (NOR3xp33_ASAP7_75t_R)    15.50  1080.45 r
+  u_pe/u_tree/g_mul[10].u_mul/U111/Y (AOI31xp33_ASAP7_75t_R)    19.94  1100.38 f
+  u_pe/u_tree/g_mul[10].u_mul/U31/Y (AND2x2_ASAP7_75t_R)    33.88  1134.26 f
+  u_pe/u_tree/g_mul[10].u_mul/U215/Y (OAI211xp5_ASAP7_75t_R)    16.46  1150.73 r
+  u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1150.73 r
+  data arrival time                                               1150.73
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][4]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.69     707.31
+  data required time                                               707.31
+  --------------------------------------------------------------------------
+  data required time                                               707.31
+  data arrival time                                              -1150.73
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.41
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[174]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][5]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[174]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[174]/QN (DFFASRHQNx1_ASAP7_75t_R)    78.49    78.49 f
+  u_pe/u_vec_store/rd_data[174] (dbuf_16x256_DEPTH32)     0.00      78.49 f
+  u_pe/u_tree/b_word[174] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    78.49 f
+  u_pe/u_tree/g_mul[10].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_6)     0.00    78.49 f
+  u_pe/u_tree/g_mul[10].u_mul/U49/Y (OR5x1_ASAP7_75t_R)    54.15   132.64 f
+  u_pe/u_tree/g_mul[10].u_mul/U48/Y (BUFx6f_ASAP7_75t_R)    22.93   155.56 f
+  u_pe/u_tree/g_mul[10].u_mul/U66/Y (AND2x4_ASAP7_75t_R)    19.58   175.15 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/B[9] (fp16_mult_piped_NUM_PIPE2_6_DW02_mult_0_DW02_mult_10)     0.00   175.15 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U71/Y (AND2x4_ASAP7_75t_R)    18.72   193.87 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U26/Y (AND2x4_ASAP7_75t_R)    17.88   211.75 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   247.22 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U108/Y (INVx1_ASAP7_75t_R)    16.61   263.83 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   302.64 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U141/Y (INVx1_ASAP7_75t_R)    16.94   319.58 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   358.49 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U173/Y (INVx1_ASAP7_75t_R)    16.63   375.12 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   413.94 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U205/Y (INVx1_ASAP7_75t_R)    16.63   430.57 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   469.38 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U238/Y (INVx1_ASAP7_75t_R)    16.90   486.28 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    36.82   523.10 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U270/Y (INVx1_ASAP7_75t_R)    16.76   539.86 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_8_3/CON (FAx1_ASAP7_75t_R)    21.76   561.62 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U299/Y (INVx1_ASAP7_75t_R)    18.90   580.53 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_9_3/CON (FAx1_ASAP7_75t_R)    24.72   605.25 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S2_9_3/SN (FAx1_ASAP7_75t_R)    16.37   621.62 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U331/Y (INVx1_ASAP7_75t_R)    16.64   638.26 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    38.53   676.79 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U2/Y (INVxp33_ASAP7_75t_R)    23.45   700.24 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/U37/Y (XOR2x2_ASAP7_75t_R)    40.29   740.53 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/A[10] (fp16_mult_piped_NUM_PIPE2_6_DW01_add_3)     0.00   740.53 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U85/Y (INVx1_ASAP7_75t_R)    11.67   752.20 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U34/Y (OA31x2_ASAP7_75t_R)    26.18   778.38 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U79/Y (OAI21xp5_ASAP7_75t_R)    22.02   800.39 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U73/Y (INVx1_ASAP7_75t_R)    11.65   812.04 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U29/Y (OA21x2_ASAP7_75t_R)    25.95   837.99 f
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U71/Y (OAI21xp5_ASAP7_75t_R)    16.38   854.37 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/U67/Y (XNOR2xp5_ASAP7_75t_R)    22.25   876.62 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/FS_1/SUM[15] (fp16_mult_piped_NUM_PIPE2_6_DW01_add_3)     0.00   876.62 r
+  u_pe/u_tree/g_mul[10].u_mul/mult_36/PRODUCT[17] (fp16_mult_piped_NUM_PIPE2_6_DW02_mult_0_DW02_mult_10)     0.00   876.62 r
+  u_pe/u_tree/g_mul[10].u_mul/U75/Y (NAND2xp33_ASAP7_75t_R)    12.79   889.41 f
+  u_pe/u_tree/g_mul[10].u_mul/U73/Y (OAI21xp33_ASAP7_75t_R)    14.87   904.28 r
+  u_pe/u_tree/g_mul[10].u_mul/U154/Y (AND4x1_ASAP7_75t_R)    32.28   936.56 r
+  u_pe/u_tree/g_mul[10].u_mul/U165/Y (NAND3xp33_ASAP7_75t_R)    17.98   954.53 f
+  u_pe/u_tree/g_mul[10].u_mul/U166/Y (INVx1_ASAP7_75t_R)    19.08   973.61 r
+  u_pe/u_tree/g_mul[10].u_mul/U5/Y (NAND2x1_ASAP7_75t_R)    14.27   987.89 f
+  u_pe/u_tree/g_mul[10].u_mul/U189/Y (INVx1_ASAP7_75t_R)    10.49   998.38 r
+  u_pe/u_tree/g_mul[10].u_mul/U113/Y (NAND4xp25_ASAP7_75t_R)    31.72  1030.10 f
+  u_pe/u_tree/g_mul[10].u_mul/U193/Y (A2O1A1Ixp33_ASAP7_75t_R)    22.09  1052.19 r
+  u_pe/u_tree/g_mul[10].u_mul/U194/Y (INVx1_ASAP7_75t_R)    12.76  1064.95 f
+  u_pe/u_tree/g_mul[10].u_mul/U107/Y (NOR3xp33_ASAP7_75t_R)    15.50  1080.45 r
+  u_pe/u_tree/g_mul[10].u_mul/U111/Y (AOI31xp33_ASAP7_75t_R)    19.94  1100.38 f
+  u_pe/u_tree/g_mul[10].u_mul/U31/Y (AND2x2_ASAP7_75t_R)    33.88  1134.26 f
+  u_pe/u_tree/g_mul[10].u_mul/U219/Y (OAI211xp5_ASAP7_75t_R)    16.46  1150.73 r
+  u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][5]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1150.73 r
+  data arrival time                                               1150.73
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[10].u_mul/d_pipe_reg[0][5]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.68     707.32
+  data required time                                               707.32
+  --------------------------------------------------------------------------
+  data required time                                               707.32
+  data arrival time                                              -1150.73
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.41
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U201/Y (OAI211xp5_ASAP7_75t_R)    16.45  1151.07 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][1]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.07 r
+  data arrival time                                               1151.07
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][1]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.33     707.67
+  data required time                                               707.67
+  --------------------------------------------------------------------------
+  data required time                                               707.67
+  data arrival time                                              -1151.07
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.40
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[157]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[157]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[157]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U9086/Y (BUFx3_ASAP7_75t_R)           25.66      82.31 f
+  u_pe/u_vec_store/rd_data[157] (dbuf_16x256_DEPTH32)     0.00      82.31 f
+  u_pe/u_tree/b_word[157] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.31 f
+  u_pe/u_tree/g_mul[9].u_mul/b[13] (fp16_mult_piped_NUM_PIPE2_7)     0.00    82.31 f
+  u_pe/u_tree/g_mul[9].u_mul/U109/Y (OR5x1_ASAP7_75t_R)    45.15   127.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U108/Y (BUFx6f_ASAP7_75t_R)    24.92   152.38 f
+  u_pe/u_tree/g_mul[9].u_mul/U40/Y (AND2x4_ASAP7_75t_R)    23.75   176.13 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/B[9] (fp16_mult_piped_NUM_PIPE2_7_DW02_mult_0_DW02_mult_9)     0.00   176.13 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    19.78   195.91 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U17/Y (XOR2xp5_ASAP7_75t_R)    23.76   219.67 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_2_8/SN (FAx1_ASAP7_75t_R)    45.25   264.92 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U109/Y (INVx1_ASAP7_75t_R)    17.74   282.66 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_3_7/SN (FAx1_ASAP7_75t_R)    39.17   321.83 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U142/Y (INVx1_ASAP7_75t_R)    16.70   338.52 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.84   377.36 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U175/Y (INVx1_ASAP7_75t_R)    16.70   394.05 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.84   432.89 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U208/Y (INVx1_ASAP7_75t_R)    16.70   449.59 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.84   488.42 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U241/Y (INVx1_ASAP7_75t_R)    16.70   505.12 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.76   541.88 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U5/Y (INVx1_ASAP7_75t_R)    16.66   558.53 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.73   580.26 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U299/Y (INVx1_ASAP7_75t_R)    18.90   599.16 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   623.88 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U2/Y (INVx1_ASAP7_75t_R)    18.90   642.78 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    39.70   682.48 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.09   698.57 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U26/Y (AND2x2_ASAP7_75t_R)    22.59   721.16 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_7_DW01_add_3)     0.00   721.16 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U85/Y (OR2x2_ASAP7_75t_R)    19.64   740.80 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U37/Y (NAND4xp25_ASAP7_75t_R)    16.55   757.35 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U28/Y (NOR2xp33_ASAP7_75t_R)    16.68   774.03 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U31/Y (AOI21xp5_ASAP7_75t_R)    11.69   785.72 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U39/Y (NAND2xp5_ASAP7_75t_R)    18.23   803.95 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U2/Y (XNOR2x1_ASAP7_75t_R)    27.99   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_7_DW01_add_3)     0.00   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_7_DW02_mult_0_DW02_mult_9)     0.00   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/U13/Y (BUFx3_ASAP7_75t_R)    22.58    854.53 r
+  u_pe/u_tree/g_mul[9].u_mul/U174/Y (MAJIxp5_ASAP7_75t_R)    11.94   866.47 f
+  u_pe/u_tree/g_mul[9].u_mul/U80/Y (BUFx3_ASAP7_75t_R)    23.99    890.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U15/Y (AOI21x1_ASAP7_75t_R)    18.30   908.76 r
+  u_pe/u_tree/g_mul[9].u_mul/U28/Y (OAI22x1_ASAP7_75t_R)    21.03   929.78 f
+  u_pe/u_tree/g_mul[9].u_mul/U179/Y (AOI21x1_ASAP7_75t_R)    20.63   950.41 r
+  u_pe/u_tree/g_mul[9].u_mul/U180/SN (FAx1_ASAP7_75t_R)    55.07  1005.49 f
+  u_pe/u_tree/g_mul[9].u_mul/U98/Y (NAND2xp33_ASAP7_75t_R)    30.55  1036.04 r
+  u_pe/u_tree/g_mul[9].u_mul/U21/Y (INVxp67_ASAP7_75t_R)    12.42  1048.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U183/Y (OAI32xp33_ASAP7_75t_R)    23.25  1071.71 r
+  u_pe/u_tree/g_mul[9].u_mul/U110/Y (NOR2xp33_ASAP7_75t_R)    28.11  1099.82 f
+  u_pe/u_tree/g_mul[9].u_mul/U23/Y (AND2x2_ASAP7_75t_R)    34.45  1134.27 f
+  u_pe/u_tree/g_mul[9].u_mul/U210/Y (OAI211xp5_ASAP7_75t_R)    16.46  1150.73 r
+  u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][3]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1150.73 r
+  data arrival time                                               1150.73
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][3]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.67     707.33
+  data required time                                               707.33
+  --------------------------------------------------------------------------
+  data required time                                               707.33
+  data arrival time                                              -1150.73
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.40
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][7]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U222/Y (OAI211xp5_ASAP7_75t_R)    16.45  1151.07 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][7]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.07 r
+  data arrival time                                               1151.07
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][7]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.33     707.67
+  data required time                                               707.67
+  --------------------------------------------------------------------------
+  data required time                                               707.67
+  data arrival time                                              -1151.07
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.40
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[75]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[75]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[75]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U10423/Y (BUFx3_ASAP7_75t_R)          25.91      82.56 f
+  u_pe/u_vec_store/rd_data[75] (dbuf_16x256_DEPTH32)      0.00      82.56 f
+  u_pe/u_tree/b_word[75] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.56 f
+  u_pe/u_tree/g_mul[4].u_mul/b[11] (fp16_mult_piped_NUM_PIPE2_12)     0.00    82.56 f
+  u_pe/u_tree/g_mul[4].u_mul/U43/Y (OR5x1_ASAP7_75t_R)    41.46    124.02 f
+  u_pe/u_tree/g_mul[4].u_mul/U42/Y (BUFx6f_ASAP7_75t_R)    26.00   150.02 f
+  u_pe/u_tree/g_mul[4].u_mul/U67/Y (AND2x2_ASAP7_75t_R)    26.78   176.80 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/B[9] (fp16_mult_piped_NUM_PIPE2_12_DW02_mult_0_DW02_mult_4)     0.00   176.80 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U46/Y (AND2x4_ASAP7_75t_R)    21.74   198.54 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U14/Y (XOR2xp5_ASAP7_75t_R)    21.20   219.74 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_2_8/SN (FAx1_ASAP7_75t_R)    43.80   263.53 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U104/Y (INVx1_ASAP7_75t_R)    17.51   281.04 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_3_7/SN (FAx1_ASAP7_75t_R)    39.09   320.13 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U137/Y (INVx1_ASAP7_75t_R)    16.65   336.79 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.82   375.61 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U42/Y (INVx1_ASAP7_75t_R)    16.64   392.25 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.82   431.07 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U202/Y (INVx1_ASAP7_75t_R)    16.64   447.71 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_6_4/SN (FAx1_ASAP7_75t_R)    36.74   484.45 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U235/Y (INVx1_ASAP7_75t_R)    16.61   501.05 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_7_3/CON (FAx1_ASAP7_75t_R)    21.71   522.76 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U263/Y (INVx1_ASAP7_75t_R)    18.89   541.66 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_8_3/CON (FAx1_ASAP7_75t_R)    24.72   566.38 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U293/Y (INVx1_ASAP7_75t_R)    18.89   585.27 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_9_3/CON (FAx1_ASAP7_75t_R)    24.72   609.99 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_9_3/SN (FAx1_ASAP7_75t_R)    16.38   626.37 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U327/Y (INVx1_ASAP7_75t_R)    16.64   643.01 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    38.82   681.83 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U349/Y (INVx1_ASAP7_75t_R)    15.99   697.82 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U20/Y (AND2x2_ASAP7_75t_R)    22.55   720.37 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_12_DW01_add_3)     0.00   720.37 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U86/Y (OR2x2_ASAP7_75t_R)    22.47   742.85 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U5/Y (NAND4xp75_ASAP7_75t_R)    17.83   760.67 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U4/Y (NOR2x1_ASAP7_75t_R)    11.71   772.39 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U32/Y (AOI21xp5_ASAP7_75t_R)    10.28   782.66 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U30/Y (AND2x2_ASAP7_75t_R)    23.51   806.18 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U34/Y (XNOR2x1_ASAP7_75t_R)    24.54   830.72 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_12_DW01_add_3)     0.00   830.72 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_12_DW02_mult_0_DW02_mult_4)     0.00   830.72 f
+  u_pe/u_tree/g_mul[4].u_mul/U14/Y (BUFx6f_ASAP7_75t_R)    21.14   851.86 f
+  u_pe/u_tree/g_mul[4].u_mul/U165/Y (MAJIxp5_ASAP7_75t_R)    27.86   879.72 r
+  u_pe/u_tree/g_mul[4].u_mul/U166/SN (FAx1_ASAP7_75t_R)    52.86   932.58 f
+  u_pe/u_tree/g_mul[4].u_mul/U167/Y (NAND2xp5_ASAP7_75t_R)    20.89   953.47 r
+  u_pe/u_tree/g_mul[4].u_mul/U168/Y (INVx1_ASAP7_75t_R)    14.38   967.85 f
+  u_pe/u_tree/g_mul[4].u_mul/U171/Y (NAND2xp5_ASAP7_75t_R)    13.01   980.86 r
+  u_pe/u_tree/g_mul[4].u_mul/U44/Y (OA21x2_ASAP7_75t_R)    24.15  1005.01 r
+  u_pe/u_tree/g_mul[4].u_mul/U98/Y (NAND4xp25_ASAP7_75t_R)    28.63  1033.64 f
+  u_pe/u_tree/g_mul[4].u_mul/U185/Y (A2O1A1Ixp33_ASAP7_75t_R)    21.68  1055.32 r
+  u_pe/u_tree/g_mul[4].u_mul/U186/Y (INVx1_ASAP7_75t_R)    15.09  1070.41 f
+  u_pe/u_tree/g_mul[4].u_mul/U35/Y (NOR3xp33_ASAP7_75t_R)    18.03  1088.44 r
+  u_pe/u_tree/g_mul[4].u_mul/U74/Y (AOI31xp33_ASAP7_75t_R)    15.01  1103.45 f
+  u_pe/u_tree/g_mul[4].u_mul/U23/Y (AND2x2_ASAP7_75t_R)    30.80  1134.25 f
+  u_pe/u_tree/g_mul[4].u_mul/U206/Y (OAI211xp5_ASAP7_75t_R)    16.46  1150.71 r
+  u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][3]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1150.71 r
+  data arrival time                                               1150.71
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][3]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.68     707.32
+  data required time                                               707.32
+  --------------------------------------------------------------------------
+  data required time                                               707.32
+  data arrival time                                              -1150.71
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.39
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U206/Y (OAI211xp5_ASAP7_75t_R)    16.45  1151.07 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][3]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.07 r
+  data arrival time                                               1151.07
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][3]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.32     707.68
+  data required time                                               707.68
+  --------------------------------------------------------------------------
+  data required time                                               707.68
+  data arrival time                                              -1151.07
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.39
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][9]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U228/Y (O2A1O1Ixp5_ASAP7_75t_R)    17.27  1151.89 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][9]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.89 r
+  data arrival time                                               1151.89
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][9]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -10.50     708.50
+  data required time                                               708.50
+  --------------------------------------------------------------------------
+  data required time                                               708.50
+  data arrival time                                              -1151.89
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.39
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U203/Y (OAI211xp5_ASAP7_75t_R)    16.45  1151.07 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][2]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.07 r
+  data arrival time                                               1151.07
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][2]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.30     707.70
+  data required time                                               707.70
+  --------------------------------------------------------------------------
+  data required time                                               707.70
+  data arrival time                                              -1151.07
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.38
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][6]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U218/Y (OAI211xp5_ASAP7_75t_R)    16.45  1151.07 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][6]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.07 r
+  data arrival time                                               1151.07
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][6]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.30     707.70
+  data required time                                               707.70
+  --------------------------------------------------------------------------
+  data required time                                               707.70
+  data arrival time                                              -1151.07
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.37
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[75]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][6]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[75]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[75]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U10423/Y (BUFx3_ASAP7_75t_R)          25.91      82.56 f
+  u_pe/u_vec_store/rd_data[75] (dbuf_16x256_DEPTH32)      0.00      82.56 f
+  u_pe/u_tree/b_word[75] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.56 f
+  u_pe/u_tree/g_mul[4].u_mul/b[11] (fp16_mult_piped_NUM_PIPE2_12)     0.00    82.56 f
+  u_pe/u_tree/g_mul[4].u_mul/U43/Y (OR5x1_ASAP7_75t_R)    41.46    124.02 f
+  u_pe/u_tree/g_mul[4].u_mul/U42/Y (BUFx6f_ASAP7_75t_R)    26.00   150.02 f
+  u_pe/u_tree/g_mul[4].u_mul/U67/Y (AND2x2_ASAP7_75t_R)    26.78   176.80 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/B[9] (fp16_mult_piped_NUM_PIPE2_12_DW02_mult_0_DW02_mult_4)     0.00   176.80 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U46/Y (AND2x4_ASAP7_75t_R)    21.74   198.54 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U14/Y (XOR2xp5_ASAP7_75t_R)    21.20   219.74 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_2_8/SN (FAx1_ASAP7_75t_R)    43.80   263.53 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U104/Y (INVx1_ASAP7_75t_R)    17.51   281.04 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_3_7/SN (FAx1_ASAP7_75t_R)    39.09   320.13 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U137/Y (INVx1_ASAP7_75t_R)    16.65   336.79 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.82   375.61 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U42/Y (INVx1_ASAP7_75t_R)    16.64   392.25 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.82   431.07 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U202/Y (INVx1_ASAP7_75t_R)    16.64   447.71 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_6_4/SN (FAx1_ASAP7_75t_R)    36.74   484.45 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U235/Y (INVx1_ASAP7_75t_R)    16.61   501.05 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_7_3/CON (FAx1_ASAP7_75t_R)    21.71   522.76 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U263/Y (INVx1_ASAP7_75t_R)    18.89   541.66 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_8_3/CON (FAx1_ASAP7_75t_R)    24.72   566.38 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U293/Y (INVx1_ASAP7_75t_R)    18.89   585.27 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_9_3/CON (FAx1_ASAP7_75t_R)    24.72   609.99 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S2_9_3/SN (FAx1_ASAP7_75t_R)    16.38   626.37 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U327/Y (INVx1_ASAP7_75t_R)    16.64   643.01 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    38.82   681.83 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U349/Y (INVx1_ASAP7_75t_R)    15.99   697.82 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/U20/Y (AND2x2_ASAP7_75t_R)    22.55   720.37 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_12_DW01_add_3)     0.00   720.37 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U86/Y (OR2x2_ASAP7_75t_R)    22.47   742.85 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U5/Y (NAND4xp75_ASAP7_75t_R)    17.83   760.67 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U4/Y (NOR2x1_ASAP7_75t_R)    11.71   772.39 r
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U32/Y (AOI21xp5_ASAP7_75t_R)    10.28   782.66 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U30/Y (AND2x2_ASAP7_75t_R)    23.51   806.18 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/U34/Y (XNOR2x1_ASAP7_75t_R)    24.54   830.72 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_12_DW01_add_3)     0.00   830.72 f
+  u_pe/u_tree/g_mul[4].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_12_DW02_mult_0_DW02_mult_4)     0.00   830.72 f
+  u_pe/u_tree/g_mul[4].u_mul/U14/Y (BUFx6f_ASAP7_75t_R)    21.14   851.86 f
+  u_pe/u_tree/g_mul[4].u_mul/U165/Y (MAJIxp5_ASAP7_75t_R)    27.86   879.72 r
+  u_pe/u_tree/g_mul[4].u_mul/U166/SN (FAx1_ASAP7_75t_R)    52.86   932.58 f
+  u_pe/u_tree/g_mul[4].u_mul/U167/Y (NAND2xp5_ASAP7_75t_R)    20.89   953.47 r
+  u_pe/u_tree/g_mul[4].u_mul/U168/Y (INVx1_ASAP7_75t_R)    14.38   967.85 f
+  u_pe/u_tree/g_mul[4].u_mul/U171/Y (NAND2xp5_ASAP7_75t_R)    13.01   980.86 r
+  u_pe/u_tree/g_mul[4].u_mul/U44/Y (OA21x2_ASAP7_75t_R)    24.15  1005.01 r
+  u_pe/u_tree/g_mul[4].u_mul/U98/Y (NAND4xp25_ASAP7_75t_R)    28.63  1033.64 f
+  u_pe/u_tree/g_mul[4].u_mul/U185/Y (A2O1A1Ixp33_ASAP7_75t_R)    21.68  1055.32 r
+  u_pe/u_tree/g_mul[4].u_mul/U186/Y (INVx1_ASAP7_75t_R)    15.09  1070.41 f
+  u_pe/u_tree/g_mul[4].u_mul/U35/Y (NOR3xp33_ASAP7_75t_R)    18.03  1088.44 r
+  u_pe/u_tree/g_mul[4].u_mul/U74/Y (AOI31xp33_ASAP7_75t_R)    15.01  1103.45 f
+  u_pe/u_tree/g_mul[4].u_mul/U23/Y (AND2x2_ASAP7_75t_R)    30.80  1134.25 f
+  u_pe/u_tree/g_mul[4].u_mul/U218/Y (OAI211xp5_ASAP7_75t_R)    16.46  1150.71 r
+  u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][6]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1150.71 r
+  data arrival time                                               1150.71
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[4].u_mul/d_pipe_reg[0][6]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.65     707.35
+  data required time                                               707.35
+  --------------------------------------------------------------------------
+  data required time                                               707.35
+  data arrival time                                              -1150.71
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.37
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][4]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U210/Y (OAI211xp5_ASAP7_75t_R)    16.45  1151.07 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][4]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.07 r
+  data arrival time                                               1151.07
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][4]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.29     707.71
+  data required time                                               707.71
+  --------------------------------------------------------------------------
+  data required time                                               707.71
+  data arrival time                                              -1151.07
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.36
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[157]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][4]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[157]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[157]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U9086/Y (BUFx3_ASAP7_75t_R)           25.66      82.31 f
+  u_pe/u_vec_store/rd_data[157] (dbuf_16x256_DEPTH32)     0.00      82.31 f
+  u_pe/u_tree/b_word[157] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.31 f
+  u_pe/u_tree/g_mul[9].u_mul/b[13] (fp16_mult_piped_NUM_PIPE2_7)     0.00    82.31 f
+  u_pe/u_tree/g_mul[9].u_mul/U109/Y (OR5x1_ASAP7_75t_R)    45.15   127.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U108/Y (BUFx6f_ASAP7_75t_R)    24.92   152.38 f
+  u_pe/u_tree/g_mul[9].u_mul/U40/Y (AND2x4_ASAP7_75t_R)    23.75   176.13 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/B[9] (fp16_mult_piped_NUM_PIPE2_7_DW02_mult_0_DW02_mult_9)     0.00   176.13 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    19.78   195.91 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U17/Y (XOR2xp5_ASAP7_75t_R)    23.76   219.67 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_2_8/SN (FAx1_ASAP7_75t_R)    45.25   264.92 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U109/Y (INVx1_ASAP7_75t_R)    17.74   282.66 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_3_7/SN (FAx1_ASAP7_75t_R)    39.17   321.83 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U142/Y (INVx1_ASAP7_75t_R)    16.70   338.52 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.84   377.36 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U175/Y (INVx1_ASAP7_75t_R)    16.70   394.05 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.84   432.89 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U208/Y (INVx1_ASAP7_75t_R)    16.70   449.59 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.84   488.42 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U241/Y (INVx1_ASAP7_75t_R)    16.70   505.12 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.76   541.88 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U5/Y (INVx1_ASAP7_75t_R)    16.66   558.53 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.73   580.26 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U299/Y (INVx1_ASAP7_75t_R)    18.90   599.16 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   623.88 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U2/Y (INVx1_ASAP7_75t_R)    18.90   642.78 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    39.70   682.48 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.09   698.57 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U26/Y (AND2x2_ASAP7_75t_R)    22.59   721.16 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_7_DW01_add_3)     0.00   721.16 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U85/Y (OR2x2_ASAP7_75t_R)    19.64   740.80 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U37/Y (NAND4xp25_ASAP7_75t_R)    16.55   757.35 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U28/Y (NOR2xp33_ASAP7_75t_R)    16.68   774.03 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U31/Y (AOI21xp5_ASAP7_75t_R)    11.69   785.72 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U39/Y (NAND2xp5_ASAP7_75t_R)    18.23   803.95 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U2/Y (XNOR2x1_ASAP7_75t_R)    27.99   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_7_DW01_add_3)     0.00   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_7_DW02_mult_0_DW02_mult_9)     0.00   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/U13/Y (BUFx3_ASAP7_75t_R)    22.58    854.53 r
+  u_pe/u_tree/g_mul[9].u_mul/U174/Y (MAJIxp5_ASAP7_75t_R)    11.94   866.47 f
+  u_pe/u_tree/g_mul[9].u_mul/U80/Y (BUFx3_ASAP7_75t_R)    23.99    890.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U15/Y (AOI21x1_ASAP7_75t_R)    18.30   908.76 r
+  u_pe/u_tree/g_mul[9].u_mul/U28/Y (OAI22x1_ASAP7_75t_R)    21.03   929.78 f
+  u_pe/u_tree/g_mul[9].u_mul/U179/Y (AOI21x1_ASAP7_75t_R)    20.63   950.41 r
+  u_pe/u_tree/g_mul[9].u_mul/U180/SN (FAx1_ASAP7_75t_R)    55.07  1005.49 f
+  u_pe/u_tree/g_mul[9].u_mul/U98/Y (NAND2xp33_ASAP7_75t_R)    30.55  1036.04 r
+  u_pe/u_tree/g_mul[9].u_mul/U21/Y (INVxp67_ASAP7_75t_R)    12.42  1048.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U183/Y (OAI32xp33_ASAP7_75t_R)    23.25  1071.71 r
+  u_pe/u_tree/g_mul[9].u_mul/U110/Y (NOR2xp33_ASAP7_75t_R)    28.11  1099.82 f
+  u_pe/u_tree/g_mul[9].u_mul/U23/Y (AND2x2_ASAP7_75t_R)    34.45  1134.27 f
+  u_pe/u_tree/g_mul[9].u_mul/U214/Y (OAI211xp5_ASAP7_75t_R)    16.46  1150.73 r
+  u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][4]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1150.73 r
+  data arrival time                                               1150.73
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][4]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.63     707.37
+  data required time                                               707.37
+  --------------------------------------------------------------------------
+  data required time                                               707.37
+  data arrival time                                              -1150.73
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.36
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[30]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][5]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[30]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[30]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U16181/Y (BUFx3_ASAP7_75t_R)          26.23      82.88 f
+  u_pe/u_vec_store/rd_data[30] (dbuf_16x256_DEPTH32)      0.00      82.88 f
+  u_pe/u_tree/b_word[30] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/b[14] (fp16_mult_piped_NUM_PIPE2_15)     0.00    82.88 f
+  u_pe/u_tree/g_mul[1].u_mul/U52/Y (OR5x1_ASAP7_75t_R)    49.77    132.66 f
+  u_pe/u_tree/g_mul[1].u_mul/U51/Y (BUFx6f_ASAP7_75t_R)    24.06   156.72 f
+  u_pe/u_tree/g_mul[1].u_mul/U22/Y (BUFx4f_ASAP7_75t_R)    23.59   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/B[10] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   180.31 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U10/Y (AND2x4_ASAP7_75t_R)    20.74   201.05 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    17.90   218.95 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S3_2_9/SN (FAx1_ASAP7_75t_R)    35.47   254.42 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U103/Y (INVx1_ASAP7_75t_R)    16.61   271.03 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_3_8/SN (FAx1_ASAP7_75t_R)    38.81   309.84 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U136/Y (INVx1_ASAP7_75t_R)    16.94   326.78 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_4_7/SN (FAx1_ASAP7_75t_R)    38.91   365.69 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U169/Y (INVx1_ASAP7_75t_R)    16.63   382.32 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_5_6/SN (FAx1_ASAP7_75t_R)    38.82   421.14 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U201/Y (INVx1_ASAP7_75t_R)    16.63   437.77 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_6_5/SN (FAx1_ASAP7_75t_R)    38.82   476.59 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U233/Y (INVx1_ASAP7_75t_R)    16.63   493.22 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_7_4/SN (FAx1_ASAP7_75t_R)    38.82   532.04 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U264/Y (INVx1_ASAP7_75t_R)    16.66   548.70 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_8_3/SN (FAx1_ASAP7_75t_R)    36.75   585.44 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U295/Y (INVx1_ASAP7_75t_R)    16.76   602.21 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    21.76   623.97 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U324/Y (INVx1_ASAP7_75t_R)    18.90   642.87 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/CON (FAx1_ASAP7_75t_R)    24.72   667.59 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    16.37   683.97 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.24   700.21 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/U50/Y (AND2x2_ASAP7_75t_R)    23.45   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   723.66 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U87/Y (OR2x2_ASAP7_75t_R)    17.86   741.52 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U38/Y (NAND4xp25_ASAP7_75t_R)    13.01   754.53 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U14/Y (NOR2xp33_ASAP7_75t_R)    17.06   771.58 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U16/Y (AOI21xp5_ASAP7_75t_R)    11.88   783.46 f
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U42/Y (NAND2xp5_ASAP7_75t_R)    18.27   801.74 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/U10/Y (XNOR2x1_ASAP7_75t_R)    28.31   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_15_DW01_add_3)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_15_DW02_mult_0_DW02_mult_1)     0.00   830.05 r
+  u_pe/u_tree/g_mul[1].u_mul/U23/Y (BUFx6f_ASAP7_75t_R)    28.13   858.18 r
+  u_pe/u_tree/g_mul[1].u_mul/U138/Y (NAND2xp5_ASAP7_75t_R)    12.10   870.27 f
+  u_pe/u_tree/g_mul[1].u_mul/U139/Y (OAI21xp5_ASAP7_75t_R)    15.70   885.98 r
+  u_pe/u_tree/g_mul[1].u_mul/U85/Y (NAND3x1_ASAP7_75t_R)    14.48   900.46 f
+  u_pe/u_tree/g_mul[1].u_mul/U157/Y (INVx1_ASAP7_75t_R)    12.36   912.82 r
+  u_pe/u_tree/g_mul[1].u_mul/U160/Y (NAND2xp5_ASAP7_75t_R)    13.29   926.10 f
+  u_pe/u_tree/g_mul[1].u_mul/U161/Y (INVx1_ASAP7_75t_R)    15.98   942.09 r
+  u_pe/u_tree/g_mul[1].u_mul/U168/Y (NAND3xp33_ASAP7_75t_R)    19.60   961.68 f
+  u_pe/u_tree/g_mul[1].u_mul/U169/Y (INVx1_ASAP7_75t_R)    13.40   975.08 r
+  u_pe/u_tree/g_mul[1].u_mul/U172/Y (NAND2xp5_ASAP7_75t_R)    13.86   988.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U188/Y (INVx1_ASAP7_75t_R)    13.47  1002.41 r
+  u_pe/u_tree/g_mul[1].u_mul/U88/Y (NAND4xp25_ASAP7_75t_R)    30.53  1032.94 f
+  u_pe/u_tree/g_mul[1].u_mul/U191/Y (A2O1A1Ixp33_ASAP7_75t_R)    19.64  1052.57 r
+  u_pe/u_tree/g_mul[1].u_mul/U26/Y (INVxp67_ASAP7_75t_R)    13.97  1066.54 f
+  u_pe/u_tree/g_mul[1].u_mul/U94/Y (NOR3xp33_ASAP7_75t_R)    21.25  1087.80 r
+  u_pe/u_tree/g_mul[1].u_mul/U96/Y (AOI31xp33_ASAP7_75t_R)    15.36  1103.16 f
+  u_pe/u_tree/g_mul[1].u_mul/U25/Y (AND2x2_ASAP7_75t_R)    31.46  1134.62 f
+  u_pe/u_tree/g_mul[1].u_mul/U214/Y (OAI211xp5_ASAP7_75t_R)    16.45  1151.07 r
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][5]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1151.07 r
+  data arrival time                                               1151.07
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[1].u_mul/d_pipe_reg[0][5]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.29     707.71
+  data required time                                               707.71
+  --------------------------------------------------------------------------
+  data required time                                               707.71
+  data arrival time                                              -1151.07
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.36
+
+
+  Startpoint: u_pe/u_vec_store/rd_data_r_reg[157]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][5]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_pe/u_vec_store/rd_data_r_reg[157]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_pe/u_vec_store/rd_data_r_reg[157]/QN (DFFASRHQNx1_ASAP7_75t_R)    56.65    56.65 f
+  u_pe/u_vec_store/U9086/Y (BUFx3_ASAP7_75t_R)           25.66      82.31 f
+  u_pe/u_vec_store/rd_data[157] (dbuf_16x256_DEPTH32)     0.00      82.31 f
+  u_pe/u_tree/b_word[157] (mac_tree16_piped_MPIPE2_APIPE2)     0.00    82.31 f
+  u_pe/u_tree/g_mul[9].u_mul/b[13] (fp16_mult_piped_NUM_PIPE2_7)     0.00    82.31 f
+  u_pe/u_tree/g_mul[9].u_mul/U109/Y (OR5x1_ASAP7_75t_R)    45.15   127.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U108/Y (BUFx6f_ASAP7_75t_R)    24.92   152.38 f
+  u_pe/u_tree/g_mul[9].u_mul/U40/Y (AND2x4_ASAP7_75t_R)    23.75   176.13 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/B[9] (fp16_mult_piped_NUM_PIPE2_7_DW02_mult_0_DW02_mult_9)     0.00   176.13 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U22/Y (AND2x4_ASAP7_75t_R)    19.78   195.91 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U17/Y (XOR2xp5_ASAP7_75t_R)    23.76   219.67 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_2_8/SN (FAx1_ASAP7_75t_R)    45.25   264.92 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U109/Y (INVx1_ASAP7_75t_R)    17.74   282.66 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_3_7/SN (FAx1_ASAP7_75t_R)    39.17   321.83 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U142/Y (INVx1_ASAP7_75t_R)    16.70   338.52 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_4_6/SN (FAx1_ASAP7_75t_R)    38.84   377.36 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U175/Y (INVx1_ASAP7_75t_R)    16.70   394.05 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_5_5/SN (FAx1_ASAP7_75t_R)    38.84   432.89 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U208/Y (INVx1_ASAP7_75t_R)    16.70   449.59 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_6_4/SN (FAx1_ASAP7_75t_R)    38.84   488.42 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U241/Y (INVx1_ASAP7_75t_R)    16.70   505.12 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_7_3/SN (FAx1_ASAP7_75t_R)    36.76   541.88 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U5/Y (INVx1_ASAP7_75t_R)    16.66   558.53 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_8_2/CON (FAx1_ASAP7_75t_R)    21.73   580.26 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U299/Y (INVx1_ASAP7_75t_R)    18.90   599.16 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S2_9_2/CON (FAx1_ASAP7_75t_R)    24.72   623.88 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U2/Y (INVx1_ASAP7_75t_R)    18.90   642.78 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/S4_2/SN (FAx1_ASAP7_75t_R)    39.70   682.48 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U347/Y (INVx1_ASAP7_75t_R)    16.09   698.57 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/U26/Y (AND2x2_ASAP7_75t_R)    22.59   721.16 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/B[11] (fp16_mult_piped_NUM_PIPE2_7_DW01_add_3)     0.00   721.16 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U85/Y (OR2x2_ASAP7_75t_R)    19.64   740.80 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U37/Y (NAND4xp25_ASAP7_75t_R)    16.55   757.35 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U28/Y (NOR2xp33_ASAP7_75t_R)    16.68   774.03 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U31/Y (AOI21xp5_ASAP7_75t_R)    11.69   785.72 f
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U39/Y (NAND2xp5_ASAP7_75t_R)    18.23   803.95 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/U2/Y (XNOR2x1_ASAP7_75t_R)    27.99   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/FS_1/SUM[19] (fp16_mult_piped_NUM_PIPE2_7_DW01_add_3)     0.00   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/mult_36/PRODUCT[21] (fp16_mult_piped_NUM_PIPE2_7_DW02_mult_0_DW02_mult_9)     0.00   831.94 r
+  u_pe/u_tree/g_mul[9].u_mul/U13/Y (BUFx3_ASAP7_75t_R)    22.58    854.53 r
+  u_pe/u_tree/g_mul[9].u_mul/U174/Y (MAJIxp5_ASAP7_75t_R)    11.94   866.47 f
+  u_pe/u_tree/g_mul[9].u_mul/U80/Y (BUFx3_ASAP7_75t_R)    23.99    890.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U15/Y (AOI21x1_ASAP7_75t_R)    18.30   908.76 r
+  u_pe/u_tree/g_mul[9].u_mul/U28/Y (OAI22x1_ASAP7_75t_R)    21.03   929.78 f
+  u_pe/u_tree/g_mul[9].u_mul/U179/Y (AOI21x1_ASAP7_75t_R)    20.63   950.41 r
+  u_pe/u_tree/g_mul[9].u_mul/U180/SN (FAx1_ASAP7_75t_R)    55.07  1005.49 f
+  u_pe/u_tree/g_mul[9].u_mul/U98/Y (NAND2xp33_ASAP7_75t_R)    30.55  1036.04 r
+  u_pe/u_tree/g_mul[9].u_mul/U21/Y (INVxp67_ASAP7_75t_R)    12.42  1048.46 f
+  u_pe/u_tree/g_mul[9].u_mul/U183/Y (OAI32xp33_ASAP7_75t_R)    23.25  1071.71 r
+  u_pe/u_tree/g_mul[9].u_mul/U110/Y (NOR2xp33_ASAP7_75t_R)    28.11  1099.82 f
+  u_pe/u_tree/g_mul[9].u_mul/U23/Y (AND2x2_ASAP7_75t_R)    34.45  1134.27 f
+  u_pe/u_tree/g_mul[9].u_mul/U218/Y (OAI211xp5_ASAP7_75t_R)    16.46  1150.73 r
+  u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][5]/D (DFFHQNx1_ASAP7_75t_R)     0.00  1150.73 r
+  data arrival time                                               1150.73
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_pe/u_tree/g_mul[9].u_mul/d_pipe_reg[0][5]/CLK (DFFHQNx1_ASAP7_75t_R)     0.00   719.00 r
+  library setup time                                    -11.63     707.37
+  data required time                                               707.37
+  --------------------------------------------------------------------------
+  data required time                                               707.37
+  data arrival time                                              -1150.73
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -443.36
+
+
+1

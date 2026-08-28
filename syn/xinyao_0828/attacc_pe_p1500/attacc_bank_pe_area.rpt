@@ -1,0 +1,194 @@
+ 
+****************************************
+Report : area
+Design : attacc_bank_pe
+Version: P-2019.03-SP5-6
+Date   : Fri Aug 28 23:26:38 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+
+Number of ports:                         9890
+Number of nets:                         73862
+Number of cells:                        63674
+Number of combinational cells:          53708
+Number of sequential cells:              9819
+Number of macros/black boxes:               0
+Number of buf/inv:                      14772
+Number of references:                       1
+
+Combinational area:               4192.435270
+Buf/Inv area:                      691.893908
+Noncombinational area:            3005.550265
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  7197.985536
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  ------------------------------------
+attacc_bank_pe                    7197.9855    100.0     0.0000     0.0000  0.0000  attacc_bank_pe
+u_pe                              7197.9855    100.0    88.0195   113.3449  0.0000  gemv_unit
+u_pe/g_ctx_acc[0].u_ctx_add         62.9273      0.9    41.2906     6.4444  0.0000  fp16_add_16
+u_pe/g_ctx_acc[0].u_ctx_add/add_74_S2    7.1734     0.1    7.1734    0.0000 0.0000  fp16_add_16_DW01_add_2
+u_pe/g_ctx_acc[0].u_ctx_add/sub_75    8.0190     0.1     8.0190     0.0000  0.0000  fp16_add_16_DW01_sub_5
+u_pe/g_ctx_acc[10].u_ctx_add        63.5105      0.9    41.8592     6.4444  0.0000  fp16_add_6
+u_pe/g_ctx_acc[10].u_ctx_add/add_74_S2    7.1734     0.1    7.1734    0.0000 0.0000 fp16_add_6_DW01_add_2
+u_pe/g_ctx_acc[10].u_ctx_add/sub_75    8.0336     0.1    8.0336     0.0000  0.0000  fp16_add_6_DW01_sub_5
+u_pe/g_ctx_acc[11].u_ctx_add        62.6940      0.9    41.4218     6.4444  0.0000  fp16_add_5
+u_pe/g_ctx_acc[11].u_ctx_add/add_74_S2    6.9401     0.1    6.9401    0.0000 0.0000 fp16_add_5_DW01_add_2
+u_pe/g_ctx_acc[11].u_ctx_add/sub_75    7.8878     0.1    7.8878     0.0000  0.0000  fp16_add_5_DW01_sub_5
+u_pe/g_ctx_acc[12].u_ctx_add        63.5105      0.9    41.6551     6.4444  0.0000  fp16_add_4
+u_pe/g_ctx_acc[12].u_ctx_add/add_74_S2    7.2025     0.1    7.2025    0.0000 0.0000 fp16_add_4_DW01_add_2
+u_pe/g_ctx_acc[12].u_ctx_add/sub_75    8.2085     0.1    8.2085     0.0000  0.0000  fp16_add_4_DW01_sub_5
+u_pe/g_ctx_acc[13].u_ctx_add        63.6417      0.9    41.9904     6.4444  0.0000  fp16_add_3
+u_pe/g_ctx_acc[13].u_ctx_add/add_74_S2    7.1734     0.1    7.1734    0.0000 0.0000 fp16_add_3_DW01_add_2
+u_pe/g_ctx_acc[13].u_ctx_add/sub_75    8.0336     0.1    8.0336     0.0000  0.0000  fp16_add_3_DW01_sub_5
+u_pe/g_ctx_acc[14].u_ctx_add        63.1606      0.9    41.5093     6.4444  0.0000  fp16_add_2
+u_pe/g_ctx_acc[14].u_ctx_add/add_74_S2    7.2025     0.1    7.2025    0.0000 0.0000 fp16_add_2_DW01_add_2
+u_pe/g_ctx_acc[14].u_ctx_add/sub_75    8.0044     0.1    8.0044     0.0000  0.0000  fp16_add_2_DW01_sub_5
+u_pe/g_ctx_acc[15].u_ctx_add        64.1666      0.9    42.5590     6.4444  0.0000  fp16_add_1
+u_pe/g_ctx_acc[15].u_ctx_add/add_74_S2    7.1734     0.1    7.1734    0.0000 0.0000 fp16_add_1_DW01_add_2
+u_pe/g_ctx_acc[15].u_ctx_add/sub_75    7.9898     0.1    7.9898     0.0000  0.0000  fp16_add_1_DW01_sub_5
+u_pe/g_ctx_acc[1].u_ctx_add         62.5774      0.9    41.2760     6.4444  0.0000  fp16_add_15
+u_pe/g_ctx_acc[1].u_ctx_add/add_74_S2    6.9692     0.1    6.9692    0.0000 0.0000  fp16_add_15_DW01_add_2
+u_pe/g_ctx_acc[1].u_ctx_add/sub_75    7.8878     0.1     7.8878     0.0000  0.0000  fp16_add_15_DW01_sub_5
+u_pe/g_ctx_acc[2].u_ctx_add         64.7935      0.9    43.0256     6.4444  0.0000  fp16_add_14
+u_pe/g_ctx_acc[2].u_ctx_add/add_74_S2    7.2025     0.1    7.2025    0.0000 0.0000  fp16_add_14_DW01_add_2
+u_pe/g_ctx_acc[2].u_ctx_add/sub_75    8.1211     0.1     8.1211     0.0000  0.0000  fp16_add_14_DW01_sub_5
+u_pe/g_ctx_acc[3].u_ctx_add         63.2918      0.9    41.8446     6.4444  0.0000  fp16_add_13
+u_pe/g_ctx_acc[3].u_ctx_add/add_74_S2    7.2025     0.1    7.2025    0.0000 0.0000  fp16_add_13_DW01_add_2
+u_pe/g_ctx_acc[3].u_ctx_add/sub_75    7.8003     0.1     7.8003     0.0000  0.0000  fp16_add_13_DW01_sub_5
+u_pe/g_ctx_acc[4].u_ctx_add         63.8750      0.9    42.2966     6.4444  0.0000  fp16_add_12
+u_pe/g_ctx_acc[4].u_ctx_add/add_74_S2    7.1734     0.1    7.1734    0.0000 0.0000  fp16_add_12_DW01_add_2
+u_pe/g_ctx_acc[4].u_ctx_add/sub_75    7.9607     0.1     7.9607     0.0000  0.0000  fp16_add_12_DW01_sub_5
+u_pe/g_ctx_acc[5].u_ctx_add         63.1897      0.9    41.4947     6.4444  0.0000  fp16_add_11
+u_pe/g_ctx_acc[5].u_ctx_add/add_74_S2    7.1734     0.1    7.1734    0.0000 0.0000  fp16_add_11_DW01_add_2
+u_pe/g_ctx_acc[5].u_ctx_add/sub_75    8.0773     0.1     8.0773     0.0000  0.0000  fp16_add_11_DW01_sub_5
+u_pe/g_ctx_acc[6].u_ctx_add         63.1168      0.9    41.6405     6.4444  0.0000  fp16_add_10
+u_pe/g_ctx_acc[6].u_ctx_add/add_74_S2    6.9401     0.1    6.9401    0.0000 0.0000  fp16_add_10_DW01_add_2
+u_pe/g_ctx_acc[6].u_ctx_add/sub_75    8.0919     0.1     8.0919     0.0000  0.0000  fp16_add_10_DW01_sub_5
+u_pe/g_ctx_acc[7].u_ctx_add         63.3938      0.9    41.8009     6.4444  0.0000  fp16_add_9
+u_pe/g_ctx_acc[7].u_ctx_add/add_74_S2    7.2025     0.1    7.2025    0.0000 0.0000  fp16_add_9_DW01_add_2
+u_pe/g_ctx_acc[7].u_ctx_add/sub_75    7.9461     0.1     7.9461     0.0000  0.0000  fp16_add_9_DW01_sub_5
+u_pe/g_ctx_acc[8].u_ctx_add         62.9856      0.9    41.6696     6.4444  0.0000  fp16_add_8
+u_pe/g_ctx_acc[8].u_ctx_add/add_74_S2    6.9692     0.1    6.9692    0.0000 0.0000  fp16_add_8_DW01_add_2
+u_pe/g_ctx_acc[8].u_ctx_add/sub_75    7.9024     0.1     7.9024     0.0000  0.0000  fp16_add_8_DW01_sub_5
+u_pe/g_ctx_acc[9].u_ctx_add         62.9127      0.9    41.4801     6.4444  0.0000  fp16_add_7
+u_pe/g_ctx_acc[9].u_ctx_add/add_74_S2    7.2025     0.1    7.2025    0.0000 0.0000  fp16_add_7_DW01_add_2
+u_pe/g_ctx_acc[9].u_ctx_add/sub_75    7.7857     0.1     7.7857     0.0000  0.0000  fp16_add_7_DW01_sub_5
+u_pe/g_l1[0].u_add                  62.2858      0.9    40.7803     6.4444  0.0000  fp16_add_0
+u_pe/g_l1[0].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_0_DW01_add_2
+u_pe/g_l1[0].u_add/sub_75            7.8149      0.1     7.8149     0.0000  0.0000  fp16_add_0_DW01_sub_5
+u_pe/g_l1[1].u_add                  63.0731      0.9    41.6113     6.4444  0.0000  fp16_add_31
+u_pe/g_l1[1].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_31_DW01_add_2
+u_pe/g_l1[1].u_add/sub_75            7.7711      0.1     7.7711     0.0000  0.0000  fp16_add_31_DW01_sub_5
+u_pe/g_l1[2].u_add                  62.0525      0.9    40.6199     6.4444  0.0000  fp16_add_30
+u_pe/g_l1[2].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_30_DW01_add_2
+u_pe/g_l1[2].u_add/sub_75            7.7420      0.1     7.7420     0.0000  0.0000  fp16_add_30_DW01_sub_5
+u_pe/g_l1[3].u_add                  62.2274      0.9    40.7657     6.4444  0.0000  fp16_add_29
+u_pe/g_l1[3].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_29_DW01_add_2
+u_pe/g_l1[3].u_add/sub_75            7.7711      0.1     7.7711     0.0000  0.0000  fp16_add_29_DW01_sub_5
+u_pe/g_l1[4].u_add                  62.3441      0.9    40.9115     6.4444  0.0000  fp16_add_28
+u_pe/g_l1[4].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_28_DW01_add_2
+u_pe/g_l1[4].u_add/sub_75            7.7420      0.1     7.7420     0.0000  0.0000  fp16_add_28_DW01_sub_5
+u_pe/g_l1[5].u_add                  62.2274      0.9    40.7948     6.4444  0.0000  fp16_add_27
+u_pe/g_l1[5].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_27_DW01_add_2
+u_pe/g_l1[5].u_add/sub_75            7.7420      0.1     7.7420     0.0000  0.0000  fp16_add_27_DW01_sub_5
+u_pe/g_l1[6].u_add                  61.9358      0.9    40.4741     6.4444  0.0000  fp16_add_26
+u_pe/g_l1[6].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_26_DW01_add_2
+u_pe/g_l1[6].u_add/sub_75            7.7711      0.1     7.7711     0.0000  0.0000  fp16_add_26_DW01_sub_5
+u_pe/g_l1[7].u_add                  62.2566      0.9    40.7948     6.4444  0.0000  fp16_add_25
+u_pe/g_l1[7].u_add/add_74_S2         7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_25_DW01_add_2
+u_pe/g_l1[7].u_add/sub_75            7.7711      0.1     7.7711     0.0000  0.0000  fp16_add_25_DW01_sub_5
+u_pe/g_l2[0].u_add                  62.8544      0.9    41.6696     6.4444  0.0000  fp16_add_24
+u_pe/g_l2[0].u_add/add_74_S2         6.9401      0.1     6.9401     0.0000  0.0000  fp16_add_24_DW01_add_2
+u_pe/g_l2[0].u_add/sub_75            7.8003      0.1     7.8003     0.0000  0.0000  fp16_add_24_DW01_sub_5
+u_pe/g_l2[1].u_add                  62.0087      0.9    40.9990     6.4444  0.0000  fp16_add_23
+u_pe/g_l2[1].u_add/add_74_S2         6.7214      0.1     6.7214     0.0000  0.0000  fp16_add_23_DW01_add_2
+u_pe/g_l2[1].u_add/sub_75            7.8440      0.1     7.8440     0.0000  0.0000  fp16_add_23_DW01_sub_5
+u_pe/g_l2[2].u_add                  61.8921      0.9    40.7074     6.4444  0.0000  fp16_add_22
+u_pe/g_l2[2].u_add/add_74_S2         6.9401      0.1     6.9401     0.0000  0.0000  fp16_add_22_DW01_add_2
+u_pe/g_l2[2].u_add/sub_75            7.8003      0.1     7.8003     0.0000  0.0000  fp16_add_22_DW01_sub_5
+u_pe/g_l2[3].u_add                  62.9419      0.9    41.8009     6.4444  0.0000  fp16_add_21
+u_pe/g_l2[3].u_add/add_74_S2         6.9401      0.1     6.9401     0.0000  0.0000  fp16_add_21_DW01_add_2
+u_pe/g_l2[3].u_add/sub_75            7.7566      0.1     7.7566     0.0000  0.0000  fp16_add_21_DW01_sub_5
+u_pe/g_l3[0].u_add                  61.9504      0.9    40.8823     6.4444  0.0000  fp16_add_20
+u_pe/g_l3[0].u_add/add_74_S2         6.9401      0.1     6.9401     0.0000  0.0000  fp16_add_20_DW01_add_2
+u_pe/g_l3[0].u_add/sub_75            7.6837      0.1     7.6837     0.0000  0.0000  fp16_add_20_DW01_sub_5
+u_pe/g_l3[1].u_add                  62.3149      0.9    41.1302     6.4444  0.0000  fp16_add_19
+u_pe/g_l3[1].u_add/add_74_S2         6.9401      0.1     6.9401     0.0000  0.0000  fp16_add_19_DW01_add_2
+u_pe/g_l3[1].u_add/sub_75            7.8003      0.1     7.8003     0.0000  0.0000  fp16_add_19_DW01_sub_5
+u_pe/g_mul[0].u_mul                 67.8991      0.9    15.4111     6.4444  0.0000  fp16_mult_0
+u_pe/g_mul[0].u_mul/mult_35         46.0436      0.6    40.6199     0.0000  0.0000  fp16_mult_0_DW02_mult_0
+u_pe/g_mul[0].u_mul/mult_35/FS_1     5.4238      0.1     5.4238     0.0000  0.0000  fp16_mult_0_DW01_add_4
+u_pe/g_mul[10].u_mul                67.3013      0.9    15.0757     6.4444  0.0000  fp16_mult_6
+u_pe/g_mul[10].u_mul/mult_35        45.7812      0.6    40.4303     0.0000  0.0000  fp16_mult_6_DW02_mult_0_DW02_mult_10
+u_pe/g_mul[10].u_mul/mult_35/FS_1    5.3509      0.1     5.3509     0.0000  0.0000  fp16_mult_6_DW01_add_4
+u_pe/g_mul[11].u_mul                67.5637      0.9    15.5860     6.4444  0.0000  fp16_mult_5
+u_pe/g_mul[11].u_mul/mult_35        45.5333      0.6    40.4741     0.0000  0.0000  fp16_mult_5_DW02_mult_0_DW02_mult_11
+u_pe/g_mul[11].u_mul/mult_35/FS_1    5.0593      0.1     5.0593     0.0000  0.0000  fp16_mult_5_DW01_add_4
+u_pe/g_mul[12].u_mul                67.9136      0.9    15.6589     6.4444  0.0000  fp16_mult_4
+u_pe/g_mul[12].u_mul/mult_35        45.8104      0.6    40.5761     0.0000  0.0000  fp16_mult_4_DW02_mult_0_DW02_mult_12
+u_pe/g_mul[12].u_mul/mult_35/FS_1    5.2342      0.1     5.2342     0.0000  0.0000  fp16_mult_4_DW01_add_4
+u_pe/g_mul[13].u_mul                69.3133      1.0    16.9420     6.4444  0.0000  fp16_mult_3
+u_pe/g_mul[13].u_mul/mult_35        45.9270      0.6    40.6199     0.0000  0.0000  fp16_mult_3_DW02_mult_0_DW02_mult_13
+u_pe/g_mul[13].u_mul/mult_35/FS_1    5.3071      0.1     5.3071     0.0000  0.0000  fp16_mult_3_DW01_add_4
+u_pe/g_mul[14].u_mul                68.4531      1.0    15.7901     6.4444  0.0000  fp16_mult_2
+u_pe/g_mul[14].u_mul/mult_35        46.2186      0.6    40.9698     0.0000  0.0000  fp16_mult_2_DW02_mult_0_DW02_mult_14
+u_pe/g_mul[14].u_mul/mult_35/FS_1    5.2488      0.1     5.2488     0.0000  0.0000  fp16_mult_2_DW01_add_4
+u_pe/g_mul[15].u_mul                67.6949      0.9    15.4840     6.4444  0.0000  fp16_mult_1
+u_pe/g_mul[15].u_mul/mult_35        45.7666      0.6    40.6345     0.0000  0.0000  fp16_mult_1_DW02_mult_0_DW02_mult_15
+u_pe/g_mul[15].u_mul/mult_35/FS_1    5.1322      0.1     5.1322     0.0000  0.0000  fp16_mult_1_DW01_add_4
+u_pe/g_mul[1].u_mul                 67.2430      0.9    15.5569     6.4444  0.0000  fp16_mult_15
+u_pe/g_mul[1].u_mul/mult_35         45.2417      0.6    40.2554     0.0000  0.0000  fp16_mult_15_DW02_mult_0_DW02_mult_1
+u_pe/g_mul[1].u_mul/mult_35/FS_1     4.9864      0.1     4.9864     0.0000  0.0000  fp16_mult_15_DW01_add_4
+u_pe/g_mul[2].u_mul                 67.4908      0.9    15.2361     6.4444  0.0000  fp16_mult_14
+u_pe/g_mul[2].u_mul/mult_35         45.8104      0.6    40.4449     0.0000  0.0000  fp16_mult_14_DW02_mult_0_DW02_mult_2
+u_pe/g_mul[2].u_mul/mult_35/FS_1     5.3654      0.1     5.3654     0.0000  0.0000  fp16_mult_14_DW01_add_4
+u_pe/g_mul[3].u_mul                 68.2636      0.9    15.7318     6.4444  0.0000  fp16_mult_13
+u_pe/g_mul[3].u_mul/mult_35         46.0874      0.6    40.9844     0.0000  0.0000  fp16_mult_13_DW02_mult_0_DW02_mult_3
+u_pe/g_mul[3].u_mul/mult_35/FS_1     5.1030      0.1     5.1030     0.0000  0.0000  fp16_mult_13_DW01_add_4
+u_pe/g_mul[4].u_mul                 66.5431      0.9    14.9445     6.4444  0.0000  fp16_mult_12
+u_pe/g_mul[4].u_mul/mult_35         45.1543      0.6    40.1679     0.0000  0.0000  fp16_mult_12_DW02_mult_0_DW02_mult_4
+u_pe/g_mul[4].u_mul/mult_35/FS_1     4.9864      0.1     4.9864     0.0000  0.0000  fp16_mult_12_DW01_add_4
+u_pe/g_mul[5].u_mul                 67.0680      0.9    15.1632     6.4444  0.0000  fp16_mult_11
+u_pe/g_mul[5].u_mul/mult_35         45.4604      0.6    40.3283     0.0000  0.0000  fp16_mult_11_DW02_mult_0_DW02_mult_5
+u_pe/g_mul[5].u_mul/mult_35/FS_1     5.1322      0.1     5.1322     0.0000  0.0000  fp16_mult_11_DW01_add_4
+u_pe/g_mul[6].u_mul                 67.5491      0.9    15.6006     6.4444  0.0000  fp16_mult_10
+u_pe/g_mul[6].u_mul/mult_35         45.5042      0.6    40.3283     0.0000  0.0000  fp16_mult_10_DW02_mult_0_DW02_mult_6
+u_pe/g_mul[6].u_mul/mult_35/FS_1     5.1759      0.1     5.1759     0.0000  0.0000  fp16_mult_10_DW01_add_4
+u_pe/g_mul[7].u_mul                 67.7533      0.9    15.5860     6.4444  0.0000  fp16_mult_9
+u_pe/g_mul[7].u_mul/mult_35         45.7229      0.6    40.5324     0.0000  0.0000  fp16_mult_9_DW02_mult_0_DW02_mult_7
+u_pe/g_mul[7].u_mul/mult_35/FS_1     5.1905      0.1     5.1905     0.0000  0.0000  fp16_mult_9_DW01_add_4
+u_pe/g_mul[8].u_mul                 68.3219      0.9    15.7756     6.4444  0.0000  fp16_mult_8
+u_pe/g_mul[8].u_mul/mult_35         46.1020      0.6    40.9261     0.0000  0.0000  fp16_mult_8_DW02_mult_0_DW02_mult_8
+u_pe/g_mul[8].u_mul/mult_35/FS_1     5.1759      0.1     5.1759     0.0000  0.0000  fp16_mult_8_DW01_add_4
+u_pe/g_mul[9].u_mul                 66.9222      0.9    14.9737     6.4444  0.0000  fp16_mult_7
+u_pe/g_mul[9].u_mul/mult_35         45.5042      0.6    40.4741     0.0000  0.0000  fp16_mult_7_DW02_mult_0_DW02_mult_9
+u_pe/g_mul[9].u_mul/mult_35/FS_1     5.0301      0.1     5.0301     0.0000  0.0000  fp16_mult_7_DW01_add_4
+u_pe/u_acc_add                      62.7086      0.9    41.0135     6.4444  0.0000  fp16_add_17
+u_pe/u_acc_add/add_74_S2             7.2463      0.1     7.2463     0.0000  0.0000  fp16_add_17_DW01_add_2
+u_pe/u_acc_add/sub_75                8.0044      0.1     8.0044     0.0000  0.0000  fp16_add_17_DW01_sub_5
+u_pe/u_buf_mat                    1949.6813     27.1   658.2433  1291.4380  0.0000  dbuf_16x256_0
+u_pe/u_buf_vec                    1952.2182     27.1   660.7802  1291.4380  0.0000  dbuf_16x256_1
+u_pe/u_l4                           62.6065      0.9    41.3780     6.4444  0.0000  fp16_add_18
+u_pe/u_l4/add_74_S2                  6.9401      0.1     6.9401     0.0000  0.0000  fp16_add_18_DW01_add_2
+u_pe/u_l4/sub_75                     7.8440      0.1     7.8440     0.0000  0.0000  fp16_add_18_DW01_sub_5
+--------------------------------  ---------  -------  ---------  ---------  ------  ------------------------------------
+Total                                                 4192.4353  3005.5503  0.0000
+
+1

@@ -1,7 +1,7 @@
 // GEMV unit
 //
 // Architecture:
-//   * Two double-buffered 16-entry x 256-bit banks (8 kbit each, 16 kbit total)
+//   * Two single 16-entry x 256-bit operand buffers (4 kbit each, 8 kbit total)
 //     - buf_mat  : matrix tile coming from DRAM (K-cache row for "score",
 //                  V-cache row for "context")
 //     - buf_vec  : vector operand (Q for "score", attention scores for
@@ -21,7 +21,7 @@ module gemv_unit (
     input  logic         clk,
     input  logic         rst_n,
 
-    // DRAM read side: data + write address into the "matrix" double-buffer.
+    // DRAM read side: data + write address into the matrix buffer.
     input  logic         mat_wr_en,
     input  logic [3:0]   mat_wr_addr,
     input  logic [255:0] mat_wr_data,
@@ -47,7 +47,8 @@ module gemv_unit (
     output logic         context_result_valid
 );
     // ---------------------------------------------------------------------
-    // Storage: two double-buffered banks
+    // Storage: one 512-B buffer for each operand.  `*_swap` is retained at
+    // the module boundary for legacy command streams but has no storage effect.
     // ---------------------------------------------------------------------
     logic [255:0] mat_rd, vec_rd;
     logic         rd_en;

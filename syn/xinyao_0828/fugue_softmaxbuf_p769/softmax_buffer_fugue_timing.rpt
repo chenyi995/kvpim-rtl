@@ -1,0 +1,316 @@
+Warning: Design 'softmax_buffer_fugue' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : softmax_buffer_fugue
+Version: P-2019.03-SP5-6
+Date   : Fri Aug 28 23:23:40 2026
+****************************************
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: u_buf/score_rd_data[511] (internal pin)
+  Endpoint: score_rd_data[15][31]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[511] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][31] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[510] (internal pin)
+  Endpoint: score_rd_data[15][30]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[510] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][30] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[509] (internal pin)
+  Endpoint: score_rd_data[15][29]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[509] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][29] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[508] (internal pin)
+  Endpoint: score_rd_data[15][28]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[508] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][28] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[507] (internal pin)
+  Endpoint: score_rd_data[15][27]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[507] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][27] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[506] (internal pin)
+  Endpoint: score_rd_data[15][26]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[506] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][26] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[505] (internal pin)
+  Endpoint: score_rd_data[15][25]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[505] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][25] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[504] (internal pin)
+  Endpoint: score_rd_data[15][24]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[504] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][24] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[503] (internal pin)
+  Endpoint: score_rd_data[15][23]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[503] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][23] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[502] (internal pin)
+  Endpoint: score_rd_data[15][22]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[502] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][22] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[501] (internal pin)
+  Endpoint: score_rd_data[15][21]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[501] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][21] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[500] (internal pin)
+  Endpoint: score_rd_data[15][20]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[500] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][20] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[499] (internal pin)
+  Endpoint: score_rd_data[15][19]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[499] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][19] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[498] (internal pin)
+  Endpoint: score_rd_data[15][18]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[498] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][18] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[497] (internal pin)
+  Endpoint: score_rd_data[15][17]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[497] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][17] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[496] (internal pin)
+  Endpoint: score_rd_data[15][16]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[496] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][16] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[495] (internal pin)
+  Endpoint: score_rd_data[15][15]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[495] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][15] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[494] (internal pin)
+  Endpoint: score_rd_data[15][14]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[494] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][14] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[493] (internal pin)
+  Endpoint: score_rd_data[15][13]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[493] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][13] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+  Startpoint: u_buf/score_rd_data[492] (internal pin)
+  Endpoint: score_rd_data[15][12]
+            (output port clocked by clk)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  u_buf/score_rd_data[492] (softmax_buffer_sram)          0.00       0.00 r
+  score_rd_data[15][12] (out)                             0.00       0.00 r
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
