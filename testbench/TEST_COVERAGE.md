@@ -8,7 +8,8 @@ Run functional regressions with `./testbench/run_tests.sh` and compilation/elabo
 | `fp32_add`, `fp32_mul`, `fp32_exp`, `fp32_recip` | `tb_fp32_add_mul`, `tb_fp32_exp_recip` |
 | `dbuf_16x256`, `dbuf_sram` | `tb_dbuf`, `tb_dbuf_sram` (with behavioral macro models) |
 | `sincos_bf16`, `rotate_q_bf16`, `rotate_q_unit` | `tb_sincos_bf16`, `tb_rotate_q_bf16`, `tb_rotate_q_unit` |
-| `tlb` | `tb_tlb` |
+| `kv_seg_tlb`, `kv_ptw`, `kv_scan_planner`, `kv_tlb_top` | `tb_kv_tlb` (vectors from drampim's `CacheBlendTLB`: `gen_kv_tlb_vectors.py`); `kv_tlb_e16/e32/e64` elaborated |
+| `direct_addr_plan` | via `attacc_logic_die` elaboration |
 | `diff_decoder`, `mq_diff_decoder` | `tb_diff_decoder`, `tb_mq_diff_decoder` |
 | `accumulator`, `gemv_unit` | `tb_accumulator`, `tb_gemv_unit` |
 | `mac_tree16`, `mac_tree16_piped`, variants | `tb_mac_tree16`, `tb_mac_tree16_piped`; variants elaborated |

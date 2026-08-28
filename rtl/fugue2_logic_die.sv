@@ -14,7 +14,7 @@
 //                     └─► diff_decoder(fwd) ─► softmax_unit ─► diff_decoder(rev)
 //                                                              ├─► ctx_to_master
 //                                                              └─► ctx_to_diff
-module fugue2_logic_die import fugue_pkg::*; (
+module fugue2_logic_die import fugue_pkg::*; import kv_tlb_pkg::*; (
     input  logic                       clk,
     input  logic                       rst_n,
 
@@ -46,6 +46,13 @@ module fugue2_logic_die import fugue_pkg::*; (
     output logic [SM_LANES-1:0][31:0]  ctx_to_master,    // recirc: master side (diff lanes 0)
     output logic [SM_LANES-1:0][31:0]  ctx_to_diff,      // recirc: diff channel side
 
+    // ---- KV page-table memory port (segment-TLB walker; 32-B reads) ----
+    output logic                       pt_mem_req_valid,
+    input  logic                       pt_mem_req_ready,
+    output logic [KV_ADDR_W-1:0]       pt_mem_req_addr,
+    input  logic                       pt_mem_resp_valid,
+    input  logic [MEM_DATA_W-1:0]      pt_mem_resp_data,
+
     // ---- DRAM command interface (to the banks) ----
     output dram_cmd_e                  dram_cmd,
     output logic [BANK_W-1:0]          dram_bank,
@@ -57,10 +64,15 @@ module fugue2_logic_die import fugue_pkg::*; (
     output logic                       result_valid
 );
     // ---------------- controller <-> datapath nets ----------------
-    logic                tlb_req_valid;
-    logic [VPN_W-1:0]    tlb_req_vpn;
-    logic [PPN_W-1:0]    tlb_base_ppn, tlb_resp_ppn;
-    logic                tlb_resp_hit, tlb_resp_valid, tlb_busy;
+    logic                plan_cmd_valid, plan_cmd_ready, plan_cmd_done, plan_cmd_fault;
+    logic [1:0]          plan_cmd_op, plan_cmd_pools;
+    logic [CTX_W-1:0]    plan_cmd_ctx;
+    logic [LAYER_W-1:0]  plan_cmd_layer;
+    logic [POS_W-1:0]    plan_cmd_pos_lo, plan_cmd_pos_hi;
+    logic                run_valid, run_ready, addr_fault;
+    logic [KV_ADDR_W-1:0] run_key_base;
+    logic [CNT_W-1:0]    run_count;
+    logic [31:0]         cfg_kvbase;
 
     logic                gemv_start, gemv_accum_en, gemv_accum_clr;
     logic [3:0]          gemv_row_addr, gemv_vec_addr;
@@ -80,10 +92,12 @@ module fugue2_logic_die import fugue_pkg::*; (
         .clk(clk), .rst_n(rst_n),
         .instr_valid(instr_valid), .instr_word(instr_word),
         .instr_ready(instr_ready), .idle(idle),
-        .tlb_req_valid(tlb_req_valid), .tlb_req_vpn(tlb_req_vpn),
-        .tlb_base_ppn(tlb_base_ppn), .tlb_resp_ppn(tlb_resp_ppn),
-        .tlb_resp_hit(tlb_resp_hit), .tlb_resp_valid(tlb_resp_valid),
-        .tlb_busy(tlb_busy),
+        .plan_cmd_valid(plan_cmd_valid), .plan_cmd_ready(plan_cmd_ready), .plan_cmd_op(plan_cmd_op),
+        .plan_cmd_ctx(plan_cmd_ctx), .plan_cmd_layer(plan_cmd_layer),
+        .plan_cmd_pos_lo(plan_cmd_pos_lo), .plan_cmd_pos_hi(plan_cmd_pos_hi), .plan_cmd_pools(plan_cmd_pools),
+        .plan_cmd_done(plan_cmd_done), .plan_cmd_fault(plan_cmd_fault),
+        .run_valid(run_valid), .run_ready(run_ready), .run_key_base(run_key_base), .run_count(run_count),
+        .addr_fault(addr_fault),
         .dram_cmd(dram_cmd), .dram_bank(dram_bank),
         .dram_row(dram_row), .dram_col(dram_col),
         .gemv_start(gemv_start), .gemv_row_addr(gemv_row_addr),
@@ -91,18 +105,27 @@ module fugue2_logic_die import fugue_pkg::*; (
         .gemv_accum_clr(gemv_accum_clr), .op_mode(op_mode),
         .rotate_start(rotate_start), .rotate_pos(rotate_pos),
         .sfm_start(sfm_start), .acc_clr(acc_clr),
-        .cfg_nhead(cfg_nhead), .cfg_dhead(cfg_dhead), .cfg_seqlen(cfg_seqlen),
+        .cfg_nhead(cfg_nhead), .cfg_dhead(cfg_dhead), .cfg_seqlen(cfg_seqlen), .cfg_kvbase(cfg_kvbase),
         .meta_wr_en(meta_wr_en), .meta_wr_idx(meta_wr_idx), .meta_wr_mask(meta_wr_mask)
     );
 
-    // ---------------- TLB ----------------
-    tlb u_tlb (
+    // ---------------- KV segment TLB (drampim CacheBlendTLB in hardware) ----------------
+    // CFG_KVBASE = page-table directory base in 32-B units.
+    run_t               kv_run;
+    logic [KV_ADDR_W-1:0] kv_run_value_base;
+    kv_tlb_top #(.ENTRIES(KV_TLB_ENTRIES)) u_tlb (
         .clk(clk), .rst_n(rst_n),
-        .req_valid(tlb_req_valid), .req_vpn(tlb_req_vpn),
-        .base_ppn(tlb_base_ppn),
-        .resp_ppn(tlb_resp_ppn), .resp_hit(tlb_resp_hit),
-        .resp_valid(tlb_resp_valid), .busy(tlb_busy)
+        .cfg_dir_base({cfg_kvbase[KV_ADDR_W-6:0], 5'b0}),
+        .cmd_valid(plan_cmd_valid), .cmd_ready(plan_cmd_ready), .cmd_op(plan_cmd_op),
+        .cmd_ctx(plan_cmd_ctx), .cmd_layer(plan_cmd_layer),
+        .cmd_pos_lo(plan_cmd_pos_lo), .cmd_pos_hi(plan_cmd_pos_hi), .cmd_pools(plan_cmd_pools),
+        .cmd_done(plan_cmd_done), .cmd_fault(plan_cmd_fault),
+        .run_valid(run_valid), .run_ready(run_ready), .run(kv_run), .run_value_base(kv_run_value_base),
+        .mem_req_valid(pt_mem_req_valid), .mem_req_ready(pt_mem_req_ready), .mem_req_addr(pt_mem_req_addr),
+        .mem_resp_valid(pt_mem_resp_valid), .mem_resp_data(pt_mem_resp_data)
     );
+    assign run_key_base = kv_run.key_base;
+    assign run_count    = kv_run.count;
 
     // ---------------- NUM_GEMV GEMV units + accumulator ----------------
     logic [NUM_GEMV-1:0][15:0] gemv_res;
@@ -166,7 +189,7 @@ module fugue2_logic_die import fugue_pkg::*; (
     // rotate_start/rotate_pos are still decoded by the controller (the GPU does
     // the actual rotation); observing them keeps the controller identical.
     wire _unused = rotate_start | (|rotate_pos) | (|cfg_nhead) | (|cfg_dhead)
-                 | (|cfg_seqlen) | sm_busy | tlb_resp_hit | corrected_valid
+                 | (|cfg_seqlen) | sm_busy | addr_fault | (|kv_run_value_base) | corrected_valid
                  | (|corrected_mask);
 
 endmodule

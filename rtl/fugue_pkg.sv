@@ -2,8 +2,10 @@
 // logic die (near-DRAM buffer-die logic for master-diff KV attention).
 //
 // The Fugue logic die extends AttAcc's HBM buffer-die logic (GEMV + softmax +
-// controller) with (1) a TLB that translates logical KV addresses to physical
-// DRAM (bank,row,col), and (2) a RoPE rotate unit on the Q/K path.
+// controller) with (1) a KV *segment* TLB (kv_tlb_pkg / kv_tlb_top: drampim's
+// CacheBlendTLB in hardware — logical token positions -> physically contiguous
+// K/V runs), (2) a RoPE rotate unit on the Q/K path and (3) the master-diff
+// merge decoder.
 package fugue_pkg;
 
   // ---- Datapath widths ---------------------------------------------------
@@ -26,16 +28,11 @@ package fugue_pkg;
   localparam integer ROW_W  = 16;  // rows / bank
   localparam integer COL_W  = 6;   // 256-bit columns / row (column granularity)
 
-  // ---- Logical (virtual) KV address --------------------------------------
-  localparam integer LADDR_W = 32;                 // logical KV / operand addr
-  localparam integer PGOFF_W = COL_W;              // page offset (columns in a page)
-  localparam integer VPN_W   = LADDR_W - PGOFF_W;  // virtual page number
-  localparam integer PPN_W   = BANK_W + ROW_W;     // physical page number
-  localparam integer PADDR_W = PPN_W + PGOFF_W;    // physical address
-
-  // ---- TLB ---------------------------------------------------------------
-  localparam integer TLB_ENTRIES = 32;
-  localparam integer TLB_IDX_W   = $clog2(TLB_ENTRIES);
+  // ---- Logical KV address / instruction operand ----------------------------
+  localparam integer LADDR_W = 32;                 // instr operand (token position / cfg value)
+  // KV address translation lives in kv_tlb_pkg (segment descriptors, 34-bit
+  // HBM byte addresses); the controller decodes a run's byte address into
+  // {bank, row, col} of this geometry.
 
   // ---- PIM opcodes (extends AttAcc's PIM command set with ROTATE) ---------
   typedef enum logic [3:0] {
@@ -49,7 +46,8 @@ package fugue_pkg;
     PIM_MV_GB      = 4'h7,  // move GEMV out -> softmax buffer
     PIM_MV_SB      = 4'h8,  // move softmax out -> GEMV buffer
     PIM_RD_SB      = 4'h9,  // read final result from softmax buffer
-    PIM_SET_META   = 4'hA   // load diff-decoder mask (Fugue master-diff merge)
+    PIM_SET_META   = 4'hA,  // load diff-decoder mask (Fugue master-diff merge)
+    PIM_ATTACH     = 4'hB   // KV TLB: load (ctx, layer) descriptors; imm[0]=1 -> flush
   } opcode_e;
 
   // ---- Datapath op mode / partitioning -----------------------------------
@@ -65,9 +63,10 @@ package fugue_pkg;
     CFG_NHEAD    = 4'h0,
     CFG_DHEAD    = 4'h1,
     CFG_SEQLEN   = 4'h2,  // L
-    CFG_KVBASE   = 4'h3,  // KV base page (virtual)
+    CFG_KVBASE   = 4'h3,  // AttAcc: KV base (256-B vector units); Fugue: page-table directory base (32-B units)
     CFG_PARTMODE = 4'h4,
-    CFG_ROPEBASE = 4'h5   // RoPE theta base (seed for angle generator)
+    CFG_ROPEBASE = 4'h5,  // RoPE theta base (seed for angle generator)
+    CFG_KVCTX    = 4'h6   // {pools[17:16], layer[14:8], ctx[7:0]} of the KV scans (pools 0 -> master)
   } cfg_idx_e;
   localparam integer NUM_CFG = 8;
 
@@ -76,7 +75,7 @@ package fugue_pkg;
     opcode_e            op;       // 4b
     logic [1:0]         mode;     // opmode_e
     logic [3:0]         cfg_idx;  // for SET_CONFIG
-    logic [LADDR_W-1:0] vaddr;    // logical operand/KV address (also cfg value)
+    logic [LADDR_W-1:0] vaddr;    // MAC: first logical token position [15:0]; SET_CONFIG: value
     logic [15:0]        len;      // rows / elements
     logic [15:0]        imm;      // immediate (token position for ROTATE, etc.)
   } instr_t;

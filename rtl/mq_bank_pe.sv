@@ -304,7 +304,9 @@ module attacc_bank_pe (
     input  logic         accum_clr,
     input  logic         accum_en,
     output logic [15:0]  result,
-    output logic         result_valid
+    output logic         result_valid,
+    output logic [255:0] context_result,        // S x V per-lane accumulators (gemv_unit dual mode)
+    output logic         context_result_valid
 );
     gemv_unit u_pe (.*);
 endmodule

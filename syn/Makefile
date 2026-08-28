@@ -2,7 +2,7 @@
 GENUS      ?= /data/eda_tools/cadence/DDI251/GENUS251/tools.lnx86/bin/genus
 PERIOD_NS  ?= 2.0
 
-.PHONY: syn attacc fugue both attacc-hier fugue-hier both-hier clean
+.PHONY: syn attacc fugue both attacc-hier fugue-hier both-hier kvtlb kvtlb-hier kvtlb-sweep clean
 
 # Generic single run (default top = fugue_logic_die, filelist.f).
 syn:
@@ -65,3 +65,21 @@ mqrun:
 	cd build_$(TAG) && FUGUE_TOP=$(TOP) FUGUE_FILELIST=$(abspath $(FL)) \
 		FUGUE_PERIOD_NS=$(PERIOD_NS) FUGUE_TAG=$(TAG) \
 		$(GENUS) -no_gui -overwrite -f run_syn.tcl -log genus_$(TAG)
+
+# ---- KV segment TLB standalone (drampim CacheBlendTLB in hardware; see KV_TLB.md) ----
+# Isolated tops kv_tlb_e16/e32/e64 (filelist_kvtlb.f) for the TLB/PTW logic
+# latency + area; ENTRIES sweep via the fixed wrappers in kv_tlb_variants.sv.
+define KVTLB_RUN
+	mkdir -p build_$(1) && cp $(2) tsmcn28_mmmc.tcl build_$(1)/
+	cd build_$(1) && FUGUE_TOP=$(3) FUGUE_FILELIST=$(abspath filelist_kvtlb.f) \
+		FUGUE_PERIOD_NS=$(PERIOD_NS) FUGUE_TAG=$(1) \
+		$(GENUS) -no_gui -overwrite -f $(2) -log genus_$(1)
+endef
+kvtlb:
+	$(call KVTLB_RUN,kvtlb_e32,run_syn.tcl,kv_tlb_e32)
+kvtlb-hier:
+	$(call KVTLB_RUN,kvtlb_e32_hier,run_syn_hier.tcl,kv_tlb_e32)
+kvtlb-sweep:
+	$(call KVTLB_RUN,kvtlb_e16,run_syn.tcl,kv_tlb_e16) & \
+	$(call KVTLB_RUN,kvtlb_e32,run_syn.tcl,kv_tlb_e32) & \
+	$(call KVTLB_RUN,kvtlb_e64,run_syn.tcl,kv_tlb_e64) & wait

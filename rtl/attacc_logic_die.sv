@@ -1,12 +1,12 @@
 // attacc_logic_die.sv — AttAcc-ORIGINAL HBM logic-die top (BASELINE).
 //
-// The buffer-die logic of AttAcc, WITHOUT any of Fugue's additions: no KV TLB
+// The buffer-die logic of AttAcc, WITHOUT any of Fugue's additions: no KV segment TLB
 // (addresses are computed directly), no on-die RoPE rotate unit, and no
 // master-diff diff_decoder. Instantiates only GEMV units + softmax +
 // accumulator + the AttAcc controller. Synthesized head-to-head against
 // fugue_logic_die so the area/power/timing delta isolates exactly the cost of
-// Fugue's added hardware (TLB CAM + rotate_q_unit + diff_decoder).
-module attacc_logic_die import fugue_pkg::*; (
+// Fugue's added hardware (kv_tlb_top + rotate_q_unit + diff_decoder).
+module attacc_logic_die import fugue_pkg::*; import kv_tlb_pkg::*; (
     input  logic                       clk,
     input  logic                       rst_n,
 
@@ -43,10 +43,15 @@ module attacc_logic_die import fugue_pkg::*; (
     output logic                       result_valid
 );
     // ---------------- controller <-> datapath nets ----------------
-    logic                tlb_req_valid;
-    logic [VPN_W-1:0]    tlb_req_vpn;
-    logic [PPN_W-1:0]    tlb_base_ppn, tlb_resp_ppn;
-    logic                tlb_resp_hit, tlb_resp_valid, tlb_busy;
+    logic                plan_cmd_valid, plan_cmd_ready, plan_cmd_done, plan_cmd_fault;
+    logic [1:0]          plan_cmd_op, plan_cmd_pools;
+    logic [CTX_W-1:0]    plan_cmd_ctx;
+    logic [LAYER_W-1:0]  plan_cmd_layer;
+    logic [POS_W-1:0]    plan_cmd_pos_lo, plan_cmd_pos_hi;
+    logic                run_valid, run_ready, addr_fault;
+    logic [KV_ADDR_W-1:0] run_key_base;
+    logic [CNT_W-1:0]    run_count;
+    logic [31:0]         cfg_kvbase;
 
     logic                gemv_start, gemv_accum_en, gemv_accum_clr;
     logic [3:0]          gemv_row_addr, gemv_vec_addr;
@@ -61,16 +66,18 @@ module attacc_logic_die import fugue_pkg::*; (
     wire op_is_score = (op_mode == OP_SCORE);
 
     // ---------------- controller ----------------
-    // Same AttAcc controller; its TLB port is served by DIRECT addressing
-    // (a 1-cycle add, no CAM) — this is AttAcc's non-translated address path.
+    // Same controller as Fugue; its address-plan port is served by DIRECT
+    // addressing (direct_addr_plan: one affine run) — AttAcc's non-translated path.
     attacc_controller u_ctrl (
         .clk(clk), .rst_n(rst_n),
         .instr_valid(instr_valid), .instr_word(instr_word),
         .instr_ready(instr_ready), .idle(idle),
-        .tlb_req_valid(tlb_req_valid), .tlb_req_vpn(tlb_req_vpn),
-        .tlb_base_ppn(tlb_base_ppn), .tlb_resp_ppn(tlb_resp_ppn),
-        .tlb_resp_hit(tlb_resp_hit), .tlb_resp_valid(tlb_resp_valid),
-        .tlb_busy(tlb_busy),
+        .plan_cmd_valid(plan_cmd_valid), .plan_cmd_ready(plan_cmd_ready), .plan_cmd_op(plan_cmd_op),
+        .plan_cmd_ctx(plan_cmd_ctx), .plan_cmd_layer(plan_cmd_layer),
+        .plan_cmd_pos_lo(plan_cmd_pos_lo), .plan_cmd_pos_hi(plan_cmd_pos_hi), .plan_cmd_pools(plan_cmd_pools),
+        .plan_cmd_done(plan_cmd_done), .plan_cmd_fault(plan_cmd_fault),
+        .run_valid(run_valid), .run_ready(run_ready), .run_key_base(run_key_base), .run_count(run_count),
+        .addr_fault(addr_fault),
         .dram_cmd(dram_cmd), .dram_bank(dram_bank),
         .dram_row(dram_row), .dram_col(dram_col),
         .gemv_start(gemv_start), .gemv_row_addr(gemv_row_addr),
@@ -78,26 +85,19 @@ module attacc_logic_die import fugue_pkg::*; (
         .gemv_accum_clr(gemv_accum_clr), .op_mode(op_mode),
         .rotate_start(rotate_start), .rotate_pos(rotate_pos),
         .sfm_start(sfm_start), .acc_clr(acc_clr),
-        .cfg_nhead(cfg_nhead), .cfg_dhead(cfg_dhead), .cfg_seqlen(cfg_seqlen),
+        .cfg_nhead(cfg_nhead), .cfg_dhead(cfg_dhead), .cfg_seqlen(cfg_seqlen), .cfg_kvbase(cfg_kvbase),
         .meta_wr_en(meta_wr_en), .meta_wr_idx(meta_wr_idx), .meta_wr_mask(meta_wr_mask)
     );
 
-    // Direct address path (no TLB CAM): 1-cycle add, always "hit".
-    logic             tlb_rv_d;
-    logic [PPN_W-1:0] tlb_ppn_d;
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            tlb_rv_d  <= 1'b0;
-            tlb_ppn_d <= '0;
-        end else begin
-            tlb_rv_d  <= tlb_req_valid;
-            tlb_ppn_d <= tlb_base_ppn + tlb_req_vpn[PPN_W-1:0];
-        end
-    end
-    assign tlb_resp_valid = tlb_rv_d;
-    assign tlb_resp_ppn   = tlb_ppn_d;
-    assign tlb_resp_hit   = 1'b1;
-    assign tlb_busy       = 1'b0;
+    // Direct address path (no table, no translation): one affine run per MAC.
+    direct_addr_plan u_addr (
+        .clk(clk), .rst_n(rst_n), .kv_base_vec(cfg_kvbase),
+        .cmd_valid(plan_cmd_valid), .cmd_ready(plan_cmd_ready), .cmd_op(plan_cmd_op),
+        .cmd_pos_lo(plan_cmd_pos_lo), .cmd_pos_hi(plan_cmd_pos_hi),
+        .cmd_done(plan_cmd_done), .cmd_fault(plan_cmd_fault),
+        .run_valid(run_valid), .run_ready(run_ready), .run_key_base(run_key_base), .run_count(run_count)
+    );
+    wire _unused_addr = addr_fault | (|plan_cmd_ctx) | (|plan_cmd_layer) | (|plan_cmd_pools);
 
     // ---------------- NUM_GEMV GEMV units + accumulator ----------------
     logic [NUM_GEMV-1:0][15:0] gemv_res;

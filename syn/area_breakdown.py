@@ -44,13 +44,14 @@ att_top, att = parse(ATT)
 fug_top, fug = parse(FUG)
 
 # canonical ordering
-ORDER = ["g_gemv[*].u_gemv", "u_sfm", "u_acc", "u_ctrl", "u_tlb", "u_rotate", "u_diff"]
+ORDER = ["g_gemv[*].u_gemv", "u_sfm", "u_acc", "u_ctrl", "u_addr", "u_tlb", "u_rotate", "u_diff"]
 LABEL = {
     "g_gemv[*].u_gemv": "4x gemv_unit (GEMV MAC)",
     "u_sfm":            "softmax_unit (FP32)",
     "u_acc":            "accumulator",
     "u_ctrl":           "attacc_controller",
-    "u_tlb":            "tlb  [Fugue-new]",
+    "u_addr":           "direct_addr_plan  [AttAcc]",
+    "u_tlb":            "kv_tlb_top (segment TLB + PTW + planner)  [Fugue-new]",
     "u_rotate":         "rotate_q_unit  [Fugue-new]",
     "u_diff":           "diff_decoder  [Fugue-new]",
 }

@@ -35,7 +35,7 @@ The **three Fugue additions total 39,818 µm² = 96.4% of the +41,300 delta**:
 | Added block | Area (µm²) | Cells | Share of additions | What it is |
 |---|---:|---:|---:|---|
 | `rotate_q_unit` | 28,029 | 21,274 | 70.4% | RoPE: 8 pairs × (4 `fp16_mult` + 2 `fp16_add`) = 32 mult + 16 add |
-| `tlb` | 6,772 | 3,507 | 17.0% | 32-entry fully-assoc CAM + FIFO refill + miss FSM |
+| `tlb` | 6,772 | 3,507 | 17.0% | 32-entry fully-assoc CAM + FIFO refill + miss FSM (**page-granular `tlb.sv`, removed 2026-08-28 — superseded by `kv_tlb_top`, not yet re-synthesized; see `KV_TLB.md`**) |
 | `diff_decoder` | 5,017 | 4,820 | 12.6% | 8×16-bit mask buffer + prefix-popcount scatter + mask gate |
 | **sum** | **39,818** | **29,601** | 100% | |
 
