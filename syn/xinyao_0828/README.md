@@ -14,21 +14,24 @@ generated mapped Verilog, SDC and `WORK/` databases are deliberately omitted.
 
 ## Known invalid/incomplete points
 
-1. `softmax_buffer_sram` fails DC elaboration: DC interprets a part-select on
-   the packed two-dimensional `score_wr_data`/`exp_wr_data` ports as an index
-   outside `[15:0]` (`ELAB-298`).  It remains an unresolved black box with zero
-   area.  Consequently the standalone Fugue softmax-buffer result (`0 um^2`),
-   and all logic-die totals that include it, are invalid/incomplete.
-2. The intended 512-KiB softmax implementation is 64 instances of
-   `srambank_256x4x64_6t122`, whose expected macro-only area is approximately
-   `151031.07 um^2`; this is absent from the current top-level totals.
-3. GEMV SRAM macros are linked in the SRAM logic-die profiles (eight logical
+1. The softmax SRAM macro elaboration issue in this snapshot has since been
+   fixed.  DC/Presto previously interpreted a part-select on the packed
+   two-dimensional `score_wr_data`/`exp_wr_data` ports as an index outside
+   `[15:0]` (`ELAB-298`).  The wrapper now slices explicit one-dimensional
+   512-bit internal buses.  A fresh standalone `softmax_buffer_fugue` run
+   resolves and maps all 64 `srambank_256x4x64_6t122` instances, with
+   `151031.078125 um^2` macro area and `151296.127948 um^2` total cell area.
+   This fix does **not** retroactively update this directory's reports:
+   `SUMMARY.md`, the zero-area standalone result, and every logic-die total
+   containing the unresolved softmax buffer remain invalid.  Re-run the full
+   DC matrix before using any softmax-related area comparisons.
+2. GEMV SRAM macros are linked in the SRAM logic-die profiles (eight logical
    buffers total, `31890.31 um^2`).  However each 512-B logical buffer uses
    sixteen 256x16 macros and therefore allocates 8 KiB physically: a 16x depth
    over-provision that needs a more suitable macro/banking plan.
-4. The isolated `bankpe` profiles still select the portable flop-buffer source;
+3. The isolated `bankpe` profiles still select the portable flop-buffer source;
    they do not measure the SRAM GEMV implementation.
-5. Timing is not closed: AttAcc logic die is -481.66 ps; Fugue2/Fugue logic die
+4. Timing is not closed: AttAcc logic die is -481.66 ps; Fugue2/Fugue logic die
    are -3598.79/-3591.14 ps at 0.769 ns.  Only the 1.500-ns AttAcc PE and the
    isolated TLB meet the current setup target.
 

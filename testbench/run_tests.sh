@@ -22,6 +22,7 @@ run tb_gemv_unit rtl/fp16_add.sv rtl/fp16_mult.sv rtl/dbuf_16x256.sv rtl/gemv_un
 run tb_gemv_unit_modes rtl/fp16_add.sv rtl/fp16_mult.sv rtl/dbuf_16x256.sv rtl/gemv_unit.sv
 run tb_softmax_unit rtl/fugue_pkg.sv rtl/fp32_add.sv rtl/fp32_mul.sv rtl/fp32_exp.sv rtl/fp32_recip.sv rtl/softmax_unit.sv
 run tb_softmax_buffer rtl/softmax_buffer.sv
+run tb_softmax_buffer_sram rtl/softmax_buffer_sram.sv third_party/asap7/asap7_sram_0p0/generated/verilog/srambank_256x4x64_6t122.v
 run tb_attacc_controller rtl/fugue_pkg.sv rtl/kv_tlb_pkg.sv rtl/attacc_controller.sv
 run tb_attacc_controller_mac rtl/fugue_pkg.sv rtl/kv_tlb_pkg.sv rtl/attacc_controller.sv
 run tb_mq_bank_pe rtl/fp16_add.sv rtl/fp16_mult.sv rtl/fp16_add_piped.sv rtl/fp16_mult_piped.sv rtl/mac_tree16_piped.sv rtl/dbuf_16x256.sv rtl/mq_bank_pe.sv

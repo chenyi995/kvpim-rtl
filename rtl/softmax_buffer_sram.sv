@@ -53,6 +53,12 @@ module softmax_buffer_sram #(
             $error("softmax_buffer_sram supports at most 4096 x 512-bit words");
     end
 
+    // Keep macro-facing data buses explicitly one-dimensional.  Although the
+    // scheduler-facing ports above are packed as [lane][fp32], some DC/Presto
+    // versions interpret a variable part-select of that type as indexing the
+    // leftmost (lane) dimension.  The copies below preserve bit layout while
+    // making each 64-bit macro slice unambiguous to elaboration.
+    logic [DATA_W-1:0] score_wr_bits, exp_wr_bits;
     logic [ADDR_W-1:0] score_wr_addr, score_rd_addr, exp_wr_addr, exp_rd_addr;
     logic               score_read, exp_read;
     logic [BANK_W-1:0]  score_sel_bank, exp_sel_bank;
@@ -62,6 +68,8 @@ module softmax_buffer_sram #(
     logic [DATA_W-1:0] score_read_word, exp_read_word;
 
     always_comb begin
+        score_wr_bits = score_wr_data;
+        exp_wr_bits   = exp_wr_data;
         score_wr_addr = score_wr_context * WORDS + score_wr_word;
         score_rd_addr = score_rd_context * WORDS + score_rd_word;
         exp_wr_addr   = exp_wr_context * WORDS + exp_wr_word;
@@ -101,13 +109,13 @@ module softmax_buffer_sram #(
             for (genvar s = 0; s < SLICES; s++) begin : g_slice
                 srambank_256x4x64_6t122 u_score (
                     .clk(clk), .ADDRESS(score_wr_en ? score_wr_addr[9:0] : score_rd_addr[9:0]),
-                    .wd(score_wr_data[s*64 +: 64]),
+                    .wd(score_wr_bits[s*64 +: 64]),
                     .banksel((score_wr_en || score_read) && ((score_wr_en ? score_wr_addr / MACRO_DEPTH : score_rd_addr / MACRO_DEPTH) == b)),
                     .read(score_read), .write(score_wr_en), .dataout(score_q[b][s])
                 );
                 srambank_256x4x64_6t122 u_exp (
                     .clk(clk), .ADDRESS(exp_wr_en ? exp_wr_addr[9:0] : exp_rd_addr[9:0]),
-                    .wd(exp_wr_data[s*64 +: 64]),
+                    .wd(exp_wr_bits[s*64 +: 64]),
                     .banksel((exp_wr_en || exp_read) && ((exp_wr_en ? exp_wr_addr / MACRO_DEPTH : exp_rd_addr / MACRO_DEPTH) == b)),
                     .read(exp_read), .write(exp_wr_en), .dataout(exp_q[b][s])
                 );
