@@ -1,0 +1,32 @@
+library (softmax_pe_macro_lib) {
+  delay_model : table_lookup;
+  time_unit : "1ns"; voltage_unit : "1V"; capacitive_load_unit (1,pf);
+  nom_process : 1; nom_temperature : 25; nom_voltage : 0.7;
+  operating_conditions (PVT_0P7V_25C) { process : 1; temperature : 25; voltage : 0.7; }
+  default_operating_conditions : PVT_0P7V_25C;
+  input_threshold_pct_rise : 50; input_threshold_pct_fall : 50;
+  output_threshold_pct_rise : 50; output_threshold_pct_fall : 50;
+  slew_lower_threshold_pct_rise : 30; slew_upper_threshold_pct_rise : 70;
+  slew_lower_threshold_pct_fall : 30; slew_upper_threshold_pct_fall : 70;
+  bus_naming_style : "%s[%d]";
+  type (bus32) { base_type : array; data_type : bit; bit_width : 32; bit_from : 31; bit_to : 0; downto : true; }
+  lu_table_template (delay_t) { variable_1 : input_net_transition; variable_2 : total_output_net_capacitance; index_1 ("0.01"); index_2 ("0.005"); }
+  lu_table_template (constraint_t) { variable_1 : related_pin_transition; variable_2 : constrained_pin_transition; index_1 ("0.01"); index_2 ("0.01"); }
+  cell (softmax_pe) {
+    area : 1836.875874;
+    dont_touch : true;
+    pin (clk) { direction : input; clock : true; capacitance : 0.005; }
+    pin (rst_n) { direction : input; capacitance : 0.005; }
+    pin (sub_valid) { direction : input; capacitance : 0.005; timing () { related_pin : "clk"; timing_type : setup_rising; rise_constraint (constraint_t) { values ("0.000"); } fall_constraint (constraint_t) { values ("0.000"); } } }
+    pin (norm_valid) { direction : input; capacitance : 0.005; timing () { related_pin : "clk"; timing_type : setup_rising; rise_constraint (constraint_t) { values ("0.000"); } fall_constraint (constraint_t) { values ("0.000"); } } }
+    bus (score) { bus_type : bus32; direction : input; capacitance : 0.005; timing () { related_pin : "clk"; timing_type : setup_rising; rise_constraint (constraint_t) { values ("0.000"); } fall_constraint (constraint_t) { values ("0.000"); } } }
+    bus (neg_max) { bus_type : bus32; direction : input; capacitance : 0.005; timing () { related_pin : "clk"; timing_type : setup_rising; rise_constraint (constraint_t) { values ("0.000"); } fall_constraint (constraint_t) { values ("0.000"); } } }
+    bus (norm_exp) { bus_type : bus32; direction : input; capacitance : 0.005; timing () { related_pin : "clk"; timing_type : setup_rising; rise_constraint (constraint_t) { values ("0.000"); } fall_constraint (constraint_t) { values ("0.000"); } } }
+    bus (reciprocal) { bus_type : bus32; direction : input; capacitance : 0.005; timing () { related_pin : "clk"; timing_type : setup_rising; rise_constraint (constraint_t) { values ("0.000"); } fall_constraint (constraint_t) { values ("0.000"); } } }
+    pin (sub_done) { direction : output; timing () { related_pin : "clk"; timing_type : rising_edge; cell_rise (delay_t) { values ("0.050"); } cell_fall (delay_t) { values ("0.050"); } rise_transition (delay_t) { values ("0.020"); } fall_transition (delay_t) { values ("0.020"); } } }
+    pin (exp_done) { direction : output; timing () { related_pin : "clk"; timing_type : rising_edge; cell_rise (delay_t) { values ("0.050"); } cell_fall (delay_t) { values ("0.050"); } rise_transition (delay_t) { values ("0.020"); } fall_transition (delay_t) { values ("0.020"); } } }
+    pin (norm_done) { direction : output; timing () { related_pin : "clk"; timing_type : rising_edge; cell_rise (delay_t) { values ("0.050"); } cell_fall (delay_t) { values ("0.050"); } rise_transition (delay_t) { values ("0.020"); } fall_transition (delay_t) { values ("0.020"); } } }
+    bus (exp_y) { bus_type : bus32; direction : output; timing () { related_pin : "clk"; timing_type : rising_edge; cell_rise (delay_t) { values ("0.050"); } cell_fall (delay_t) { values ("0.050"); } rise_transition (delay_t) { values ("0.020"); } fall_transition (delay_t) { values ("0.020"); } } }
+    bus (prob_y) { bus_type : bus32; direction : output; timing () { related_pin : "clk"; timing_type : rising_edge; cell_rise (delay_t) { values ("0.050"); } cell_fall (delay_t) { values ("0.050"); } rise_transition (delay_t) { values ("0.020"); } fall_transition (delay_t) { values ("0.020"); } } }
+  }
+}

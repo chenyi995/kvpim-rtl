@@ -8,6 +8,8 @@
 /data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/fp32_mul.sv
 /data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/fp32_exp.sv
 /data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/fp32_recip.sv
+/data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/softmax_pe.sv
+/data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/softmax_buffer_sram.sv
 /data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/gemv_unit.sv
 /data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/bf16_mult.sv
 /data2/chenyi9/KV-PIM/fugue-logic-die-rtl/rtl/bf16_add.sv

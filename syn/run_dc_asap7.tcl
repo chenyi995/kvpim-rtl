@@ -10,6 +10,7 @@ set script_dir [file dirname [file normalize [info script]]]
 set root_dir   [file normalize [file join $script_dir ..]]
 set lib_dir    [file join $root_dir third_party asap7_lib db]
 set sram_dir   [file join $root_dir third_party asap7 asap7_sram_0p0 generated]
+set pe_macro_db [file join $script_dir softmax_pe.db]
 
 proc envdef {name default} {
     return [expr {[info exists ::env($name)] ? $::env($name) : $default}]
@@ -19,7 +20,15 @@ proc envdef {name default} {
 # the source directory; constraints below remain exactly the same.
 set rtl_dir [envdef SYN_RTL_DIR [file join $root_dir rtl]]
 if {[file pathtype $rtl_dir] ne "absolute"} {
-    set rtl_dir [file normalize [file join $root_dir $rtl_dir]]
+    # Command-line users invoke this script from syn/.  Resolve a relative
+    # trial directory there first, so ../rtl/0830-01 selects kvpim-rtl's
+    # branch rather than a nonexistent workspace-level rtl/ directory.
+    set from_script_dir [file normalize [file join $script_dir $rtl_dir]]
+    if {[file isdirectory $from_script_dir]} {
+        set rtl_dir $from_script_dir
+    } else {
+        set rtl_dir [file normalize [file join $root_dir $rtl_dir]]
+    }
 }
 
 set top_module [envdef SYN_TOP attacc_logic_die]
@@ -28,6 +37,8 @@ set tag        [envdef SYN_TAG $top_module]
 set period_ns  [envdef SYN_PERIOD_NS 2.0]
 set pe_period_ns [envdef SYN_PE_PERIOD_NS ""]
 set max_cores  [envdef SYN_MAX_CORES 4]
+set io_delay_ratio [envdef SYN_IO_DELAY_RATIO 0.30]
+set fix_hold [envdef SYN_FIX_HOLD 0]
 set period     [expr {$period_ns * 1000.0}]
 set out_root   [envdef SYN_OUT_ROOT dc_asap7]
 if {[file pathtype $out_root] ne "absolute"} {
@@ -53,29 +64,56 @@ set_host_options -max_cores $max_cores
 set common_logic [list \
     fugue_pkg.sv kv_tlb_pkg.sv fp16_mult.sv fp16_add.sv dbuf_16x256.sv \
     fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv gemv_unit.sv \
-    accumulator.sv softmax_unit.sv]
+    accumulator.sv softmax_pe.sv softmax_tile_unit.sv]
 set sram_common [list \
     fugue_pkg.sv kv_tlb_pkg.sv fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv \
     fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv gemv_unit.sv \
-    accumulator.sv softmax_buffer_sram.sv softmax_buffer.sv streaming_softmax_unit.sv]
+    accumulator.sv softmax_pe.sv softmax_buffer_sram.sv softmax_unit.sv]
+set sram_common_pe_macro [list \
+    fugue_pkg.sv kv_tlb_pkg.sv fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv \
+    fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv gemv_unit.sv \
+    accumulator.sv softmax_pe_blackbox.sv softmax_buffer_sram.sv softmax_unit.sv softmax_array_256.sv]
 proc enable_asap7_sram {sram_dir} {
     global target_library link_library
-    foreach name {srambank_256x4x64_6t122 srambank_64x4x16_6t122} {
+    foreach name {srambank_256x4x64_6t122 srambank_64x4x16_6t122 srambank_64x4x80_6t122 srambank_64x4x32_6t122 srambank_256x4x80_6t122 srambank_256x4x32_6t122} {
         set db [file join $sram_dir db ${name}.db]
-        if {![file exists $db]} { error "Missing $db. Run: lc_shell -f compile_asap7_sram_libs.tcl" }
-        lappend target_library $db
+        if {[file exists $db]} {
+            lappend target_library $db
+        } else {
+            error "Missing SRAM DB view: $db. Run compile_asap7_sram_libs.tcl with lc_shell_exec."
+        }
     }
+    set link_library "* $target_library"
+}
+proc enable_softmax_pe_macro {pe_macro_db} {
+    global target_library link_library
+    if {![file exists $pe_macro_db]} {
+        error "Missing PE macro DB: $pe_macro_db. Compile softmax_pe_macro.lib first."
+    }
+    lappend target_library $pe_macro_db
     set link_library "* $target_library"
 }
 switch -- $profile {
     logic {
-        set sources $common_logic
+        # softmax_unit is macro-backed even when synthesized standalone.
+        enable_asap7_sram $sram_dir
+        set sources $sram_common
+    }
+    fp32_add { set sources [list fp32_add.sv] }
+    fp32_exp { set sources [list fp32_exp.sv] }
+    fp32_mul { set sources [list fp32_mul.sv] }
+    softmax_pe { set sources [list fp32_add.sv fp32_exp.sv fp32_mul.sv softmax_pe.sv] }
+    softmax_array_256 {
+        enable_asap7_sram $sram_dir
+        enable_softmax_pe_macro $pe_macro_db
+        set sources $sram_common_pe_macro
     }
     diff {
         set sources [concat $common_logic [list diff_decoder.sv]]
     }
     attacc {
-        set sources [concat $common_logic [list direct_addr_plan.sv attacc_controller.sv attacc_logic_die.sv]]
+        enable_asap7_sram $sram_dir
+        set sources [concat $sram_common [list direct_addr_plan.sv attacc_controller.sv attacc_logic_die.sv]]
     }
     attacc_sram {
         enable_asap7_sram $sram_dir
@@ -92,7 +130,8 @@ switch -- $profile {
             [file join $sram_dir verilog srambank_64x4x16_6t122.v]]
     }
     fugue2 {
-        set sources [concat $common_logic [list kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue2_logic_die.sv]]
+        enable_asap7_sram $sram_dir
+        set sources [concat $sram_common [list kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue2_logic_die.sv]]
     }
     fugue2_sram {
         enable_asap7_sram $sram_dir
@@ -111,7 +150,8 @@ switch -- $profile {
             [file join $sram_dir verilog srambank_64x4x16_6t122.v]]
     }
     fugue {
-        set sources [concat $common_logic [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue_logic_die.sv]]
+        enable_asap7_sram $sram_dir
+        set sources [concat $sram_common [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue_logic_die.sv]]
     }
     fugue_sram {
         enable_asap7_sram $sram_dir
@@ -195,16 +235,25 @@ if {[sizeof_collection [get_ports pe_clk]] != 0} {
     set clock_reset_ports [get_ports {clk rst_n}]
 }
 set data_ports [remove_from_collection [all_inputs] $clock_reset_ports]
-set_input_delay [expr {$period * 0.30}] -clock clk $data_ports
-set_output_delay [expr {$period * 0.30}] -clock clk [all_outputs]
+set_input_delay [expr {$period * $io_delay_ratio}] -clock clk $data_ports
+set_output_delay [expr {$period * $io_delay_ratio}] -clock clk [all_outputs]
 set_driving_cell -lib_cell BUFx2_ASAP7_75t_R $data_ports
 set_load 0.005 [all_outputs]
 set_false_path -from [get_ports rst_n]
+if {$fix_hold} {
+    set_fix_hold [get_clocks clk]
+}
 
 # Low effort keeps the full matrix practical for the ~0.5 mm² logic-die tops.
 # It remains timing/area-driven technology mapping, with identical effort for
 # every A/B point; this is not a sign-off/PPA-closure run.
 compile -map_effort low -area_effort low
+if {$fix_hold} {
+    # The first mapping pass is setup-driven.  Run DC's dedicated incremental
+    # min-delay repair afterwards so the reported macro view is setup *and*
+    # hold clean, without re-optimising the pipeline structure.
+    compile -incremental -only_hold_time
+}
 
 report_qor -nosplit > [file join $out_dir ${top_module}_qor.rpt]
 report_area -hierarchy -nosplit > [file join $out_dir ${top_module}_area.rpt]
@@ -212,6 +261,7 @@ report_area -hierarchy -nosplit > [file join $out_dir ${top_module}_area.rpt]
 # folding it into the surrounding softmax-buffer hierarchy.
 report_reference -hierarchy -nosplit > [file join $out_dir ${top_module}_references.rpt]
 report_timing -delay_type max -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing.rpt]
+report_timing -delay_type min -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing_hold.rpt]
 report_power -nosplit > [file join $out_dir ${top_module}_power.rpt]
 write -format verilog -hierarchy -output [file join $out_dir ${top_module}_mapped.v]
 write_sdc [file join $out_dir ${top_module}.sdc]

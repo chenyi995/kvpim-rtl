@@ -13,6 +13,7 @@ set top_module  [envdef FUGUE_TOP       fugue_logic_die]
 set period      [envdef FUGUE_PERIOD_NS 2.0]
 set tag         [envdef FUGUE_TAG       run]
 set filelist    [envdef FUGUE_FILELIST  filelist.f]
+set allow_blackbox [envdef FUGUE_ALLOW_BLACKBOX 0]
 set sdc_file    "chip_${tag}.sdc"
 set mmmc_file   "tsmcn28_mmmc.tcl"
 set outputs_dir "outputs_${tag}"
@@ -38,7 +39,7 @@ puts $f "set_false_path -from \[get_ports rst_n\]"
 close $f
 
 # ---- Genus knobs (T-cube recipe) ----
-set_db hdl_error_on_blackbox     true
+set_db hdl_error_on_blackbox     [expr {!$allow_blackbox}]
 set_db max_cpus_per_server       8
 set_db hdl_auto_sync_set_reset   true
 set_db hdl_unconnected_value     none

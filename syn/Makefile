@@ -1,8 +1,11 @@
 # Fugue logic die — N28 Genus synthesis driver (full flatten, T-cube recipe).
 GENUS      ?= /data/eda_tools/cadence/DDI251/GENUS251/tools.lnx86/bin/genus
-PERIOD_NS  ?= 2.0
+# AttAcc-DRAMPIM models HBM3 at tCK=0.769 ns (ramulator_wrapper.py).
+# PE macros are closed at 10% higher frequency: 0.769 / 1.10 = 0.699 ns.
+PERIOD_NS     ?= 0.769
+PE_PERIOD_NS  ?= 0.699
 
-.PHONY: syn attacc fugue both attacc-hier fugue-hier both-hier kvtlb kvtlb-hier kvtlb-sweep dc-kvtlb-asap7 clean
+.PHONY: syn attacc fugue both attacc-hier fugue-hier both-hier softmax-pe softmax-channel-macro kvtlb kvtlb-hier kvtlb-sweep dc-kvtlb-asap7 clean
 
 # Generic single run (default top = fugue_logic_die, filelist.f).
 syn:
@@ -44,6 +47,22 @@ fugue-hier:
 
 both-hier:
 	$(MAKE) attacc-hier & $(MAKE) fugue-hier & wait
+
+# ---- AttAcc softmax leaf-macro flow ---------------------------------------
+# First characterize/synthesize one FP32 softmax PE.  Then compile the
+# 16-lane channel engine with softmax_pe_blackbox.sv (or replace that stub by
+# the mapped macro model) so its sixteen PE leaves are not re-expanded.
+softmax-pe:
+	mkdir -p build_softmax_pe && cp run_syn.tcl tsmcn28_mmmc.tcl build_softmax_pe/
+	cd build_softmax_pe && FUGUE_TOP=softmax_pe FUGUE_FILELIST=$(abspath filelist_softmax_pe.f) \
+		FUGUE_PERIOD_NS=$(PE_PERIOD_NS) FUGUE_TAG=softmax_pe \
+		$(GENUS) -no_gui -overwrite -f run_syn.tcl -log genus_softmax_pe
+
+softmax-channel-macro:
+	mkdir -p build_softmax_channel_macro && cp run_syn.tcl tsmcn28_mmmc.tcl build_softmax_channel_macro/
+	cd build_softmax_channel_macro && FUGUE_TOP=softmax_unit FUGUE_FILELIST=$(abspath filelist_softmax_channel_macro.f) \
+		FUGUE_ALLOW_BLACKBOX=1 FUGUE_PERIOD_NS=$(PERIOD_NS) FUGUE_TAG=softmax_channel_macro \
+		$(GENUS) -no_gui -overwrite -f run_syn.tcl -log genus_softmax_channel_macro
 
 # ---- BF16 M2 RoPE rotate unit (on-die sin/cos generation), standalone ----
 # Hierarchy-preserving so the sincos_bf16 sub-block area is itemized separately

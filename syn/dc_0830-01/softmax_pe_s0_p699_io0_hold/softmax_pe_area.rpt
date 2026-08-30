@@ -1,0 +1,133 @@
+ 
+****************************************
+Report : area
+Design : softmax_pe
+Version: P-2019.03-SP5-6
+Date   : Mon Aug 31 00:32:16 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+
+Number of ports:                         4928
+Number of nets:                         21692
+Number of cells:                        17132
+Number of combinational cells:          15129
+Number of sequential cells:              1917
+Number of macros/black boxes:               0
+Number of buf/inv:                       6525
+Number of references:                       5
+
+Combinational area:               1110.179518
+Buf/Inv area:                      300.974944
+Noncombinational area:             726.696355
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  1836.875874
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  -----------------------
+softmax_pe                        1836.8759    100.0     0.4520     0.0000  0.0000  softmax_pe
+u_add                              212.8680     11.6    62.3295    56.8620  0.0000  fp32_add
+u_add/add_107                        1.4434      0.1     1.4434     0.0000  0.0000  fp32_add_DW01_inc_1
+u_add/add_166                        7.6982      0.4     7.6982     0.0000  0.0000  fp32_add_DW01_add_6
+u_add/add_83_S2                     12.6700      0.7    12.6700     0.0000  0.0000  fp32_add_DW01_add_3
+u_add/sll_144                       14.3321      0.8    14.3321     0.0000  0.0000  fp32_add_DW01_ash_0
+u_add/sll_64                        12.1743      0.7    12.1743     0.0000  0.0000  fp32_add_DW01_ash_1
+u_add/srl_62                        20.0767      1.1    20.0767     0.0000  0.0000  fp32_add_DW_rash_3
+u_add/sub_145                        4.5635      0.2     4.5635     0.0000  0.0000  fp32_add_DW01_sub_7
+u_add/sub_48                         6.0653      0.3     6.0653     0.0000  0.0000  fp32_add_DW01_sub_8
+u_add/sub_84                        14.6529      0.8    14.6529     0.0000  0.0000  fp32_add_DW01_sub_J5_0
+u_exp                             1015.7011     55.3   145.9166   413.9554  0.0000  fp32_exp
+u_exp/add_133                       14.1718      0.8    14.1718     0.0000  0.0000  fp32_exp_DW01_add_J5_1
+u_exp/add_133_S2                    14.1718      0.8    14.1718     0.0000  0.0000  fp32_exp_DW01_add_34
+u_exp/add_134                       14.1718      0.8    14.1718     0.0000  0.0000  fp32_exp_DW01_add_J5_0
+u_exp/add_134_S2                    14.1718      0.8    14.1718     0.0000  0.0000  fp32_exp_DW01_add_33
+u_exp/add_135                       15.2069      0.8    15.2069     0.0000  0.0000  fp32_exp_DW01_add_32
+u_exp/add_136                       15.2069      0.8    15.2069     0.0000  0.0000  fp32_exp_DW01_add_J4_2
+u_exp/add_140                       16.8691      0.9    16.8691     0.0000  0.0000  fp32_exp_DW01_add_J9_0
+u_exp/add_351                       14.3030      0.8    14.3030     0.0000  0.0000  fp32_exp_DW01_add_J8_1
+u_exp/add_353                       13.5886      0.7    13.5886     0.0000  0.0000  fp32_exp_DW01_add_36
+u_exp/add_449                        8.4710      0.5     8.4710     0.0000  0.0000  fp32_exp_DW01_add_35
+u_exp/mult_129                      16.7378      0.9     8.0482     0.0000  0.0000  fp32_exp_DW02_mult_15
+u_exp/mult_129/FS_1                  8.6897      0.5     8.6897     0.0000  0.0000  fp32_exp_DW01_add_J14_3
+u_exp/mult_129_S2                   16.7378      0.9     8.0482     0.0000  0.0000  fp32_exp_DW02_mult_14
+u_exp/mult_129_S2/FS_1               8.6897      0.5     8.6897     0.0000  0.0000  fp32_exp_DW01_add_39
+u_exp/mult_130                      16.7378      0.9     8.0482     0.0000  0.0000  fp32_exp_DW02_mult_13
+u_exp/mult_130/FS_1                  8.6897      0.5     8.6897     0.0000  0.0000  fp32_exp_DW01_add_J14_4
+u_exp/mult_130_S2                   16.7378      0.9     8.0482     0.0000  0.0000  fp32_exp_DW02_mult_12
+u_exp/mult_130_S2/FS_1               8.6897      0.5     8.6897     0.0000  0.0000  fp32_exp_DW01_add_40
+u_exp/mult_131                      16.7378      0.9     8.0482     0.0000  0.0000  fp32_exp_DW02_mult_11
+u_exp/mult_131/FS_1                  8.6897      0.5     8.6897     0.0000  0.0000  fp32_exp_DW01_add_J14_5
+u_exp/mult_131_S2                   16.7378      0.9     8.0482     0.0000  0.0000  fp32_exp_DW02_mult_10
+u_exp/mult_131_S2/FS_1               8.6897      0.5     8.6897     0.0000  0.0000  fp32_exp_DW01_add_41
+u_exp/mult_132                      16.7378      0.9     8.0482     0.0000  0.0000  fp32_exp_DW02_mult_9
+u_exp/mult_132/FS_1                  8.6897      0.5     8.6897     0.0000  0.0000  fp32_exp_DW01_add_J14_6
+u_exp/mult_132_S2                   15.9797      0.9     7.6837     0.0000  0.0000  fp32_exp_DW02_mult_8
+u_exp/mult_132_S2/FS_1               8.2960      0.5     8.2960     0.0000  0.0000  fp32_exp_DW01_add_42
+u_exp/mult_342                      19.8288      1.1    16.6795     0.0000  0.0000  fp32_exp_DW02_mult_4
+u_exp/mult_342/FS_1                  3.1493      0.2     3.1493     0.0000  0.0000  fp32_exp_DW01_add_18
+u_exp/mult_343                      19.7996      1.1    16.6941     0.0000  0.0000  fp32_exp_DW02_mult_5
+u_exp/mult_343/FS_1                  3.1055      0.2     3.1055     0.0000  0.0000  fp32_exp_DW01_add_19
+u_exp/mult_344                      19.8288      1.1    16.6795     0.0000  0.0000  fp32_exp_DW02_mult_6
+u_exp/mult_344/FS_1                  3.1493      0.2     3.1493     0.0000  0.0000  fp32_exp_DW01_add_20
+u_exp/mult_345                      19.8580      1.1    16.6795     0.0000  0.0000  fp32_exp_DW02_mult_7
+u_exp/mult_345/FS_1                  3.1784      0.2     3.1784     0.0000  0.0000  fp32_exp_DW01_add_21
+u_exp/mult_346                      17.8605      1.0    14.9737     0.0000  0.0000  fp32_exp_DW02_mult_0
+u_exp/mult_346/FS_1                  2.8868      0.2     2.8868     0.0000  0.0000  fp32_exp_DW01_add_38
+u_exp/mult_347                      17.8605      1.0    14.9737     0.0000  0.0000  fp32_exp_DW02_mult_1
+u_exp/mult_347/FS_1                  2.8868      0.2     2.8868     0.0000  0.0000  fp32_exp_DW01_add_J14_2
+u_exp/mult_348                      17.8605      1.0    14.9737     0.0000  0.0000  fp32_exp_DW02_mult_2
+u_exp/mult_348/FS_1                  2.8868      0.2     2.8868     0.0000  0.0000  fp32_exp_DW01_add_J14_1
+u_exp/mult_349                      17.8605      1.0    14.9737     0.0000  0.0000  fp32_exp_DW02_mult_3
+u_exp/mult_349/FS_1                  2.8868      0.2     2.8868     0.0000  0.0000  fp32_exp_DW01_add_J14_0
+u_exp/srl_85                        11.9556      0.7    11.9556     0.0000  0.0000  fp32_exp_DW_rash_0
+u_exp/sub_162                        5.9778      0.3     5.9778     0.0000  0.0000  fp32_exp_DW01_sub_6
+u_exp/sub_313                       13.6615      0.7    13.6615     0.0000  0.0000  fp32_exp_DW01_sub_J6_0
+u_mul                              607.8548     33.1    84.4474   255.8790  0.0000  fp32_mul
+u_mul/add_1_root_add_32_S2_2         4.8989      0.3     4.8989     0.0000  0.0000  fp32_mul_DW01_add_35
+u_mul/add_1_root_add_33_S2_2         4.8989      0.3     4.8989     0.0000  0.0000  fp32_mul_DW01_add_J13_0
+u_mul/add_1_root_add_34_S2_2         4.8989      0.3     4.8989     0.0000  0.0000  fp32_mul_DW01_add_36
+u_mul/add_1_root_add_35_S2_2         4.8989      0.3     4.8989     0.0000  0.0000  fp32_mul_DW01_add_37
+u_mul/add_1_root_add_42_2           11.8681      0.6    11.8681     0.0000  0.0000  fp32_mul_DW01_add_J3_0
+u_mul/add_1_root_sub_65_S7           2.6390      0.1     2.6390     0.0000  0.0000  fp32_mul_DW01_add_17
+u_mul/add_25                         3.4263      0.2     3.4263     0.0000  0.0000  fp32_mul_DW01_add_6
+u_mul/add_25_S2                      3.4263      0.2     3.4263     0.0000  0.0000  fp32_mul_DW01_add_5
+u_mul/add_26                         3.4263      0.2     3.4263     0.0000  0.0000  fp32_mul_DW01_add_4
+u_mul/add_26_S2                      3.4263      0.2     3.4263     0.0000  0.0000  fp32_mul_DW01_add_3
+u_mul/add_39                        12.7867      0.7    12.7867     0.0000  0.0000  fp32_mul_DW01_add_34
+u_mul/add_49                         6.7214      0.4     6.7214     0.0000  0.0000  fp32_mul_DW01_add_J4_0
+u_mul/add_50_S3                      2.0995      0.1     2.0995     0.0000  0.0000  fp32_mul_DW01_inc_0
+u_mul/mult_16                       12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_0
+u_mul/mult_16_S2                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_1
+u_mul/mult_16_S3                    12.4076      0.7    12.4076     0.0000  0.0000  fp32_mul_DW02_mult_2
+u_mul/mult_16_S4                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_3
+u_mul/mult_17                       12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_4
+u_mul/mult_17_S2                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_5
+u_mul/mult_17_S3                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_6
+u_mul/mult_17_S4                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_7
+u_mul/mult_18                       12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_8
+u_mul/mult_18_S2                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_9
+u_mul/mult_18_S3                    12.4076      0.7    12.4076     0.0000  0.0000  fp32_mul_DW02_mult_10
+u_mul/mult_18_S4                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_11
+u_mul/mult_19                       12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_12
+u_mul/mult_19_S2                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_13
+u_mul/mult_19_S3                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_14
+u_mul/mult_19_S4                    12.3784      0.7    12.3784     0.0000  0.0000  fp32_mul_DW02_mult_15
+--------------------------------  ---------  -------  ---------  ---------  ------  -----------------------
+Total                                                 1110.1795   726.6964  0.0000
+
+1
