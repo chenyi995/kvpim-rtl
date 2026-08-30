@@ -2,7 +2,7 @@
 GENUS      ?= /data/eda_tools/cadence/DDI251/GENUS251/tools.lnx86/bin/genus
 PERIOD_NS  ?= 2.0
 
-.PHONY: syn attacc fugue both attacc-hier fugue-hier both-hier kvtlb kvtlb-hier kvtlb-sweep clean
+.PHONY: syn attacc fugue both attacc-hier fugue-hier both-hier kvtlb kvtlb-hier kvtlb-sweep dc-kvtlb-asap7 clean
 
 # Generic single run (default top = fugue_logic_die, filelist.f).
 syn:
@@ -83,3 +83,7 @@ kvtlb-sweep:
 	$(call KVTLB_RUN,kvtlb_e16,run_syn.tcl,kv_tlb_e16) & \
 	$(call KVTLB_RUN,kvtlb_e32,run_syn.tcl,kv_tlb_e32) & \
 	$(call KVTLB_RUN,kvtlb_e64,run_syn.tcl,kv_tlb_e64) & wait
+
+# Open ASAP7 RVT/TT library + Synopsys Design Compiler flow (default e32).
+dc-kvtlb-asap7:
+	. /home/common/profile_synopsys && lc_shell -f compile_asap7_libs.tcl && dc_shell -f run_dc_kvtlb_asap7.tcl | tee dc_kvtlb_asap7.log
