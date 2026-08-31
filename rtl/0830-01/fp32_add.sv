@@ -1,4 +1,4 @@
-// FP32 (IEEE 754 binary32) adder — three pipeline stages.
+// FP32 (IEEE 754 binary32) adder — four pipeline stages.
 // Subnormals flushed to zero. Round-to-nearest-even.
 module fp32_add (
     input  logic        clk,
@@ -147,7 +147,16 @@ module fp32_add (
         end
     end
 
-    // Round-to-nearest-even from the 27-bit aligned form:
+    // Register the normalization result before rounding/packing.  This breaks
+    // the formerly critical sum_raw_s1 -> y path when adders are used at the
+    // root of the softmax reduction tree.
+    logic [26:0] mant_norm_s2;
+    logic [7:0]  exp_norm_s2;
+    logic        sign_l_s2, sa_s2, sb_s2;
+    logic        a_is_zero_s2, b_is_zero_s2, a_is_inf_s2, b_is_inf_s2;
+    logic        a_is_nan_s2, b_is_nan_s2, valid_s2;
+
+    // Round-to-nearest-even from the registered normalized form:
     //   [26]    -> hidden 1
     //   [25:3]  -> 23 mantissa bits
     //   [2]     -> guard
@@ -158,37 +167,37 @@ module fp32_add (
     logic [23:0] mant_rounded;
     logic [7:0]  exp_rounded;
     always_comb begin
-        guard    = mant_norm[2];
-        round_b  = mant_norm[1];
-        sticky   = mant_norm[0];
-        round_up = guard & (round_b | sticky | mant_norm[3]);
+        guard    = mant_norm_s2[2];
+        round_b  = mant_norm_s2[1];
+        sticky   = mant_norm_s2[0];
+        round_up = guard & (round_b | sticky | mant_norm_s2[3]);
 
-        mant_rounded = {1'b0, mant_norm[25:3]} + {23'd0, round_up};
-        exp_rounded  = exp_norm;
+        mant_rounded = {1'b0, mant_norm_s2[25:3]} + {23'd0, round_up};
+        exp_rounded  = exp_norm_s2;
         if (mant_rounded[23]) begin
             mant_rounded = {1'b0, 1'b1, 22'd0};
-            exp_rounded  = exp_norm + 8'd1;
+            exp_rounded  = exp_norm_s2 + 8'd1;
         end
     end
 
     // Pack
     logic [31:0] y_comb;
     always_comb begin
-        if (a_is_nan_s1 || b_is_nan_s1 ||
-            (a_is_inf_s1 && b_is_inf_s1 && (sa_s1 != sb_s1))) begin
+        if (a_is_nan_s2 || b_is_nan_s2 ||
+            (a_is_inf_s2 && b_is_inf_s2 && (sa_s2 != sb_s2))) begin
             y_comb = {1'b0, 8'd255, 23'h400000};             // qNaN
-        end else if (a_is_inf_s1) begin
-            y_comb = {sa_s1, 8'd255, 23'd0};
-        end else if (b_is_inf_s1) begin
-            y_comb = {sb_s1, 8'd255, 23'd0};
-        end else if (a_is_zero_s1 && b_is_zero_s1) begin
-            y_comb = {sa_s1 & sb_s1, 8'd0, 23'd0};
+        end else if (a_is_inf_s2) begin
+            y_comb = {sa_s2, 8'd255, 23'd0};
+        end else if (b_is_inf_s2) begin
+            y_comb = {sb_s2, 8'd255, 23'd0};
+        end else if (a_is_zero_s2 && b_is_zero_s2) begin
+            y_comb = {sa_s2 & sb_s2, 8'd0, 23'd0};
         end else if (exp_rounded >= 8'd255) begin
-            y_comb = {sign_l_s1, 8'd255, 23'd0};             // overflow -> inf
-        end else if (mant_norm == 27'd0) begin
+            y_comb = {sign_l_s2, 8'd255, 23'd0};             // overflow -> inf
+        end else if (mant_norm_s2 == 27'd0) begin
             y_comb = 32'd0;
         end else begin
-            y_comb = {sign_l_s1, exp_rounded, mant_rounded[22:0]};
+            y_comb = {sign_l_s2, exp_rounded, mant_rounded[22:0]};
         end
     end
 
@@ -204,6 +213,10 @@ module fp32_add (
             exp_l_s1 <= '0; a_is_zero_s1 <= 1'b0; b_is_zero_s1 <= 1'b0;
             a_is_inf_s1 <= 1'b0; b_is_inf_s1 <= 1'b0; a_is_nan_s1 <= 1'b0;
             b_is_nan_s1 <= 1'b0; valid_s1 <= 1'b0;
+            mant_norm_s2 <= '0; exp_norm_s2 <= '0; sign_l_s2 <= 1'b0;
+            sa_s2 <= 1'b0; sb_s2 <= 1'b0; a_is_zero_s2 <= 1'b0; b_is_zero_s2 <= 1'b0;
+            a_is_inf_s2 <= 1'b0; b_is_inf_s2 <= 1'b0; a_is_nan_s2 <= 1'b0;
+            b_is_nan_s2 <= 1'b0; valid_s2 <= 1'b0;
         end else begin
             mant_l_ext_s0 <= mant_l_ext; mant_s_ext_s0 <= mant_s_ext;
             same_sign_s0 <= same_sign; sign_l_s0 <= sign_l; sa_s0 <= sa; sb_s0 <= sb; exp_l_s0 <= exp_l;
@@ -216,8 +229,14 @@ module fp32_add (
             a_is_inf_s1 <= a_is_inf_s0; b_is_inf_s1 <= b_is_inf_s0;
             a_is_nan_s1 <= a_is_nan_s0; b_is_nan_s1 <= b_is_nan_s0;
             valid_s1 <= valid_s0;
+            mant_norm_s2 <= mant_norm; exp_norm_s2 <= exp_norm;
+            sign_l_s2 <= sign_l_s1; sa_s2 <= sa_s1; sb_s2 <= sb_s1;
+            a_is_zero_s2 <= a_is_zero_s1; b_is_zero_s2 <= b_is_zero_s1;
+            a_is_inf_s2 <= a_is_inf_s1; b_is_inf_s2 <= b_is_inf_s1;
+            a_is_nan_s2 <= a_is_nan_s1; b_is_nan_s2 <= b_is_nan_s1;
+            valid_s2 <= valid_s1;
             y         <= y_comb;
-            out_valid <= valid_s1;
+            out_valid <= valid_s2;
         end
     end
 endmodule

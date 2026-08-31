@@ -102,11 +102,59 @@ switch -- $profile {
     fp32_add { set sources [list fp32_add.sv] }
     fp32_exp { set sources [list fp32_exp.sv] }
     fp32_mul { set sources [list fp32_mul.sv] }
+    fp32_recip { set sources [list fp32_recip.sv] }
+    softmax_comparator_tree { set sources [list softmax_comparator_tree.sv] }
     softmax_pe { set sources [list fp32_add.sv fp32_exp.sv fp32_mul.sv softmax_pe.sv] }
     softmax_array_256 {
         enable_asap7_sram $sram_dir
         enable_softmax_pe_macro $pe_macro_db
         set sources $sram_common_pe_macro
+    }
+    gemv {
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256.sv gemv_unit.sv]
+    }
+    gemv_macro {
+        enable_asap7_sram $sram_dir
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv gemv_unit.sv]
+    }
+    gemv_buffer {
+        enable_asap7_sram $sram_dir
+        set sources [list dbuf_16x256_asap7.sv]
+    }
+    softmax_buffer_attacc {
+        enable_asap7_sram $sram_dir
+        set sources [list softmax_buffer_sram.sv softmax_buffer_dc_tops.sv]
+    }
+    softmax_buffer_fugue {
+        enable_asap7_sram $sram_dir
+        set sources [list softmax_buffer_sram.sv softmax_buffer_dc_tops.sv]
+    }
+    accum {
+        set sources [list fugue_pkg.sv fp16_add.sv accumulator.sv]
+    }
+    accum_bg {
+        set sources [list fugue_pkg.sv fp16_add.sv accumulator.sv accumulator_bg_dc_top.sv]
+    }
+    controller {
+        set sources [list fugue_pkg.sv kv_tlb_pkg.sv direct_addr_plan.sv attacc_controller.sv]
+    }
+    direct_addr {
+        set sources [list kv_tlb_pkg.sv direct_addr_plan.sv]
+    }
+    diff_leaf {
+        set sources [list fugue_pkg.sv diff_decoder.sv]
+    }
+    diff_channel {
+        set sources [list fugue_pkg.sv diff_decoder.sv diff_decoder_channel_dc_top.sv]
+    }
+    kvseg {
+        set sources [list kv_tlb_pkg.sv kv_seg_tlb.sv]
+    }
+    kvptw {
+        set sources [list kv_tlb_pkg.sv kv_ptw.sv]
+    }
+    kvplan {
+        set sources [list kv_tlb_pkg.sv kv_scan_planner.sv]
     }
     diff {
         set sources [concat $common_logic [list diff_decoder.sv]]
@@ -114,6 +162,11 @@ switch -- $profile {
     attacc {
         enable_asap7_sram $sram_dir
         set sources [concat $sram_common [list direct_addr_plan.sv attacc_controller.sv attacc_logic_die.sv]]
+    }
+    attacc_macro {
+        enable_asap7_sram $sram_dir
+        enable_softmax_pe_macro $pe_macro_db
+        set sources [concat $sram_common_pe_macro [list direct_addr_plan.sv attacc_controller.sv attacc_logic_die.sv]]
     }
     attacc_sram {
         enable_asap7_sram $sram_dir
@@ -132,6 +185,11 @@ switch -- $profile {
     fugue2 {
         enable_asap7_sram $sram_dir
         set sources [concat $sram_common [list kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue2_logic_die.sv]]
+    }
+    fugue2_macro {
+        enable_asap7_sram $sram_dir
+        enable_softmax_pe_macro $pe_macro_db
+        set sources [concat $sram_common_pe_macro [list kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue2_logic_die.sv]]
     }
     fugue2_sram {
         enable_asap7_sram $sram_dir
@@ -152,6 +210,11 @@ switch -- $profile {
     fugue {
         enable_asap7_sram $sram_dir
         set sources [concat $sram_common [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue_logic_die.sv]]
+    }
+    fugue_macro {
+        enable_asap7_sram $sram_dir
+        enable_softmax_pe_macro $pe_macro_db
+        set sources [concat $sram_common_pe_macro [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv diff_decoder.sv attacc_controller.sv fugue_logic_die.sv]]
     }
     fugue_sram {
         enable_asap7_sram $sram_dir
