@@ -1,0 +1,48 @@
+ 
+****************************************
+Report : area
+Design : causal_comparator
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:26:25 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+
+Number of ports:                           84
+Number of nets:                          1018
+Number of cells:                          938
+Number of combinational cells:            920
+Number of sequential cells:                17
+Number of macros/black boxes:               0
+Number of buf/inv:                        233
+Number of references:                      18
+
+Combinational area:                 85.701239
+Buf/Inv area:                       10.643400
+Noncombinational area:               6.444360
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                    92.145599
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  --------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-    Noncombi-  Black-
+                                  Total      Total    national  national   boxes   Design
+--------------------------------  ---------  -------  --------  ---------  ------  ----------------------------
+causal_comparator                   92.1456    100.0   82.5082     6.4444  0.0000  causal_comparator
+add_24_I2                            3.1930      3.5    3.1930     0.0000  0.0000  causal_comparator_DW01_inc_0
+--------------------------------  ---------  -------  --------  ---------  ------  ----------------------------
+Total                                                  85.7012     6.4444  0.0000
+
+1

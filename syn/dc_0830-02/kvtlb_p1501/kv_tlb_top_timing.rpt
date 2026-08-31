@@ -1,0 +1,1697 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : kv_tlb_top
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:41:20 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_count][0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U532/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_count][0]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][10]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U552/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][10]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][10]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][9]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U553/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][9]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][9]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][8]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U554/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][8]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][8]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][7]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U555/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][7]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][7]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][6]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U556/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][6]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][6]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][5]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U557/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][5]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][5]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][4]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U558/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][4]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][4]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U559/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][3]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][3]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U560/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][2]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][2]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U561/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][1]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][1]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[key_base][0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U562/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[key_base][0]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[key_base][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_base][3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U563/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_base][3]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_base][3]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_base][2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U564/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_base][2]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_base][2]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_base][1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U565/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_base][1]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_base][1]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_base][0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U566/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_base][0]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_base][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_count][4]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U567/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_count][4]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_count][4]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_count][3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U568/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_count][3]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_count][3]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_count][2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U569/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_count][2]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_count][2]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+  Startpoint: u_plan/pending_reg[count][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_plan/pending_reg[ch_count][1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_plan/pending_reg[count][0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_plan/pending_reg[count][0]/QN (DFFASRHQNx1_ASAP7_75t_R)    74.47    74.47 f
+  u_plan/add_141/B[8] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00    74.47 f
+  u_plan/add_141/U25/Y (AND2x2_ASAP7_75t_R)              31.20     105.67 f
+  u_plan/add_141/U1_9/CON (FAx1_ASAP7_75t_R)             19.58     125.26 r
+  u_plan/add_141/U10/Y (INVx1_ASAP7_75t_R)               17.98     143.23 f
+  u_plan/add_141/U1_10/CON (FAx1_ASAP7_75t_R)            22.16     165.39 r
+  u_plan/add_141/U4/Y (INVx1_ASAP7_75t_R)                17.98     183.37 f
+  u_plan/add_141/U1_11/CON (FAx1_ASAP7_75t_R)            22.16     205.53 r
+  u_plan/add_141/U15/Y (INVx1_ASAP7_75t_R)               17.98     223.50 f
+  u_plan/add_141/U1_12/CON (FAx1_ASAP7_75t_R)            22.16     245.66 r
+  u_plan/add_141/U7/Y (INVx1_ASAP7_75t_R)                17.98     263.64 f
+  u_plan/add_141/U1_13/CON (FAx1_ASAP7_75t_R)            22.16     285.80 r
+  u_plan/add_141/U14/Y (INVx1_ASAP7_75t_R)               17.98     303.78 f
+  u_plan/add_141/U1_14/CON (FAx1_ASAP7_75t_R)            22.16     325.94 r
+  u_plan/add_141/U6/Y (INVx1_ASAP7_75t_R)                17.98     343.91 f
+  u_plan/add_141/U1_15/CON (FAx1_ASAP7_75t_R)            22.16     366.07 r
+  u_plan/add_141/U8/Y (INVx1_ASAP7_75t_R)                17.98     384.05 f
+  u_plan/add_141/U1_16/CON (FAx1_ASAP7_75t_R)            22.16     406.21 r
+  u_plan/add_141/U2/Y (INVx1_ASAP7_75t_R)                17.98     424.18 f
+  u_plan/add_141/U1_17/CON (FAx1_ASAP7_75t_R)            22.16     446.35 r
+  u_plan/add_141/U1/Y (INVx1_ASAP7_75t_R)                17.98     464.32 f
+  u_plan/add_141/U1_18/CON (FAx1_ASAP7_75t_R)            22.16     486.48 r
+  u_plan/add_141/U9/Y (INVx1_ASAP7_75t_R)                17.98     504.46 f
+  u_plan/add_141/U1_19/CON (FAx1_ASAP7_75t_R)            22.16     526.62 r
+  u_plan/add_141/U3/Y (INVx1_ASAP7_75t_R)                17.98     544.59 f
+  u_plan/add_141/U1_20/CON (FAx1_ASAP7_75t_R)            22.16     566.75 r
+  u_plan/add_141/U13/Y (INVx1_ASAP7_75t_R)               17.98     584.73 f
+  u_plan/add_141/U1_21/CON (FAx1_ASAP7_75t_R)            22.16     606.89 r
+  u_plan/add_141/U5/Y (INVx1_ASAP7_75t_R)                17.98     624.87 f
+  u_plan/add_141/U1_22/CON (FAx1_ASAP7_75t_R)            22.16     647.03 r
+  u_plan/add_141/U11/Y (INVx1_ASAP7_75t_R)               17.98     665.00 f
+  u_plan/add_141/U1_23/CON (FAx1_ASAP7_75t_R)            22.16     687.16 r
+  u_plan/add_141/U12/Y (INVx1_ASAP7_75t_R)               18.04     705.20 f
+  u_plan/add_141/U24/Y (AND2x2_ASAP7_75t_R)              24.41     729.62 f
+  u_plan/add_141/U16/Y (AND2x2_ASAP7_75t_R)              21.25     750.87 f
+  u_plan/add_141/U23/Y (AND2x2_ASAP7_75t_R)              21.25     772.12 f
+  u_plan/add_141/U20/Y (AND2x2_ASAP7_75t_R)              21.25     793.37 f
+  u_plan/add_141/U22/Y (AND2x2_ASAP7_75t_R)              21.25     814.62 f
+  u_plan/add_141/U19/Y (AND2x2_ASAP7_75t_R)              21.25     835.87 f
+  u_plan/add_141/U21/Y (AND2x2_ASAP7_75t_R)              21.26     857.13 f
+  u_plan/add_141/U18/Y (AND2x2_ASAP7_75t_R)              21.26     878.39 f
+  u_plan/add_141/U26/Y (AND2x2_ASAP7_75t_R)              19.92     898.30 f
+  u_plan/add_141/U17/Y (XOR2xp5_ASAP7_75t_R)             16.83     915.13 r
+  u_plan/add_141/SUM[33] (kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2)     0.00   915.13 r
+  u_plan/eq_143_4/B[33] (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   915.13 r
+  u_plan/eq_143_4/U13/Y (XNOR2xp5_ASAP7_75t_R)           20.83     935.96 r
+  u_plan/eq_143_4/U10/Y (NAND5xp2_ASAP7_75t_R)           24.10     960.07 f
+  u_plan/eq_143_4/U4/Y (NOR5xp2_ASAP7_75t_R)             36.28     996.34 r
+  u_plan/eq_143_4/EQ (kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1)     0.00   996.34 r
+  u_plan/U581/Y (NAND5xp2_ASAP7_75t_R)                   32.36    1028.70 f
+  u_plan/U50/Y (NOR2xp33_ASAP7_75t_R)                   132.92    1161.62 r
+  u_plan/U131/Y (AOI211xp5_ASAP7_75t_R)                  51.12    1212.74 f
+  u_plan/U93/Y (OR2x2_ASAP7_75t_R)                       33.38    1246.12 f
+  u_plan/U101/Y (HB1xp67_ASAP7_75t_R)                    50.15    1296.28 f
+  u_plan/U102/Y (INVx1_ASAP7_75t_R)                     106.20    1402.48 r
+  u_plan/U570/Y (OAI22xp33_ASAP7_75t_R)                  37.33    1439.80 f
+  u_plan/pending_reg[ch_count][1]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00  1439.80 f
+  data arrival time                                               1439.80
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  u_plan/pending_reg[ch_count][1]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00  1451.50 r
+  library setup time                                     -7.00    1444.50
+  data required time                                              1444.50
+  --------------------------------------------------------------------------
+  data required time                                              1444.50
+  data arrival time                                              -1439.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.70
+
+
+1

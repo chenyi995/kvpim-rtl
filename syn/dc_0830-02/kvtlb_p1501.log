@@ -1,0 +1,1734 @@
+/bin/sh: warning: setlocale: LC_ALL: cannot change locale (C.UTF-8)
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version P-2019.03-SP5-6 for linux64 - Aug 20, 2020 
+
+                    Copyright (c) 1988 - 2020 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+# Per-component ASAP7 synthesis for the rtl/0830-02 snapshot.
+# Same constraint recipe as run_dc_asap7.tcl (bundled ASAP7 RVT/TT NLDM
+# standard-cell .db views; identical constraints across profiles) but with a
+# profile table for the 0830-02 component set only.  No top-level synthesis:
+# each hardware level's overhead is rolled up from these component areas
+# (docs/0830-02/Hardware_Overhead_Breakdown.md).
+#
+# Example (from syn/):
+#   . /home/common/profile_synopsys
+#   SYN_PROFILE=gemv SYN_TOP=gemv_unit SYN_TAG=gemv_attacc #     SYN_PERIOD_NS=1.5015015 dc_shell -f run_dc_asap7_0830-02.tcl
+set script_dir [file dirname [file normalize [info script]]]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn
+set root_dir   [file normalize [file join $script_dir ..]]
+/thu-bloor/xinyao-w23/kvpim-rtl
+set lib_dir    [file join $root_dir third_party asap7_lib db]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db
+set sram_dir   [file join $root_dir third_party asap7 asap7_sram_0p0 generated]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated
+proc envdef {name default} {
+    return [expr {[info exists ::env($name)] ? $::env($name) : $default}]
+}
+set rtl_dir [envdef SYN_RTL_DIR [file join $root_dir rtl 0830-02]]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02
+if {[file pathtype $rtl_dir] ne "absolute"} {
+    set from_script_dir [file normalize [file join $script_dir $rtl_dir]]
+    if {[file isdirectory $from_script_dir]} {
+        set rtl_dir $from_script_dir
+    } else {
+        set rtl_dir [file normalize [file join $root_dir $rtl_dir]]
+    }
+}
+set top_module [envdef SYN_TOP gemv_unit]
+kv_tlb_top
+set profile    [envdef SYN_PROFILE gemv]
+kvtlb
+set tag        [envdef SYN_TAG $top_module]
+kvtlb_p1501
+set period_ns  [envdef SYN_PERIOD_NS 1.5015015]
+1.5015015
+set max_cores  [envdef SYN_MAX_CORES 4]
+4
+set io_delay_ratio [envdef SYN_IO_DELAY_RATIO 0.30]
+0.3
+set fix_hold   [envdef SYN_FIX_HOLD 1]
+1
+set period     [expr {$period_ns * 1000.0}]
+1501.5015
+set out_root   [envdef SYN_OUT_ROOT dc_0830-02]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02
+if {[file pathtype $out_root] ne "absolute"} {
+    set out_root [file join $script_dir $out_root]
+}
+set out_dir    [file join $out_root $tag]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02/kvtlb_p1501
+file mkdir $out_dir
+set target_library [glob -nocomplain [file join $lib_dir *.db]]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+if {[llength $target_library] == 0} {
+    error "No ASAP7 .db views in $lib_dir"
+}
+set link_library "* $target_library"
+* /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+set search_path [list $rtl_dir $lib_dir $sram_dir [file join $sram_dir verilog]]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02 /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/verilog
+set_host_options -max_cores $max_cores
+1
+# Link the compiled ASAP7 SRAM macro .db views (compile_asap7_sram_libs.tcl).
+proc enable_asap7_sram {sram_dir} {
+    global target_library link_library
+    foreach name {srambank_64x4x16_6t122 srambank_64x4x32_6t122 srambank_64x4x80_6t122                   srambank_256x4x32_6t122 srambank_256x4x80_6t122 srambank_256x4x64_6t122} {
+        set db [file join $sram_dir db ${name}.db]
+        if {[file exists $db]} {
+            lappend target_library $db
+        }
+    }
+    if {![file exists [file join $sram_dir db srambank_64x4x16_6t122.db]]} {
+        error "Missing SRAM DB views in $sram_dir/db. Run compile_asap7_sram_libs.tcl first."
+    }
+    set link_library "* $target_library"
+}
+# ---------------------------------------------------------------------------
+# Profiles: RTL needed for each component (per docs/Hardware Overhead.md and
+# the Fugue paper Sec. 4.3).  Frequencies are set by the driver script.
+# ---------------------------------------------------------------------------
+switch -- $profile {
+    gemv {
+        # Bank level: one GEMV unit (16 FP16 mult + 16 dual-mode FP16 add +
+        # double-buffered 16x256b vector buffer + control unit).  The buffer
+        # is the ASAP7 SRAM-macro implementation (2 groups x 16 x 256x16b).
+        enable_asap7_sram $sram_dir
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv gemv_unit.sv]
+    }
+    dbuf {
+        # The double-buffered GEMV buffer alone (breakdown term), macro-backed.
+        enable_asap7_sram $sram_dir
+        set sources [list dbuf_16x256_asap7.sv]
+    }
+    gemv_flop {
+        # Reference point: the same GEMV unit with the flop-based buffer.
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256.sv gemv_unit.sv]
+    }
+    accum_bg {
+        # BG level: 4->1 FP16 accumulator with bypass/sum modes.
+        set sources [list fp16_add.sv accumulator_bg.sv]
+    }
+    accum_buf_bg {
+        # BG level: the accumulator buffer on one 256x16 ASAP7 macro.
+        # Tops: accum_buffer_bg_attacc (8 x FP16, one query in flight) /
+        #       accum_buffer_bg_fugue (64 x FP16 = n_cap(8) resident queries
+        #       x 8-slot staging each; multi-Q over one shared K column).
+        enable_asap7_sram $sram_dir
+        set sources [list accum_buffer_bg.sv]
+    }
+    accum_logic {
+        # Logic die: one per-channel context accumulator (16 lanes x 4 words).
+        set sources [list fp16_add.sv accumulator_logic.sv]
+    }
+    diff_channel {
+        # Logic die (Fugue): one per-channel D_i map / diff decoder.
+        set sources [list fugue_pkg.sv diff_decoder.sv diff_decoder_channel_dc_top.sv]
+    }
+    causal_cmp {
+        # Logic die (Fugue): one per-channel causal comparator.
+        set sources [list causal_comparator.sv]
+    }
+    rope {
+        # Ablation only ("Fugue with on-die RoPE"); the paper's die does NOT
+        # carry rotation logic (RoPE runs on the GPU, Sec. 4.2).
+        set sources [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv]
+    }
+    kvtlb {
+        # Controller breakdown term: the KV segment TLB alone.
+        set sources [list kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv]
+    }
+    ctrl_attacc {
+        # HBM controller, AttAcc: instr queue/decoder + config memory +
+        # addr-gen/DRAM FSM + DMA engine + direct address path.
+        set sources [list fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv             direct_addr_plan.sv dma_engine.sv attacc_hbm_ctrl_top.sv]
+    }
+    ctrl_fugue {
+        # HBM controller, Fugue: same core + DMA + the KV segment TLB
+        # (diff-block address management).
+        set sources [list fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv             kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv             dma_engine.sv fugue_hbm_ctrl_top.sv]
+    }
+    softmax_pe {
+        # Reference only: softmax_pe already met 699 ps in dc_0830-01
+        # (setup/hold clean), which covers the 1.3 GHz (769 ps) requirement;
+        # re-synthesis is NOT needed.
+        set sources [list fp32_add.sv fp32_exp.sv fp32_mul.sv softmax_pe.sv]
+    }
+    fp32_recip {
+        # The one softmax leaf missing from dc_0830-01 (one per channel
+        # engine); synthesized once at the softmax clock for the roll-up.
+        set sources [list fp32_recip.sv]
+    }
+    default { error "Unknown SYN_PROFILE=$profile" }
+}
+kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv
+set src_paths {}
+foreach source $sources { lappend src_paths [file join $rtl_dir $source] }
+define_design_lib WORK -path [file join $out_dir WORK]
+1
+analyze -format sverilog $src_paths
+Running PRESTO HDLC
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_tlb_pkg.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_tlb_pkg.sv:120: signed to unsigned conversion occurs. (VER-318)
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_ptw.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_scan_planner.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_tlb_top.sv
+Presto compilation completed successfully.
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+1
+elaborate $top_module
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/gtech.db'
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/standard.sldb'
+  Loading link library 'asap7sc7p5t_AO_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_INVBUF_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_OA_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_SEQ_RVT_TT_nldm_220123'
+  Loading link library 'asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Statistics for case statements in always block at line 98 in file
+	'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_tlb_top.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           103            |    user/user     |
+|           110            |    user/user     |
+===============================================
+
+Inferred memory devices in process
+	in routine kv_tlb_top line 98 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_tlb_top.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   plan_issued_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|      state_reg      | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_pools_reg     | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_ctx_reg      | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_layer_reg     | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_lo_reg       | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_hi_reg       | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_fault_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (kv_tlb_top)
+Elaborated 1 design.
+Current design is now 'kv_tlb_top'.
+Information: Building the design 'kv_seg_tlb' instantiated from design 'kv_tlb_top' with
+	the parameters "ENTRIES=32". (HDL-193)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv:74: signed to unsigned assignment occurs. (VER-318)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv:114: signed to unsigned assignment occurs. (VER-318)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv:132: signed to unsigned conversion occurs. (VER-318)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv:163: signed to unsigned assignment occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine kv_seg_tlb_ENTRIES32 line 82 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv'.
+================================================================================
+|    Register Name     |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+================================================================================
+| lk_resp_key_addr_reg | Flip-flop |  34   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     s1_valid_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|      s1_hit_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     s1_desc_reg      | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
+|      s1_rel_reg      | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  lk_resp_valid_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   lk_resp_hit_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   lk_resp_desc_reg   | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
+================================================================================
+
+Inferred memory devices in process
+	in routine kv_seg_tlb_ENTRIES32 line 122 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       ent_reg       | Flip-flop | 4096  |  Y  | N  | Y  | N  | N  | N  | N  |
+|    fifo_ptr_reg     | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine kv_seg_tlb_ENTRIES32 line 180 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       ai_reg        | Flip-flop |  40   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     a_valid_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       ak_reg        | Flip-flop |  272  |  Y  | N  | Y  | N  | N  | N  | N  |
+|       av_reg        | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine kv_seg_tlb_ENTRIES32 line 217 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_seg_tlb.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     it_idx_reg      | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  it_resp_valid_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    it_found_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+==============================================================
+|     block name/line      | Inputs | Outputs | # sel inputs |
+==============================================================
+| kv_seg_tlb_ENTRIES32/77  |   32   |   128   |      5       |
+| kv_seg_tlb_ENTRIES32/226 |   32   |   128   |      5       |
+==============================================================
+Presto compilation completed successfully. (kv_seg_tlb_ENTRIES32)
+Information: Building the design 'kv_ptw'. (HDL-193)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_ptw.sv:66: signed to unsigned part selection occurs. (VER-318)
+
+Statistics for case statements in always block at line 72 in file
+	'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_ptw.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            75            |    user/user     |
+===============================================
+
+Statistics for case statements in always block at line 90 in file
+	'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_ptw.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            91            |    user/user     |
+===============================================
+
+Statistics for case statements in always block at line 105 in file
+	'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_ptw.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           115            |    user/user     |
+===============================================
+
+Inferred memory devices in process
+	in routine kv_ptw line 105 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_ptw.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    fill_desc_reg    | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
+|      state_reg      | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    r_attach_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     r_kind_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|      r_ctx_reg      | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_layer_reg     | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_pos_reg      | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_found_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     r_fault_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    seg_base_reg     | Flip-flop |  34   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    seg_count_reg    | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       lo_reg        | Flip-flop |  10   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       hi_reg        | Flip-flop |  10   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     at_idx_reg      | Flip-flop |   9   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     dir_sel_reg     | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    desc_sel_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|      word_reg       | Flip-flop |  127  |  Y  | N  | Y  | N  | N  | N  | N  |
+|     bs_desc_reg     | Flip-flop |  127  |  Y  | N  | Y  | N  | N  | N  | N  |
+|   fill_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (kv_ptw)
+Information: Building the design 'kv_scan_planner' instantiated from design 'kv_tlb_top' with
+	the parameters "ENTRIES=32". (HDL-193)
+
+Statistics for case statements in always block at line 147 in file
+	'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_scan_planner.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           155            |    user/user     |
+===============================================
+
+Inferred memory devices in process
+	in routine kv_scan_planner_ENTRIES32 line 147 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/kv_scan_planner.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    it_desc_q_reg    | Flip-flop |  92   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      state_reg      | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_ctx_reg      | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_layer_reg     | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_lo_reg       | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_hi_reg       | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      r_pos_reg      | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_pools_reg     | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     r_fault_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     pending_reg     | Flip-flop |  60   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      nrun_reg       | Flip-flop |  60   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  pending_valid_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    done_mask_reg    | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    it_idx_q_reg     | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (kv_scan_planner_ENTRIES32)
+1
+current_design $top_module
+Current design is 'kv_tlb_top'.
+{kv_tlb_top}
+link
+
+  Linking design 'kv_tlb_top'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (4 designs)               /thu-bloor/xinyao-w23/kvpim-rtl/syn/kv_tlb_top.db, etc
+  asap7sc7p5t_AO_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db
+  asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db
+  asap7sc7p5t_OA_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db
+  asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db
+  asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+
+1
+create_clock -name clk -period $period [get_ports clk]
+1
+set_clock_uncertainty 50.0 [get_clocks clk]
+1
+set_clock_transition 20.0 [get_clocks clk]
+1
+set clock_reset_ports [get_ports {clk rst_n}]
+{clk rst_n}
+set data_ports [remove_from_collection [all_inputs] $clock_reset_ports]
+{cfg_dir_base[33] cfg_dir_base[32] cfg_dir_base[31] cfg_dir_base[30] cfg_dir_base[29] cfg_dir_base[28] cfg_dir_base[27] cfg_dir_base[26] cfg_dir_base[25] cfg_dir_base[24] cfg_dir_base[23] cfg_dir_base[22] cfg_dir_base[21] cfg_dir_base[20] cfg_dir_base[19] cfg_dir_base[18] cfg_dir_base[17] cfg_dir_base[16] cfg_dir_base[15] cfg_dir_base[14] cfg_dir_base[13] cfg_dir_base[12] cfg_dir_base[11] cfg_dir_base[10] cfg_dir_base[9] cfg_dir_base[8] cfg_dir_base[7] cfg_dir_base[6] cfg_dir_base[5] cfg_dir_base[4] cfg_dir_base[3] cfg_dir_base[2] cfg_dir_base[1] cfg_dir_base[0] cmd_valid cmd_op[1] cmd_op[0] cmd_ctx[7] cmd_ctx[6] cmd_ctx[5] cmd_ctx[4] cmd_ctx[3] cmd_ctx[2] cmd_ctx[1] cmd_ctx[0] cmd_layer[6] cmd_layer[5] cmd_layer[4] cmd_layer[3] cmd_layer[2] cmd_layer[1] cmd_layer[0] cmd_pos_lo[15] cmd_pos_lo[14] cmd_pos_lo[13] cmd_pos_lo[12] cmd_pos_lo[11] cmd_pos_lo[10] cmd_pos_lo[9] cmd_pos_lo[8] cmd_pos_lo[7] cmd_pos_lo[6] cmd_pos_lo[5] cmd_pos_lo[4] cmd_pos_lo[3] cmd_pos_lo[2] cmd_pos_lo[1] cmd_pos_lo[0] cmd_pos_hi[15] cmd_pos_hi[14] cmd_pos_hi[13] cmd_pos_hi[12] cmd_pos_hi[11] cmd_pos_hi[10] cmd_pos_hi[9] cmd_pos_hi[8] cmd_pos_hi[7] cmd_pos_hi[6] cmd_pos_hi[5] cmd_pos_hi[4] cmd_pos_hi[3] cmd_pos_hi[2] cmd_pos_hi[1] cmd_pos_hi[0] cmd_pools[1] cmd_pools[0] run_ready mem_req_ready mem_resp_valid mem_resp_data[255] mem_resp_data[254] mem_resp_data[253] mem_resp_data[252] mem_resp_data[251] mem_resp_data[250] mem_resp_data[249] mem_resp_data[248] mem_resp_data[247] mem_resp_data[246] mem_resp_data[245] ...}
+set_input_delay [expr {$period * $io_delay_ratio}] -clock clk $data_ports
+1
+set_output_delay [expr {$period * $io_delay_ratio}] -clock clk [all_outputs]
+1
+set_driving_cell -lib_cell BUFx2_ASAP7_75t_R $data_ports
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+1
+set_load 0.005 [all_outputs]
+1
+set_false_path -from [get_ports rst_n]
+1
+if {$fix_hold} {
+    set_fix_hold [get_clocks clk]
+}
+1
+compile -map_effort low -area_effort low
+Warning: The compile -map_effort low is obsolete. Setting this variable now defaults to compile -map_effort medium. Please update your script accordingly. (OPT-1303)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.4 |     *     |
+| Licensed DW Building Blocks        |                         |           |
+============================================================================
+
+
+Information: There are 255 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'kv_scan_planner_ENTRIES32'
+  Processing 'kv_ptw'
+  Processing 'kv_seg_tlb_ENTRIES32'
+Warning: Target library does not contain any 2-1 multiplexor. (OPT-853)
+Information: The register 'ai_reg[0][4]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[0][3]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[0][2]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[1][4]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[1][3]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[2][4]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[2][2]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[3][4]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[4][3]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[4][2]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[5][3]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ai_reg[6][2]' is a constant and will be removed. (OPT-1206)
+  Processing 'kv_tlb_top'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Processing 'kv_tlb_top_DW01_inc_0'
+  Processing 'kv_tlb_top_DW01_add_0'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_add_0_DW01_add_1'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_cmp2_0'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_cmp2_1'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_cmp6_0_DW01_cmp6_1'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_cmp6_1_DW01_cmp6_2'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_add_1_DW01_add_2'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_sub_0'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_sub_1'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_cmp2_2'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_cmp2_3'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_cmp2_4'
+  Processing 'kv_ptw_DW01_inc_0_DW01_inc_1'
+  Processing 'kv_ptw_DW01_dec_0'
+  Processing 'kv_ptw_DW01_cmp2_0_DW01_cmp2_5'
+  Processing 'kv_ptw_DW01_cmp2_1_DW01_cmp2_6'
+  Processing 'kv_ptw_DW01_dec_1'
+  Processing 'kv_ptw_DW01_cmp2_2_DW01_cmp2_7'
+  Processing 'kv_ptw_DW01_add_0_DW01_add_3'
+  Processing 'kv_ptw_DW01_add_1_DW01_add_4'
+  Processing 'kv_ptw_DW01_add_2_DW01_add_5'
+  Processing 'kv_ptw_DW01_add_3_DW01_add_6'
+  Processing 'kv_ptw_DW01_inc_1_DW01_inc_2'
+  Processing 'kv_ptw_DW01_cmp2_3_DW01_cmp2_8'
+Warning: Target library does not contain any 2-1 multiplexor. (OPT-853)
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_0_DW01_cmp2_9'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_1_DW01_cmp2_10'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_2_DW01_cmp2_11'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_3_DW01_cmp2_12'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_4_DW01_cmp2_13'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_5_DW01_cmp2_14'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_6_DW01_cmp2_15'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_7_DW01_cmp2_16'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_8_DW01_cmp2_17'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_9_DW01_cmp2_18'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_10_DW01_cmp2_19'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_11_DW01_cmp2_20'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_12_DW01_cmp2_21'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_13_DW01_cmp2_22'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_14_DW01_cmp2_23'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_15_DW01_cmp2_24'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_16_DW01_cmp2_25'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_17_DW01_cmp2_26'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_18_DW01_cmp2_27'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_19_DW01_cmp2_28'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_20_DW01_cmp2_29'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_21_DW01_cmp2_30'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_22_DW01_cmp2_31'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_23_DW01_cmp2_32'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_24_DW01_cmp2_33'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_25_DW01_cmp2_34'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_26_DW01_cmp2_35'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_27_DW01_cmp2_36'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_28_DW01_cmp2_37'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_29_DW01_cmp2_38'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_30_DW01_cmp2_39'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_31_DW01_cmp2_40'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_32_DW01_cmp2_41'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_0_DW01_cmp6_3'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_1_DW01_cmp6_4'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_33_DW01_cmp2_42'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_34_DW01_cmp2_43'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_2_DW01_cmp6_5'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_3_DW01_cmp6_6'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_35_DW01_cmp2_44'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_36_DW01_cmp2_45'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_4_DW01_cmp6_7'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_5_DW01_cmp6_8'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_37_DW01_cmp2_46'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_38_DW01_cmp2_47'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_6_DW01_cmp6_9'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_7_DW01_cmp6_10'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_39_DW01_cmp2_48'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_40_DW01_cmp2_49'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_8_DW01_cmp6_11'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_9_DW01_cmp6_12'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_41_DW01_cmp2_50'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_42_DW01_cmp2_51'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_10_DW01_cmp6_13'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_11_DW01_cmp6_14'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_43_DW01_cmp2_52'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_44_DW01_cmp2_53'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_12_DW01_cmp6_15'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_13_DW01_cmp6_16'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_45_DW01_cmp2_54'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_46_DW01_cmp2_55'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_14_DW01_cmp6_17'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_15_DW01_cmp6_18'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_47_DW01_cmp2_56'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_48_DW01_cmp2_57'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_16_DW01_cmp6_19'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_17_DW01_cmp6_20'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_49_DW01_cmp2_58'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_50_DW01_cmp2_59'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_18_DW01_cmp6_21'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_19_DW01_cmp6_22'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_51_DW01_cmp2_60'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_52_DW01_cmp2_61'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_20_DW01_cmp6_23'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_21_DW01_cmp6_24'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_53_DW01_cmp2_62'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_54_DW01_cmp2_63'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_22_DW01_cmp6_25'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_23_DW01_cmp6_26'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_55_DW01_cmp2_64'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_56_DW01_cmp2_65'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_24_DW01_cmp6_27'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_25_DW01_cmp6_28'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_57_DW01_cmp2_66'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_58_DW01_cmp2_67'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_26_DW01_cmp6_29'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_27_DW01_cmp6_30'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_59_DW01_cmp2_68'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_60_DW01_cmp2_69'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_28_DW01_cmp6_31'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_29_DW01_cmp6_32'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_61_DW01_cmp2_70'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_62_DW01_cmp2_71'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_30_DW01_cmp6_33'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_31_DW01_cmp6_34'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_63_DW01_cmp2_72'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_64_DW01_cmp2_73'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_32_DW01_cmp6_35'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_33_DW01_cmp6_36'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_65_DW01_cmp2_74'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_66_DW01_cmp2_75'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_34_DW01_cmp6_37'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_35_DW01_cmp6_38'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_67_DW01_cmp2_76'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_68_DW01_cmp2_77'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_36_DW01_cmp6_39'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_37_DW01_cmp6_40'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_69_DW01_cmp2_78'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_70_DW01_cmp2_79'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_38_DW01_cmp6_41'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_39_DW01_cmp6_42'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_71_DW01_cmp2_80'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_72_DW01_cmp2_81'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_40_DW01_cmp6_43'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_41_DW01_cmp6_44'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_73_DW01_cmp2_82'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_74_DW01_cmp2_83'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_42_DW01_cmp6_45'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_43_DW01_cmp6_46'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_75_DW01_cmp2_84'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_76_DW01_cmp2_85'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_44_DW01_cmp6_47'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_45_DW01_cmp6_48'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_77_DW01_cmp2_86'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_78_DW01_cmp2_87'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_46_DW01_cmp6_49'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_47_DW01_cmp6_50'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_79_DW01_cmp2_88'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_80_DW01_cmp2_89'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_48_DW01_cmp6_51'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_49_DW01_cmp6_52'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_81_DW01_cmp2_90'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_82_DW01_cmp2_91'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_50_DW01_cmp6_53'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_51_DW01_cmp6_54'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_83_DW01_cmp2_92'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_84_DW01_cmp2_93'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_52_DW01_cmp6_55'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_53_DW01_cmp6_56'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_85_DW01_cmp2_94'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_86_DW01_cmp2_95'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_54_DW01_cmp6_57'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_55_DW01_cmp6_58'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_87_DW01_cmp2_96'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_88_DW01_cmp2_97'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_56_DW01_cmp6_59'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_57_DW01_cmp6_60'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_89_DW01_cmp2_98'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_90_DW01_cmp2_99'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_58_DW01_cmp6_61'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_59_DW01_cmp6_62'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_91_DW01_cmp2_100'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_92_DW01_cmp2_101'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_60_DW01_cmp6_63'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_61_DW01_cmp6_64'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_93_DW01_cmp2_102'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_94_DW01_cmp2_103'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_62_DW01_cmp6_65'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_63_DW01_cmp6_66'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_inc_0_DW01_inc_3'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_64_DW01_cmp6_67'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_65_DW01_cmp6_68'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_66_DW01_cmp6_69'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_67_DW01_cmp6_70'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_68_DW01_cmp6_71'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_69_DW01_cmp6_72'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_70_DW01_cmp6_73'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_71_DW01_cmp6_74'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_72_DW01_cmp6_75'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_73_DW01_cmp6_76'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_74_DW01_cmp6_77'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_75_DW01_cmp6_78'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_76_DW01_cmp6_79'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_77_DW01_cmp6_80'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_78_DW01_cmp6_81'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_79_DW01_cmp6_82'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_80_DW01_cmp6_83'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_81_DW01_cmp6_84'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_82_DW01_cmp6_85'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_83_DW01_cmp6_86'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_84_DW01_cmp6_87'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_85_DW01_cmp6_88'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_86_DW01_cmp6_89'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_87_DW01_cmp6_90'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_88_DW01_cmp6_91'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_89_DW01_cmp6_92'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_90_DW01_cmp6_93'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_91_DW01_cmp6_94'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_92_DW01_cmp6_95'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_93_DW01_cmp6_96'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_94_DW01_cmp6_97'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_95_DW01_cmp6_98'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_96_DW01_cmp6_99'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_97_DW01_cmp6_100'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_98_DW01_cmp6_101'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_99_DW01_cmp6_102'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_100_DW01_cmp6_103'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_101_DW01_cmp6_104'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_102_DW01_cmp6_105'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_103_DW01_cmp6_106'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_104_DW01_cmp6_107'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_105_DW01_cmp6_108'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_106_DW01_cmp6_109'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_107_DW01_cmp6_110'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_108_DW01_cmp6_111'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_109_DW01_cmp6_112'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_110_DW01_cmp6_113'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_111_DW01_cmp6_114'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_112_DW01_cmp6_115'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_113_DW01_cmp6_116'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_114_DW01_cmp6_117'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_115_DW01_cmp6_118'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_116_DW01_cmp6_119'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_117_DW01_cmp6_120'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_118_DW01_cmp6_121'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_119_DW01_cmp6_122'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_120_DW01_cmp6_123'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_121_DW01_cmp6_124'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_122_DW01_cmp6_125'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_123_DW01_cmp6_126'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_124_DW01_cmp6_127'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_125_DW01_cmp6_128'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_126_DW01_cmp6_129'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_127_DW01_cmp6_130'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_128_DW01_cmp6_131'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_129_DW01_cmp6_132'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_130_DW01_cmp6_133'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_131_DW01_cmp6_134'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_132_DW01_cmp6_135'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_133_DW01_cmp6_136'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_134_DW01_cmp6_137'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_135_DW01_cmp6_138'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_136_DW01_cmp6_139'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_137_DW01_cmp6_140'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_138_DW01_cmp6_141'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_139_DW01_cmp6_142'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_140_DW01_cmp6_143'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_141_DW01_cmp6_144'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_142_DW01_cmp6_145'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_143_DW01_cmp6_146'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_144_DW01_cmp6_147'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_145_DW01_cmp6_148'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_146_DW01_cmp6_149'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_147_DW01_cmp6_150'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_148_DW01_cmp6_151'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_149_DW01_cmp6_152'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_150_DW01_cmp6_153'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_151_DW01_cmp6_154'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_152_DW01_cmp6_155'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_153_DW01_cmp6_156'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_154_DW01_cmp6_157'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_155_DW01_cmp6_158'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_156_DW01_cmp6_159'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_157_DW01_cmp6_160'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_158_DW01_cmp6_161'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_159_DW01_cmp6_162'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_add_0_DW01_add_7'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_sub_0_DW01_sub_2'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_95_DW01_cmp2_104'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_96_DW01_cmp2_105'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_160_DW01_cmp6_163'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_161_DW01_cmp6_164'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_97_DW01_cmp2_106'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_98_DW01_cmp2_107'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_162_DW01_cmp6_165'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_163_DW01_cmp6_166'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_99_DW01_cmp2_108'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_100_DW01_cmp2_109'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_164_DW01_cmp6_167'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_165_DW01_cmp6_168'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_101_DW01_cmp2_110'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_102_DW01_cmp2_111'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_166_DW01_cmp6_169'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_167_DW01_cmp6_170'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_103_DW01_cmp2_112'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_104_DW01_cmp2_113'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_168_DW01_cmp6_171'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_169_DW01_cmp6_172'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_105_DW01_cmp2_114'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_106_DW01_cmp2_115'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_170_DW01_cmp6_173'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_171_DW01_cmp6_174'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_107_DW01_cmp2_116'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_108_DW01_cmp2_117'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_172_DW01_cmp6_175'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_173_DW01_cmp6_176'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_109_DW01_cmp2_118'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_110_DW01_cmp2_119'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_174_DW01_cmp6_177'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_175_DW01_cmp6_178'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_111_DW01_cmp2_120'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_112_DW01_cmp2_121'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_176_DW01_cmp6_179'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_177_DW01_cmp6_180'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_113_DW01_cmp2_122'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_114_DW01_cmp2_123'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_178_DW01_cmp6_181'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_179_DW01_cmp6_182'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_115_DW01_cmp2_124'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_116_DW01_cmp2_125'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_180_DW01_cmp6_183'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_181_DW01_cmp6_184'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_117_DW01_cmp2_126'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_118_DW01_cmp2_127'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_182_DW01_cmp6_185'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_183_DW01_cmp6_186'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_119_DW01_cmp2_128'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_120_DW01_cmp2_129'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_184_DW01_cmp6_187'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_185_DW01_cmp6_188'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_121_DW01_cmp2_130'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_122_DW01_cmp2_131'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_186_DW01_cmp6_189'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_187_DW01_cmp6_190'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_123_DW01_cmp2_132'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_124_DW01_cmp2_133'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_188_DW01_cmp6_191'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_189_DW01_cmp6_192'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_125_DW01_cmp2_134'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_126_DW01_cmp2_135'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_190_DW01_cmp6_193'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_191_DW01_cmp6_194'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_127_DW01_cmp2_136'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_128_DW01_cmp2_137'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_192_DW01_cmp6_195'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_193_DW01_cmp6_196'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_129_DW01_cmp2_138'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_130_DW01_cmp2_139'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_194_DW01_cmp6_197'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_195_DW01_cmp6_198'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_131_DW01_cmp2_140'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_132_DW01_cmp2_141'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_196_DW01_cmp6_199'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_197_DW01_cmp6_200'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_133_DW01_cmp2_142'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_134_DW01_cmp2_143'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_198_DW01_cmp6_201'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_199_DW01_cmp6_202'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_135_DW01_cmp2_144'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_136_DW01_cmp2_145'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_200_DW01_cmp6_203'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_201_DW01_cmp6_204'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_137_DW01_cmp2_146'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_138_DW01_cmp2_147'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_202_DW01_cmp6_205'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_203_DW01_cmp6_206'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_139_DW01_cmp2_148'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_140_DW01_cmp2_149'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_204_DW01_cmp6_207'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_205_DW01_cmp6_208'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_141_DW01_cmp2_150'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_142_DW01_cmp2_151'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_206_DW01_cmp6_209'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_207_DW01_cmp6_210'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_143_DW01_cmp2_152'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_144_DW01_cmp2_153'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_208_DW01_cmp6_211'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_209_DW01_cmp6_212'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_145_DW01_cmp2_154'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_146_DW01_cmp2_155'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_210_DW01_cmp6_213'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_211_DW01_cmp6_214'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_147_DW01_cmp2_156'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_148_DW01_cmp2_157'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_212_DW01_cmp6_215'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_213_DW01_cmp6_216'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_149_DW01_cmp2_158'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_150_DW01_cmp2_159'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_214_DW01_cmp6_217'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_215_DW01_cmp6_218'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_151_DW01_cmp2_160'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_152_DW01_cmp2_161'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_216_DW01_cmp6_219'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_217_DW01_cmp6_220'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_153_DW01_cmp2_162'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_154_DW01_cmp2_163'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_218_DW01_cmp6_221'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_219_DW01_cmp6_222'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_155_DW01_cmp2_164'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_156_DW01_cmp2_165'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_220_DW01_cmp6_223'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_221_DW01_cmp6_224'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_157_DW01_cmp2_166'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp2_158_DW01_cmp2_167'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_222_DW01_cmp6_225'
+  Processing 'kv_seg_tlb_ENTRIES32_DW01_cmp6_223_DW01_cmp6_226'
+  Processing 'kv_scan_planner_ENTRIES32_DW01_add_2_DW01_add_8'
+  Processing 'kv_scan_planner_ENTRIES32_DW02_mult_0'
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:00:34    4940.0   8297.74 3087592.2  685879.1                                0.00  
+    0:00:34    4940.0   8297.74 3087592.2  685879.1                                0.00  
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+LNC WARNING: Found output_to_output lib arc on HAxp5_ASAP7_75t_R.
+  Mapping Optimization (Phase 1)
+  Mapping Optimization (Phase 2)
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:01:06    5020.4   8831.93 3683814.8  679372.2                                0.00  
+    0:01:06    5020.4   8831.93 3683814.8  679372.2                                0.00  
+    0:01:06    5060.9   8831.93 3431813.0  677072.2                                0.00  
+    0:01:08    5170.1   6681.80 1169453.6  473709.6                                0.00  
+    0:01:13    5401.2      0.00      -0.0       0.0                                0.00  
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:01:13    5401.2      0.00      -0.0       0.0                                0.00  
+    0:01:18    5647.0      0.00      -0.0       0.0                                0.00  
+    0:01:18    5647.0      0.00      -0.0       0.0                                0.00  
+
+
+  Beginning Design Rule Fixing  (min_path)
+  ----------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:01:19    5647.0      0.00       0.0       0.0                             -306.62  
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:01:19    5647.0      0.00       0.0       0.0                             -306.62  
+    0:01:19    5647.0      0.00       0.0       0.0                             -306.62  
+    0:01:24    5341.2     91.85     838.6       0.0                             -306.62  
+    0:01:27    5224.8     74.44     642.8       0.0                             -306.62  
+    0:01:34    5175.7     28.45     181.3       0.0                             -306.62  
+    0:01:35    5147.0      0.00       0.0       0.0                             -306.62  
+    0:01:36    5130.0      0.00       0.0       0.0                             -306.62  
+    0:01:36    5118.4      0.00       0.0       0.0                             -306.62  
+    0:01:37    5108.9      0.00       0.0       0.0                             -306.62  
+    0:01:38    5102.8      0.00       0.0       0.0                             -306.62  
+    0:01:38    5098.1      0.00       0.0       0.0                             -306.62  
+    0:01:39    5096.1      0.00       0.0       0.0                             -306.62  
+    0:01:39    5094.3      0.00       0.0       0.0                             -306.62  
+    0:01:39    5092.0      0.00       0.0       0.0                             -306.62  
+    0:01:40    5090.7      0.00       0.0       0.0                             -306.62  
+    0:01:40    5090.0      0.00       0.0       0.0                             -306.62  
+    0:01:40    5089.7      0.00       0.0       0.0                             -306.62  
+    0:01:40    5089.7      0.00       0.0       0.0                             -306.62  
+    0:01:40    5089.7      0.00       0.0       0.0                             -306.62  
+    0:01:42    4880.1     24.83     167.5       0.0                             -306.62  
+    0:01:43    4800.8      0.00       0.0       0.0                             -306.62  
+    0:01:44    4778.1      0.00       0.0       0.0                             -306.62  
+    0:01:44    4777.6      0.00       0.0       0.0                             -306.62  
+    0:01:44    4777.6      0.00       0.0       0.0                             -306.62  
+    0:01:44    4777.6      0.00       0.0       0.0                             -306.62  
+    0:01:44    4777.6      0.00       0.0       0.0                             -306.62  
+    0:01:44    4777.6      0.00       0.0       0.0                             -306.62  
+    0:01:44    4779.6      0.00       0.0       0.0 u_tlb/lk_resp_desc_reg[vpos_start][11]/D   -216.54  
+    0:01:44    4781.3      0.00       0.0       0.0 u_tlb/lk_resp_desc_reg[count][13]/D   -125.25  
+    0:01:45    4783.0      0.00       0.0       0.0 u_tlb/lk_resp_desc_reg[ch_base][3]/D    -36.60  
+    0:01:46    4537.9      0.00       0.0       0.0                                0.00  
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'kv_tlb_top' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'u_tlb/n10280': 4727 load(s), 1 driver(s)
+     Net 'u_plan/clk': 5597 load(s), 1 driver(s)
+1
+if {$fix_hold} {
+    compile -incremental -only_hold_time
+}
+
+Information: There are 508 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping  (Incremental)
+  ------------------------
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Incremental)
+  -------------------------------
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:01:53    4537.9      0.00       0.0       0.0                                0.00  
+    0:01:58    4537.9      0.00       0.0       0.0                                0.00  
+    0:01:58    4537.9      0.00       0.0       0.0                                0.00  
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'kv_tlb_top' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'u_tlb/n10280': 4727 load(s), 1 driver(s)
+     Net 'u_plan/clk': 5597 load(s), 1 driver(s)
+1
+report_qor -nosplit > [file join $out_dir ${top_module}_qor.rpt]
+report_area -hierarchy -nosplit > [file join $out_dir ${top_module}_area.rpt]
+report_reference -hierarchy -nosplit > [file join $out_dir ${top_module}_references.rpt]
+report_timing -delay_type max -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing.rpt]
+report_timing -delay_type min -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing_hold.rpt]
+report_power -nosplit > [file join $out_dir ${top_module}_power.rpt]
+write -format verilog -hierarchy -output [file join $out_dir ${top_module}_mapped.v]
+Writing verilog file '/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02/kvtlb_p1501/kv_tlb_top_mapped.v'.
+Warning: Verilog writer has added 8 nets to module kv_seg_tlb_ENTRIES32 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Warning: Verilog writer has added 13 nets to module kv_ptw using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 5 nets to module kv_tlb_top using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+1
+write_sdc [file join $out_dir ${top_module}.sdc]
+1
+quit
+
+Thank you...

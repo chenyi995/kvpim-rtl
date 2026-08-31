@@ -1,0 +1,143 @@
+ 
+****************************************
+Report : area
+Design : fp32_recip
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:39:06 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+
+Number of ports:                         4370
+Number of nets:                         24391
+Number of cells:                        19531
+Number of combinational cells:          16924
+Number of sequential cells:              2511
+Number of macros/black boxes:               0
+Number of buf/inv:                       8650
+Number of references:                      62
+
+Combinational area:               1287.691018
+Buf/Inv area:                      413.153465
+Noncombinational area:             951.869874
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  2239.560892
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  ------------------------------------------------
+fp32_recip                        2239.5609    100.0   181.5064   348.3745  0.0000  fp32_recip
+add_0_root_add_0_root_add_367_2      6.4881      0.3     6.4881     0.0000  0.0000  fp32_recip_DW01_add_J6_0
+add_0_root_add_0_root_add_409_2     13.3261      0.6    13.3261     0.0000  0.0000  fp32_recip_DW01_add_J4_0
+add_1_root_add_0_root_add_409_2     12.1306      0.5    12.1306     0.0000  0.0000  fp32_recip_DW01_add_J5_0
+add_492                              7.0130      0.3     7.0130     0.0000  0.0000  fp32_recip_DW01_add_10
+add_634                              2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_DW01_add_3
+add_635                              2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_DW01_add_2
+add_674                             17.8897      0.8    17.8897     0.0000  0.0000  fp32_recip_DW01_add_11
+sub_366                              8.8938      0.4     8.8938     0.0000  0.0000  fp32_recip_DW01_sub_J7_0
+u_p00                              204.9219      9.2    29.8307    75.4369  0.0000  fp32_recip_mul16_pipe_0
+u_p00/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW01_add_2_DW01_add_28
+u_p00/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW01_add_1_DW01_add_27
+u_p00/mult_727                      23.7654      1.1    20.4995     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW02_mult_3_DW02_mult_23
+u_p00/mult_727/FS_1                  3.2659      0.1     3.2659     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW01_add_8_DW01_add_72
+u_p00/mult_728                      23.6779      1.1    20.6015     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW02_mult_2_DW02_mult_22
+u_p00/mult_728/FS_1                  3.0764      0.1     3.0764     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW01_add_7_DW01_add_71
+u_p00/mult_729                      23.8820      1.1    20.6161     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW02_mult_1_DW02_mult_21
+u_p00/mult_729/FS_1                  3.2659      0.1     3.2659     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW01_add_6_DW01_add_70
+u_p00/mult_730                      23.8091      1.1    20.4995     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW02_mult_0_DW02_mult_20
+u_p00/mult_730/FS_1                  3.3097      0.1     3.3097     0.0000  0.0000  fp32_recip_mul16_pipe_0_DW01_add_5_DW01_add_69
+u_p01                              203.6097      9.1    30.2972    75.4369  0.0000  fp32_recip_mul16_pipe_7
+u_p01/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW01_add_2_DW01_add_25
+u_p01/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW01_add_1_DW01_add_24
+u_p01/mult_727                      24.0570      1.1    20.7036     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW02_mult_3_DW02_mult_19
+u_p01/mult_727/FS_1                  3.3534      0.1     3.3534     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW01_add_8_DW01_add_68
+u_p01/mult_728                      22.5553      1.0    19.8580     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW02_mult_2_DW02_mult_18
+u_p01/mult_728/FS_1                  2.6973      0.1     2.6973     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW01_add_7_DW01_add_67
+u_p01/mult_729                      24.0862      1.1    20.7911     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW02_mult_1_DW02_mult_17
+u_p01/mult_729/FS_1                  3.2951      0.1     3.2951     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW01_add_6_DW01_add_66
+u_p01/mult_730                      22.6573      1.0    19.8725     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW02_mult_0_DW02_mult_16
+u_p01/mult_730/FS_1                  2.7848      0.1     2.7848     0.0000  0.0000  fp32_recip_mul16_pipe_7_DW01_add_5_DW01_add_65
+u_p10                              202.9682      9.1    30.5743    75.4369  0.0000  fp32_recip_mul16_pipe_6
+u_p10/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW01_add_2_DW01_add_22
+u_p10/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW01_add_1_DW01_add_21
+u_p10/mult_727                      23.9841      1.1    20.8348     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW02_mult_3_DW02_mult_27
+u_p10/mult_727/FS_1                  3.1493      0.1     3.1493     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW01_add_8_DW01_add_76
+u_p10/mult_728                      23.8966      1.1    20.7473     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW02_mult_2_DW02_mult_26
+u_p10/mult_728/FS_1                  3.1493      0.1     3.1493     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW01_add_7_DW01_add_75
+u_p10/mult_729                      22.2782      1.0    19.7851     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW02_mult_1_DW02_mult_25
+u_p10/mult_729/FS_1                  2.4932      0.1     2.4932     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW01_add_6_DW01_add_74
+u_p10/mult_730                      22.2782      1.0    19.7851     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW02_mult_0_DW02_mult_24
+u_p10/mult_730/FS_1                  2.4932      0.1     2.4932     0.0000  0.0000  fp32_recip_mul16_pipe_6_DW01_add_5_DW01_add_73
+u_p11                              201.2332      9.0    30.4430    75.4369  0.0000  fp32_recip_mul16_pipe_5
+u_p11/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW01_add_2_DW01_add_19
+u_p11/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW01_add_1_DW01_add_18
+u_p11/mult_727                      23.7362      1.1    20.4995     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW02_mult_2_DW02_mult_30
+u_p11/mult_727/FS_1                  3.2368      0.1     3.2368     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW01_add_7_DW01_add_79
+u_p11/mult_728                      22.5407      1.0    19.7851     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW02_mult_1_DW02_mult_29
+u_p11/mult_728/FS_1                  2.7556      0.1     2.7556     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW01_add_6_DW01_add_78
+u_p11/mult_729                      22.2782      1.0    19.7851     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW02_mult_0_DW02_mult_28
+u_p11/mult_729/FS_1                  2.4932      0.1     2.4932     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW01_add_5_DW01_add_77
+u_p11/mult_730                      22.2782      1.0    19.7851     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW02_mult_3_DW02_mult_31
+u_p11/mult_730/FS_1                  2.4932      0.1     2.4932     0.0000  0.0000  fp32_recip_mul16_pipe_5_DW01_add_8_DW01_add_80
+u_r00                              207.1381      9.2    30.5305    75.4369  0.0000  fp32_recip_mul16_pipe_4
+u_r00/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW01_add_2_DW01_add_16
+u_r00/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW01_add_1_DW01_add_15
+u_r00/mult_727                      23.9695      1.1    20.7328     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW02_mult_3
+u_r00/mult_727/FS_1                  3.2368      0.1     3.2368     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW01_add_8_DW01_add_52
+u_r00/mult_728                      24.4944      1.1    20.6744     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW02_mult_2
+u_r00/mult_728/FS_1                  3.8200      0.2     3.8200     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW01_add_7_DW01_add_51
+u_r00/mult_729                      23.9841      1.1    20.7619     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW02_mult_1
+u_r00/mult_729/FS_1                  3.2222      0.1     3.2222     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW01_add_6_DW01_add_50
+u_r00/mult_730                      24.2028      1.1    20.9952     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW02_mult_0
+u_r00/mult_730/FS_1                  3.2076      0.1     3.2076     0.0000  0.0000  fp32_recip_mul16_pipe_4_DW01_add_5_DW01_add_49
+u_r01                              206.7444      9.2    31.4928    75.4369  0.0000  fp32_recip_mul16_pipe_3
+u_r01/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW01_add_2_DW01_add_13
+u_r01/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW01_add_1_DW01_add_12
+u_r01/mult_727                      23.8675      1.1    20.7765     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW02_mult_3_DW02_mult_7
+u_r01/mult_727/FS_1                  3.0910      0.1     3.0910     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW01_add_8_DW01_add_56
+u_r01/mult_728                      23.7071      1.1    20.6015     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW02_mult_2_DW02_mult_6
+u_r01/mult_728/FS_1                  3.1055      0.1     3.1055     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW01_add_7_DW01_add_55
+u_r01/mult_729                      23.8237      1.1    20.5432     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW02_mult_1_DW02_mult_5
+u_r01/mult_729/FS_1                  3.2805      0.1     3.2805     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW01_add_6_DW01_add_54
+u_r01/mult_730                      23.8966      1.1    20.7036     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW02_mult_0_DW02_mult_4
+u_r01/mult_730/FS_1                  3.1930      0.1     3.1930     0.0000  0.0000  fp32_recip_mul16_pipe_3_DW01_add_5_DW01_add_53
+u_r10                              205.7821      9.2    31.0700    75.4369  0.0000  fp32_recip_mul16_pipe_2
+u_r10/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW01_add_2_DW01_add_10
+u_r10/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW01_add_1_DW01_add_9
+u_r10/mult_727                      23.8237      1.1    20.6307     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW02_mult_3_DW02_mult_11
+u_r10/mult_727/FS_1                  3.1930      0.1     3.1930     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW01_add_8_DW01_add_60
+u_r10/mult_728                      23.7654      1.1    20.5286     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW02_mult_2_DW02_mult_10
+u_r10/mult_728/FS_1                  3.2368      0.1     3.2368     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW01_add_7_DW01_add_59
+u_r10/mult_729                      23.7654      1.1    20.6015     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW02_mult_1_DW02_mult_9
+u_r10/mult_729/FS_1                  3.1639      0.1     3.1639     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW01_add_6_DW01_add_58
+u_r10/mult_730                      23.4009      1.0    20.3974     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW02_mult_0_DW02_mult_8
+u_r10/mult_730/FS_1                  3.0035      0.1     3.0035     0.0000  0.0000  fp32_recip_mul16_pipe_2_DW01_add_5_DW01_add_57
+u_r11                              207.0214      9.2    31.7552    75.4369  0.0000  fp32_recip_mul16_pipe_1
+u_r11/add_732                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW01_add_2_DW01_add_7
+u_r11/add_733                        2.2599      0.1     2.2599     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW01_add_1_DW01_add_6
+u_r11/mult_727                      23.7362      1.1    20.6599     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW02_mult_3_DW02_mult_15
+u_r11/mult_727/FS_1                  3.0764      0.1     3.0764     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW01_add_8_DW01_add_64
+u_r11/mult_728                      23.7654      1.1    20.7619     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW02_mult_2_DW02_mult_14
+u_r11/mult_728/FS_1                  3.0035      0.1     3.0035     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW01_add_7_DW01_add_63
+u_r11/mult_729                      23.8237      1.1    20.7473     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW02_mult_1_DW02_mult_13
+u_r11/mult_729/FS_1                  3.0764      0.1     3.0764     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW01_add_6_DW01_add_62
+u_r11/mult_730                      23.9841      1.1    20.8348     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW02_mult_0_DW02_mult_12
+u_r11/mult_730/FS_1                  3.1493      0.1     3.1493     0.0000  0.0000  fp32_recip_mul16_pipe_1_DW01_add_5_DW01_add_61
+--------------------------------  ---------  -------  ---------  ---------  ------  ------------------------------------------------
+Total                                                 1287.6910   951.8699  0.0000
+
+1

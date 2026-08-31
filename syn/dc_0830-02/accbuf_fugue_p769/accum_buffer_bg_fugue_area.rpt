@@ -1,0 +1,47 @@
+ 
+****************************************
+Report : area
+Design : accum_buffer_bg_fugue
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:20:03 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    srambank_64x4x16_6t122 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+
+Number of ports:                           96
+Number of nets:                           106
+Number of cells:                           13
+Number of combinational cells:             11
+Number of sequential cells:                 0
+Number of macros/black boxes:               1
+Number of buf/inv:                          2
+Number of references:                       1
+
+Combinational area:                  1.035180
+Buf/Inv area:                        0.087480
+Noncombinational area:               0.000000
+Macro/Black Box area:              249.143036
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                   250.178216
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area           Local cell area
+                                  ------------------  ----------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-    Noncombi-  Black-
+                                  Total      Total    national  national   boxes     Design
+--------------------------------  ---------  -------  --------  ---------  --------  -----------------------
+accum_buffer_bg_fugue              250.1782    100.0    0.0000     0.0000    0.0000  accum_buffer_bg_fugue
+u_buf                              250.1782    100.0    1.0352     0.0000  249.1430  accum_buffer_bg_DEPTH64
+--------------------------------  ---------  -------  --------  ---------  --------  -----------------------
+Total                                                   1.0352     0.0000  249.1430
+
+1

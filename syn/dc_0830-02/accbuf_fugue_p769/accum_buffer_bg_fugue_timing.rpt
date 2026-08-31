@@ -1,0 +1,599 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : accum_buffer_bg_fugue
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:20:03 2026
+****************************************
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: wr_en (input port clocked by clk)
+  Endpoint: u_buf/u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  230.70     230.70 r
+  wr_en (in)                                              8.47     239.17 r
+  u_buf/wr_en (accum_buffer_bg_DEPTH64)                   0.00     239.17 r
+  u_buf/U5/Y (INVx1_ASAP7_75t_R)                         18.87     258.03 f
+  u_buf/U12/Y (AO22x1_ASAP7_75t_R)                       27.79     285.83 f
+  u_buf/u_mem/ADDRESS[0] (srambank_64x4x16_6t122)         0.00     285.83 f
+  data arrival time                                                285.83
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00     719.00 r
+  library setup time                                    -48.06     670.94
+  data required time                                               670.94
+  --------------------------------------------------------------------------
+  data required time                                               670.94
+  data arrival time                                               -285.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                      385.11
+
+
+  Startpoint: wr_en (input port clocked by clk)
+  Endpoint: u_buf/u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  230.70     230.70 r
+  wr_en (in)                                              8.47     239.17 r
+  u_buf/wr_en (accum_buffer_bg_DEPTH64)                   0.00     239.17 r
+  u_buf/U5/Y (INVx1_ASAP7_75t_R)                         18.87     258.03 f
+  u_buf/U11/Y (AO22x1_ASAP7_75t_R)                       27.79     285.83 f
+  u_buf/u_mem/ADDRESS[1] (srambank_64x4x16_6t122)         0.00     285.83 f
+  data arrival time                                                285.83
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00     719.00 r
+  library setup time                                    -48.06     670.94
+  data required time                                               670.94
+  --------------------------------------------------------------------------
+  data required time                                               670.94
+  data arrival time                                               -285.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                      385.11
+
+
+  Startpoint: wr_en (input port clocked by clk)
+  Endpoint: u_buf/u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  230.70     230.70 r
+  wr_en (in)                                              8.47     239.17 r
+  u_buf/wr_en (accum_buffer_bg_DEPTH64)                   0.00     239.17 r
+  u_buf/U5/Y (INVx1_ASAP7_75t_R)                         18.87     258.03 f
+  u_buf/U10/Y (AO22x1_ASAP7_75t_R)                       27.79     285.83 f
+  u_buf/u_mem/ADDRESS[2] (srambank_64x4x16_6t122)         0.00     285.83 f
+  data arrival time                                                285.83
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00     719.00 r
+  library setup time                                    -48.06     670.94
+  data required time                                               670.94
+  --------------------------------------------------------------------------
+  data required time                                               670.94
+  data arrival time                                               -285.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                      385.11
+
+
+  Startpoint: wr_en (input port clocked by clk)
+  Endpoint: u_buf/u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  230.70     230.70 r
+  wr_en (in)                                              8.47     239.17 r
+  u_buf/wr_en (accum_buffer_bg_DEPTH64)                   0.00     239.17 r
+  u_buf/U5/Y (INVx1_ASAP7_75t_R)                         18.87     258.03 f
+  u_buf/U9/Y (AO22x1_ASAP7_75t_R)                        27.79     285.83 f
+  u_buf/u_mem/ADDRESS[3] (srambank_64x4x16_6t122)         0.00     285.83 f
+  data arrival time                                                285.83
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00     719.00 r
+  library setup time                                    -48.06     670.94
+  data required time                                               670.94
+  --------------------------------------------------------------------------
+  data required time                                               670.94
+  data arrival time                                               -285.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                      385.11
+
+
+  Startpoint: wr_en (input port clocked by clk)
+  Endpoint: u_buf/u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  230.70     230.70 r
+  wr_en (in)                                              8.47     239.17 r
+  u_buf/wr_en (accum_buffer_bg_DEPTH64)                   0.00     239.17 r
+  u_buf/U5/Y (INVx1_ASAP7_75t_R)                         18.87     258.03 f
+  u_buf/U8/Y (AO22x1_ASAP7_75t_R)                        27.79     285.83 f
+  u_buf/u_mem/ADDRESS[4] (srambank_64x4x16_6t122)         0.00     285.83 f
+  data arrival time                                                285.83
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00     719.00 r
+  library setup time                                    -48.06     670.94
+  data required time                                               670.94
+  --------------------------------------------------------------------------
+  data required time                                               670.94
+  data arrival time                                               -285.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                      385.11
+
+
+  Startpoint: wr_en (input port clocked by clk)
+  Endpoint: u_buf/u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  230.70     230.70 r
+  wr_en (in)                                              8.47     239.17 r
+  u_buf/wr_en (accum_buffer_bg_DEPTH64)                   0.00     239.17 r
+  u_buf/U5/Y (INVx1_ASAP7_75t_R)                         18.87     258.03 f
+  u_buf/U7/Y (AO22x1_ASAP7_75t_R)                        27.79     285.83 f
+  u_buf/u_mem/ADDRESS[5] (srambank_64x4x16_6t122)         0.00     285.83 f
+  data arrival time                                                285.83
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00     719.00 r
+  library setup time                                    -48.06     670.94
+  data required time                                               670.94
+  --------------------------------------------------------------------------
+  data required time                                               670.94
+  data arrival time                                               -285.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                      385.11
+
+
+  Startpoint: wr_en (input port clocked by clk)
+  Endpoint: u_buf/u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  230.70     230.70 f
+  wr_en (in)                                              7.54     238.24 f
+  u_buf/wr_en (accum_buffer_bg_DEPTH64)                   0.00     238.24 f
+  u_buf/U5/Y (INVx1_ASAP7_75t_R)                         20.61     258.85 r
+  u_buf/U4/Y (NAND2xp5_ASAP7_75t_R)                      10.82     269.67 f
+  u_buf/u_mem/banksel (srambank_64x4x16_6t122)            0.00     269.67 f
+  data arrival time                                                269.67
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00     719.00 r
+  library setup time                                    -48.51     670.49
+  data required time                                               670.49
+  --------------------------------------------------------------------------
+  data required time                                               670.49
+  data arrival time                                               -269.67
+  --------------------------------------------------------------------------
+  slack (MET)                                                      400.82
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[12]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[12] (srambank_64x4x16_6t122)       73.76      73.76 r
+  u_buf/rd_data[12] (accum_buffer_bg_DEPTH64)             0.00      73.76 r
+  rd_data[12] (out)                                       0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[11]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[11] (srambank_64x4x16_6t122)       73.76      73.76 r
+  u_buf/rd_data[11] (accum_buffer_bg_DEPTH64)             0.00      73.76 r
+  rd_data[11] (out)                                       0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[10]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[10] (srambank_64x4x16_6t122)       73.76      73.76 r
+  u_buf/rd_data[10] (accum_buffer_bg_DEPTH64)             0.00      73.76 r
+  rd_data[10] (out)                                       0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[9] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[9] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[9] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[9] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[8] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[8] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[8] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[8] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[7] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[7] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[7] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[7] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[6] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[6] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[6] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[6] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[5] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[5] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[5] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[5] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[4] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[4] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[4] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[4] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[3] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[3] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[3] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[3] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[2] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[2] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[2] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[2] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[1] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[1] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[1] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[1] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+  Startpoint: u_buf/u_mem
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[0] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_buf/u_mem/clk (srambank_64x4x16_6t122)                0.00       0.00 r
+  u_buf/u_mem/dataout[0] (srambank_64x4x16_6t122)        73.76      73.76 r
+  u_buf/rd_data[0] (accum_buffer_bg_DEPTH64)              0.00      73.76 r
+  rd_data[0] (out)                                        0.00      73.76 r
+  data arrival time                                                 73.76
+
+  clock clk (rise edge)                                 769.00     769.00
+  clock network delay (ideal)                             0.00     769.00
+  clock uncertainty                                     -50.00     719.00
+  output external delay                                -230.70     488.30
+  data required time                                               488.30
+  --------------------------------------------------------------------------
+  data required time                                               488.30
+  data arrival time                                                -73.76
+  --------------------------------------------------------------------------
+  slack (MET)                                                      414.54
+
+
+1

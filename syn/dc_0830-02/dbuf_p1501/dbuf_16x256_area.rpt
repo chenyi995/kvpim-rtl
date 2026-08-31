@@ -1,0 +1,48 @@
+ 
+****************************************
+Report : area
+Design : dbuf_16x256
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:13:29 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    srambank_64x4x16_6t122 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db)
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+
+Number of ports:                          525
+Number of nets:                          1096
+Number of cells:                          347
+Number of combinational cells:            314
+Number of sequential cells:                 1
+Number of macros/black boxes:              32
+Number of buf/inv:                         41
+Number of references:                      13
+
+Combinational area:                 36.960300
+Buf/Inv area:                        2.099520
+Noncombinational area:               0.379080
+Macro/Black Box area:             7972.577148
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  8009.916528
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area           Local cell area
+                                  ------------------  ------------------------------ 
+Hierarchical cell                 Absolute   Percent  Combi-    Noncombi-  Black-
+                                  Total      Total    national  national   boxes      Design
+--------------------------------  ---------  -------  --------  ---------  ---------  ---------
+dbuf_16x256                       8009.9165    100.0   36.9603     0.3791  7972.5771  dbuf_16x256
+--------------------------------  ---------  -------  --------  ---------  ---------  ---------
+Total                                                  36.9603     0.3791  7972.5771
+
+1

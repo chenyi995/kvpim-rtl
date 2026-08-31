@@ -1,0 +1,947 @@
+/bin/sh: warning: setlocale: LC_ALL: cannot change locale (C.UTF-8)
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version P-2019.03-SP5-6 for linux64 - Aug 20, 2020 
+
+                    Copyright (c) 1988 - 2020 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+# Per-component ASAP7 synthesis for the rtl/0830-02 snapshot.
+# Same constraint recipe as run_dc_asap7.tcl (bundled ASAP7 RVT/TT NLDM
+# standard-cell .db views; identical constraints across profiles) but with a
+# profile table for the 0830-02 component set only.  No top-level synthesis:
+# each hardware level's overhead is rolled up from these component areas
+# (docs/0830-02/Hardware_Overhead_Breakdown.md).
+#
+# Example (from syn/):
+#   . /home/common/profile_synopsys
+#   SYN_PROFILE=gemv SYN_TOP=gemv_unit SYN_TAG=gemv_attacc #     SYN_PERIOD_NS=1.5015015 dc_shell -f run_dc_asap7_0830-02.tcl
+set script_dir [file dirname [file normalize [info script]]]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn
+set root_dir   [file normalize [file join $script_dir ..]]
+/thu-bloor/xinyao-w23/kvpim-rtl
+set lib_dir    [file join $root_dir third_party asap7_lib db]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db
+set sram_dir   [file join $root_dir third_party asap7 asap7_sram_0p0 generated]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated
+proc envdef {name default} {
+    return [expr {[info exists ::env($name)] ? $::env($name) : $default}]
+}
+set rtl_dir [envdef SYN_RTL_DIR [file join $root_dir rtl 0830-02]]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02
+if {[file pathtype $rtl_dir] ne "absolute"} {
+    set from_script_dir [file normalize [file join $script_dir $rtl_dir]]
+    if {[file isdirectory $from_script_dir]} {
+        set rtl_dir $from_script_dir
+    } else {
+        set rtl_dir [file normalize [file join $root_dir $rtl_dir]]
+    }
+}
+set top_module [envdef SYN_TOP gemv_unit]
+dbuf_16x256
+set profile    [envdef SYN_PROFILE gemv]
+dbuf
+set tag        [envdef SYN_TAG $top_module]
+dbuf_p1501
+set period_ns  [envdef SYN_PERIOD_NS 1.5015015]
+1.5015015
+set max_cores  [envdef SYN_MAX_CORES 4]
+4
+set io_delay_ratio [envdef SYN_IO_DELAY_RATIO 0.30]
+0.3
+set fix_hold   [envdef SYN_FIX_HOLD 1]
+1
+set period     [expr {$period_ns * 1000.0}]
+1501.5015
+set out_root   [envdef SYN_OUT_ROOT dc_0830-02]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02
+if {[file pathtype $out_root] ne "absolute"} {
+    set out_root [file join $script_dir $out_root]
+}
+set out_dir    [file join $out_root $tag]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02/dbuf_p1501
+file mkdir $out_dir
+set target_library [glob -nocomplain [file join $lib_dir *.db]]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+if {[llength $target_library] == 0} {
+    error "No ASAP7 .db views in $lib_dir"
+}
+set link_library "* $target_library"
+* /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+set search_path [list $rtl_dir $lib_dir $sram_dir [file join $sram_dir verilog]]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02 /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/verilog
+set_host_options -max_cores $max_cores
+1
+# Link the compiled ASAP7 SRAM macro .db views (compile_asap7_sram_libs.tcl).
+proc enable_asap7_sram {sram_dir} {
+    global target_library link_library
+    foreach name {srambank_64x4x16_6t122 srambank_64x4x32_6t122 srambank_64x4x80_6t122                   srambank_256x4x32_6t122 srambank_256x4x80_6t122 srambank_256x4x64_6t122} {
+        set db [file join $sram_dir db ${name}.db]
+        if {[file exists $db]} {
+            lappend target_library $db
+        }
+    }
+    if {![file exists [file join $sram_dir db srambank_64x4x16_6t122.db]]} {
+        error "Missing SRAM DB views in $sram_dir/db. Run compile_asap7_sram_libs.tcl first."
+    }
+    set link_library "* $target_library"
+}
+# ---------------------------------------------------------------------------
+# Profiles: RTL needed for each component (per docs/Hardware Overhead.md and
+# the Fugue paper Sec. 4.3).  Frequencies are set by the driver script.
+# ---------------------------------------------------------------------------
+switch -- $profile {
+    gemv {
+        # Bank level: one GEMV unit (16 FP16 mult + 16 dual-mode FP16 add +
+        # double-buffered 16x256b vector buffer + control unit).  The buffer
+        # is the ASAP7 SRAM-macro implementation (2 groups x 16 x 256x16b).
+        enable_asap7_sram $sram_dir
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv gemv_unit.sv]
+    }
+    dbuf {
+        # The double-buffered GEMV buffer alone (breakdown term), macro-backed.
+        enable_asap7_sram $sram_dir
+        set sources [list dbuf_16x256_asap7.sv]
+    }
+    gemv_flop {
+        # Reference point: the same GEMV unit with the flop-based buffer.
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256.sv gemv_unit.sv]
+    }
+    accum_bg {
+        # BG level: 4->1 FP16 accumulator with bypass/sum modes.
+        set sources [list fp16_add.sv accumulator_bg.sv]
+    }
+    accum_buf_bg {
+        # BG level: the accumulator buffer on one 256x16 ASAP7 macro.
+        # Tops: accum_buffer_bg_attacc (8 x FP16, one query in flight) /
+        #       accum_buffer_bg_fugue (64 x FP16 = n_cap(8) resident queries
+        #       x 8-slot staging each; multi-Q over one shared K column).
+        enable_asap7_sram $sram_dir
+        set sources [list accum_buffer_bg.sv]
+    }
+    accum_logic {
+        # Logic die: one per-channel context accumulator (16 lanes x 4 words).
+        set sources [list fp16_add.sv accumulator_logic.sv]
+    }
+    diff_channel {
+        # Logic die (Fugue): one per-channel D_i map / diff decoder.
+        set sources [list fugue_pkg.sv diff_decoder.sv diff_decoder_channel_dc_top.sv]
+    }
+    causal_cmp {
+        # Logic die (Fugue): one per-channel causal comparator.
+        set sources [list causal_comparator.sv]
+    }
+    rope {
+        # Ablation only ("Fugue with on-die RoPE"); the paper's die does NOT
+        # carry rotation logic (RoPE runs on the GPU, Sec. 4.2).
+        set sources [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv]
+    }
+    kvtlb {
+        # Controller breakdown term: the KV segment TLB alone.
+        set sources [list kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv]
+    }
+    ctrl_attacc {
+        # HBM controller, AttAcc: instr queue/decoder + config memory +
+        # addr-gen/DRAM FSM + DMA engine + direct address path.
+        set sources [list fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv             direct_addr_plan.sv dma_engine.sv attacc_hbm_ctrl_top.sv]
+    }
+    ctrl_fugue {
+        # HBM controller, Fugue: same core + DMA + the KV segment TLB
+        # (diff-block address management).
+        set sources [list fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv             kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv             dma_engine.sv fugue_hbm_ctrl_top.sv]
+    }
+    softmax_pe {
+        # Reference only: softmax_pe already met 699 ps in dc_0830-01
+        # (setup/hold clean), which covers the 1.3 GHz (769 ps) requirement;
+        # re-synthesis is NOT needed.
+        set sources [list fp32_add.sv fp32_exp.sv fp32_mul.sv softmax_pe.sv]
+    }
+    fp32_recip {
+        # The one softmax leaf missing from dc_0830-01 (one per channel
+        # engine); synthesized once at the softmax clock for the roll-up.
+        set sources [list fp32_recip.sv]
+    }
+    default { error "Unknown SYN_PROFILE=$profile" }
+}
+dbuf_16x256_asap7.sv
+set src_paths {}
+foreach source $sources { lappend src_paths [file join $rtl_dir $source] }
+define_design_lib WORK -path [file join $out_dir WORK]
+1
+analyze -format sverilog $src_paths
+Running PRESTO HDLC
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/dbuf_16x256_asap7.sv
+Presto compilation completed successfully.
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db'
+1
+elaborate $top_module
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/gtech.db'
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/standard.sldb'
+  Loading link library 'asap7sc7p5t_AO_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_INVBUF_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_OA_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_SEQ_RVT_TT_nldm_220123'
+  Loading link library 'asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120'
+  Loading link library 'srambank_64x4x16_6t122'
+  Loading link library 'srambank_64x4x32_6t122'
+  Loading link library 'srambank_64x4x80_6t122'
+  Loading link library 'srambank_256x4x32_6t122'
+  Loading link library 'srambank_256x4x80_6t122'
+  Loading link library 'srambank_256x4x64_6t122'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Inferred memory devices in process
+	in routine dbuf_16x256 line 30 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/dbuf_16x256_asap7.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       sel_reg       | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (dbuf_16x256)
+Elaborated 1 design.
+Current design is now 'dbuf_16x256'.
+1
+current_design $top_module
+Current design is 'dbuf_16x256'.
+{dbuf_16x256}
+link
+
+  Linking design 'dbuf_16x256'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  dbuf_16x256                 /thu-bloor/xinyao-w23/kvpim-rtl/syn/dbuf_16x256.db
+  asap7sc7p5t_AO_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db
+  asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db
+  asap7sc7p5t_OA_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db
+  asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db
+  asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+  srambank_64x4x16_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db
+  srambank_64x4x32_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db
+  srambank_64x4x80_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db
+  srambank_256x4x32_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db
+  srambank_256x4x80_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db
+  srambank_256x4x64_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db
+
+1
+create_clock -name clk -period $period [get_ports clk]
+1
+set_clock_uncertainty 50.0 [get_clocks clk]
+1
+set_clock_transition 20.0 [get_clocks clk]
+1
+set clock_reset_ports [get_ports {clk rst_n}]
+{clk rst_n}
+set data_ports [remove_from_collection [all_inputs] $clock_reset_ports]
+{wr_en wr_addr[3] wr_addr[2] wr_addr[1] wr_addr[0] wr_data[255] wr_data[254] wr_data[253] wr_data[252] wr_data[251] wr_data[250] wr_data[249] wr_data[248] wr_data[247] wr_data[246] wr_data[245] wr_data[244] wr_data[243] wr_data[242] wr_data[241] wr_data[240] wr_data[239] wr_data[238] wr_data[237] wr_data[236] wr_data[235] wr_data[234] wr_data[233] wr_data[232] wr_data[231] wr_data[230] wr_data[229] wr_data[228] wr_data[227] wr_data[226] wr_data[225] wr_data[224] wr_data[223] wr_data[222] wr_data[221] wr_data[220] wr_data[219] wr_data[218] wr_data[217] wr_data[216] wr_data[215] wr_data[214] wr_data[213] wr_data[212] wr_data[211] wr_data[210] wr_data[209] wr_data[208] wr_data[207] wr_data[206] wr_data[205] wr_data[204] wr_data[203] wr_data[202] wr_data[201] wr_data[200] wr_data[199] wr_data[198] wr_data[197] wr_data[196] wr_data[195] wr_data[194] wr_data[193] wr_data[192] wr_data[191] wr_data[190] wr_data[189] wr_data[188] wr_data[187] wr_data[186] wr_data[185] wr_data[184] wr_data[183] wr_data[182] wr_data[181] wr_data[180] wr_data[179] wr_data[178] wr_data[177] wr_data[176] wr_data[175] wr_data[174] wr_data[173] wr_data[172] wr_data[171] wr_data[170] wr_data[169] wr_data[168] wr_data[167] wr_data[166] wr_data[165] wr_data[164] wr_data[163] wr_data[162] wr_data[161] ...}
+set_input_delay [expr {$period * $io_delay_ratio}] -clock clk $data_ports
+1
+set_output_delay [expr {$period * $io_delay_ratio}] -clock clk [all_outputs]
+1
+set_driving_cell -lib_cell BUFx2_ASAP7_75t_R $data_ports
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+1
+set_load 0.005 [all_outputs]
+1
+set_false_path -from [get_ports rst_n]
+1
+if {$fix_hold} {
+    set_fix_hold [get_clocks clk]
+}
+1
+compile -map_effort low -area_effort low
+Warning: The compile -map_effort low is obsolete. Setting this variable now defaults to compile -map_effort medium. Please update your script accordingly. (OPT-1303)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.4 |     *     |
+| Licensed DW Building Blocks        |                         |           |
+============================================================================
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'dbuf_16x256'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+LNC WARNING: Found output_to_output lib arc on HAxp5_ASAP7_75t_R.
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:00:02    8018.0      0.00       0.0       0.0                                0.00  
+    0:00:02    8018.0      0.00       0.0       0.0                                0.00  
+    0:00:02    8018.0      0.00       0.0       0.0                                0.00  
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:00:02    8018.0      0.00       0.0       0.0                                0.00  
+    0:00:02    8018.0      0.00       0.0       0.0                                0.00  
+    0:00:02    8017.0      0.00       0.0       0.0                                0.00  
+    0:00:02    8016.1      0.00       0.0       0.0                                0.00  
+    0:00:02    8015.1      0.00       0.0       0.0                                0.00  
+    0:00:02    8014.1      0.00       0.0       0.0                                0.00  
+    0:00:02    8013.4      0.00       0.0       0.0                                0.00  
+    0:00:02    8013.4      0.00       0.0       0.0                                0.00  
+    0:00:02    8013.4      0.00       0.0       0.0                                0.00  
+    0:00:02    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:02    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:02    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:02    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:02    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:02    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:02    8009.9      0.00       0.0       0.0                                0.00  
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+1
+if {$fix_hold} {
+    compile -incremental -only_hold_time
+}
+
+Information: Converting time units for library 'srambank_64x4x16_6t122' since those in library 'asap7sc7p5t_AO_RVT_TT_nldm_211120' differ. (TIM-105)
+Information: Converting capacitance units for library 'srambank_64x4x16_6t122' since those in library 'asap7sc7p5t_AO_RVT_TT_nldm_211120' differ. (TIM-106)
+Warning: The trip points for the library named srambank_64x4x16_6t122 differ from those in the library named asap7sc7p5t_AO_RVT_TT_nldm_211120. (TIM-164)
+
+  Beginning Pass 1 Mapping  (Incremental)
+  ------------------------
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Incremental)
+  -------------------------------
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:00:05    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:05    8009.9      0.00       0.0       0.0                                0.00  
+    0:00:05    8009.9      0.00       0.0       0.0                                0.00  
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+1
+report_qor -nosplit > [file join $out_dir ${top_module}_qor.rpt]
+report_area -hierarchy -nosplit > [file join $out_dir ${top_module}_area.rpt]
+report_reference -hierarchy -nosplit > [file join $out_dir ${top_module}_references.rpt]
+report_timing -delay_type max -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing.rpt]
+report_timing -delay_type min -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing_hold.rpt]
+report_power -nosplit > [file join $out_dir ${top_module}_power.rpt]
+write -format verilog -hierarchy -output [file join $out_dir ${top_module}_mapped.v]
+Writing verilog file '/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02/dbuf_p1501/dbuf_16x256_mapped.v'.
+1
+write_sdc [file join $out_dir ${top_module}.sdc]
+1
+quit
+
+Thank you...

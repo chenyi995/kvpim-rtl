@@ -1,0 +1,1290 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : diff_decoder_channel_dc_top
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:26:10 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[15][24]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 39.90     992.13 f
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.19    1017.32 f
+  u_decoder/U6942/Y (NAND2x1p5_ASAP7_75t_R)              12.19    1029.51 r
+  u_decoder/U13772/SN (FAx1_ASAP7_75t_R)                 35.81    1065.32 r
+  u_decoder/U7164/Y (BUFx3_ASAP7_75t_R)                  29.48    1094.80 r
+  u_decoder/U19/Y (INVx2_ASAP7_75t_R)                    10.57    1105.38 f
+  u_decoder/U86/Y (AND2x6_ASAP7_75t_R)                   31.84    1137.21 f
+  u_decoder/U12082/Y (AOI222xp33_ASAP7_75t_R)            24.97    1162.18 r
+  u_decoder/U12081/Y (NAND3xp33_ASAP7_75t_R)             17.40    1179.59 f
+  u_decoder/U15024/Y (NAND2xp5_ASAP7_75t_R)              12.32    1191.91 r
+  u_decoder/U13696/Y (OAI21xp33_ASAP7_75t_R)             10.45    1202.36 f
+  u_decoder/corrected_score[15][24] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.36 f
+  corrected_score[15][24] (out)                           0.00    1202.36 f
+  data arrival time                                               1202.36
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.36
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.30
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[15][12]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 39.90     992.13 f
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.19    1017.32 f
+  u_decoder/U6942/Y (NAND2x1p5_ASAP7_75t_R)              12.19    1029.51 r
+  u_decoder/U13772/SN (FAx1_ASAP7_75t_R)                 35.81    1065.32 r
+  u_decoder/U7164/Y (BUFx3_ASAP7_75t_R)                  29.48    1094.80 r
+  u_decoder/U19/Y (INVx2_ASAP7_75t_R)                    10.57    1105.38 f
+  u_decoder/U6172/Y (AND2x6_ASAP7_75t_R)                 31.30    1136.68 f
+  u_decoder/U12019/Y (AOI222xp33_ASAP7_75t_R)            25.29    1161.97 r
+  u_decoder/U12018/Y (NAND3xp33_ASAP7_75t_R)             16.65    1178.62 f
+  u_decoder/U15000/Y (NAND2xp5_ASAP7_75t_R)              13.42    1192.03 r
+  u_decoder/U13686/Y (OAI21xp33_ASAP7_75t_R)             10.30    1202.34 f
+  u_decoder/corrected_score[15][12] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.34 f
+  corrected_score[15][12] (out)                           0.00    1202.34 f
+  data arrival time                                               1202.34
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.34
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.29
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[15][7]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 39.90     992.13 f
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.19    1017.32 f
+  u_decoder/U6942/Y (NAND2x1p5_ASAP7_75t_R)              12.19    1029.51 r
+  u_decoder/U13772/SN (FAx1_ASAP7_75t_R)                 35.81    1065.32 r
+  u_decoder/U7164/Y (BUFx3_ASAP7_75t_R)                  29.48    1094.80 r
+  u_decoder/U19/Y (INVx2_ASAP7_75t_R)                    10.57    1105.38 f
+  u_decoder/U6172/Y (AND2x6_ASAP7_75t_R)                 31.30    1136.68 f
+  u_decoder/U11996/Y (AOI222xp33_ASAP7_75t_R)            25.29    1161.97 r
+  u_decoder/U11995/Y (NAND3xp33_ASAP7_75t_R)             16.99    1178.95 f
+  u_decoder/U14990/Y (NAND2xp5_ASAP7_75t_R)              13.42    1192.38 r
+  u_decoder/U13681/Y (OAI21xp33_ASAP7_75t_R)              9.96    1202.33 f
+  u_decoder/corrected_score[15][7] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.33 f
+  corrected_score[15][7] (out)                            0.00    1202.33 f
+  data arrival time                                               1202.33
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.33
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.28
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][1]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 37.67     989.90 r
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.85    1015.75 r
+  u_decoder/U358/Y (BUFx3_ASAP7_75t_R)                   18.50    1034.25 r
+  u_decoder/U11958/Y (INVxp33_ASAP7_75t_R)               11.23    1045.49 f
+  u_decoder/U2998/Y (AND2x2_ASAP7_75t_R)                 29.32    1074.80 f
+  u_decoder/U216/Y (BUFx6f_ASAP7_75t_R)                  26.64    1101.44 f
+  u_decoder/U514/Y (AOI22xp33_ASAP7_75t_R)               16.75    1118.19 r
+  u_decoder/U1386/Y (AOI21xp33_ASAP7_75t_R)              16.43    1134.62 f
+  u_decoder/U1385/Y (AOI21xp33_ASAP7_75t_R)              18.00    1152.62 r
+  u_decoder/U11740/Y (NAND5xp2_ASAP7_75t_R)              25.50    1178.13 f
+  u_decoder/U14914/Y (NAND2xp5_ASAP7_75t_R)              15.05    1193.18 r
+  u_decoder/U6952/Y (OAI21xp33_ASAP7_75t_R)               9.15    1202.33 f
+  u_decoder/corrected_score[14][1] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.33 f
+  corrected_score[14][1] (out)                            0.00    1202.33 f
+  data arrival time                                               1202.33
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.33
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.28
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][3]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 37.67     989.90 r
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.85    1015.75 r
+  u_decoder/U358/Y (BUFx3_ASAP7_75t_R)                   18.50    1034.25 r
+  u_decoder/U11958/Y (INVxp33_ASAP7_75t_R)               11.23    1045.49 f
+  u_decoder/U2998/Y (AND2x2_ASAP7_75t_R)                 29.32    1074.80 f
+  u_decoder/U330/Y (BUFx6f_ASAP7_75t_R)                  28.69    1103.49 f
+  u_decoder/U520/Y (AOI22xp5_ASAP7_75t_R)                15.58    1119.08 r
+  u_decoder/U1391/Y (AOI21xp33_ASAP7_75t_R)              15.66    1134.73 f
+  u_decoder/U1390/Y (AOI21xp33_ASAP7_75t_R)              17.74    1152.47 r
+  u_decoder/U11751/Y (NAND5xp2_ASAP7_75t_R)              25.48    1177.96 f
+  u_decoder/U14918/Y (NAND2xp5_ASAP7_75t_R)              15.18    1193.14 r
+  u_decoder/U6954/Y (OAI21xp33_ASAP7_75t_R)               9.18    1202.32 f
+  u_decoder/corrected_score[14][3] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.32 f
+  corrected_score[14][3] (out)                            0.00    1202.32 f
+  data arrival time                                               1202.32
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.32
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.27
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][6]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U5765/Y (NOR2xp67_ASAP7_75t_R)               15.33    1137.14 f
+  u_decoder/U11767/Y (AOI221x1_ASAP7_75t_R)              14.12    1151.26 r
+  u_decoder/U11766/Y (NAND5xp2_ASAP7_75t_R)              24.40    1175.66 f
+  u_decoder/U14924/Y (NAND2xp5_ASAP7_75t_R)              15.24    1190.90 r
+  u_decoder/U6878/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.31 f
+  u_decoder/corrected_score[14][6] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.31 f
+  corrected_score[14][6] (out)                            0.00    1202.31 f
+  data arrival time                                               1202.31
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.31
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.26
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[15][5]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 39.90     992.13 f
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.19    1017.32 f
+  u_decoder/U6942/Y (NAND2x1p5_ASAP7_75t_R)              12.19    1029.51 r
+  u_decoder/U13772/SN (FAx1_ASAP7_75t_R)                 38.95    1068.46 f
+  u_decoder/U7164/Y (BUFx3_ASAP7_75t_R)                  28.56    1097.01 f
+  u_decoder/U19/Y (INVx2_ASAP7_75t_R)                    11.16    1108.17 r
+  u_decoder/U86/Y (AND2x6_ASAP7_75t_R)                   33.49    1141.67 r
+  u_decoder/U11986/Y (AOI222xp33_ASAP7_75t_R)            22.03    1163.70 f
+  u_decoder/U11985/Y (NAND3xp33_ASAP7_75t_R)             17.63    1181.32 r
+  u_decoder/U14986/Y (NAND2xp5_ASAP7_75t_R)              10.60    1191.93 f
+  u_decoder/U13680/Y (OAI21xp33_ASAP7_75t_R)             10.38    1202.31 r
+  u_decoder/corrected_score[15][5] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.31 r
+  corrected_score[15][5] (out)                            0.00    1202.31 r
+  data arrival time                                               1202.31
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.31
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.26
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][16]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U5766/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11827/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11826/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14944/Y (NAND2xp5_ASAP7_75t_R)              15.09    1190.86 r
+  u_decoder/U7034/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.27 f
+  u_decoder/corrected_score[14][16] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.27 f
+  corrected_score[14][16] (out)                           0.00    1202.27 f
+  data arrival time                                               1202.27
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.27
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.22
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][7]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U5767/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11772/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11771/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14926/Y (NAND2xp5_ASAP7_75t_R)              15.09    1190.86 r
+  u_decoder/U6956/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.27 f
+  u_decoder/corrected_score[14][7] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.27 f
+  corrected_score[14][7] (out)                            0.00    1202.27 f
+  data arrival time                                               1202.27
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.27
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.22
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][15]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U5770/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11818/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11817/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14942/Y (NAND2xp5_ASAP7_75t_R)              15.09    1190.86 r
+  u_decoder/U6966/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.27 f
+  u_decoder/corrected_score[14][15] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.27 f
+  corrected_score[14][15] (out)                           0.00    1202.27 f
+  data arrival time                                               1202.27
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.27
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.22
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][14]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U2539/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11811/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11810/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14940/Y (NAND2xp5_ASAP7_75t_R)              15.09    1190.86 r
+  u_decoder/U6963/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.27 f
+  u_decoder/corrected_score[14][14] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.27 f
+  corrected_score[14][14] (out)                           0.00    1202.27 f
+  data arrival time                                               1202.27
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.27
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.22
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][5]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U5772/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11762/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11761/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14922/Y (NAND2xp5_ASAP7_75t_R)              15.09    1190.86 r
+  u_decoder/U6955/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.27 f
+  u_decoder/corrected_score[14][5] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.27 f
+  corrected_score[14][5] (out)                            0.00    1202.27 f
+  data arrival time                                               1202.27
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.27
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.22
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][8]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U2535/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11777/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11776/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14928/Y (NAND2xp5_ASAP7_75t_R)              15.08    1190.85 r
+  u_decoder/U6957/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.26 f
+  u_decoder/corrected_score[14][8] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.26 f
+  corrected_score[14][8] (out)                            0.00    1202.26 f
+  data arrival time                                               1202.26
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.26
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.21
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[15][1]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 39.90     992.13 f
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.19    1017.32 f
+  u_decoder/U6942/Y (NAND2x1p5_ASAP7_75t_R)              12.19    1029.51 r
+  u_decoder/U13772/SN (FAx1_ASAP7_75t_R)                 35.81    1065.32 r
+  u_decoder/U7164/Y (BUFx3_ASAP7_75t_R)                  29.48    1094.80 r
+  u_decoder/U19/Y (INVx2_ASAP7_75t_R)                    10.57    1105.38 f
+  u_decoder/U6172/Y (AND2x6_ASAP7_75t_R)                 31.30    1136.68 f
+  u_decoder/U11968/Y (AOI222xp33_ASAP7_75t_R)            25.29    1161.97 r
+  u_decoder/U11967/Y (NAND3xp33_ASAP7_75t_R)             16.65    1178.62 f
+  u_decoder/U14978/Y (NAND2xp5_ASAP7_75t_R)              13.41    1192.03 r
+  u_decoder/U13676/Y (OAI21xp33_ASAP7_75t_R)             10.23    1202.26 f
+  u_decoder/corrected_score[15][1] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.26 f
+  corrected_score[15][1] (out)                            0.00    1202.26 f
+  data arrival time                                               1202.26
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.26
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.21
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][12]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U2540/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11797/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11796/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14936/Y (NAND2xp5_ASAP7_75t_R)              15.07    1190.84 r
+  u_decoder/U6961/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.25 f
+  u_decoder/corrected_score[14][12] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.25 f
+  corrected_score[14][12] (out)                           0.00    1202.25 f
+  data arrival time                                               1202.25
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.25
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.20
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][10]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U2537/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11787/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11786/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14932/Y (NAND2xp5_ASAP7_75t_R)              15.07    1190.84 r
+  u_decoder/U6959/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.25 f
+  u_decoder/corrected_score[14][10] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.25 f
+  corrected_score[14][10] (out)                           0.00    1202.25 f
+  data arrival time                                               1202.25
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.25
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.20
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][9]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U2536/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11782/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11781/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14930/Y (NAND2xp5_ASAP7_75t_R)              15.07    1190.84 r
+  u_decoder/U6958/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.25 f
+  u_decoder/corrected_score[14][9] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.25 f
+  corrected_score[14][9] (out)                            0.00    1202.25 f
+  data arrival time                                               1202.25
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.25
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.20
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[15][2]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 39.90     992.13 f
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.19    1017.32 f
+  u_decoder/U6942/Y (NAND2x1p5_ASAP7_75t_R)              12.19    1029.51 r
+  u_decoder/U13772/SN (FAx1_ASAP7_75t_R)                 35.81    1065.32 r
+  u_decoder/U7164/Y (BUFx3_ASAP7_75t_R)                  29.48    1094.80 r
+  u_decoder/U19/Y (INVx2_ASAP7_75t_R)                    10.57    1105.38 f
+  u_decoder/U6172/Y (AND2x6_ASAP7_75t_R)                 31.30    1136.68 f
+  u_decoder/U11973/Y (AOI222xp33_ASAP7_75t_R)            25.29    1161.97 r
+  u_decoder/U11972/Y (NAND3xp33_ASAP7_75t_R)             16.65    1178.62 f
+  u_decoder/U14980/Y (NAND2xp5_ASAP7_75t_R)              13.40    1192.02 r
+  u_decoder/U13677/Y (OAI21xp33_ASAP7_75t_R)             10.23    1202.25 f
+  u_decoder/corrected_score[15][2] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.25 f
+  corrected_score[15][2] (out)                            0.00    1202.25 f
+  data arrival time                                               1202.25
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.25
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.20
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[15][0]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              29.90     778.82 r
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.14     792.96 f
+  u_decoder/U6827/Y (NAND2x1_ASAP7_75t_R)                15.27     808.23 r
+  u_decoder/U2991/Y (AND2x2_ASAP7_75t_R)                 22.21     830.44 r
+  u_decoder/U13749/Y (AOI221x1_ASAP7_75t_R)              17.63     848.07 f
+  u_decoder/U13750/Y (XOR2xp5_ASAP7_75t_R)               25.89     873.97 f
+  u_decoder/U6182/Y (INVxp67_ASAP7_75t_R)                15.72     889.69 r
+  u_decoder/U7101/Y (OAI21x1_ASAP7_75t_R)                13.37     903.06 f
+  u_decoder/U6455/Y (XNOR2x1_ASAP7_75t_R)                30.29     933.35 f
+  u_decoder/U386/Y (NAND2x2_ASAP7_75t_R)                 18.88     952.23 r
+  u_decoder/U13767/SN (FAx1_ASAP7_75t_R)                 39.90     992.13 f
+  u_decoder/U7163/Y (BUFx3_ASAP7_75t_R)                  25.19    1017.32 f
+  u_decoder/U6942/Y (NAND2x1p5_ASAP7_75t_R)              12.19    1029.51 r
+  u_decoder/U13772/SN (FAx1_ASAP7_75t_R)                 38.95    1068.46 f
+  u_decoder/U7164/Y (BUFx3_ASAP7_75t_R)                  28.56    1097.01 f
+  u_decoder/U19/Y (INVx2_ASAP7_75t_R)                    11.16    1108.17 r
+  u_decoder/U86/Y (AND2x6_ASAP7_75t_R)                   33.49    1141.67 r
+  u_decoder/U11963/Y (AOI222xp33_ASAP7_75t_R)            22.03    1163.70 f
+  u_decoder/U11962/Y (NAND3xp33_ASAP7_75t_R)             17.63    1181.32 r
+  u_decoder/U14976/Y (NAND2xp5_ASAP7_75t_R)              10.60    1191.93 f
+  u_decoder/U13675/Y (OAI21xp33_ASAP7_75t_R)             10.32    1202.24 r
+  u_decoder/corrected_score[15][0] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.24 r
+  corrected_score[15][0] (out)                            0.00    1202.24 r
+  data arrival time                                               1202.24
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.24
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.19
+
+
+  Startpoint: fwd_word_idx[1]
+              (input port clocked by clk)
+  Endpoint: corrected_score[14][11]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                  450.45     450.45 r
+  fwd_word_idx[1] (in)                                    8.71     459.16 r
+  u_decoder/fwd_word_idx[1] (diff_decoder_LANES16_W32_NWORDS128)     0.00   459.16 r
+  u_decoder/U7011/Y (AND2x2_ASAP7_75t_R)                 28.54     487.70 r
+  u_decoder/U6741/Y (INVx2_ASAP7_75t_R)                  11.96     499.67 f
+  u_decoder/U6700/Y (NAND2x1p5_ASAP7_75t_R)              12.47     512.14 r
+  u_decoder/U7010/Y (BUFx6f_ASAP7_75t_R)                 21.60     533.74 r
+  u_decoder/U5793/Y (INVx3_ASAP7_75t_R)                  10.19     543.93 f
+  u_decoder/U7294/Y (A2O1A1Ixp33_ASAP7_75t_R)            14.54     558.47 r
+  u_decoder/U7291/Y (OAI222xp33_ASAP7_75t_R)             21.50     579.97 f
+  u_decoder/U7286/Y (NOR5xp2_ASAP7_75t_R)                28.66     608.63 r
+  u_decoder/U7274/Y (NAND5xp2_ASAP7_75t_R)               35.17     643.80 f
+  u_decoder/U5864/Y (OR2x2_ASAP7_75t_R)                  36.61     680.41 f
+  u_decoder/U13714/Y (XNOR2x1_ASAP7_75t_R)               23.89     704.30 f
+  u_decoder/U13733/SN (FAx1_ASAP7_75t_R)                 44.62     748.92 f
+  u_decoder/U13734/Y (XNOR2xp5_ASAP7_75t_R)              33.29     782.21 f
+  u_decoder/U368/Y (INVx2_ASAP7_75t_R)                   14.37     796.58 r
+  u_decoder/U13735/Y (NAND3xp33_ASAP7_75t_R)             15.22     811.80 f
+  u_decoder/U13662/Y (BUFx3_ASAP7_75t_R)                 24.23     836.03 f
+  u_decoder/U5910/Y (AND2x4_ASAP7_75t_R)                 21.13     857.16 f
+  u_decoder/U6911/Y (NAND2x1p5_ASAP7_75t_R)               9.93     867.09 r
+  u_decoder/U92/Y (NAND2x1_ASAP7_75t_R)                  11.77     878.86 f
+  u_decoder/U13747/SN (FAx1_ASAP7_75t_R)                 32.88     911.74 r
+  u_decoder/U6173/Y (INVxp67_ASAP7_75t_R)                17.19     928.93 f
+  u_decoder/U190/Y (BUFx6f_ASAP7_75t_R)                  23.11     952.05 f
+  u_decoder/U356/Y (XOR2x1_ASAP7_75t_R)                  26.08     978.13 f
+  u_decoder/U2567/Y (XNOR2x1_ASAP7_75t_R)                29.62    1007.75 f
+  u_decoder/U13665/Y (NAND3x1_ASAP7_75t_R)               31.20    1038.95 r
+  u_decoder/U13671/Y (NAND3x1_ASAP7_75t_R)               19.20    1058.15 f
+  u_decoder/U6184/Y (AND2x4_ASAP7_75t_R)                 26.85    1085.00 f
+  u_decoder/U6183/Y (NAND2x1p5_ASAP7_75t_R)              11.19    1096.19 r
+  u_decoder/U198/Y (BUFx6f_ASAP7_75t_R)                  25.62    1121.81 r
+  u_decoder/U2538/Y (NOR2xp67_ASAP7_75t_R)               17.63    1139.44 f
+  u_decoder/U11792/Y (AOI221x1_ASAP7_75t_R)              14.98    1154.42 r
+  u_decoder/U11791/Y (NAND5xp2_ASAP7_75t_R)              21.35    1175.77 f
+  u_decoder/U14934/Y (NAND2xp5_ASAP7_75t_R)              15.06    1190.83 r
+  u_decoder/U6960/Y (OAI21xp33_ASAP7_75t_R)              11.41    1202.24 f
+  u_decoder/corrected_score[14][11] (diff_decoder_LANES16_W32_NWORDS128)     0.00  1202.24 f
+  corrected_score[14][11] (out)                           0.00    1202.24 f
+  data arrival time                                               1202.24
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                              -1202.24
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -201.19
+
+
+1

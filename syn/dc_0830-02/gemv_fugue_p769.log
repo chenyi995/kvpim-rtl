@@ -1,0 +1,2997 @@
+/bin/sh: warning: setlocale: LC_ALL: cannot change locale (C.UTF-8)
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version P-2019.03-SP5-6 for linux64 - Aug 20, 2020 
+
+                    Copyright (c) 1988 - 2020 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+# Per-component ASAP7 synthesis for the rtl/0830-02 snapshot.
+# Same constraint recipe as run_dc_asap7.tcl (bundled ASAP7 RVT/TT NLDM
+# standard-cell .db views; identical constraints across profiles) but with a
+# profile table for the 0830-02 component set only.  No top-level synthesis:
+# each hardware level's overhead is rolled up from these component areas
+# (docs/0830-02/Hardware_Overhead_Breakdown.md).
+#
+# Example (from syn/):
+#   . /home/common/profile_synopsys
+#   SYN_PROFILE=gemv SYN_TOP=gemv_unit SYN_TAG=gemv_attacc #     SYN_PERIOD_NS=1.5015015 dc_shell -f run_dc_asap7_0830-02.tcl
+set script_dir [file dirname [file normalize [info script]]]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn
+set root_dir   [file normalize [file join $script_dir ..]]
+/thu-bloor/xinyao-w23/kvpim-rtl
+set lib_dir    [file join $root_dir third_party asap7_lib db]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db
+set sram_dir   [file join $root_dir third_party asap7 asap7_sram_0p0 generated]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated
+proc envdef {name default} {
+    return [expr {[info exists ::env($name)] ? $::env($name) : $default}]
+}
+set rtl_dir [envdef SYN_RTL_DIR [file join $root_dir rtl 0830-02]]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02
+if {[file pathtype $rtl_dir] ne "absolute"} {
+    set from_script_dir [file normalize [file join $script_dir $rtl_dir]]
+    if {[file isdirectory $from_script_dir]} {
+        set rtl_dir $from_script_dir
+    } else {
+        set rtl_dir [file normalize [file join $root_dir $rtl_dir]]
+    }
+}
+set top_module [envdef SYN_TOP gemv_unit]
+gemv_unit
+set profile    [envdef SYN_PROFILE gemv]
+gemv
+set tag        [envdef SYN_TAG $top_module]
+gemv_fugue_p769
+set period_ns  [envdef SYN_PERIOD_NS 1.5015015]
+0.769
+set max_cores  [envdef SYN_MAX_CORES 4]
+4
+set io_delay_ratio [envdef SYN_IO_DELAY_RATIO 0.30]
+0.3
+set fix_hold   [envdef SYN_FIX_HOLD 1]
+1
+set period     [expr {$period_ns * 1000.0}]
+769.0
+set out_root   [envdef SYN_OUT_ROOT dc_0830-02]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02
+if {[file pathtype $out_root] ne "absolute"} {
+    set out_root [file join $script_dir $out_root]
+}
+set out_dir    [file join $out_root $tag]
+/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02/gemv_fugue_p769
+file mkdir $out_dir
+set target_library [glob -nocomplain [file join $lib_dir *.db]]
+/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+if {[llength $target_library] == 0} {
+    error "No ASAP7 .db views in $lib_dir"
+}
+set link_library "* $target_library"
+* /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+set search_path [list $rtl_dir $lib_dir $sram_dir [file join $sram_dir verilog]]
+/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02 /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/verilog
+set_host_options -max_cores $max_cores
+1
+# Link the compiled ASAP7 SRAM macro .db views (compile_asap7_sram_libs.tcl).
+proc enable_asap7_sram {sram_dir} {
+    global target_library link_library
+    foreach name {srambank_64x4x16_6t122 srambank_64x4x32_6t122 srambank_64x4x80_6t122                   srambank_256x4x32_6t122 srambank_256x4x80_6t122 srambank_256x4x64_6t122} {
+        set db [file join $sram_dir db ${name}.db]
+        if {[file exists $db]} {
+            lappend target_library $db
+        }
+    }
+    if {![file exists [file join $sram_dir db srambank_64x4x16_6t122.db]]} {
+        error "Missing SRAM DB views in $sram_dir/db. Run compile_asap7_sram_libs.tcl first."
+    }
+    set link_library "* $target_library"
+}
+# ---------------------------------------------------------------------------
+# Profiles: RTL needed for each component (per docs/Hardware Overhead.md and
+# the Fugue paper Sec. 4.3).  Frequencies are set by the driver script.
+# ---------------------------------------------------------------------------
+switch -- $profile {
+    gemv {
+        # Bank level: one GEMV unit (16 FP16 mult + 16 dual-mode FP16 add +
+        # double-buffered 16x256b vector buffer + control unit).  The buffer
+        # is the ASAP7 SRAM-macro implementation (2 groups x 16 x 256x16b).
+        enable_asap7_sram $sram_dir
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv gemv_unit.sv]
+    }
+    dbuf {
+        # The double-buffered GEMV buffer alone (breakdown term), macro-backed.
+        enable_asap7_sram $sram_dir
+        set sources [list dbuf_16x256_asap7.sv]
+    }
+    gemv_flop {
+        # Reference point: the same GEMV unit with the flop-based buffer.
+        set sources [list fp16_mult.sv fp16_add.sv dbuf_16x256.sv gemv_unit.sv]
+    }
+    accum_bg {
+        # BG level: 4->1 FP16 accumulator with bypass/sum modes.
+        set sources [list fp16_add.sv accumulator_bg.sv]
+    }
+    accum_buf_bg {
+        # BG level: the accumulator buffer on one 256x16 ASAP7 macro.
+        # Tops: accum_buffer_bg_attacc (8 x FP16, one query in flight) /
+        #       accum_buffer_bg_fugue (64 x FP16 = n_cap(8) resident queries
+        #       x 8-slot staging each; multi-Q over one shared K column).
+        enable_asap7_sram $sram_dir
+        set sources [list accum_buffer_bg.sv]
+    }
+    accum_logic {
+        # Logic die: one per-channel context accumulator (16 lanes x 4 words).
+        set sources [list fp16_add.sv accumulator_logic.sv]
+    }
+    diff_channel {
+        # Logic die (Fugue): one per-channel D_i map / diff decoder.
+        set sources [list fugue_pkg.sv diff_decoder.sv diff_decoder_channel_dc_top.sv]
+    }
+    causal_cmp {
+        # Logic die (Fugue): one per-channel causal comparator.
+        set sources [list causal_comparator.sv]
+    }
+    rope {
+        # Ablation only ("Fugue with on-die RoPE"); the paper's die does NOT
+        # carry rotation logic (RoPE runs on the GPU, Sec. 4.2).
+        set sources [list bf16_mult.sv bf16_add.sv sincos_bf16.sv rotate_q_bf16.sv]
+    }
+    kvtlb {
+        # Controller breakdown term: the KV segment TLB alone.
+        set sources [list kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv]
+    }
+    ctrl_attacc {
+        # HBM controller, AttAcc: instr queue/decoder + config memory +
+        # addr-gen/DRAM FSM + DMA engine + direct address path.
+        set sources [list fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv             direct_addr_plan.sv dma_engine.sv attacc_hbm_ctrl_top.sv]
+    }
+    ctrl_fugue {
+        # HBM controller, Fugue: same core + DMA + the KV segment TLB
+        # (diff-block address management).
+        set sources [list fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv             kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv             dma_engine.sv fugue_hbm_ctrl_top.sv]
+    }
+    softmax_pe {
+        # Reference only: softmax_pe already met 699 ps in dc_0830-01
+        # (setup/hold clean), which covers the 1.3 GHz (769 ps) requirement;
+        # re-synthesis is NOT needed.
+        set sources [list fp32_add.sv fp32_exp.sv fp32_mul.sv softmax_pe.sv]
+    }
+    fp32_recip {
+        # The one softmax leaf missing from dc_0830-01 (one per channel
+        # engine); synthesized once at the softmax clock for the roll-up.
+        set sources [list fp32_recip.sv]
+    }
+    default { error "Unknown SYN_PROFILE=$profile" }
+}
+fp16_mult.sv fp16_add.sv dbuf_16x256_asap7.sv gemv_unit.sv
+set src_paths {}
+foreach source $sources { lappend src_paths [file join $rtl_dir $source] }
+define_design_lib WORK -path [file join $out_dir WORK]
+1
+analyze -format sverilog $src_paths
+Running PRESTO HDLC
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/fp16_mult.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/fp16_add.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/dbuf_16x256_asap7.sv
+Compiling source file /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/gemv_unit.sv
+Presto compilation completed successfully.
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db'
+1
+elaborate $top_module
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/gtech.db'
+Loading db file '/usr/local/bin/Synopsys/syn/P-2019.03-SP5-6/libraries/syn/standard.sldb'
+  Loading link library 'asap7sc7p5t_AO_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_INVBUF_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_OA_RVT_TT_nldm_211120'
+  Loading link library 'asap7sc7p5t_SEQ_RVT_TT_nldm_220123'
+  Loading link library 'asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120'
+  Loading link library 'srambank_64x4x16_6t122'
+  Loading link library 'srambank_64x4x32_6t122'
+  Loading link library 'srambank_64x4x80_6t122'
+  Loading link library 'srambank_256x4x32_6t122'
+  Loading link library 'srambank_256x4x80_6t122'
+  Loading link library 'srambank_256x4x64_6t122'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Inferred memory devices in process
+	in routine gemv_unit line 76 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/gemv_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     running_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     mode_q_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|      clr_q_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    nbeats_q_reg     | Flip-flop |   9   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      beat_reg       | Flip-flop |   9   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine gemv_unit line 121 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/gemv_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  bcast_lane_q_reg   | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      mat_q_reg      | Flip-flop |  256  |  Y  | N  | Y  | N  | N  | N  | N  |
+|     mul_iv_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine gemv_unit line 167 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/gemv_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    last_pipe_reg    | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   first_pipe_reg    | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine gemv_unit line 238 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/gemv_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    acc_hold_reg     | Flip-flop |  256  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine gemv_unit line 250 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/gemv_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   ctx_valid_q_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    sc_last_d_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   ctx_last_d_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|  score_valid_q_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+======================================================
+| block name/line  | Inputs | Outputs | # sel inputs |
+======================================================
+|  gemv_unit/139   |   16   |   16    |      4       |
+======================================================
+Presto compilation completed successfully. (gemv_unit)
+Elaborated 1 design.
+Current design is now 'gemv_unit'.
+Information: Building the design 'dbuf_16x256'. (HDL-193)
+
+Inferred memory devices in process
+	in routine dbuf_16x256 line 30 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/dbuf_16x256_asap7.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       sel_reg       | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (dbuf_16x256)
+Information: Building the design 'fp16_mult'. (HDL-193)
+Warning:  /thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/fp16_mult.sv:88: signed to unsigned part selection occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine fp16_mult line 92 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/fp16_mult.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    out_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|        y_reg        | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (fp16_mult)
+Information: Building the design 'fp16_add'. (HDL-193)
+
+Statistics for case statements in always block at line 83 in file
+	'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/fp16_add.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            92            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine fp16_add line 164 in file
+		'/thu-bloor/xinyao-w23/kvpim-rtl/rtl/0830-02/fp16_add.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    out_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|        y_reg        | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (fp16_add)
+1
+current_design $top_module
+Current design is 'gemv_unit'.
+{gemv_unit}
+link
+
+  Linking design 'gemv_unit'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (4 designs)               /thu-bloor/xinyao-w23/kvpim-rtl/syn/gemv_unit.db, etc
+  asap7sc7p5t_AO_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db
+  asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db
+  asap7sc7p5t_OA_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db
+  asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db
+  asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db
+  srambank_64x4x16_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db
+  srambank_64x4x32_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db
+  srambank_64x4x80_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db
+  srambank_256x4x32_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db
+  srambank_256x4x80_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db
+  srambank_256x4x64_6t122 (library) /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db
+
+1
+create_clock -name clk -period $period [get_ports clk]
+1
+set_clock_uncertainty 50.0 [get_clocks clk]
+1
+set_clock_transition 20.0 [get_clocks clk]
+1
+set clock_reset_ports [get_ports {clk rst_n}]
+{clk rst_n}
+set data_ports [remove_from_collection [all_inputs] $clock_reset_ports]
+{vec_wr_en vec_wr_addr[3] vec_wr_addr[2] vec_wr_addr[1] vec_wr_addr[0] vec_wr_data[255] vec_wr_data[254] vec_wr_data[253] vec_wr_data[252] vec_wr_data[251] vec_wr_data[250] vec_wr_data[249] vec_wr_data[248] vec_wr_data[247] vec_wr_data[246] vec_wr_data[245] vec_wr_data[244] vec_wr_data[243] vec_wr_data[242] vec_wr_data[241] vec_wr_data[240] vec_wr_data[239] vec_wr_data[238] vec_wr_data[237] vec_wr_data[236] vec_wr_data[235] vec_wr_data[234] vec_wr_data[233] vec_wr_data[232] vec_wr_data[231] vec_wr_data[230] vec_wr_data[229] vec_wr_data[228] vec_wr_data[227] vec_wr_data[226] vec_wr_data[225] vec_wr_data[224] vec_wr_data[223] vec_wr_data[222] vec_wr_data[221] vec_wr_data[220] vec_wr_data[219] vec_wr_data[218] vec_wr_data[217] vec_wr_data[216] vec_wr_data[215] vec_wr_data[214] vec_wr_data[213] vec_wr_data[212] vec_wr_data[211] vec_wr_data[210] vec_wr_data[209] vec_wr_data[208] vec_wr_data[207] vec_wr_data[206] vec_wr_data[205] vec_wr_data[204] vec_wr_data[203] vec_wr_data[202] vec_wr_data[201] vec_wr_data[200] vec_wr_data[199] vec_wr_data[198] vec_wr_data[197] vec_wr_data[196] vec_wr_data[195] vec_wr_data[194] vec_wr_data[193] vec_wr_data[192] vec_wr_data[191] vec_wr_data[190] vec_wr_data[189] vec_wr_data[188] vec_wr_data[187] vec_wr_data[186] vec_wr_data[185] vec_wr_data[184] vec_wr_data[183] vec_wr_data[182] vec_wr_data[181] vec_wr_data[180] vec_wr_data[179] vec_wr_data[178] vec_wr_data[177] vec_wr_data[176] vec_wr_data[175] vec_wr_data[174] vec_wr_data[173] vec_wr_data[172] vec_wr_data[171] vec_wr_data[170] vec_wr_data[169] vec_wr_data[168] vec_wr_data[167] vec_wr_data[166] vec_wr_data[165] vec_wr_data[164] vec_wr_data[163] vec_wr_data[162] vec_wr_data[161] ...}
+set_input_delay [expr {$period * $io_delay_ratio}] -clock clk $data_ports
+1
+set_output_delay [expr {$period * $io_delay_ratio}] -clock clk [all_outputs]
+1
+set_driving_cell -lib_cell BUFx2_ASAP7_75t_R $data_ports
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+1
+set_load 0.005 [all_outputs]
+1
+set_false_path -from [get_ports rst_n]
+1
+if {$fix_hold} {
+    set_fix_hold [get_clocks clk]
+}
+1
+compile -map_effort low -area_effort low
+Warning: The compile -map_effort low is obsolete. Setting this variable now defaults to compile -map_effort medium. Please update your script accordingly. (OPT-1303)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.4 |     *     |
+| Licensed DW Building Blocks        |                         |           |
+============================================================================
+
+
+Information: There are 40 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'fp16_add_0'
+  Processing 'fp16_mult_0'
+  Processing 'dbuf_16x256'
+  Processing 'gemv_unit'
+Warning: Target library does not contain any 2-1 multiplexor. (OPT-853)
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Processing 'gemv_unit_DW01_inc_0'
+  Processing 'gemv_unit_DW01_cmp6_0'
+  Processing 'gemv_unit_DW01_dec_0'
+  Processing 'gemv_unit_DW01_cmp6_1'
+  Processing 'fp16_add_1_DW01_inc_0_DW01_inc_1'
+  Processing 'fp16_add_1_DW01_add_0'
+  Processing 'fp16_add_1_DW01_sub_0'
+  Processing 'fp16_add_1_DW01_cmp2_0'
+  Processing 'fp16_add_1_DW01_ash_0'
+  Processing 'fp16_add_1_DW01_inc_1_DW01_inc_2'
+  Processing 'fp16_add_1_DW01_sub_1'
+  Processing 'fp16_add_1_DW01_add_1'
+  Processing 'fp16_add_1_DW01_ash_1'
+  Processing 'fp16_add_1_DW01_sub_2'
+  Processing 'fp16_add_1_DW_rash_0'
+  Processing 'fp16_add_1_DW01_cmp2_1'
+  Processing 'fp16_add_1_DW01_sub_3'
+  Processing 'fp16_add_1_DW01_cmp2_2'
+  Processing 'fp16_add_2_DW01_inc_0_DW01_inc_3'
+  Processing 'fp16_add_2_DW01_add_0_DW01_add_2'
+  Processing 'fp16_add_2_DW01_sub_0_DW01_sub_4'
+  Processing 'fp16_add_2_DW01_cmp2_0_DW01_cmp2_3'
+  Processing 'fp16_add_2_DW01_ash_0_DW01_ash_2'
+  Processing 'fp16_add_2_DW01_inc_1_DW01_inc_4'
+  Processing 'fp16_add_2_DW01_sub_1_DW01_sub_5'
+  Processing 'fp16_add_2_DW01_add_1_DW01_add_3'
+  Processing 'fp16_add_2_DW01_ash_1_DW01_ash_3'
+  Processing 'fp16_add_2_DW01_sub_2_DW01_sub_6'
+  Processing 'fp16_add_2_DW_rash_0_DW_rash_1'
+  Processing 'fp16_add_2_DW01_cmp2_1_DW01_cmp2_4'
+  Processing 'fp16_add_2_DW01_sub_3_DW01_sub_7'
+  Processing 'fp16_add_2_DW01_cmp2_2_DW01_cmp2_5'
+  Processing 'fp16_add_3_DW01_inc_0_DW01_inc_5'
+  Processing 'fp16_add_3_DW01_add_0_DW01_add_4'
+  Processing 'fp16_add_3_DW01_sub_0_DW01_sub_8'
+  Processing 'fp16_add_3_DW01_cmp2_0_DW01_cmp2_6'
+  Processing 'fp16_add_3_DW01_ash_0_DW01_ash_4'
+  Processing 'fp16_add_3_DW01_inc_1_DW01_inc_6'
+  Processing 'fp16_add_3_DW01_sub_1_DW01_sub_9'
+  Processing 'fp16_add_3_DW01_add_1_DW01_add_5'
+  Processing 'fp16_add_3_DW01_ash_1_DW01_ash_5'
+  Processing 'fp16_add_3_DW01_sub_2_DW01_sub_10'
+  Processing 'fp16_add_3_DW_rash_0_DW_rash_2'
+  Processing 'fp16_add_3_DW01_cmp2_1_DW01_cmp2_7'
+  Processing 'fp16_add_3_DW01_sub_3_DW01_sub_11'
+  Processing 'fp16_add_3_DW01_cmp2_2_DW01_cmp2_8'
+  Processing 'fp16_add_4_DW01_inc_0_DW01_inc_7'
+  Processing 'fp16_add_4_DW01_add_0_DW01_add_6'
+  Processing 'fp16_add_4_DW01_sub_0_DW01_sub_12'
+  Processing 'fp16_add_4_DW01_cmp2_0_DW01_cmp2_9'
+  Processing 'fp16_add_4_DW01_ash_0_DW01_ash_6'
+  Processing 'fp16_add_4_DW01_inc_1_DW01_inc_8'
+  Processing 'fp16_add_4_DW01_sub_1_DW01_sub_13'
+  Processing 'fp16_add_4_DW01_add_1_DW01_add_7'
+  Processing 'fp16_add_4_DW01_ash_1_DW01_ash_7'
+  Processing 'fp16_add_4_DW01_sub_2_DW01_sub_14'
+  Processing 'fp16_add_4_DW_rash_0_DW_rash_3'
+  Processing 'fp16_add_4_DW01_cmp2_1_DW01_cmp2_10'
+  Processing 'fp16_add_4_DW01_sub_3_DW01_sub_15'
+  Processing 'fp16_add_4_DW01_cmp2_2_DW01_cmp2_11'
+  Processing 'fp16_add_5_DW01_inc_0_DW01_inc_9'
+  Processing 'fp16_add_5_DW01_add_0_DW01_add_8'
+  Processing 'fp16_add_5_DW01_sub_0_DW01_sub_16'
+  Processing 'fp16_add_5_DW01_cmp2_0_DW01_cmp2_12'
+  Processing 'fp16_add_5_DW01_ash_0_DW01_ash_8'
+  Processing 'fp16_add_5_DW01_inc_1_DW01_inc_10'
+  Processing 'fp16_add_5_DW01_sub_1_DW01_sub_17'
+  Processing 'fp16_add_5_DW01_add_1_DW01_add_9'
+  Processing 'fp16_add_5_DW01_ash_1_DW01_ash_9'
+  Processing 'fp16_add_5_DW01_sub_2_DW01_sub_18'
+  Processing 'fp16_add_5_DW_rash_0_DW_rash_4'
+  Processing 'fp16_add_5_DW01_cmp2_1_DW01_cmp2_13'
+  Processing 'fp16_add_5_DW01_sub_3_DW01_sub_19'
+  Processing 'fp16_add_5_DW01_cmp2_2_DW01_cmp2_14'
+  Processing 'fp16_add_6_DW01_inc_0_DW01_inc_11'
+  Processing 'fp16_add_6_DW01_add_0_DW01_add_10'
+  Processing 'fp16_add_6_DW01_sub_0_DW01_sub_20'
+  Processing 'fp16_add_6_DW01_cmp2_0_DW01_cmp2_15'
+  Processing 'fp16_add_6_DW01_ash_0_DW01_ash_10'
+  Processing 'fp16_add_6_DW01_inc_1_DW01_inc_12'
+  Processing 'fp16_add_6_DW01_sub_1_DW01_sub_21'
+  Processing 'fp16_add_6_DW01_add_1_DW01_add_11'
+  Processing 'fp16_add_6_DW01_ash_1_DW01_ash_11'
+  Processing 'fp16_add_6_DW01_sub_2_DW01_sub_22'
+  Processing 'fp16_add_6_DW_rash_0_DW_rash_5'
+  Processing 'fp16_add_6_DW01_cmp2_1_DW01_cmp2_16'
+  Processing 'fp16_add_6_DW01_sub_3_DW01_sub_23'
+  Processing 'fp16_add_6_DW01_cmp2_2_DW01_cmp2_17'
+  Processing 'fp16_add_7_DW01_inc_0_DW01_inc_13'
+  Processing 'fp16_add_7_DW01_add_0_DW01_add_12'
+  Processing 'fp16_add_7_DW01_sub_0_DW01_sub_24'
+  Processing 'fp16_add_7_DW01_cmp2_0_DW01_cmp2_18'
+  Processing 'fp16_add_7_DW01_ash_0_DW01_ash_12'
+  Processing 'fp16_add_7_DW01_inc_1_DW01_inc_14'
+  Processing 'fp16_add_7_DW01_sub_1_DW01_sub_25'
+  Processing 'fp16_add_7_DW01_add_1_DW01_add_13'
+  Processing 'fp16_add_7_DW01_ash_1_DW01_ash_13'
+  Processing 'fp16_add_7_DW01_sub_2_DW01_sub_26'
+  Processing 'fp16_add_7_DW_rash_0_DW_rash_6'
+  Processing 'fp16_add_7_DW01_cmp2_1_DW01_cmp2_19'
+  Processing 'fp16_add_7_DW01_sub_3_DW01_sub_27'
+  Processing 'fp16_add_7_DW01_cmp2_2_DW01_cmp2_20'
+  Processing 'fp16_add_8_DW01_inc_0_DW01_inc_15'
+  Processing 'fp16_add_8_DW01_add_0_DW01_add_14'
+  Processing 'fp16_add_8_DW01_sub_0_DW01_sub_28'
+  Processing 'fp16_add_8_DW01_cmp2_0_DW01_cmp2_21'
+  Processing 'fp16_add_8_DW01_ash_0_DW01_ash_14'
+  Processing 'fp16_add_8_DW01_inc_1_DW01_inc_16'
+  Processing 'fp16_add_8_DW01_sub_1_DW01_sub_29'
+  Processing 'fp16_add_8_DW01_add_1_DW01_add_15'
+  Processing 'fp16_add_8_DW01_ash_1_DW01_ash_15'
+  Processing 'fp16_add_8_DW01_sub_2_DW01_sub_30'
+  Processing 'fp16_add_8_DW_rash_0_DW_rash_7'
+  Processing 'fp16_add_8_DW01_cmp2_1_DW01_cmp2_22'
+  Processing 'fp16_add_8_DW01_sub_3_DW01_sub_31'
+  Processing 'fp16_add_8_DW01_cmp2_2_DW01_cmp2_23'
+  Processing 'fp16_add_9_DW01_inc_0_DW01_inc_17'
+  Processing 'fp16_add_9_DW01_add_0_DW01_add_16'
+  Processing 'fp16_add_9_DW01_sub_0_DW01_sub_32'
+  Processing 'fp16_add_9_DW01_cmp2_0_DW01_cmp2_24'
+  Processing 'fp16_add_9_DW01_ash_0_DW01_ash_16'
+  Processing 'fp16_add_9_DW01_inc_1_DW01_inc_18'
+  Processing 'fp16_add_9_DW01_sub_1_DW01_sub_33'
+  Processing 'fp16_add_9_DW01_add_1_DW01_add_17'
+  Processing 'fp16_add_9_DW01_ash_1_DW01_ash_17'
+  Processing 'fp16_add_9_DW01_sub_2_DW01_sub_34'
+  Processing 'fp16_add_9_DW_rash_0_DW_rash_8'
+  Processing 'fp16_add_9_DW01_cmp2_1_DW01_cmp2_25'
+  Processing 'fp16_add_9_DW01_sub_3_DW01_sub_35'
+  Processing 'fp16_add_9_DW01_cmp2_2_DW01_cmp2_26'
+  Processing 'fp16_add_10_DW01_inc_0_DW01_inc_19'
+  Processing 'fp16_add_10_DW01_add_0_DW01_add_18'
+  Processing 'fp16_add_10_DW01_sub_0_DW01_sub_36'
+  Processing 'fp16_add_10_DW01_cmp2_0_DW01_cmp2_27'
+  Processing 'fp16_add_10_DW01_ash_0_DW01_ash_18'
+  Processing 'fp16_add_10_DW01_inc_1_DW01_inc_20'
+  Processing 'fp16_add_10_DW01_sub_1_DW01_sub_37'
+  Processing 'fp16_add_10_DW01_add_1_DW01_add_19'
+  Processing 'fp16_add_10_DW01_ash_1_DW01_ash_19'
+  Processing 'fp16_add_10_DW01_sub_2_DW01_sub_38'
+  Processing 'fp16_add_10_DW_rash_0_DW_rash_9'
+  Processing 'fp16_add_10_DW01_cmp2_1_DW01_cmp2_28'
+  Processing 'fp16_add_10_DW01_sub_3_DW01_sub_39'
+  Processing 'fp16_add_10_DW01_cmp2_2_DW01_cmp2_29'
+  Processing 'fp16_add_11_DW01_inc_0_DW01_inc_21'
+  Processing 'fp16_add_11_DW01_add_0_DW01_add_20'
+  Processing 'fp16_add_11_DW01_sub_0_DW01_sub_40'
+  Processing 'fp16_add_11_DW01_cmp2_0_DW01_cmp2_30'
+  Processing 'fp16_add_11_DW01_ash_0_DW01_ash_20'
+  Processing 'fp16_add_11_DW01_inc_1_DW01_inc_22'
+  Processing 'fp16_add_11_DW01_sub_1_DW01_sub_41'
+  Processing 'fp16_add_11_DW01_add_1_DW01_add_21'
+  Processing 'fp16_add_11_DW01_ash_1_DW01_ash_21'
+  Processing 'fp16_add_11_DW01_sub_2_DW01_sub_42'
+  Processing 'fp16_add_11_DW_rash_0_DW_rash_10'
+  Processing 'fp16_add_11_DW01_cmp2_1_DW01_cmp2_31'
+  Processing 'fp16_add_11_DW01_sub_3_DW01_sub_43'
+  Processing 'fp16_add_11_DW01_cmp2_2_DW01_cmp2_32'
+  Processing 'fp16_add_12_DW01_inc_0_DW01_inc_23'
+  Processing 'fp16_add_12_DW01_add_0_DW01_add_22'
+  Processing 'fp16_add_12_DW01_sub_0_DW01_sub_44'
+  Processing 'fp16_add_12_DW01_cmp2_0_DW01_cmp2_33'
+  Processing 'fp16_add_12_DW01_ash_0_DW01_ash_22'
+  Processing 'fp16_add_12_DW01_inc_1_DW01_inc_24'
+  Processing 'fp16_add_12_DW01_sub_1_DW01_sub_45'
+  Processing 'fp16_add_12_DW01_add_1_DW01_add_23'
+  Processing 'fp16_add_12_DW01_ash_1_DW01_ash_23'
+  Processing 'fp16_add_12_DW01_sub_2_DW01_sub_46'
+  Processing 'fp16_add_12_DW_rash_0_DW_rash_11'
+  Processing 'fp16_add_12_DW01_cmp2_1_DW01_cmp2_34'
+  Processing 'fp16_add_12_DW01_sub_3_DW01_sub_47'
+  Processing 'fp16_add_12_DW01_cmp2_2_DW01_cmp2_35'
+  Processing 'fp16_add_13_DW01_inc_0_DW01_inc_25'
+  Processing 'fp16_add_13_DW01_add_0_DW01_add_24'
+  Processing 'fp16_add_13_DW01_sub_0_DW01_sub_48'
+  Processing 'fp16_add_13_DW01_cmp2_0_DW01_cmp2_36'
+  Processing 'fp16_add_13_DW01_ash_0_DW01_ash_24'
+  Processing 'fp16_add_13_DW01_inc_1_DW01_inc_26'
+  Processing 'fp16_add_13_DW01_sub_1_DW01_sub_49'
+  Processing 'fp16_add_13_DW01_add_1_DW01_add_25'
+  Processing 'fp16_add_13_DW01_ash_1_DW01_ash_25'
+  Processing 'fp16_add_13_DW01_sub_2_DW01_sub_50'
+  Processing 'fp16_add_13_DW_rash_0_DW_rash_12'
+  Processing 'fp16_add_13_DW01_cmp2_1_DW01_cmp2_37'
+  Processing 'fp16_add_13_DW01_sub_3_DW01_sub_51'
+  Processing 'fp16_add_13_DW01_cmp2_2_DW01_cmp2_38'
+  Processing 'fp16_add_14_DW01_inc_0_DW01_inc_27'
+  Processing 'fp16_add_14_DW01_add_0_DW01_add_26'
+  Processing 'fp16_add_14_DW01_sub_0_DW01_sub_52'
+  Processing 'fp16_add_14_DW01_cmp2_0_DW01_cmp2_39'
+  Processing 'fp16_add_14_DW01_ash_0_DW01_ash_26'
+  Processing 'fp16_add_14_DW01_inc_1_DW01_inc_28'
+  Processing 'fp16_add_14_DW01_sub_1_DW01_sub_53'
+  Processing 'fp16_add_14_DW01_add_1_DW01_add_27'
+  Processing 'fp16_add_14_DW01_ash_1_DW01_ash_27'
+  Processing 'fp16_add_14_DW01_sub_2_DW01_sub_54'
+  Processing 'fp16_add_14_DW_rash_0_DW_rash_13'
+  Processing 'fp16_add_14_DW01_cmp2_1_DW01_cmp2_40'
+  Processing 'fp16_add_14_DW01_sub_3_DW01_sub_55'
+  Processing 'fp16_add_14_DW01_cmp2_2_DW01_cmp2_41'
+  Processing 'fp16_add_15_DW01_inc_0_DW01_inc_29'
+  Processing 'fp16_add_15_DW01_add_0_DW01_add_28'
+  Processing 'fp16_add_15_DW01_sub_0_DW01_sub_56'
+  Processing 'fp16_add_15_DW01_cmp2_0_DW01_cmp2_42'
+  Processing 'fp16_add_15_DW01_ash_0_DW01_ash_28'
+  Processing 'fp16_add_15_DW01_inc_1_DW01_inc_30'
+  Processing 'fp16_add_15_DW01_sub_1_DW01_sub_57'
+  Processing 'fp16_add_15_DW01_add_1_DW01_add_29'
+  Processing 'fp16_add_15_DW01_ash_1_DW01_ash_29'
+  Processing 'fp16_add_15_DW01_sub_2_DW01_sub_58'
+  Processing 'fp16_add_15_DW_rash_0_DW_rash_14'
+  Processing 'fp16_add_15_DW01_cmp2_1_DW01_cmp2_43'
+  Processing 'fp16_add_15_DW01_sub_3_DW01_sub_59'
+  Processing 'fp16_add_15_DW01_cmp2_2_DW01_cmp2_44'
+  Processing 'fp16_add_0_DW01_inc_0_DW01_inc_31'
+  Processing 'fp16_add_0_DW01_add_0_DW01_add_30'
+  Processing 'fp16_add_0_DW01_sub_0_DW01_sub_60'
+  Processing 'fp16_add_0_DW01_cmp2_0_DW01_cmp2_45'
+  Processing 'fp16_add_0_DW01_ash_0_DW01_ash_30'
+  Processing 'fp16_add_0_DW01_inc_1_DW01_inc_32'
+  Processing 'fp16_add_0_DW01_sub_1_DW01_sub_61'
+  Processing 'fp16_add_0_DW01_add_1_DW01_add_31'
+  Processing 'fp16_add_0_DW01_ash_1_DW01_ash_31'
+  Processing 'fp16_add_0_DW01_sub_2_DW01_sub_62'
+  Processing 'fp16_add_0_DW_rash_0_DW_rash_15'
+  Processing 'fp16_add_0_DW01_cmp2_1_DW01_cmp2_46'
+  Processing 'fp16_add_0_DW01_sub_3_DW01_sub_63'
+  Processing 'fp16_add_0_DW01_cmp2_2_DW01_cmp2_47'
+  Processing 'fp16_mult_1_DW01_cmp2_0_DW01_cmp2_48'
+  Processing 'fp16_mult_1_DW01_cmp2_1_DW01_cmp2_49'
+  Processing 'fp16_mult_1_DW01_inc_0_DW01_inc_33'
+  Processing 'fp16_mult_1_DW01_add_0_DW01_add_32'
+  Processing 'fp16_mult_2_DW01_cmp2_0_DW01_cmp2_50'
+  Processing 'fp16_mult_2_DW01_cmp2_1_DW01_cmp2_51'
+  Processing 'fp16_mult_2_DW01_inc_0_DW01_inc_34'
+  Processing 'fp16_mult_2_DW01_add_0_DW01_add_33'
+  Processing 'fp16_mult_3_DW01_cmp2_0_DW01_cmp2_52'
+  Processing 'fp16_mult_3_DW01_cmp2_1_DW01_cmp2_53'
+  Processing 'fp16_mult_3_DW01_inc_0_DW01_inc_35'
+  Processing 'fp16_mult_3_DW01_add_0_DW01_add_34'
+  Processing 'fp16_mult_4_DW01_cmp2_0_DW01_cmp2_54'
+  Processing 'fp16_mult_4_DW01_cmp2_1_DW01_cmp2_55'
+  Processing 'fp16_mult_4_DW01_inc_0_DW01_inc_36'
+  Processing 'fp16_mult_4_DW01_add_0_DW01_add_35'
+  Processing 'fp16_mult_5_DW01_cmp2_0_DW01_cmp2_56'
+  Processing 'fp16_mult_5_DW01_cmp2_1_DW01_cmp2_57'
+  Processing 'fp16_mult_5_DW01_inc_0_DW01_inc_37'
+  Processing 'fp16_mult_5_DW01_add_0_DW01_add_36'
+  Processing 'fp16_mult_6_DW01_cmp2_0_DW01_cmp2_58'
+  Processing 'fp16_mult_6_DW01_cmp2_1_DW01_cmp2_59'
+  Processing 'fp16_mult_6_DW01_inc_0_DW01_inc_38'
+  Processing 'fp16_mult_6_DW01_add_0_DW01_add_37'
+  Processing 'fp16_mult_7_DW01_cmp2_0_DW01_cmp2_60'
+  Processing 'fp16_mult_7_DW01_cmp2_1_DW01_cmp2_61'
+  Processing 'fp16_mult_7_DW01_inc_0_DW01_inc_39'
+  Processing 'fp16_mult_7_DW01_add_0_DW01_add_38'
+  Processing 'fp16_mult_8_DW01_cmp2_0_DW01_cmp2_62'
+  Processing 'fp16_mult_8_DW01_cmp2_1_DW01_cmp2_63'
+  Processing 'fp16_mult_8_DW01_inc_0_DW01_inc_40'
+  Processing 'fp16_mult_8_DW01_add_0_DW01_add_39'
+  Processing 'fp16_mult_9_DW01_cmp2_0_DW01_cmp2_64'
+  Processing 'fp16_mult_9_DW01_cmp2_1_DW01_cmp2_65'
+  Processing 'fp16_mult_9_DW01_inc_0_DW01_inc_41'
+  Processing 'fp16_mult_9_DW01_add_0_DW01_add_40'
+  Processing 'fp16_mult_10_DW01_cmp2_0_DW01_cmp2_66'
+  Processing 'fp16_mult_10_DW01_cmp2_1_DW01_cmp2_67'
+  Processing 'fp16_mult_10_DW01_inc_0_DW01_inc_42'
+  Processing 'fp16_mult_10_DW01_add_0_DW01_add_41'
+  Processing 'fp16_mult_11_DW01_cmp2_0_DW01_cmp2_68'
+  Processing 'fp16_mult_11_DW01_cmp2_1_DW01_cmp2_69'
+  Processing 'fp16_mult_11_DW01_inc_0_DW01_inc_43'
+  Processing 'fp16_mult_11_DW01_add_0_DW01_add_42'
+  Processing 'fp16_mult_12_DW01_cmp2_0_DW01_cmp2_70'
+  Processing 'fp16_mult_12_DW01_cmp2_1_DW01_cmp2_71'
+  Processing 'fp16_mult_12_DW01_inc_0_DW01_inc_44'
+  Processing 'fp16_mult_12_DW01_add_0_DW01_add_43'
+  Processing 'fp16_mult_13_DW01_cmp2_0_DW01_cmp2_72'
+  Processing 'fp16_mult_13_DW01_cmp2_1_DW01_cmp2_73'
+  Processing 'fp16_mult_13_DW01_inc_0_DW01_inc_45'
+  Processing 'fp16_mult_13_DW01_add_0_DW01_add_44'
+  Processing 'fp16_mult_14_DW01_cmp2_0_DW01_cmp2_74'
+  Processing 'fp16_mult_14_DW01_cmp2_1_DW01_cmp2_75'
+  Processing 'fp16_mult_14_DW01_inc_0_DW01_inc_46'
+  Processing 'fp16_mult_14_DW01_add_0_DW01_add_45'
+  Processing 'fp16_mult_15_DW01_cmp2_0_DW01_cmp2_76'
+  Processing 'fp16_mult_15_DW01_cmp2_1_DW01_cmp2_77'
+  Processing 'fp16_mult_15_DW01_inc_0_DW01_inc_47'
+  Processing 'fp16_mult_15_DW01_add_0_DW01_add_46'
+  Processing 'fp16_mult_0_DW01_cmp2_0_DW01_cmp2_78'
+  Processing 'fp16_mult_0_DW01_cmp2_1_DW01_cmp2_79'
+  Processing 'fp16_mult_0_DW01_inc_0_DW01_inc_48'
+  Processing 'fp16_mult_0_DW01_add_0_DW01_add_47'
+  Processing 'fp16_mult_0_DW02_mult_0'
+  Processing 'fp16_mult_0_DW01_add_1_DW01_add_48'
+  Processing 'fp16_mult_6_DW02_mult_0_DW02_mult_1'
+  Processing 'fp16_mult_6_DW01_add_1_DW01_add_49'
+  Processing 'fp16_mult_5_DW02_mult_0_DW02_mult_2'
+  Processing 'fp16_mult_5_DW01_add_1_DW01_add_50'
+  Processing 'fp16_mult_4_DW02_mult_0_DW02_mult_3'
+  Processing 'fp16_mult_4_DW01_add_1_DW01_add_51'
+  Processing 'fp16_mult_3_DW02_mult_0_DW02_mult_4'
+  Processing 'fp16_mult_3_DW01_add_1_DW01_add_52'
+  Processing 'fp16_mult_2_DW02_mult_0_DW02_mult_5'
+  Processing 'fp16_mult_2_DW01_add_1_DW01_add_53'
+  Processing 'fp16_mult_1_DW02_mult_0_DW02_mult_6'
+  Processing 'fp16_mult_1_DW01_add_1_DW01_add_54'
+  Processing 'fp16_mult_15_DW02_mult_0_DW02_mult_7'
+  Processing 'fp16_mult_15_DW01_add_1_DW01_add_55'
+  Processing 'fp16_mult_14_DW02_mult_0_DW02_mult_8'
+  Processing 'fp16_mult_14_DW01_add_1_DW01_add_56'
+  Processing 'fp16_mult_13_DW02_mult_0_DW02_mult_9'
+  Processing 'fp16_mult_13_DW01_add_1_DW01_add_57'
+  Processing 'fp16_mult_12_DW02_mult_0_DW02_mult_10'
+  Processing 'fp16_mult_12_DW01_add_1_DW01_add_58'
+  Processing 'fp16_mult_11_DW02_mult_0_DW02_mult_11'
+  Processing 'fp16_mult_11_DW01_add_1_DW01_add_59'
+  Processing 'fp16_mult_10_DW02_mult_0_DW02_mult_12'
+  Processing 'fp16_mult_10_DW01_add_1_DW01_add_60'
+  Processing 'fp16_mult_9_DW02_mult_0_DW02_mult_13'
+  Processing 'fp16_mult_9_DW01_add_1_DW01_add_61'
+  Processing 'fp16_mult_8_DW02_mult_0_DW02_mult_14'
+  Processing 'fp16_mult_8_DW01_add_1_DW01_add_62'
+  Processing 'fp16_mult_7_DW02_mult_0_DW02_mult_15'
+  Processing 'fp16_mult_7_DW01_add_1_DW01_add_63'
+  Processing 'fp16_mult_0_DW01_sub_0_DW01_sub_64'
+  Processing 'fp16_mult_0_DW01_add_2_DW01_add_64'
+  Processing 'fp16_mult_6_DW01_sub_0_DW01_sub_65'
+  Processing 'fp16_mult_6_DW01_add_2_DW01_add_65'
+  Processing 'fp16_mult_5_DW01_sub_0_DW01_sub_66'
+  Processing 'fp16_mult_5_DW01_add_2_DW01_add_66'
+  Processing 'fp16_mult_4_DW01_sub_0_DW01_sub_67'
+  Processing 'fp16_mult_4_DW01_add_2_DW01_add_67'
+  Processing 'fp16_mult_3_DW01_sub_0_DW01_sub_68'
+  Processing 'fp16_mult_3_DW01_add_2_DW01_add_68'
+  Processing 'fp16_mult_2_DW01_sub_0_DW01_sub_69'
+  Processing 'fp16_mult_2_DW01_add_2_DW01_add_69'
+  Processing 'fp16_mult_1_DW01_sub_0_DW01_sub_70'
+  Processing 'fp16_mult_1_DW01_add_2_DW01_add_70'
+  Processing 'fp16_mult_15_DW01_sub_0_DW01_sub_71'
+  Processing 'fp16_mult_15_DW01_add_2_DW01_add_71'
+  Processing 'fp16_mult_14_DW01_sub_0_DW01_sub_72'
+  Processing 'fp16_mult_14_DW01_add_2_DW01_add_72'
+  Processing 'fp16_mult_13_DW01_sub_0_DW01_sub_73'
+  Processing 'fp16_mult_13_DW01_add_2_DW01_add_73'
+  Processing 'fp16_mult_12_DW01_sub_0_DW01_sub_74'
+  Processing 'fp16_mult_12_DW01_add_2_DW01_add_74'
+  Processing 'fp16_mult_11_DW01_sub_0_DW01_sub_75'
+  Processing 'fp16_mult_11_DW01_add_2_DW01_add_75'
+  Processing 'fp16_mult_10_DW01_sub_0_DW01_sub_76'
+  Processing 'fp16_mult_10_DW01_add_2_DW01_add_76'
+  Processing 'fp16_mult_9_DW01_sub_0_DW01_sub_77'
+  Processing 'fp16_mult_9_DW01_add_2_DW01_add_77'
+  Processing 'fp16_mult_8_DW01_sub_0_DW01_sub_78'
+  Processing 'fp16_mult_8_DW01_add_2_DW01_add_78'
+  Processing 'fp16_mult_7_DW01_sub_0_DW01_sub_79'
+  Processing 'fp16_mult_7_DW01_add_2_DW01_add_79'
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+LNC WARNING: Found output_to_output lib arc on HAxp5_ASAP7_75t_R.
+  Mapping Optimization (Phase 1)
+  Mapping Optimization (Phase 2)
+  Mapping Optimization (Phase 3)
+  Mapping Optimization (Phase 4)
+  Mapping Optimization (Phase 5)
+  Mapping Optimization (Phase 6)
+  Mapping Optimization (Phase 7)
+  Mapping Optimization (Phase 8)
+  Mapping Optimization (Phase 9)
+  Mapping Optimization (Phase 10)
+  Mapping Optimization (Phase 11)
+  Mapping Optimization (Phase 12)
+  Mapping Optimization (Phase 13)
+  Mapping Optimization (Phase 14)
+  Mapping Optimization (Phase 15)
+  Mapping Optimization (Phase 16)
+  Mapping Optimization (Phase 17)
+  Mapping Optimization (Phase 18)
+  Mapping Optimization (Phase 19)
+  Mapping Optimization (Phase 20)
+  Mapping Optimization (Phase 21)
+  Mapping Optimization (Phase 22)
+  Mapping Optimization (Phase 23)
+  Mapping Optimization (Phase 24)
+  Mapping Optimization (Phase 25)
+  Mapping Optimization (Phase 26)
+  Mapping Optimization (Phase 27)
+  Mapping Optimization (Phase 28)
+  Mapping Optimization (Phase 29)
+  Mapping Optimization (Phase 30)
+  Mapping Optimization (Phase 31)
+  Mapping Optimization (Phase 32)
+  Mapping Optimization (Phase 33)
+  Mapping Optimization (Phase 34)
+  Mapping Optimization (Phase 35)
+  Mapping Optimization (Phase 36)
+  Mapping Optimization (Phase 37)
+  Mapping Optimization (Phase 38)
+  Mapping Optimization (Phase 39)
+  Mapping Optimization (Phase 40)
+  Mapping Optimization (Phase 41)
+  Mapping Optimization (Phase 42)
+  Mapping Optimization (Phase 43)
+  Mapping Optimization (Phase 44)
+  Mapping Optimization (Phase 45)
+  Mapping Optimization (Phase 46)
+  Mapping Optimization (Phase 47)
+  Mapping Optimization (Phase 48)
+  Mapping Optimization (Phase 49)
+  Mapping Optimization (Phase 50)
+  Mapping Optimization (Phase 51)
+  Mapping Optimization (Phase 52)
+  Mapping Optimization (Phase 53)
+  Mapping Optimization (Phase 54)
+  Mapping Optimization (Phase 55)
+  Mapping Optimization (Phase 56)
+  Mapping Optimization (Phase 57)
+  Mapping Optimization (Phase 58)
+  Mapping Optimization (Phase 59)
+  Mapping Optimization (Phase 60)
+  Mapping Optimization (Phase 61)
+  Mapping Optimization (Phase 62)
+  Mapping Optimization (Phase 63)
+  Mapping Optimization (Phase 64)
+  Mapping Optimization (Phase 65)
+  Mapping Optimization (Phase 66)
+  Mapping Optimization (Phase 67)
+  Mapping Optimization (Phase 68)
+  Mapping Optimization (Phase 69)
+  Mapping Optimization (Phase 70)
+  Mapping Optimization (Phase 71)
+  Mapping Optimization (Phase 72)
+  Mapping Optimization (Phase 73)
+  Mapping Optimization (Phase 74)
+  Mapping Optimization (Phase 75)
+  Mapping Optimization (Phase 76)
+  Mapping Optimization (Phase 77)
+  Mapping Optimization (Phase 78)
+  Mapping Optimization (Phase 79)
+  Mapping Optimization (Phase 80)
+  Mapping Optimization (Phase 81)
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:02:50   11056.7    664.49  313392.9       0.0                                0.00  
+    0:02:50   11056.7    664.49  313392.9       0.0                                0.00  
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:02:50   11056.7    664.49  313392.9       0.0                                0.00  
+    0:02:55   11106.9    628.90  298764.3       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:02:55   11106.7    625.58  297138.9       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:02:56   11107.5    623.91  296329.6       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:02:56   11108.0    622.34  295808.8       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:02:57   11107.8    620.45  295208.7       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:02:57   11108.4    619.11  294842.8       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:02:58   11108.6    617.51  294043.3       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:02:58   11108.5    616.62  293894.0       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:02:58   11108.5    616.20  293785.4       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:02:58   11108.3    615.74  293360.9       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:02:59   11108.5    614.23  292674.4       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:02:59   11108.8    613.25  292446.8       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:02:59   11108.9    613.00  292413.4       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:02:59   11109.0    612.54  292069.2       0.0 g_add[8].u_add/y_reg[12]/D      0.00  
+    0:02:59   11108.8    612.01  291984.1       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:03:00   11108.5    611.39  291863.8       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:00   11108.5    610.77  291576.9       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:00   11108.6    609.86  291252.7       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:00   11108.6    609.37  290993.3       0.0 g_mul[14].u_mul/y_reg[7]/D      0.00  
+    0:03:01   11108.6    609.10  290830.7       0.0 g_mul[11].u_mul/y_reg[7]/D      0.00  
+    0:03:01   11108.8    608.91  290704.9       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:03:01   11108.5    608.11  290418.6       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:01   11108.7    607.78  290322.0       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:03:02   11108.8    606.89  289592.3       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:02   11109.2    606.36  289394.2       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:02   11109.3    606.20  289321.0       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:02   11109.6    605.72  289075.9       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:03:02   11109.4    604.86  288517.8       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:02   11109.6    604.40  288425.0       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:03   11109.2    604.01  288305.9       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:03   11109.5    603.75  288184.3       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:03:03   11109.8    603.40  288096.5       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:03   11109.5    603.18  288010.8       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:03:03   11109.5    602.93  287917.1       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:04   11109.8    602.41  287323.8       0.0 g_mul[14].u_mul/y_reg[7]/D      0.00  
+    0:03:04   11110.3    601.27  286976.6       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:05   11110.3    600.41  286685.9       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:05   11110.7    599.94  286411.8       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:05   11110.7    599.48  286317.6       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:05   11110.4    598.90  285856.7       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:06   11110.5    598.12  285477.5       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:06   11110.7    597.95  285078.5       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:06   11110.6    597.38  284774.1       0.0 g_add[12].u_add/y_reg[10]/D      0.00  
+    0:03:07   11110.6    596.69  284648.2       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:03:07   11110.7    596.39  284426.8       0.0 g_mul[13].u_mul/y_reg[1]/D      0.00  
+    0:03:07   11111.1    594.96  283429.5       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:08   11111.4    594.27  282904.7       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:08   11111.6    593.78  282511.9       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:08   11111.3    593.02  282328.8       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:08   11111.4    592.16  282212.1       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:09   11111.3    591.68  282071.0       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:03:10   11111.0    591.14  281859.6       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:10   11111.2    590.77  281591.7       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:10   11111.3    590.56  281551.5       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:10   11111.3    590.33  281494.3       0.0 g_mul[11].u_mul/y_reg[1]/D      0.00  
+    0:03:10   11111.5    589.98  281463.7       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:03:11   11111.8    589.76  281303.3       0.0 g_mul[11].u_mul/y_reg[1]/D      0.00  
+    0:03:11   11112.1    589.11  281177.8       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:11   11112.0    588.94  281153.1       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:11   11112.0    588.57  281086.2       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:12   11112.1    588.22  281021.6       0.0 g_mul[13].u_mul/y_reg[7]/D      0.00  
+    0:03:12   11112.2    588.03  280883.2       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:12   11112.2    587.57  280724.2       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:12   11112.2    587.33  280548.4       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:12   11112.2    587.13  280504.5       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:13   11112.1    586.87  280413.9       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:03:13   11112.2    586.46  279898.6       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:13   11112.3    586.05  279824.1       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:13   11112.1    585.79  279710.3       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:13   11112.1    585.54  279665.8       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:14   11112.1    585.23  279608.1       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:14   11112.3    584.97  279509.3       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:14   11112.3    584.95  279489.2       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:15   11113.0    584.79  279222.4       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:15   11112.7    584.32  278872.8       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:16   11112.7    583.92  278685.3       0.0 g_mul[14].u_mul/y_reg[3]/D      0.00  
+    0:03:16   11112.8    583.66  278659.2       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:16   11113.5    583.38  278492.9       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:16   11113.3    583.29  278415.0       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:03:16   11113.2    582.96  278385.2       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:03:16   11113.3    582.73  278352.7       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:17   11113.6    582.12  277893.8       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:03:17   11113.6    581.80  277796.8       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:03:17   11113.8    581.63  277771.1       0.0 g_mul[11].u_mul/y_reg[1]/D      0.00  
+    0:03:17   11113.9    581.36  277686.7       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:18   11114.0    580.97  277576.3       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:18   11114.0    580.75  277368.5       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:18   11114.1    580.37  277310.8       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:18   11114.2    580.02  277300.0       0.0 g_mul[13].u_mul/y_reg[7]/D      0.00  
+    0:03:18   11114.2    579.79  277270.7       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:03:18   11114.3    579.71  277269.8       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:19   11114.3    579.63  277248.5       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:03:19   11114.3    579.22  276966.6       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:19   11114.3    579.09  276898.8       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:03:19   11114.1    578.68  276757.9       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:20   11114.2    578.61  276696.2       0.0 g_add[5].u_add/y_reg[5]/D      0.00  
+    0:03:20   11114.0    578.35  276592.7       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:20   11114.0    578.35  276587.8       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:20   11114.5    578.19  276555.0       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:21   11114.6    577.99  276487.1       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:21   11114.6    577.80  276436.8       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:21   11114.3    577.22  276296.2       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:21   11114.2    576.89  275866.0       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:03:22   11114.2    575.70  275477.4       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:22   11114.3    575.24  275346.4       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:22   11114.1    574.65  275096.4       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:03:23   11113.3    574.00  274796.2       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:23   11113.6    573.26  274551.7       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:03:23   11113.6    573.15  274532.8       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:23   11113.8    572.88  274429.3       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:23   11114.1    572.76  274417.3       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:23   11114.2    572.39  274235.4       0.0 g_add[5].u_add/y_reg[5]/D      0.00  
+    0:03:24   11114.4    572.12  274165.1       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:24   11114.7    571.86  274109.6       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:24   11114.6    571.86  274080.1       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:24   11114.6    571.73  273996.5       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:24   11114.5    571.52  273939.2       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:25   11114.5    571.16  273864.7       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:03:25   11115.1    570.88  273778.4       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:26   11115.0    570.71  273674.6       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:26   11114.9    570.64  273588.0       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:26   11115.2    570.16  273474.9       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:26   11115.3    570.01  273434.2       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:26   11115.5    569.80  273414.8       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:26   11115.4    569.68  273377.3       0.0 g_mul[14].u_mul/y_reg[3]/D      0.00  
+    0:03:27   11115.2    569.28  273279.6       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:27   11115.2    569.15  273267.0       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:27   11115.4    569.05  273173.8       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:03:27   11115.8    568.66  273047.5       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:27   11115.9    568.55  272988.1       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:28   11116.2    568.25  272759.8       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:28   11116.5    568.05  272737.1       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:28   11116.6    567.84  272491.5       0.0 g_add[9].u_add/y_reg[11]/D      0.00  
+    0:03:28   11116.7    567.66  272471.9       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:28   11116.6    567.27  272338.5       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:29   11116.6    567.02  272170.1       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:29   11116.4    566.76  272123.3       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:29   11116.6    566.29  272039.4       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:30   11116.6    566.27  271718.8       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:30   11117.0    565.46  271347.5       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:30   11117.6    564.87  270940.5       0.0 g_add[10].u_add/y_reg[11]/D      0.00  
+    0:03:31   11117.8    563.97  270704.5       0.0 g_add[12].u_add/y_reg[10]/D      0.00  
+    0:03:31   11118.1    563.45  270404.8       0.0 g_mul[14].u_mul/y_reg[3]/D      0.00  
+    0:03:31   11118.4    562.97  270132.8       0.0 g_add[14].u_add/y_reg[11]/D      0.00  
+    0:03:31   11118.7    562.36  269575.2       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:32   11119.0    561.88  269124.9       0.0 g_add[6].u_add/y_reg[10]/D      0.00  
+    0:03:32   11119.5    561.52  268963.3       0.0 g_add[5].u_add/y_reg[5]/D      0.00  
+    0:03:32   11119.8    561.35  268891.9       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:32   11120.2    561.17  268707.3       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:32   11120.3    560.43  268591.2       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:33   11120.4    560.16  268625.2       0.0 g_mul[0].u_mul/y_reg[9]/D      0.00  
+    0:03:33   11121.1    560.03  268402.6       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:33   11121.3    559.78  268274.8       0.0 g_mul[13].u_mul/y_reg[7]/D      0.00  
+    0:03:33   11121.4    559.52  268148.3       0.0 g_add[5].u_add/y_reg[5]/D      0.00  
+    0:03:33   11121.7    559.25  268102.0       0.0 g_mul[11].u_mul/y_reg[7]/D      0.00  
+    0:03:33   11121.7    559.17  268064.4       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:33   11121.8    559.09  268026.3       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:34   11122.3    558.83  267875.4       0.0 g_add[11].u_add/y_reg[11]/D      0.00  
+    0:03:34   11122.3    558.50  267840.7       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:34   11122.4    558.15  267325.3       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:34   11122.4    557.80  267281.0       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:34   11122.5    557.63  267255.7       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:35   11122.7    557.58  267150.2       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:35   11122.7    557.30  267136.8       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:35   11122.9    557.16  267122.3       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:36   11123.1    557.09  267051.2       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:36   11123.2    556.96  266963.8       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:36   11123.2    556.85  266861.8       0.0 g_mul[13].u_mul/y_reg[7]/D      0.00  
+    0:03:36   11123.4    556.46  266821.3       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:36   11123.5    556.29  266750.0       0.0 g_mul[11].u_mul/y_reg[7]/D      0.00  
+    0:03:36   11123.5    556.16  266717.7       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:37   11123.7    555.96  266647.2       0.0 g_mul[13].u_mul/y_reg[7]/D      0.00  
+    0:03:37   11124.2    555.67  266389.5       0.0 g_mul[14].u_mul/y_reg[3]/D      0.00  
+    0:03:37   11124.7    555.53  265897.2       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:37   11123.7    555.32  265804.0       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:37   11124.1    554.83  265531.0       0.0 g_mul[11].u_mul/y_reg[7]/D      0.00  
+    0:03:38   11124.2    554.52  265406.2       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:38   11124.5    554.20  265282.1       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:38   11124.4    553.89  265218.9       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:38   11124.6    553.72  265144.3       0.0 g_mul[0].u_mul/y_reg[9]/D      0.00  
+    0:03:38   11124.5    553.63  264943.2       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:38   11124.2    553.50  264948.8       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:03:39   11124.3    553.23  264914.8       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:39   11124.3    553.16  264925.5       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:39   11124.6    553.02  264906.2       0.0 g_mul[4].u_mul/y_reg[7]/D      0.00  
+    0:03:39   11124.7    552.83  264807.7       0.0 g_add[11].u_add/y_reg[10]/D      0.00  
+    0:03:39   11124.9    552.53  264537.6       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:39   11125.2    552.28  264311.6       0.0 g_mul[12].u_mul/y_reg[7]/D      0.00  
+    0:03:40   11125.3    552.17  264222.5       0.0 g_mul[0].u_mul/y_reg[9]/D      0.00  
+    0:03:40   11125.3    551.97  264201.8       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:40   11125.5    551.65  264158.8       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:40   11125.7    551.50  263926.5       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:40   11126.1    551.17  263803.4       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:40   11126.2    551.07  263714.8       0.0 g_mul[11].u_mul/y_reg[7]/D      0.00  
+    0:03:41   11126.3    550.99  263706.8       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:41   11126.4    550.73  263680.8       0.0 g_mul[3].u_mul/y_reg[7]/D      0.00  
+    0:03:41   11126.3    550.59  263646.5       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:41   11126.6    550.50  263480.9       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:41   11126.9    550.31  263424.3       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:41   11127.4    550.00  263291.0       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:42   11127.8    549.87  263188.5       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:42   11127.8    549.37  263112.6       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:42   11127.8    549.36  263085.6       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:42   11128.1    549.10  262939.4       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:42   11128.4    548.91  262882.5       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:43   11128.7    548.56  262751.1       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:03:43   11128.8    548.40  262628.7       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:45   11129.3    548.10  262566.8       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:45   11129.1    547.93  262530.8       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:45   11129.1    547.91  262515.2       0.0 g_mul[10].u_mul/y_reg[7]/D      0.00  
+    0:03:46   11129.3    547.87  262477.3       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:46   11129.3    547.78  262464.4       0.0 g_mul[2].u_mul/y_reg[7]/D      0.00  
+    0:03:46   11129.5    547.65  262457.4       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:46   11129.5    547.62  262417.5       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:03:46   11130.1    547.41  262377.7       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:47   11130.1    547.34  262279.0       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:47   11130.3    547.25  262181.3       0.0 g_mul[13].u_mul/y_reg[7]/D      0.00  
+    0:03:47   11130.5    547.13  262174.8       0.0 g_mul[15].u_mul/y_reg[7]/D      0.00  
+    0:03:47   11130.5    547.05  262139.7       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:47   11131.0    547.00  262110.7       0.0 g_mul[8].u_mul/y_reg[7]/D      0.00  
+    0:03:47   11131.0    546.85  262101.9       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:03:47   11130.9    546.81  262048.4       0.0 g_mul[6].u_mul/y_reg[7]/D      0.00  
+    0:03:48   11131.1    546.66  261977.8       0.0 g_mul[5].u_mul/y_reg[7]/D      0.00  
+    0:03:48   11131.3    546.38  261926.9       0.0 g_mul[11].u_mul/y_reg[7]/D      0.00  
+    0:03:48   11131.4    546.22  261965.6       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:49   11131.3    546.22  261965.6       0.0                                0.00  
+    0:03:51   11131.3    546.22  261872.2       0.0 g_mul[1].u_mul/y_reg[7]/D      0.00  
+    0:03:52   11131.3    546.22  261872.2       0.0                                0.00  
+    0:03:53   11108.0    546.22  261872.2       0.0                                0.00  
+
+
+  Beginning Design Rule Fixing  (min_path)
+  ----------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:03:53   11108.0    546.22  261872.2       0.0                              -31.32  
+    0:03:54   11108.0    546.21  261837.4       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:03:54   11108.1    546.11  261829.8       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:03:54   11108.3    546.04  261819.9       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:03:54   11108.2    546.00  261803.8       0.0 g_mul[2].u_mul/y_reg[7]/D    -31.32  
+    0:03:54   11108.3    545.88  261759.9       0.0 g_mul[2].u_mul/y_reg[7]/D    -31.32  
+    0:03:55   11108.3    545.52  261599.5       0.0 g_mul[10].u_mul/y_reg[7]/D    -31.32  
+    0:03:55   11108.5    545.27  261393.2       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:03:55   11108.4    545.12  261331.1       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:03:56   11109.0    545.05  261306.2       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:03:56   11109.4    544.60  261127.0       0.0 g_mul[2].u_mul/y_reg[7]/D    -31.32  
+    0:03:56   11109.5    544.37  261089.9       0.0 g_mul[1].u_mul/y_reg[7]/D    -31.32  
+    0:03:57   11109.6    544.25  261029.2       0.0 g_mul[6].u_mul/y_reg[7]/D    -31.32  
+    0:03:57   11109.5    544.25  260979.3       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:03:57   11109.5    544.18  260964.6       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:03:58   11109.3    543.78  260900.5       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:03:58   11109.4    543.70  260882.3       0.0 g_mul[15].u_mul/y_reg[7]/D    -31.32  
+    0:03:58   11109.4    543.56  260847.0       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:03:58   11109.6    543.32  260789.1       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:03:59   11109.3    543.08  260422.9       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:03:59   11109.4    542.96  260384.9       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:03:59   11109.4    542.81  260360.7       0.0 g_mul[1].u_mul/y_reg[7]/D    -31.32  
+    0:03:59   11109.5    542.71  260340.6       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:03:59   11109.5    542.63  260303.1       0.0 g_mul[4].u_mul/y_reg[7]/D    -31.32  
+    0:03:59   11109.5    542.59  260283.0       0.0 g_mul[10].u_mul/y_reg[7]/D    -31.32  
+    0:04:00   11109.6    542.36  260264.5       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:00   11109.6    542.26  260229.5       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:00   11109.5    542.18  260211.7       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:00   11109.3    542.08  260179.6       0.0 g_mul[15].u_mul/y_reg[7]/D    -31.32  
+    0:04:00   11109.4    541.89  260154.8       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:01   11109.4    541.81  260135.1       0.0 g_mul[1].u_mul/y_reg[7]/D    -31.32  
+    0:04:01   11109.4    541.72  260119.0       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:01   11109.8    541.51  259929.9       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:01   11110.3    541.31  259855.8       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:02   11110.5    541.20  259814.8       0.0 g_mul[4].u_mul/y_reg[7]/D    -31.32  
+    0:04:02   11110.4    541.00  259715.0       0.0 g_mul[10].u_mul/y_reg[7]/D    -31.32  
+    0:04:02   11110.5    540.93  259692.2       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:02   11110.3    540.89  259647.7       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:03   11110.2    540.69  259587.6       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:03   11110.3    540.59  259533.2       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:03   11110.5    540.54  259491.1       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:03   11110.8    540.50  259482.0       0.0 g_mul[10].u_mul/y_reg[7]/D    -31.32  
+    0:04:03   11110.4    540.43  259455.6       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:04   11110.6    540.37  259442.3       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:04   11111.1    540.22  259346.9       0.0 g_mul[1].u_mul/y_reg[7]/D    -31.32  
+    0:04:04   11111.0    540.07  259313.0       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:05   11111.1    539.93  259282.3       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:06   11111.3    539.82  259105.9       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:06   11111.3    539.77  259087.2       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:06   11111.4    539.65  259077.5       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:06   11111.5    539.62  259067.3       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:06   11111.4    539.60  259045.4       0.0 g_mul[6].u_mul/y_reg[3]/D    -31.32  
+    0:04:07   11111.5    539.49  258927.8       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:07   11111.4    539.36  258915.3       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:07   11111.4    539.27  258903.7       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:07   11111.5    539.15  258896.0       0.0 g_mul[10].u_mul/y_reg[2]/D    -31.32  
+    0:04:07   11111.7    539.14  258872.3       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:08   11111.8    539.07  258823.2       0.0 g_mul[10].u_mul/y_reg[2]/D    -31.32  
+    0:04:08   11112.0    538.81  258734.3       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:08   11112.2    538.67  258665.6       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:08   11112.1    538.55  258551.7       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:09   11112.4    538.42  258538.5       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:09   11112.5    538.32  258525.2       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:09   11112.5    538.22  258469.6       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:09   11112.6    537.97  258369.4       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:09   11112.7    537.90  258348.6       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:10   11112.8    537.70  258283.6       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:10   11112.9    537.53  258221.1       0.0 g_mul[10].u_mul/y_reg[2]/D    -31.32  
+    0:04:10   11113.0    537.15  258160.5       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:10   11113.1    537.07  258129.9       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:10   11113.4    537.02  258063.2       0.0 g_add[13].u_add/y_reg[13]/D    -31.32  
+    0:04:11   11113.5    536.97  258057.3       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:11   11113.5    536.96  258050.6       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:11   11113.5    536.95  258050.0       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:11   11113.5    536.90  258039.1       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:11   11113.6    536.84  258032.9       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:12   11113.8    536.72  257900.7       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:12   11113.9    536.60  257842.5       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:12   11114.1    536.51  257767.1       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:12   11114.1    536.45  257763.2       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:13   11114.3    536.26  257648.1       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:13   11114.1    536.20  257576.2       0.0 g_add[4].u_add/y_reg[9]/D    -31.32  
+    0:04:13   11114.1    536.19  257571.6       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:13   11113.9    536.09  257464.0       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:14   11114.0    535.99  257428.8       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:14   11114.2    535.77  257364.5       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:14   11114.3    535.68  257312.1       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:14   11114.3    535.59  257310.9       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:14   11114.3    535.40  257083.1       0.0 g_mul[8].u_mul/y_reg[4]/D    -31.32  
+    0:04:15   11114.4    535.26  256985.3       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:15   11114.5    535.12  256820.8       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:15   11114.6    535.00  256799.5       0.0 g_mul[8].u_mul/y_reg[4]/D    -31.32  
+    0:04:16   11114.8    534.84  256705.5       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:16   11115.1    534.69  256584.0       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:16   11115.2    534.60  256544.9       0.0 g_mul[1].u_mul/y_reg[4]/D    -31.32  
+    0:04:16   11115.0    534.45  256516.5       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:16   11115.4    534.35  256438.0       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:17   11115.5    534.27  256404.6       0.0 g_mul[1].u_mul/y_reg[4]/D    -31.32  
+    0:04:17   11115.2    533.97  256266.1       0.0 g_add[7].u_add/y_reg[9]/D    -31.32  
+    0:04:17   11115.0    533.82  256227.2       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:18   11115.4    533.71  256119.2       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:18   11115.4    533.58  256098.1       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:18   11115.4    533.44  256085.0       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:19   11115.6    533.41  256063.6       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:19   11115.7    533.41  256058.5       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:19   11115.6    533.21  256034.8       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:19   11115.6    533.19  256022.6       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:19   11115.6    533.11  255999.4       0.0 g_mul[8].u_mul/y_reg[4]/D    -31.32  
+    0:04:19   11115.8    532.87  255820.9       0.0 g_add[13].u_add/y_reg[13]/D    -31.32  
+    0:04:19   11115.8    532.81  255777.6       0.0 g_mul[1].u_mul/y_reg[4]/D    -31.32  
+    0:04:20   11115.9    532.78  255772.0       0.0 g_mul[1].u_mul/y_reg[3]/D    -31.32  
+    0:04:20   11116.0    532.60  255738.9       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:20   11116.2    532.47  255681.0       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:20   11116.3    532.39  255642.4       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:21   11116.3    532.38  255633.5       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:21   11116.5    532.38  255625.8       0.0 g_add[7].u_add/y_reg[10]/D    -31.32  
+    0:04:21   11116.5    532.28  255617.7       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:22   11116.5    532.28  255599.7       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:23   11116.6    532.22  255527.2       0.0 g_mul[4].u_mul/y_reg[2]/D    -31.32  
+    0:04:23   11116.6    532.12  255513.8       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:23   11116.6    532.10  255502.6       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:23   11116.6    532.04  255470.8       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:23   11116.5    531.91  255475.5       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:23   11116.5    531.86  255462.2       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:24   11116.6    531.83  255459.3       0.0 g_mul[3].u_mul/y_reg[7]/D    -31.32  
+    0:04:24   11116.6    531.82  255459.0       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:24   11116.6    531.79  255446.1       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:24   11116.6    531.75  255460.1       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:25   11116.6    531.72  255457.2       0.0 g_mul[10].u_mul/y_reg[2]/D    -31.32  
+    0:04:25   11116.7    531.70  255453.6       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:25   11116.7    531.63  255456.5       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:25   11116.7    531.61  255462.6       0.0 g_mul[10].u_mul/y_reg[2]/D    -31.32  
+    0:04:25   11116.6    531.55  255413.9       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:26   11116.6    531.50  255407.6       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:26   11116.6    531.49  255398.7       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:26   11116.6    531.38  255382.5       0.0 g_mul[10].u_mul/y_reg[2]/D    -31.32  
+    0:04:26   11116.6    531.34  255380.0       0.0 g_mul[3].u_mul/y_reg[2]/D    -31.32  
+    0:04:26   11116.9    531.20  255328.5       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:26   11116.9    531.13  255279.6       0.0 g_mul[3].u_mul/y_reg[2]/D    -31.32  
+    0:04:26   11117.0    531.10  255269.6       0.0 g_mul[10].u_mul/y_reg[2]/D    -31.32  
+    0:04:27   11117.1    531.07  255259.5       0.0 g_mul[1].u_mul/y_reg[4]/D    -31.32  
+    0:04:27   11117.0    531.05  255239.5       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:27   11117.8    530.84  255049.3       0.0 g_mul[15].u_mul/y_reg[7]/D    -31.32  
+    0:04:27   11118.1    530.73  254994.8       0.0 g_mul[4].u_mul/y_reg[3]/D    -31.32  
+    0:04:28   11118.1    530.66  254992.5       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:28   11118.1    530.66  254996.4       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:28   11118.1    530.65  254968.7       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:28   11118.2    530.62  254954.6       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:28   11118.3    530.60  254947.9       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:28   11118.4    530.54  254944.9       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:29   11118.5    530.47  254934.8       0.0 g_mul[0].u_mul/y_reg[7]/D    -31.32  
+    0:04:29   11118.4    530.36  254906.7       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:29   11118.4    530.27  254903.9       0.0 g_mul[4].u_mul/y_reg[3]/D    -31.32  
+    0:04:29   11118.4    530.25  254899.6       0.0 g_mul[4].u_mul/y_reg[3]/D    -31.32  
+    0:04:30   11118.4    530.24  254899.1       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:30   11118.4    530.18  254844.7       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:30   11118.4    530.16  254781.2       0.0 g_mul[10].u_mul/y_reg[9]/D    -31.32  
+    0:04:30   11118.5    529.96  254726.6       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:30   11118.5    529.91  254720.0       0.0 g_mul[8].u_mul/y_reg[2]/D    -31.32  
+    0:04:30   11118.4    529.87  254687.5       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:30   11118.7    529.72  254659.7       0.0 g_mul[15].u_mul/y_reg[7]/D    -31.32  
+    0:04:31   11118.8    529.54  254535.7       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:31   11118.8    529.47  254498.8       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:31   11119.0    529.40  254481.3       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:31   11119.2    529.26  254439.6       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:32   11119.4    529.19  254433.9       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:32   11119.4    529.05  254416.9       0.0 g_mul[4].u_mul/y_reg[3]/D    -31.32  
+    0:04:32   11119.4    529.03  254406.2       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:32   11119.4    529.03  254404.8       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:33   11119.5    528.97  254375.4       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:33   11119.5    528.95  254373.7       0.0 g_mul[0].u_mul/y_reg[9]/D    -31.32  
+    0:04:33   11119.2    528.74  254276.4       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:33   11119.1    528.73  254267.0       0.0 g_mul[3].u_mul/y_reg[4]/D    -31.32  
+    0:04:34   11119.2    528.71  254257.4       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:34   11119.2    528.57  254218.5       0.0 g_add[13].u_add/y_reg[13]/D    -31.32  
+    0:04:34   11119.3    528.45  254195.8       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:34   11119.5    528.25  254074.0       0.0 g_add[8].u_add/y_reg[12]/D    -31.32  
+    0:04:34   11119.5    528.12  254050.8       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:35   11119.7    527.96  253953.8       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:35   11119.8    527.85  253942.5       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:35   11119.8    527.78  253924.0       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:35   11119.8    527.67  253893.6       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:35   11119.8    527.61  253908.9       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:36   11120.0    527.56  253894.4       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:36   11120.0    527.49  253866.9       0.0 g_add[0].u_add/y_reg[13]/D    -31.32  
+    0:04:36   11120.0    527.46  253862.2       0.0 g_mul[3].u_mul/y_reg[4]/D    -31.32  
+    0:04:36   11120.0    527.45  253855.7       0.0 g_mul[10].u_mul/y_reg[3]/D    -31.32  
+    0:04:37   11119.9    527.41  253830.4       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:37   11119.7    527.25  253652.8       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:37   11119.8    527.18  253619.1       0.0 g_mul[12].u_mul/y_reg[7]/D    -31.32  
+    0:04:37   11119.8    527.15  253606.5       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:38   11119.9    527.09  253587.3       0.0 g_mul[3].u_mul/y_reg[4]/D    -31.32  
+    0:04:38   11120.0    527.03  253508.9       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:38   11120.1    526.97  253474.3       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:39   11120.6    526.74  253390.4       0.0 g_mul[3].u_mul/y_reg[4]/D    -31.32  
+    0:04:39   11120.5    526.63  253382.6       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:39   11120.7    526.51  253352.0       0.0 g_mul[11].u_mul/y_reg[7]/D    -31.32  
+    0:04:39   11120.8    526.49  253322.2       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:40   11120.5    526.42  253192.1       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:40   11120.6    526.41  253182.8       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:40   11121.2    526.27  253155.0       0.0 g_mul[7].u_mul/y_reg[7]/D    -31.32  
+    0:04:40   11121.5    526.13  253110.6       0.0 g_mul[12].u_mul/y_reg[4]/D    -31.32  
+    0:04:41   11122.3    526.01  253057.7       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:41   11122.3    526.01  253054.9       0.0 g_mul[6].u_mul/y_reg[2]/D    -31.32  
+    0:04:41   11122.4    525.95  253018.4       0.0 g_mul[12].u_mul/y_reg[4]/D    -31.32  
+    0:04:41   11123.2    525.82  252895.5       0.0 g_mul[2].u_mul/y_reg[2]/D    -31.32  
+    0:04:41   11123.5    525.68  252840.1       0.0 g_mul[0].u_mul/y_reg[7]/D    -31.32  
+    0:04:42   11123.9    525.43  252776.0       0.0 g_mul[9].u_mul/y_reg[7]/D    -31.32  
+    0:04:42   11123.9    525.42  252762.4       0.0 g_mul[15].u_mul/y_reg[4]/D    -31.32  
+    0:04:42   11123.8    525.42  252756.4       0.0 g_mul[8].u_mul/y_reg[2]/D    -31.32  
+    0:04:42   11123.9    525.34  252740.3       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:42   11124.4    525.23  252689.3       0.0 g_mul[13].u_mul/y_reg[7]/D    -31.32  
+    0:04:43   11124.6    525.14  252531.9       0.0 g_mul[5].u_mul/y_reg[7]/D    -31.32  
+    0:04:43   11124.7    525.13  252519.1       0.0 g_mul[0].u_mul/y_reg[7]/D    -31.32  
+    0:04:43   11124.7    525.13  252501.8       0.0 g_mul[14].u_mul/y_reg[2]/D    -31.32  
+    0:04:44   11124.7    525.10  252501.4       0.0                              -31.32  
+    0:04:44   11124.7    524.89  252381.3       0.0                              -31.32  
+    0:04:44   11124.5    524.82  252370.6       0.0                              -31.32  
+    0:04:45   11124.6    524.81  252364.7       0.0                              -31.32  
+    0:04:45   11124.6    524.80  252359.4       0.0                              -31.32  
+    0:04:45   11124.7    524.69  252331.0       0.0                              -31.32  
+    0:04:45   11124.6    524.65  252249.0       0.0                              -31.32  
+    0:04:46   11124.4    524.38  252187.9       0.0                              -31.32  
+    0:04:46   11124.7    524.16  252119.4       0.0                              -31.32  
+    0:04:46   11124.7    524.02  252070.0       0.0                              -31.32  
+    0:04:46   11124.8    523.91  252031.1       0.0                              -31.32  
+    0:04:46   11124.8    523.91  252029.5       0.0                              -31.32  
+    0:04:47   11124.9    523.91  252013.6       0.0                              -31.32  
+    0:04:47   11124.9    523.91  251992.6       0.0                              -31.32  
+    0:04:47   11125.0    523.91  251977.6       0.0                              -31.32  
+    0:04:47   11125.0    523.91  251971.7       0.0                              -31.32  
+    0:04:47   11124.9    523.91  251959.4       0.0                              -31.32  
+    0:04:48   11125.0    523.91  251956.1       0.0                              -31.32  
+    0:04:48   11124.9    523.91  251954.7       0.0                              -31.32  
+    0:04:48   11125.0    523.91  251887.5       0.0                              -31.32  
+    0:04:48   11125.1    523.91  251876.2       0.0                              -31.32  
+    0:04:48   11125.1    523.91  251819.2       0.0                              -31.32  
+    0:04:48   11125.3    523.91  251723.4       0.0                              -31.32  
+    0:04:49   11125.3    523.91  251680.9       0.0                              -31.32  
+    0:04:49   11125.4    523.91  251638.8       0.0                              -31.32  
+    0:04:49   11125.5    523.91  251591.7       0.0                              -31.32  
+    0:04:49   11125.5    523.91  251421.9       0.0                              -31.32  
+    0:04:50   11125.4    523.91  251370.0       0.0                              -31.32  
+    0:04:50   11125.0    523.91  251335.1       0.0                              -31.32  
+    0:04:50   11124.9    523.91  251308.1       0.0                              -31.32  
+    0:04:50   11124.8    523.91  251264.4       0.0                              -31.32  
+    0:04:51   11124.7    523.91  251228.5       0.0                              -31.32  
+    0:04:51   11124.9    523.91  251202.2       0.0                              -31.32  
+    0:04:51   11125.0    523.91  251184.6       0.0                              -31.32  
+    0:04:51   11125.3    523.91  251085.3       0.0                              -31.32  
+    0:04:52   11125.5    523.91  251028.3       0.0                              -31.32  
+    0:04:52   11125.6    523.91  251005.4       0.0                              -31.32  
+    0:04:52   11125.6    523.91  251002.8       0.0                              -31.32  
+    0:04:52   11125.6    523.91  250981.9       0.0                              -31.32  
+    0:04:52   11125.6    523.91  250961.5       0.0                              -31.32  
+    0:04:52   11125.7    523.91  250878.8       0.0                              -31.32  
+    0:04:53   11125.7    523.91  250851.1       0.0                              -31.32  
+    0:04:53   11125.9    523.91  250848.1       0.0                              -31.32  
+    0:04:53   11125.9    523.91  250797.1       0.0                              -31.32  
+    0:04:53   11125.9    523.91  250752.2       0.0                              -31.32  
+    0:04:54   11126.0    523.91  250581.4       0.0                              -31.32  
+    0:04:54   11125.9    523.91  250516.0       0.0                              -31.32  
+    0:04:54   11126.0    523.91  250425.4       0.0                              -31.32  
+    0:04:54   11126.1    523.91  250327.5       0.0                              -31.32  
+    0:04:54   11126.2    523.91  250297.0       0.0                              -31.32  
+    0:04:55   11126.1    523.91  250233.7       0.0                              -31.32  
+    0:04:55   11126.4    523.91  250109.5       0.0                              -31.32  
+    0:04:55   11126.4    523.91  249850.6       0.0                              -31.32  
+    0:04:56   11126.7    523.91  249774.1       0.0                              -31.32  
+    0:04:56   11127.0    523.91  249517.8       0.0                              -31.32  
+    0:04:57   11126.5    523.91  249228.2       0.0                              -31.32  
+    0:04:57   11126.6    523.91  249071.8       0.0                              -31.32  
+    0:04:58   11126.7    523.91  248899.9       0.0                              -31.32  
+    0:04:58   11126.7    523.91  248514.0       0.0                              -31.32  
+    0:04:58   11126.9    523.91  248310.1       0.0                              -31.32  
+    0:04:59   11126.8    523.91  247925.1       0.0                              -31.32  
+    0:05:00   11126.8    523.91  247717.4       0.0                              -31.32  
+    0:05:00   11126.9    523.91  247620.4       0.0                              -31.32  
+    0:05:01   11127.1    523.91  247447.9       0.0                              -31.32  
+    0:05:01   11127.2    523.91  247275.6       0.0                              -31.32  
+    0:05:01   11127.4    523.91  247118.8       0.0                              -31.32  
+    0:05:01   11127.4    523.91  246865.5       0.0                              -31.32  
+    0:05:02   11127.5    523.91  246703.8       0.0                              -31.32  
+    0:05:02   11127.7    523.91  246464.1       0.0                              -31.32  
+    0:05:02   11127.7    523.91  246405.8       0.0                              -31.32  
+    0:05:03   11127.9    523.91  246238.4       0.0                              -31.32  
+    0:05:03   11127.7    523.91  246124.7       0.0                              -31.32  
+    0:05:03   11127.9    523.91  245780.9       0.0                              -31.32  
+    0:05:04   11128.0    523.91  245620.0       0.0                              -31.32  
+    0:05:04   11128.1    523.91  245554.6       0.0                              -31.32  
+    0:05:04   11127.4    523.91  245416.3       0.0                              -31.32  
+    0:05:04   11127.4    523.91  245277.7       0.0                              -31.32  
+    0:05:05   11127.3    523.91  245168.8       0.0                              -31.32  
+    0:05:05   11127.4    523.91  244977.6       0.0                              -31.32  
+    0:05:05   11127.3    523.91  244964.6       0.0                              -31.32  
+    0:05:05   11127.1    523.91  244810.0       0.0                              -31.32  
+    0:05:06   11127.6    523.91  244654.1       0.0                              -31.32  
+    0:05:06   11127.5    523.91  244507.7       0.0                              -31.32  
+    0:05:07   11127.8    523.91  244259.6       0.0                              -31.32  
+    0:05:07   11128.0    523.91  244052.2       0.0                              -31.32  
+    0:05:07   11128.1    523.91  243951.6       0.0                              -31.32  
+    0:05:08   11128.2    523.91  243705.9       0.0                              -31.32  
+    0:05:08   11128.2    523.91  243346.4       0.0                              -31.32  
+    0:05:08   11128.5    523.91  243263.3       0.0                              -31.32  
+    0:05:08   11128.7    523.91  243075.5       0.0                              -31.32  
+    0:05:09   11128.6    523.91  242919.3       0.0                              -31.32  
+    0:05:09   11128.4    523.91  242662.2       0.0                              -31.32  
+    0:05:10   11128.2    523.91  242441.8       0.0                              -31.32  
+    0:05:10   11128.2    523.91  242242.2       0.0                              -31.32  
+    0:05:11   11128.3    523.91  242092.0       0.0                              -31.32  
+    0:05:11   11128.4    523.91  242083.1       0.0                              -31.32  
+    0:05:11   11128.8    523.91  241974.4       0.0                              -31.32  
+    0:05:12   11128.5    523.91  241876.2       0.0                              -31.32  
+    0:05:12   11128.5    523.74  241815.1       0.0                              -31.32  
+    0:05:12   11128.5    523.74  241635.9       0.0                              -31.32  
+    0:05:12   11128.3    523.74  241488.9       0.0                              -31.32  
+    0:05:13   11129.0    523.74  241323.8       0.0                              -31.32  
+    0:05:13   11128.8    523.74  241179.8       0.0                              -31.32  
+    0:05:13   11129.0    523.74  240994.8       0.0                              -31.32  
+    0:05:13   11129.0    523.74  240827.8       0.0                              -31.32  
+    0:05:14   11128.7    523.74  240644.9       0.0                              -31.32  
+    0:05:14   11128.9    523.74  240531.6       0.0                              -31.32  
+    0:05:14   11128.5    523.74  240321.9       0.0                              -31.32  
+    0:05:15   11128.4    523.74  240279.1       0.0                              -31.32  
+    0:05:15   11128.6    523.74  240165.3       0.0                              -31.32  
+    0:05:15   11128.9    523.74  240022.2       0.0                              -31.32  
+    0:05:15   11129.1    523.74  239771.8       0.0                              -31.32  
+    0:05:16   11129.2    523.74  239612.9       0.0                              -31.32  
+    0:05:16   11129.6    523.74  239450.2       0.0                              -31.32  
+    0:05:16   11129.7    523.74  239232.8       0.0                              -31.32  
+    0:05:17   11129.6    523.74  239109.2       0.0                              -31.32  
+    0:05:17   11129.3    523.74  239059.5       0.0                              -31.32  
+    0:05:18   11129.5    523.74  238953.3       0.0                              -31.32  
+    0:05:18   11129.2    523.74  238798.6       0.0                              -31.32  
+    0:05:19   11129.1    523.74  238582.3       0.0                              -31.32  
+    0:05:19   11129.2    523.74  238466.5       0.0                              -31.32  
+    0:05:20   11129.1    523.74  238379.0       0.0                              -31.32  
+    0:05:20   11129.1    523.74  238307.2       0.0                              -31.32  
+    0:05:20   11128.8    523.74  238157.7       0.0                              -31.32  
+    0:05:20   11128.9    523.74  238129.9       0.0                              -31.32  
+    0:05:21   11128.8    523.74  238073.2       0.0                              -31.32  
+    0:05:21   11128.2    523.74  237965.6       0.0                              -31.32  
+    0:05:21   11127.7    523.74  237884.5       0.0                              -31.32  
+    0:05:22   11127.7    523.74  238191.2       0.0                              -31.32  
+    0:05:22   11127.5    523.74  238147.3       0.0                              -31.32  
+    0:05:22   11127.5    523.74  238087.6       0.0                              -31.32  
+    0:05:22   11127.5    523.74  238011.3       0.0                              -31.32  
+    0:05:23   11127.1    523.74  237874.7       0.0                              -31.32  
+    0:05:23   11127.0    523.74  237764.4       0.0                              -31.32  
+    0:05:23   11127.1    523.74  237645.3       0.0                              -31.32  
+    0:05:24   11127.1    523.74  237547.4       0.0                              -31.32  
+    0:05:24   11127.0    523.74  237451.4       0.0                              -31.32  
+    0:05:24   11127.1    523.74  237329.6       0.0                              -31.32  
+    0:05:24   11127.1    523.74  237220.2       0.0                              -31.32  
+    0:05:24   11127.3    523.74  237105.5       0.0                              -31.32  
+    0:05:25   11127.4    523.74  237011.3       0.0                              -31.32  
+    0:05:25   11127.3    523.74  236928.8       0.0                              -31.32  
+    0:05:25   11127.2    523.74  236782.9       0.0                              -31.32  
+    0:05:25   11127.3    523.74  236693.9       0.0                              -31.32  
+    0:05:26   11127.4    523.74  236576.4       0.0                              -31.32  
+    0:05:26   11127.7    523.74  236403.2       0.0                              -31.32  
+    0:05:26   11127.6    523.74  236227.9       0.0                              -31.32  
+    0:05:26   11128.0    523.74  236112.8       0.0                              -31.32  
+    0:05:27   11128.0    523.74  236089.2       0.0                              -31.32  
+    0:05:27   11127.9    523.74  236040.6       0.0                              -31.32  
+    0:05:27   11127.9    523.74  235979.2       0.0                              -31.32  
+    0:05:27   11128.1    523.74  235910.0       0.0                              -31.32  
+    0:05:28   11128.1    523.74  235838.4       0.0                              -31.32  
+    0:05:28   11128.2    523.74  235785.2       0.0                              -31.32  
+    0:05:28   11128.2    523.74  235706.0       0.0                              -31.32  
+    0:05:28   11128.3    523.74  235631.0       0.0                              -31.32  
+    0:05:28   11128.1    523.74  235571.8       0.0                              -31.32  
+    0:05:29   11128.1    523.74  235495.4       0.0                              -31.32  
+    0:05:29   11128.1    523.74  235429.6       0.0                              -31.32  
+    0:05:29   11128.0    523.74  235406.8       0.0                              -31.32  
+    0:05:29   11128.1    523.74  235365.2       0.0                              -31.32  
+    0:05:29   11128.2    523.74  235309.8       0.0                              -31.32  
+    0:05:30   11128.4    523.74  235222.5       0.0                              -31.32  
+    0:05:30   11128.3    523.74  235163.8       0.0                              -31.32  
+    0:05:30   11128.3    523.74  235125.6       0.0                              -31.32  
+    0:05:30   11128.4    523.74  235073.3       0.0                              -31.32  
+    0:05:31   11128.2    523.74  235037.6       0.0                              -31.32  
+    0:05:31   11128.2    523.74  234988.9       0.0                              -31.32  
+    0:05:31   11128.2    523.74  234970.9       0.0                              -31.32  
+    0:05:31   11128.2    523.74  234691.4       0.0                              -31.32  
+    0:05:31   11128.2    523.74  234648.3       0.0                              -31.32  
+    0:05:31   11128.3    523.74  234601.4       0.0                              -31.32  
+    0:05:32   11127.7    523.74  234485.0       0.0                              -31.32  
+    0:05:32   11127.8    523.74  234417.6       0.0                              -31.32  
+    0:05:32   11128.0    523.74  234367.7       0.0                              -31.32  
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:05:32   11128.0    523.74  234367.7       0.0                              -31.32  
+    0:05:32   11128.0    523.74  234367.7       0.0                              -31.32  
+    0:05:35   11089.5    527.14  234269.0       0.0                              -30.50  
+    0:05:36   11080.7    527.01  234171.3       0.0                              -30.50  
+    0:05:36   11079.2    527.02  234169.4       0.0                              -30.50  
+    0:05:36   11076.5    527.36  234301.4       0.0                              -30.50  
+    0:05:36   11076.0    531.26  235019.2       0.0                              -30.50  
+    0:05:37   11075.7    531.26  235017.6       0.0                              -30.50  
+    0:05:37   11074.9    531.26  235017.6       0.0                              -30.50  
+    0:05:37   11074.9    531.26  235017.6       0.0                              -30.50  
+    0:05:37   11074.9    531.26  235017.6       0.0                              -30.50  
+    0:05:38   11028.5    628.35  257061.4       0.0                              -30.50  
+    0:05:39   11010.0    628.26  257552.6       0.0                              -30.50  
+    0:05:40   11002.0    627.99  257285.9       0.0                              -30.50  
+    0:05:40   10999.9    627.99  257354.1       0.0                              -30.50  
+    0:05:40   10999.2    627.99  257190.4       0.0                              -30.50  
+    0:05:40   10999.2    627.99  257190.4       0.0                              -30.50  
+    0:05:40   10999.2    627.99  257190.4       0.0                              -30.50  
+    0:05:40   10999.2    627.99  257190.4       0.0                              -30.50  
+    0:05:41   11000.3    535.73  237775.0       0.0 g_mul[4].u_mul/y_reg[3]/D    -30.50  
+    0:05:41   11001.2    533.47  237596.5       0.0 g_mul[0].u_mul/y_reg[7]/D    -30.50  
+    0:05:42   11001.6    532.33  236932.1       0.0 g_mul[6].u_mul/y_reg[2]/D    -30.50  
+    0:05:42   11001.9    528.86  236654.9       0.0 g_mul[6].u_mul/y_reg[2]/D    -30.50  
+    0:05:42   11002.0    528.60  236581.2       0.0 g_mul[7].u_mul/y_reg[7]/D    -30.50  
+    0:05:43   11002.1    528.34  236557.6       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:43   11002.1    527.66  236481.1       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:43   11002.3    526.64  236442.5       0.0 g_mul[6].u_mul/y_reg[2]/D    -30.50  
+    0:05:43   11002.4    526.34  236443.7       0.0 g_mul[12].u_mul/y_reg[4]/D    -30.50  
+    0:05:44   11002.4    526.23  236413.0       0.0 g_mul[6].u_mul/y_reg[2]/D    -30.50  
+    0:05:44   11002.5    526.16  236453.3       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:44   11002.6    526.08  236434.8       0.0 g_mul[3].u_mul/y_reg[4]/D    -30.50  
+    0:05:44   11002.7    526.03  236384.0       0.0 g_mul[0].u_mul/y_reg[7]/D    -30.50  
+    0:05:44   11002.7    525.55  236306.8       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:44   11002.8    525.52  236286.3       0.0 g_mul[7].u_mul/y_reg[7]/D    -30.50  
+    0:05:45   11003.4    525.25  236238.0       0.0 g_mul[0].u_mul/y_reg[7]/D    -30.50  
+    0:05:45   11003.5    525.05  236226.3       0.0 g_mul[3].u_mul/y_reg[4]/D    -30.50  
+    0:05:45   11003.5    525.04  236204.3       0.0 g_mul[3].u_mul/y_reg[4]/D    -30.50  
+    0:05:45   11003.6    524.85  236157.7       0.0 g_mul[8].u_mul/y_reg[2]/D    -30.50  
+    0:05:45   11003.8    524.77  236100.9       0.0 g_mul[3].u_mul/y_reg[4]/D    -30.50  
+    0:05:46   11004.0    524.45  236026.7       0.0 g_mul[4].u_mul/y_reg[3]/D    -30.50  
+    0:05:46   11004.5    524.12  235481.1       0.0 g_mul[10].u_mul/y_reg[2]/D    -30.50  
+    0:05:46   11004.5    523.83  235464.3       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:46   11004.6    523.78  235432.6       0.0 g_mul[13].u_mul/y_reg[7]/D    -30.50  
+    0:05:46   11005.2    523.48  235336.1       0.0 g_mul[4].u_mul/y_reg[3]/D    -30.50  
+    0:05:47   11005.5    522.90  235199.7       0.0 g_mul[2].u_mul/y_reg[2]/D    -30.50  
+    0:05:47   11005.8    522.49  235176.6       0.0 g_mul[1].u_mul/y_reg[4]/D    -30.50  
+    0:05:47   11005.8    522.27  235127.8       0.0 g_mul[0].u_mul/y_reg[7]/D    -30.50  
+    0:05:47   11005.8    522.13  235084.3       0.0 g_mul[4].u_mul/y_reg[3]/D    -30.50  
+    0:05:47   11006.0    521.98  235059.2       0.0 g_mul[10].u_mul/y_reg[2]/D    -30.50  
+    0:05:48   11006.2    521.77  235005.0       0.0 g_mul[8].u_mul/y_reg[2]/D    -30.50  
+    0:05:48   11006.2    521.50  234962.9       0.0 g_mul[3].u_mul/y_reg[4]/D    -30.50  
+    0:05:48   11006.2    521.37  234935.3       0.0 g_mul[2].u_mul/y_reg[2]/D    -30.50  
+    0:05:48   11006.4    521.17  234921.0       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:48   11006.4    521.14  234917.2       0.0 g_mul[1].u_mul/y_reg[4]/D    -30.50  
+    0:05:48   11006.4    521.01  234897.7       0.0 g_mul[3].u_mul/y_reg[4]/D    -30.50  
+    0:05:48   11006.4    520.98  234867.1       0.0 g_mul[8].u_mul/y_reg[2]/D    -30.50  
+    0:05:49   11006.6    520.88  234821.4       0.0 g_mul[6].u_mul/y_reg[2]/D    -30.50  
+    0:05:49   11006.6    520.76  234806.2       0.0 g_mul[2].u_mul/y_reg[2]/D    -30.50  
+    0:05:49   11006.5    520.53  234777.5       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:49   11006.7    520.42  234760.2       0.0 g_mul[7].u_mul/y_reg[7]/D    -30.50  
+    0:05:49   11006.9    520.38  234740.3       0.0 g_mul[0].u_mul/y_reg[7]/D    -30.50  
+    0:05:50   11007.0    520.36  234733.4       0.0 g_mul[8].u_mul/y_reg[2]/D    -30.50  
+    0:05:50   11006.8    520.15  234716.6       0.0 g_mul[15].u_mul/y_reg[4]/D    -30.50  
+    0:05:50   11007.0    520.06  234651.4       0.0 g_mul[3].u_mul/y_reg[4]/D    -30.50  
+    0:05:50   11007.1    520.03  234660.2       0.0 g_mul[1].u_mul/y_reg[4]/D    -30.50  
+    0:05:50   11007.1    519.82  234643.1       0.0 g_mul[6].u_mul/y_reg[2]/D    -30.50  
+    0:05:51   11007.2    519.64  234611.9       0.0 g_mul[0].u_mul/y_reg[7]/D    -30.50  
+    0:05:51   11007.3    519.54  234570.6       0.0 g_mul[2].u_mul/y_reg[2]/D    -30.50  
+    0:05:51   11007.3    519.34  234567.9       0.0 g_mul[14].u_mul/y_reg[2]/D    -30.50  
+    0:05:51   11007.5    519.28  234556.5       0.0 g_mul[13].u_mul/y_reg[7]/D    -30.50  
+    0:05:52   11007.5    519.28  234553.6       0.0                              -30.50  
+    0:05:52   11007.4    519.28  234553.7       0.0                              -30.50  
+    0:05:52   11007.2    519.28  234552.2       0.0                              -30.50  
+    0:05:52   11006.9    519.28  234545.2       0.0                              -30.50  
+    0:05:52   11006.5    519.28  234538.3       0.0                              -30.50  
+    0:05:52   11006.5    519.28  234538.3       0.0                              -30.50  
+    0:05:52   11006.3    519.28  234538.3       0.0                              -30.50  
+    0:05:52   11006.1    519.28  234538.0       0.0                              -30.50  
+    0:05:52   11005.6    519.28  234538.2       0.0                              -30.50  
+    0:05:52   11005.5    519.28  234538.1       0.0                              -30.50  
+    0:05:53   11005.2    519.28  234537.9       0.0                              -30.50  
+    0:05:53   11005.0    519.28  234530.2       0.0                              -30.50  
+    0:05:53   11004.5    519.28  234487.4       0.0                              -30.50  
+    0:05:53   11004.0    519.28  234478.2       0.0                              -30.50  
+    0:05:53   11003.7    519.28  234478.2       0.0                              -30.50  
+    0:05:53   11003.5    519.28  234459.8       0.0                              -30.50  
+    0:05:53   11003.3    519.28  234459.8       0.0                              -30.50  
+    0:05:53   11002.9    519.28  234446.2       0.0                              -30.50  
+    0:05:53   11002.6    519.28  234438.1       0.0                              -30.50  
+    0:05:53   11002.4    519.28  234424.2       0.0                              -30.50  
+    0:05:53   11002.2    519.28  234424.3       0.0                              -30.50  
+    0:05:54   11002.0    519.28  234424.8       0.0                              -30.50  
+    0:05:54   11001.6    519.28  234422.0       0.0                              -30.50  
+    0:05:54   11001.1    519.28  234404.8       0.0                              -30.50  
+    0:05:54   11000.3    519.28  234401.1       0.0                              -30.50  
+    0:05:54   10999.8    519.28  234397.6       0.0                              -30.50  
+    0:05:54   10999.6    519.28  234396.9       0.0                              -30.50  
+    0:05:55   10999.5    519.28  234396.9       0.0 last_pipe_reg[2]/D           -27.66  
+    0:05:55   11000.1    519.25  234397.3       0.0                                0.00  
+    0:05:56   11000.0    519.15  234372.5       0.0                                0.00  
+    0:05:56   11000.0    519.15  234369.5       0.0                                0.00  
+    0:05:56   11000.1    519.15  234346.5       0.0                                0.00  
+    0:05:56   11000.1    519.15  234332.5       0.0                                0.00  
+    0:05:56   11000.1    519.15  234320.1       0.0                                0.00  
+    0:05:57   11000.1    519.15  234289.9       0.0                                0.00  
+    0:05:57   11000.0    519.15  234281.7       0.0                                0.00  
+    0:05:57   11000.0    519.15  234257.3       0.0                                0.00  
+    0:05:57   11000.0    519.15  234253.4       0.0                                0.00  
+    0:05:57   11000.0    519.15  234225.7       0.0                                0.00  
+    0:05:58   11000.0    519.15  234218.1       0.0                                0.00  
+    0:05:58   11000.0    519.15  234207.7       0.0                                0.00  
+    0:05:58   10999.9    519.15  234199.2       0.0                                0.00  
+    0:05:58   11000.0    519.15  234196.2       0.0                                0.00  
+    0:05:58   11000.0    519.15  234171.0       0.0                                0.00  
+    0:05:58   11000.0    519.15  234163.0       0.0                                0.00  
+    0:05:59   11000.1    519.15  234140.5       0.0                                0.00  
+    0:05:59   11000.0    519.15  234115.8       0.0                                0.00  
+    0:05:59   11000.1    519.15  234096.8       0.0                                0.00  
+    0:05:59   11000.1    519.15  234090.6       0.0                                0.00  
+    0:05:59   11000.2    519.15  234061.0       0.0                                0.00  
+    0:05:59   11000.2    519.15  234042.5       0.0                                0.00  
+    0:06:00   11000.2    519.15  234039.4       0.0                                0.00  
+    0:06:00   11000.4    519.15  234022.1       0.0                                0.00  
+    0:06:00   11000.4    519.15  233979.8       0.0                                0.00  
+    0:06:00   11000.4    519.15  233973.6       0.0                                0.00  
+    0:06:00   11000.3    519.15  233932.3       0.0                                0.00  
+    0:06:00   11000.3    519.15  233925.2       0.0                                0.00  
+    0:06:01   11000.3    519.15  233921.0       0.0                                0.00  
+    0:06:01   11000.3    519.15  233913.5       0.0                                0.00  
+    0:06:01   11000.3    519.15  233906.3       0.0                                0.00  
+    0:06:01   11000.3    519.15  233900.9       0.0                                0.00  
+    0:06:01   11000.3    519.15  233899.1       0.0                                0.00  
+    0:06:01   11000.3    519.15  233881.5       0.0                                0.00  
+    0:06:01   11000.3    519.15  233864.5       0.0                                0.00  
+    0:06:02   11000.5    519.15  233847.8       0.0                                0.00  
+    0:06:02   11000.6    519.15  233823.1       0.0                                0.00  
+    0:06:02   11000.6    519.15  233797.6       0.0                                0.00  
+    0:06:02   11000.6    519.15  233799.2       0.0                                0.00  
+    0:06:02   11000.6    519.15  233754.8       0.0                                0.00  
+    0:06:02   11000.6    519.15  233717.6       0.0                                0.00  
+    0:06:03   11000.7    519.15  233682.8       0.0                                0.00  
+    0:06:03   11000.9    519.15  233603.8       0.0                                0.00  
+    0:06:03   11001.0    519.15  233506.5       0.0                                0.00  
+    0:06:03   11001.3    519.15  233406.4       0.0                                0.00  
+    0:06:03   11001.3    519.15  233401.5       0.0                                0.00  
+    0:06:03   11001.6    519.15  233364.7       0.0                                0.00  
+    0:06:03   11001.6    519.15  233334.5       0.0                                0.00  
+    0:06:04   11002.3    519.15  233300.7       0.0                                0.00  
+    0:06:04   11002.4    519.15  233225.8       0.0                                0.00  
+    0:06:04   11002.4    519.15  233056.0       0.0                                0.00  
+    0:06:04   11002.5    519.15  233000.3       0.0                                0.00  
+    0:06:04   11002.4    519.15  232871.7       0.0                                0.00  
+    0:06:05   11002.5    519.15  232778.3       0.0                                0.00  
+    0:06:05   11002.5    519.15  232724.0       0.0                                0.00  
+    0:06:06   11002.6    519.15  232566.2       0.0                                0.00  
+    0:06:06   11002.9    519.15  232387.2       0.0                                0.00  
+    0:06:06   11003.0    519.15  232299.3       0.0                                0.00  
+    0:06:07   11003.0    519.15  232183.6       0.0                                0.00  
+    0:06:07   11003.1    519.15  232169.1       0.0                                0.00  
+    0:06:08   11003.1    519.15  231860.2       0.0                                0.00  
+    0:06:08   11003.1    519.15  231681.0       0.0                                0.00  
+    0:06:09   11003.1    519.15  231545.9       0.0                                0.00  
+    0:06:09   11003.2    519.15  231500.5       0.0                                0.00  
+    0:06:09   11003.2    519.15  231474.5       0.0                                0.00  
+    0:06:10   11003.2    519.15  231404.0       0.0                                0.00  
+    0:06:10   11003.6    519.15  231238.9       0.0                                0.00  
+    0:06:10   11003.6    519.15  231173.6       0.0                                0.00  
+    0:06:10   11004.0    519.15  231057.3       0.0                                0.00  
+    0:06:11   11004.5    519.15  231037.1       0.0                                0.00  
+    0:06:11   11004.6    519.15  230981.6       0.0                                0.00  
+    0:06:11   11004.6    519.15  230926.7       0.0                                0.00  
+    0:06:11   11004.6    519.15  230825.3       0.0                                0.00  
+    0:06:11   11004.7    519.15  230799.4       0.0                                0.00  
+    0:06:11   11004.9    519.15  230750.8       0.0                                0.00  
+    0:06:12   11005.2    519.15  230586.7       0.0                                0.00  
+    0:06:12   11005.3    519.15  230524.6       0.0                                0.00  
+    0:06:12   11005.9    519.15  230375.2       0.0                                0.00  
+    0:06:12   11005.9    519.15  230140.6       0.0                                0.00  
+    0:06:13   11005.9    519.15  230127.8       0.0                                0.00  
+    0:06:13   11006.0    519.15  230027.1       0.0                                0.00  
+    0:06:13   11006.2    519.15  229931.6       0.0                                0.00  
+    0:06:13   11006.5    519.15  229736.0       0.0                                0.00  
+    0:06:13   11006.7    519.15  229706.2       0.0                                0.00  
+    0:06:13   11006.8    519.15  229625.6       0.0                                0.00  
+    0:06:14   11007.1    519.15  229545.6       0.0                                0.00  
+    0:06:14   11007.2    519.15  229517.8       0.0                                0.00  
+    0:06:14   11007.2    519.15  229468.0       0.0                                0.00  
+    0:06:14   11007.2    519.15  229431.0       0.0                                0.00  
+    0:06:15   11007.4    519.15  229371.2       0.0                                0.00  
+    0:06:15   11007.7    519.15  229317.6       0.0                                0.00  
+    0:06:15   11007.9    519.15  229279.5       0.0                                0.00  
+    0:06:15   11008.0    519.15  229242.1       0.0                                0.00  
+    0:06:15   11008.2    519.15  229217.2       0.0                                0.00  
+    0:06:15   11008.3    519.15  229112.5       0.0                                0.00  
+    0:06:16   11008.5    519.15  229082.2       0.0                                0.00  
+    0:06:16   11008.7    519.15  228937.4       0.0                                0.00  
+    0:06:16   11008.9    519.15  228874.2       0.0                                0.00  
+    0:06:16   11009.1    519.15  228795.6       0.0                                0.00  
+    0:06:17   11009.4    519.15  228576.1       0.0                                0.00  
+    0:06:17   11009.6    519.15  228484.7       0.0                                0.00  
+    0:06:17   11009.6    519.15  228477.3       0.0                                0.00  
+    0:06:17   11009.6    519.15  228409.6       0.0                                0.00  
+    0:06:18   11009.7    519.15  228351.4       0.0                                0.00  
+    0:06:18   11009.3    519.15  228244.3       0.0                                0.00  
+    0:06:18   11009.5    519.15  228121.7       0.0                                0.00  
+    0:06:18   11009.7    519.15  228030.1       0.0                                0.00  
+    0:06:18   11009.5    519.15  228034.4       0.0                                0.00  
+    0:06:18   11009.6    519.15  228015.1       0.0                                0.00  
+    0:06:19   11009.7    519.15  227996.0       0.0                                0.00  
+    0:06:19   11009.7    519.15  227946.5       0.0                                0.00  
+    0:06:19   11010.0    519.15  227889.5       0.0                                0.00  
+    0:06:19   11010.0    519.15  227864.0       0.0                                0.00  
+    0:06:19   11010.1    519.15  227820.1       0.0                                0.00  
+    0:06:20   11010.1    519.15  227656.3       0.0                                0.00  
+    0:06:20   11010.1    519.15  227584.5       0.0                                0.00  
+    0:06:20   11010.2    519.15  227530.3       0.0                                0.00  
+    0:06:20   11010.4    519.15  227509.6       0.0                                0.00  
+    0:06:21   11010.4    519.15  227485.2       0.0                                0.00  
+    0:06:21   11010.5    519.15  227440.3       0.0                                0.00  
+    0:06:21   11010.5    519.15  227432.5       0.0                                0.00  
+    0:06:21   11010.7    519.15  227389.6       0.0                                0.00  
+    0:06:21   11010.8    519.15  227296.5       0.0                                0.00  
+    0:06:21   11010.8    519.15  227168.9       0.0                                0.00  
+    0:06:21   11010.8    519.15  227138.2       0.0                                0.00  
+    0:06:22   11011.0    519.15  227111.2       0.0                                0.00  
+    0:06:22   11011.5    519.15  227103.4       0.0                                0.00  
+    0:06:22   11011.6    519.15  227033.0       0.0                                0.00  
+    0:06:22   11011.8    519.15  226970.1       0.0                                0.00  
+    0:06:23   11012.0    519.15  226888.5       0.0                                0.00  
+    0:06:23   11012.0    519.15  226795.6       0.0                                0.00  
+    0:06:23   11012.1    519.15  226770.6       0.0                                0.00  
+    0:06:23   11012.1    519.15  226705.5       0.0                                0.00  
+    0:06:23   11011.8    519.15  226668.1       0.0                                0.00  
+    0:06:23   11012.2    519.15  226640.9       0.0                                0.00  
+    0:06:24   11012.2    519.15  226631.5       0.0                                0.00  
+    0:06:24   11012.3    519.15  226604.7       0.0                                0.00  
+    0:06:24   11012.6    519.15  226590.2       0.0                                0.00  
+    0:06:24   11012.7    519.15  226493.9       0.0                                0.00  
+    0:06:24   11012.8    519.15  226436.0       0.0                                0.00  
+    0:06:24   11012.8    519.15  226423.1       0.0                                0.00  
+    0:06:25   11012.7    519.15  226420.5       0.0                                0.00  
+    0:06:25   11012.8    519.15  226328.7       0.0                                0.00  
+    0:06:25   11012.9    519.15  226291.3       0.0                                0.00  
+    0:06:25   11012.9    519.15  226283.8       0.0                                0.00  
+    0:06:25   11013.0    519.15  226244.5       0.0                                0.00  
+    0:06:26   11013.0    519.15  226237.8       0.0                                0.00  
+    0:06:26   11013.0    519.15  226204.0       0.0                                0.00  
+    0:06:26   11013.0    519.15  226176.2       0.0                                0.00  
+    0:06:26   11013.1    519.15  226118.3       0.0                                0.00  
+    0:06:26   11013.3    519.15  226074.8       0.0                                0.00  
+    0:06:27   11013.5    519.15  226037.9       0.0                                0.00  
+    0:06:27   11013.5    519.15  226034.8       0.0                                0.00  
+    0:06:28   11013.5    519.15  226027.1       0.0                                0.00  
+    0:06:28   11013.3    519.15  226016.4       0.0                                0.00  
+    0:06:28   11013.3    519.15  225975.4       0.0                                0.00  
+    0:06:28   11013.5    519.15  225958.7       0.0                                0.00  
+    0:06:28   11013.5    519.15  225932.4       0.0                                0.00  
+    0:06:28   11013.6    519.15  225887.5       0.0                                0.00  
+    0:06:29   11013.7    519.15  225845.8       0.0                                0.00  
+    0:06:29   11014.2    518.30  225829.8       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:29   11014.2    518.30  225828.2       0.0 g_mul[8].u_mul/y_reg[2]/D      0.00  
+    0:06:29   11014.3    518.10  225825.9       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:29   11014.3    518.08  225824.5       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:30   11014.5    517.84  225813.8       0.0 g_mul[8].u_mul/y_reg[2]/D      0.00  
+    0:06:30   11014.6    517.71  225805.1       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:30   11014.6    517.66  225801.2       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:30   11015.3    517.43  225799.5       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:30   11015.4    517.36  225791.2       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:30   11015.4    517.28  225778.9       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:30   11016.0    517.22  225774.4       0.0 g_mul[11].u_mul/y_reg[4]/D      0.00  
+    0:06:31   11016.1    517.11  225768.3       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:31   11016.1    517.07  225790.2       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:31   11016.3    516.90  225779.4       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:31   11016.4    516.73  225759.3       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:31   11016.4    516.72  225752.2       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:31   11016.4    516.69  225749.6       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:32   11016.4    516.60  225748.8       0.0 g_mul[8].u_mul/y_reg[2]/D      0.00  
+    0:06:32   11016.7    516.43  225744.3       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:32   11016.9    516.33  225726.0       0.0 g_mul[12].u_mul/y_reg[4]/D      0.00  
+    0:06:32   11016.9    516.25  225708.4       0.0 g_mul[8].u_mul/y_reg[9]/D      0.00  
+    0:06:33   11017.0    516.19  225693.0       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:33   11017.2    515.99  225707.8       0.0 g_mul[12].u_mul/y_reg[4]/D      0.00  
+    0:06:34   11017.2    515.90  225691.8       0.0 g_mul[11].u_mul/y_reg[4]/D      0.00  
+    0:06:34   11017.3    515.82  225676.9       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:34   11017.4    515.72  225683.2       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:34   11017.4    515.62  225659.5       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:06:35   11017.4    515.61  225656.5       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:35   11017.4    515.34  225614.1       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:35   11017.4    515.32  225605.4       0.0 g_mul[10].u_mul/y_reg[2]/D      0.00  
+    0:06:35   11017.5    515.24  225588.7       0.0 g_mul[12].u_mul/y_reg[4]/D      0.00  
+    0:06:35   11017.5    515.16  225563.1       0.0 g_mul[12].u_mul/y_reg[4]/D      0.00  
+    0:06:36   11017.6    515.12  225552.3       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:06:36   11017.6    514.98  225548.9       0.0 g_mul[6].u_mul/y_reg[2]/D      0.00  
+    0:06:36   11017.6    514.87  225514.9       0.0 g_mul[11].u_mul/y_reg[9]/D      0.00  
+    0:06:36   11017.8    514.54  225477.2       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:36   11018.0    514.29  225442.0       0.0 g_mul[11].u_mul/y_reg[9]/D      0.00  
+    0:06:36   11018.1    514.20  225431.2       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:37   11018.1    514.01  225427.7       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:37   11018.2    513.99  225439.8       0.0 g_mul[1].u_mul/y_reg[4]/D      0.00  
+    0:06:38   11018.3    513.97  225429.0       0.0 g_mul[8].u_mul/y_reg[9]/D      0.00  
+    0:06:38   11018.3    513.97  225426.7       0.0 g_mul[11].u_mul/y_reg[9]/D      0.00  
+    0:06:38   11018.5    513.90  225408.8       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:06:39   11018.5    513.70  225409.0       0.0 g_mul[10].u_mul/y_reg[2]/D      0.00  
+    0:06:39   11018.6    513.59  225403.1       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:06:39   11018.7    513.55  225391.6       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:06:39   11018.7    513.45  225364.4       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:39   11018.7    513.41  225367.5       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:06:40   11018.8    513.35  225330.6       0.0 g_mul[3].u_mul/y_reg[4]/D      0.00  
+    0:06:40   11018.7    513.29  225339.0       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:40   11018.7    513.04  225242.9       0.0 g_mul[6].u_mul/y_reg[2]/D      0.00  
+    0:06:40   11019.3    512.92  225206.4       0.0 g_mul[9].u_mul/y_reg[7]/D      0.00  
+    0:06:41   11019.3    512.83  225198.0       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:06:41   11019.4    512.73  225172.9       0.0 g_mul[8].u_mul/y_reg[9]/D      0.00  
+    0:06:41   11019.3    512.22  225107.6       0.0 g_mul[10].u_mul/y_reg[2]/D      0.00  
+    0:06:41   11019.3    512.03  225042.7       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:42   11019.4    511.86  225027.5       0.0 g_mul[8].u_mul/y_reg[9]/D      0.00  
+    0:06:42   11019.6    511.64  224991.2       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:42   11019.7    511.54  224960.3       0.0 g_mul[10].u_mul/y_reg[2]/D      0.00  
+    0:06:42   11019.9    511.24  224899.8       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:42   11020.1    511.03  224857.4       0.0 g_mul[3].u_mul/y_reg[4]/D      0.00  
+    0:06:43   11020.4    510.98  224836.9       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:43   11020.4    510.83  224817.1       0.0 g_mul[2].u_mul/y_reg[2]/D      0.00  
+    0:06:43   11020.5    510.74  224793.2       0.0 g_mul[7].u_mul/y_reg[7]/D      0.00  
+    0:06:43   11020.6    510.70  224792.3       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:06:43   11020.6    510.70  224790.6       0.0 g_mul[0].u_mul/y_reg[7]/D      0.00  
+    0:06:44   11020.6    510.60  224736.8       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:06:45   11021.2    510.50  224706.8       0.0 g_mul[14].u_mul/y_reg[2]/D      0.00  
+    0:06:45   11021.2    510.39  224705.8       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+    0:06:45   11021.2    510.37  224703.1       0.0 g_mul[11].u_mul/y_reg[4]/D      0.00  
+    0:06:45   11021.3    510.34  224695.9       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:46   11021.3    510.23  224661.8       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:46   11021.4    510.20  224657.7       0.0 g_mul[11].u_mul/y_reg[4]/D      0.00  
+    0:06:46   11021.4    510.18  224652.1       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:46   11021.4    510.04  224643.8       0.0 g_mul[15].u_mul/y_reg[4]/D      0.00  
+    0:06:47   11021.4    510.05  224643.8       0.0 g_mul[4].u_mul/y_reg[3]/D      0.00  
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'gemv_unit' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'g_add[1].u_add/clk': 1131 load(s), 1 driver(s)
+1
+if {$fix_hold} {
+    compile -incremental -only_hold_time
+}
+
+Information: There are 752 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+Information: Converting time units for library 'srambank_64x4x16_6t122' since those in library 'asap7sc7p5t_AO_RVT_TT_nldm_211120' differ. (TIM-105)
+Information: Converting capacitance units for library 'srambank_64x4x16_6t122' since those in library 'asap7sc7p5t_AO_RVT_TT_nldm_211120' differ. (TIM-106)
+Warning: The trip points for the library named srambank_64x4x16_6t122 differ from those in the library named asap7sc7p5t_AO_RVT_TT_nldm_211120. (TIM-164)
+
+  Beginning Pass 1 Mapping  (Incremental)
+  ------------------------
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Incremental)
+  -------------------------------
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:06:57   10995.4    510.05  224643.8       0.0                                0.00  
+    0:06:59   11002.9    510.05  224643.8       0.0                                0.00  
+    0:06:59   11002.9    510.05  224643.8       0.0                                0.00  
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x16_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_64x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x32_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x80_6t122.db'
+Loading db file '/thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7/asap7_sram_0p0/generated/db/srambank_256x4x64_6t122.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'gemv_unit' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'g_add[15].u_add/clk': 1131 load(s), 1 driver(s)
+1
+report_qor -nosplit > [file join $out_dir ${top_module}_qor.rpt]
+report_area -hierarchy -nosplit > [file join $out_dir ${top_module}_area.rpt]
+report_reference -hierarchy -nosplit > [file join $out_dir ${top_module}_references.rpt]
+report_timing -delay_type max -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing.rpt]
+report_timing -delay_type min -max_paths 20 -nosplit > [file join $out_dir ${top_module}_timing_hold.rpt]
+report_power -nosplit > [file join $out_dir ${top_module}_power.rpt]
+write -format verilog -hierarchy -output [file join $out_dir ${top_module}_mapped.v]
+Writing verilog file '/thu-bloor/xinyao-w23/kvpim-rtl/syn/dc_0830-02/gemv_fugue_p769/gemv_unit_mapped.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Warning: Verilog writer has added 1 nets to module fp16_add_0 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_15 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_14 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_13 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_12 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_11 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_10 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_9 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_8 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_7 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_6 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_5 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_4 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_3 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_2 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 1 nets to module fp16_add_1 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+1
+write_sdc [file join $out_dir ${top_module}.sdc]
+1
+quit
+
+Thank you...

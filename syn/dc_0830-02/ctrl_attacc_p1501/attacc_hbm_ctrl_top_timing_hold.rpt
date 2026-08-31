@@ -1,0 +1,617 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 20
+Design : attacc_hbm_ctrl_top
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:42:34 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: u_ctrl/r_op_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/r_op_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/r_op_reg[0]/CLK (DFFASRHQNx1_ASAP7_75t_R)        0.00 #     0.00 r
+  u_ctrl/r_op_reg[0]/QN (DFFASRHQNx1_ASAP7_75t_R)        53.36      53.36 r
+  u_ctrl/U2336/Y (OAI32xp33_ASAP7_75t_R)                 11.89      65.25 f
+  u_ctrl/r_op_reg[0]/D (DFFASRHQNx1_ASAP7_75t_R)          0.00      65.25 f
+  data arrival time                                                 65.25
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/r_op_reg[0]/CLK (DFFASRHQNx1_ASAP7_75t_R)        0.00      50.00 r
+  library hold time                                      15.12      65.12
+  data required time                                                65.12
+  --------------------------------------------------------------------------
+  data required time                                                65.12
+  data arrival time                                                -65.25
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.13
+
+
+  Startpoint: u_ctrl/dram_row_reg[15]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[15]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[15]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[15]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97     53.97 r
+  u_ctrl/U4245/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[15]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[15]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00    50.00 r
+  library hold time                                      15.08      65.08
+  data required time                                                65.08
+  --------------------------------------------------------------------------
+  data required time                                                65.08
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.69
+
+
+  Startpoint: u_ctrl/gemv_op_is_score_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/gemv_op_is_score_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/gemv_op_is_score_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/gemv_op_is_score_reg/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97    53.97 r
+  u_ctrl/U4258/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/gemv_op_is_score_reg/D (DFFASRHQNx1_ASAP7_75t_R)     0.00    65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/gemv_op_is_score_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00    50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[14]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[14]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[14]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[14]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97     53.97 r
+  u_ctrl/U4243/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[14]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[14]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00    50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[13]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[13]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[13]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[13]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97     53.97 r
+  u_ctrl/U4242/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[13]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[13]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00    50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[12]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[12]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[12]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[12]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97     53.97 r
+  u_ctrl/U4241/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[12]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[12]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00    50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[11]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[11]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[11]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[11]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97     53.97 r
+  u_ctrl/U4240/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[11]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[11]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00    50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[10]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[10]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[10]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[10]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97     53.97 r
+  u_ctrl/U4239/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[10]/D (DFFASRHQNx1_ASAP7_75t_R)     0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[10]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00    50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[9]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[9]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[9]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[9]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4238/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[9]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[9]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[8]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[8]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[8]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[8]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4237/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[8]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[8]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[7]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[7]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[7]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[7]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4236/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[7]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[7]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[6]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[6]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[6]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[6]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4235/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[6]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[6]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[5]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[5]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[5]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[5]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4234/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[5]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[5]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[4]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[4]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[4]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[4]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4233/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[4]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[4]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[3]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[3]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[3]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4232/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[3]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[3]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[2]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[2]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[2]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4231/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[2]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[2]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[1]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[1]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4230/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[1]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[1]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/dram_row_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/dram_row_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/dram_row_reg[0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/dram_row_reg[0]/QN (DFFASRHQNx1_ASAP7_75t_R)    53.97      53.97 r
+  u_ctrl/U4229/Y (AOI21xp5_ASAP7_75t_R)                  11.80      65.77 f
+  u_ctrl/dram_row_reg[0]/D (DFFASRHQNx1_ASAP7_75t_R)      0.00      65.77 f
+  data arrival time                                                 65.77
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/dram_row_reg[0]/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00     50.00 r
+  library hold time                                      15.04      65.04
+  data required time                                                65.04
+  --------------------------------------------------------------------------
+  data required time                                                65.04
+  data arrival time                                                -65.77
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.73
+
+
+  Startpoint: u_ctrl/addr_fault_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/addr_fault_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/addr_fault_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00 #     0.00 r
+  u_ctrl/addr_fault_reg/QN (DFFASRHQNx1_ASAP7_75t_R)     53.40      53.40 r
+  u_ctrl/U113/Y (OAI32xp33_ASAP7_75t_R)                  12.54      65.94 f
+  u_ctrl/addr_fault_reg/D (DFFASRHQNx1_ASAP7_75t_R)       0.00      65.94 f
+  data arrival time                                                 65.94
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/addr_fault_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)     0.00      50.00 r
+  library hold time                                      15.13      65.13
+  data required time                                                65.13
+  --------------------------------------------------------------------------
+  data required time                                                65.13
+  data arrival time                                                -65.94
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.80
+
+
+  Startpoint: u_ctrl/r_op_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_ctrl/r_op_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_ctrl/r_op_reg[1]/CLK (DFFASRHQNx1_ASAP7_75t_R)        0.00 #     0.00 r
+  u_ctrl/r_op_reg[1]/QN (DFFASRHQNx1_ASAP7_75t_R)        55.47      55.47 r
+  u_ctrl/U2337/Y (OAI22xp5_ASAP7_75t_R)                  11.05      66.52 f
+  u_ctrl/r_op_reg[1]/D (DFFASRHQNx1_ASAP7_75t_R)          0.00      66.52 f
+  data arrival time                                                 66.52
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  u_ctrl/r_op_reg[1]/CLK (DFFASRHQNx1_ASAP7_75t_R)        0.00      50.00 r
+  library hold time                                      15.46      65.46
+  data required time                                                65.46
+  --------------------------------------------------------------------------
+  data required time                                                65.46
+  data arrival time                                                -66.52
+  --------------------------------------------------------------------------
+  slack (MET)                                                        1.06
+
+
+1

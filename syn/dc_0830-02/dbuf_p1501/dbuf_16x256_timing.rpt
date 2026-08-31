@@ -1,0 +1,614 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : dbuf_16x256
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:13:29 2026
+****************************************
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[219]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U125/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[219] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[216]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U128/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[216] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[214]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U130/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[214] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[213]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U131/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[213] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[156]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U195/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[156] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[113]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U242/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[113] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[112]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U243/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[112] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[111]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U244/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[111] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[110]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U245/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[110] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[109]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U247/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[109] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[108]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U248/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[108] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[107]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U249/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[107] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[106]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U250/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[106] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[105]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U251/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[105] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[104]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U252/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[104] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[103]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U253/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[103] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[102]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U254/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[102] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[101]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U255/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[101] (out)                                      0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[10]
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U311/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U306/Y (HB1xp67_ASAP7_75t_R)                           82.54     192.25 r
+  U246/Y (AO22x1_ASAP7_75t_R)                            41.13     233.38 r
+  rd_data[10] (out)                                       0.00     233.38 r
+  data arrival time                                                233.38
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -233.38
+  --------------------------------------------------------------------------
+  slack (MET)                                                      767.67
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: rd_data[3] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   60.32      60.32 r
+  U319/Y (HB1xp67_ASAP7_75t_R)                           49.40     109.71 r
+  U305/Y (HB1xp67_ASAP7_75t_R)                           77.58     187.29 r
+  U68/Y (AO22x1_ASAP7_75t_R)                             39.73     227.02 r
+  rd_data[3] (out)                                        0.00     227.02 r
+  data arrival time                                                227.02
+
+  clock clk (rise edge)                                1501.50    1501.50
+  clock network delay (ideal)                             0.00    1501.50
+  clock uncertainty                                     -50.00    1451.50
+  output external delay                                -450.45    1001.05
+  data required time                                              1001.05
+  --------------------------------------------------------------------------
+  data required time                                              1001.05
+  data arrival time                                               -227.02
+  --------------------------------------------------------------------------
+  slack (MET)                                                      774.03
+
+
+1

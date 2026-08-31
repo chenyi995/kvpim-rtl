@@ -1,0 +1,56 @@
+ 
+****************************************
+Report : area
+Design : accumulator_bg
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:18:18 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+
+Number of ports:                          523
+Number of nets:                          3499
+Number of cells:                         3048
+Number of combinational cells:           2921
+Number of sequential cells:               118
+Number of macros/black boxes:               0
+Number of buf/inv:                        942
+Number of references:                      15
+
+Combinational area:                208.173240
+Buf/Inv area:                       43.827481
+Noncombinational area:              44.731440
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                   252.904680
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  --------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-    Noncombi-  Black-
+                                  Total      Total    national  national   boxes   Design
+--------------------------------  ---------  -------  --------  ---------  ------  -------------------------
+accumulator_bg                     252.9047    100.0   18.8228    25.3984  0.0000  accumulator_bg
+u_l1a                               73.9789     29.3   50.0386     6.4444  0.0000  fp16_add_0
+u_l1a/add_74_S2                      8.7188      3.4    8.7188     0.0000  0.0000  fp16_add_0_DW01_add_J19_0
+u_l1a/sub_75                         8.7772      3.5    8.7772     0.0000  0.0000  fp16_add_0_DW01_sub_4
+u_l1b                               75.3494     29.8   51.0154     6.4444  0.0000  fp16_add_2
+u_l1b/add_74_S2                      8.9230      3.5    8.9230     0.0000  0.0000  fp16_add_2_DW01_add_J20_0
+u_l1b/sub_75                         8.9667      3.5    8.9667     0.0000  0.0000  fp16_add_2_DW01_sub_8
+u_l2                                59.3552     23.5   39.2348     6.4444  0.0000  fp16_add_1
+u_l2/add_74_S2                       6.0944      2.4    6.0944     0.0000  0.0000  fp16_add_1_DW01_add_2
+u_l2/sub_75                          7.5816      3.0    7.5816     0.0000  0.0000  fp16_add_1_DW01_sub_J9_0
+--------------------------------  ---------  -------  --------  ---------  ------  -------------------------
+Total                                                 208.1732    44.7314  0.0000
+
+1

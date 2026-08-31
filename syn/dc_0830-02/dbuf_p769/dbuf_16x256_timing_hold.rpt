@@ -1,0 +1,635 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 20
+Design : dbuf_16x256
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:13:43 2026
+****************************************
+
+Operating Conditions: PVT_0P7V_25C   Library: asap7sc7p5t_AO_RVT_TT_nldm_211120
+Wire Load Model Mode: top
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[0].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U269/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[0].u_mem/ADDRESS[0] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[0].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[0].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U268/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[0].u_mem/ADDRESS[1] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[0].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[0].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U267/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[0].u_mem/ADDRESS[2] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[0].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[1].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U269/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[1].u_mem/ADDRESS[0] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[1].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[1].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U268/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[1].u_mem/ADDRESS[1] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[1].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[1].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U267/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[1].u_mem/ADDRESS[2] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[1].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[2].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U269/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[2].u_mem/ADDRESS[0] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[2].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[2].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U268/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[2].u_mem/ADDRESS[1] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[2].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[2].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U267/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[2].u_mem/ADDRESS[2] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[2].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[3].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U269/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[3].u_mem/ADDRESS[0] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[3].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[3].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U268/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[3].u_mem/ADDRESS[1] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[3].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[3].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U267/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[3].u_mem/ADDRESS[2] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[3].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[4].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U269/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[4].u_mem/ADDRESS[0] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[4].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[4].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U268/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[4].u_mem/ADDRESS[1] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[4].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[4].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U267/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[4].u_mem/ADDRESS[2] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[4].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[5].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U269/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[5].u_mem/ADDRESS[0] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[5].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[5].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U268/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[5].u_mem/ADDRESS[1] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[5].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[5].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U267/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[5].u_mem/ADDRESS[2] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[5].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[6].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U269/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[6].u_mem/ADDRESS[0] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[6].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+  Startpoint: sel_reg (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: g_copy[1].g_slice[6].u_mem
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  sel_reg/CLK (DFFASRHQNx1_ASAP7_75t_R)                   0.00       0.00 r
+  sel_reg/QN (DFFASRHQNx1_ASAP7_75t_R)                   58.04      58.04 r
+  U307/Y (HB1xp67_ASAP7_75t_R)                           26.32      84.36 r
+  U296/Y (BUFx3_ASAP7_75t_R)                             26.48     110.84 r
+  U268/Y (OAI22xp33_ASAP7_75t_R)                         39.27     150.11 f
+  g_copy[1].g_slice[6].u_mem/ADDRESS[1] (srambank_64x4x16_6t122)     0.00   150.11 f
+  data arrival time                                                150.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  g_copy[1].g_slice[6].u_mem/clk (srambank_64x4x16_6t122)     0.00    50.00 r
+  library hold time                                      10.33      60.33
+  data required time                                                60.33
+  --------------------------------------------------------------------------
+  data required time                                                60.33
+  data arrival time                                               -150.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                       89.78
+
+
+1

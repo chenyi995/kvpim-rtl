@@ -1,0 +1,85 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'gemv_unit' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : qor
+Design : gemv_unit
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:17:41 2026
+****************************************
+
+
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:              58.00
+  Critical Path Length:       1436.31
+  Critical Path Slack:           0.00
+  Critical Path Clk Period:   1501.50
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:         98
+  Hierarchical Port Count:       5423
+  Leaf Cell Count:              61392
+  Buf/Inv Cell Count:           19942
+  Buf Cell Count:               10442
+  Inv Cell Count:                9500
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:     51845
+  Sequential Cell Count:         9547
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:     3980.354596
+  Noncombinational Area:  2902.440506
+  Buf/Inv Area:           1047.966673
+  Total Buffer Area:           624.94
+  Total Inverter Area:         423.02
+  Macro/Black Box Area:      0.000000
+  Net Area:                  0.000000
+  -----------------------------------
+  Cell Area:              6882.795102
+  Design Area:            6882.795102
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:         63372
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: thu-olden
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                    2.98
+  Logic Optimization:                  2.11
+  Mapping Optimization:                8.69
+  -----------------------------------------
+  Overall Compile Time:               20.36
+  Overall Compile Wall Clock Time:    15.72
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+
+  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+  --------------------------------------------------------------------
+
+
+1

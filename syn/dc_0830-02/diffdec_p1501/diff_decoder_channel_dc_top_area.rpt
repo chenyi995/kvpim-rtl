@@ -1,0 +1,48 @@
+ 
+****************************************
+Report : area
+Design : diff_decoder_channel_dc_top
+Version: P-2019.03-SP5-6
+Date   : Tue Sep  1 00:26:09 2026
+****************************************
+
+Library(s) Used:
+
+    asap7sc7p5t_INVBUF_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_INVBUF_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_OA_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_OA_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_AO_RVT_TT_nldm_211120 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_AO_RVT_TT_nldm_211120.db)
+    asap7sc7p5t_SEQ_RVT_TT_nldm_220123 (File: /thu-bloor/xinyao-w23/kvpim-rtl/third_party/asap7_lib/db/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.db)
+
+Number of ports:                         6264
+Number of nets:                         22313
+Number of cells:                        17604
+Number of combinational cells:          15555
+Number of sequential cells:              2048
+Number of macros/black boxes:               0
+Number of buf/inv:                       3666
+Number of references:                       1
+
+Combinational area:               1324.111855
+Buf/Inv area:                      208.945981
+Noncombinational area:             776.355835
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  2100.467690
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  ----------------------------------
+diff_decoder_channel_dc_top       2100.4677    100.0     0.0000     0.0000  0.0000  diff_decoder_channel_dc_top
+u_decoder                         2100.4677    100.0  1324.1119   776.3558  0.0000  diff_decoder_LANES16_W32_NWORDS128
+--------------------------------  ---------  -------  ---------  ---------  ------  ----------------------------------
+Total                                                 1324.1119   776.3558  0.0000
+
+1
