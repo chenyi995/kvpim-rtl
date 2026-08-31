@@ -7,3 +7,4 @@ syn/*.out
 fv/
 # third-party paper PDFs
 ref/
+testbench/0830-02/*.vvp

@@ -40,13 +40,22 @@ rtl/
   accumulator.sv        FP16 cross-GEMV partial-sum reduction
   softmax_unit.sv       FP32 max->exp->normalize over a LANES tile
   diff_decoder.sv       bidirectional master-diff merge decoder   [NEW]
-  # --- address translation + control ---
-  tlb.sv                fully-assoc KV virtual->physical DRAM TLB  [NEW]
-  attacc_controller.sv  instr queue + decoder + config regfile +
-                        TLB addr-gen + DRAM cmd FSM + PIM_SET_META
+  # --- KV address translation (drampim CacheBlendTLB in hardware, see KV_TLB.md) ---
+  kv_tlb_pkg.sv         drampim geometry (34-b HBM addr, 256-B vectors, V=K+8MiB), seg_desc_t, run_t
+  kv_seg_tlb.sv         fully-assoc *segment* range-CAM + min-key iterate   [NEW]
+  kv_ptw.sv             page-table walker: directory + binary search / attach [NEW]
+  kv_scan_planner.sv    scan_runs in hardware (cover + physical-order merge)  [NEW]
+  kv_tlb_top.sv         LOOKUP / PLAN / ATTACH / FLUSH command port + run stream
+  kv_tlb_variants.sv    kv_tlb_e16 / e32 / e64 synthesis tops (ENTRIES sweep)
+  direct_addr_plan.sv   AttAcc baseline: same port, one affine run, no table
+  attacc_controller.sv  instr queue + decoder + config regfile + run-based
+                        DRAM addr-gen (plan port) + DRAM cmd FSM + PIM_SET_META/ATTACH
   # --- tops ---
   fugue_logic_die.sv    Fugue (baseline + 3 additions)
   attacc_logic_die.sv   AttAcc-original baseline
+testbench/
+  tb_kv_tlb.sv          segment TLB vs drampim-derived vectors (vectors/kv_tlb/)
+  gen_kv_tlb_vectors.py builds those vectors from attacc_drampim's CacheBlendTLB
 syn/
   run_syn.tcl           Genus recipe (T-cube style, ungroup -all -flatten)
   run_syn_hier.tcl      hierarchy-preserving recipe (per-block area breakdown)
@@ -65,8 +74,16 @@ syn/
   `y[2i]=x[2i]·cos − x[2i+1]·sin`, `y[2i+1]=x[2i]·sin + x[2i+1]·cos`. Negate =
   FP16 sign-bit flip; cos/sin are streamed operands (not CORDIC/ROM). Reuses
   `fp16_mult`+`fp16_add`, 2-cycle.
-- **`tlb`** — fully-associative KV TLB (32 entries, FIFO refill). Logical KV VPN
-  → physical `{bank,row}`; hit in 1 cycle, miss models a page-walk fill.
+- **`kv_tlb_top`** (segment TLB) — `attacc_drampim`'s `CacheBlendTLB` in
+  hardware: a 32-entry fully-associative *range* CAM of segment descriptors
+  (a consumer's logical token range → one physically contiguous K/V run in
+  the master or diff channel pool), a page-table walker (directory + binary
+  search; `ATTACH` bulk-loads a (ctx, layer)) and a scan planner that emits
+  `scan_runs`-identical run lists (physical-address order, adjacency merge).
+  The controller consumes runs and issues ACT/RD per 32-B column.  Details,
+  scale justification and measured cycles: **`KV_TLB.md`**.  (The former
+  page-granular `tlb.sv` — 32 × 2 KiB VPN→PPN, linear page table — is gone;
+  the area numbers above were measured with it and predate this swap.)
 - **`diff_decoder`** — bidirectional master-diff merge. One control-loaded
   `diff_mask[]` (per score word) drives **forward** (compact diff scores
   scattered by mask, overwriting the master score → softmax) and **reverse**

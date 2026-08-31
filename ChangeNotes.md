@@ -126,3 +126,62 @@ wxy：
 
 
 
+
+
+## 2026-08-28：段式 KV TLB 取代页级 `tlb.sv`
+
+`rtl/tlb.sv`（32 × 2 KiB 页、VPN→PPN 全相联 CAM、线性页表 `PPN=base+VPN`）与 `tb_tlb` 已删除。
+取而代之的是按 `attacc_drampim` 的 `CacheBlendTLB` 规模与功能实现的段式 TLB（`rtl/kv_*.sv`，设计说明与实测拍数见 `KV_TLB.md`）：
+
+| 文件 | 作用 |
+| --- | --- |
+| `kv_tlb_pkg.sv` | drampim 几何常量（34-bit HBM 字节地址、256 B/向量、V = K + 8 MiB、master/diff 池）、`seg_desc_t`、`run_t`、`OP_*` |
+| `kv_seg_tlb.sv` | 32 条全相联**区间** CAM（`vpos_start ≤ pos < vpos_end`），2 拍查表；按 `key_base` 最小优先迭代（两级锦标赛树）|
+| `kv_ptw.sv` | 目录 `{ctx, layer, kind}` → 已排序段数组；demand miss 二分查找，`ATTACH` 整层装载 |
+| `kv_scan_planner.sv` | 覆盖 `[lo,hi)` + 物理地址序合并，与 drampim `scan_runs` 逐 run 相等 |
+| `kv_tlb_top.sv` | LOOKUP / PLAN / ATTACH / FLUSH 命令口 + run 流 + 单发 32 B 页表读口 |
+| `direct_addr_plan.sv` | AttAcc 基线：同一端口，一条仿射 run，无表 |
+
+接入方式：`attacc_controller` 的 TLB 逐列查表接口改为**地址规划口**——`PIM_MAC_AB` 的 `vaddr[15:0]` 是起始逻辑 token 位置、`len` 是行数，控制器发 `OP_PLAN`（ctx/layer/pools 来自新配置寄存器 `CFG_KVCTX`），逐 run、逐行、每行 8 个 32 B 列发 RD，仅在 DRAM 行变化时发 ACT；新增指令 `PIM_ATTACH`（`imm[0]=1` 为 flush）。Fugue / Fugue 2 / Fugue-MQ 的 `u_tlb` 为 `kv_tlb_top`，页表读口暴露为 die 端口 `pt_mem_*`；AttAcc die 用 `direct_addr_plan`。`CFG_KVBASE` 在 Fugue 中是页表目录基址（32 B 单位），在 AttAcc 中是 KV 向量基址。
+
+验证：`testbench/gen_kv_tlb_vectors.py` 直接 import drampim 的 `CacheBlendTLB` 生成页表镜像与期望的 `locate` 地址 / `scan_runs` 列表；`tb_kv_tlb`（102 次查表 + 30 个 plan）、重写后的 `tb_attacc_controller` / `tb_attacc_controller_mac` 及全部既有回归通过，四个 die top 与 `kv_tlb_e16/e32/e64` 均可 elaborate。综合 filelist 已同步（`filelist_kvtlb.f` 与 `make kvtlb / kvtlb-hier / kvtlb-sweep`）；`AREA_BREAKDOWN.md` 中的 6,772 µm² 仍是旧页级 TLB 的数据，待重新综合。
+
+附：`rtl/mq_bank_pe.sv` 的综合包装 `attacc_bank_pe` 补上了 `gemv_unit` 双模式改动后新增的 `context_result / context_result_valid` 输出端口（此前 `.*` 找不到匹配信号，`elaborate_all.sh` 在此中断），现在 `elaborate_all.sh` 17 个 top 全部通过。
+
+## 2026-08-31:0830-02 —— 按 docs/Hardware Overhead.md 与论文 §4.3 的组件化重构
+
+`rtl/0830-02` 为按层级严格定义重整后的快照(35 文件)。要点:
+`gemv_unit` 重写为 16 乘法器 + **同一组** 16 加法器双模式切换(树/并行累加)
++ 单个双缓冲 16×256b 向量 buffer + 内置 pass 控制,矩阵操作数改为 DRAM 列读
+流式输入;`dbuf_16x256` 恢复真双缓冲;新增 `accumulator_bg`(4→1,bypass/sum)、
+`accum_buffer_bg`(8×FP16)、`accumulator_logic`(16-lane×4 字,bypass/sum)、
+`causal_comparator`(论文 §4.4.2)、`dma_engine`;`attacc_controller` 升级
+(batch/L 表、16-bank open-row 表 + 自动 PRE/ACT、tRCD/tRP/tRAS/tCCD 计数器、
+run buffer + score/context 双遍历);controller 综合顶 `attacc_hbm_ctrl_top` /
+`fugue_hbm_ctrl_top`(含 kv_tlb_top)。Logic die 按论文修正:softmax 不变,
+**RoPE 移出 die(GPU 做,仅留消融点)**,增 per-channel diff decoder 与
+causal comparator。删除 mac_tree16*/piped fp16/rotate_q_unit/mq_*/三个 die 顶层/
+单副本 dbuf 宏实现/softmax_tile_unit/softmax_comparator_tree/kv_tlb_variants。
+综合:`syn/run_dc_0830-02.sh`(逐组件,666 MHz 与 1.3 GHz 双频点,无自顶);
+softmax 叶沿用 dc_0830-01 @699ps 结果(已覆盖 1.3 GHz,补跑 fp32_recip)。
+文档:`docs/0830-02/Hardware_Overhead_Breakdown.md`(审查结论 + 滚加公式)。
+验证:`testbench/0830-02/run_tests.sh` 6 组全过(GEMV 双模式/两级累加器/DMA/
+两个 controller 顶层含 TLB 全流程/softmax_unit 功能 + causal + fp32 叶)。
+iverilog-11 三个坑记录在 Breakdown §4(assign 读 unpacked 数组、二维数组端口、
+循环头 genvar)。
+
+## 2026-08-31(其二):0830-02 buffer 全部换 ASAP7 SRAM 宏 + Fugue accumulator buffer 扩容
+
+- `dbuf_16x256_asap7.sv`(新):双缓冲 GEMV 向量 buffer 的宏实现,每副本
+  16×`srambank_64x4x16`(256×16),fill/compute 各占一组宏避免单口冲突;
+  与触发器版同名同口,DC profile `gemv`/`dbuf` 用宏版,`gemv_flop` 为参考点。
+- `accum_buffer_bg.sv` 重写为单颗 `srambank_64x4x16` 宏(单口、写优先),
+  容量参数化并给出两个综合顶:AttAcc `accum_buffer_bg_attacc`(8×FP16)、
+  Fugue `accum_buffer_bg_fugue`(**64×FP16**)。扩容依据(论文 §4.3.1):
+  MQ 命令下一次列读服务全部 n_cap=S/64=8 个驻留 query(多 Q × 同 K),每
+  token 产出 8 个分数,按 query 复制 AttAcc 的 8 深暂存 → 8×8=64×FP16
+  (128 B/BG,8×;整 stack 32 KiB vs 4 KiB)。context 侧流式/bypass,不扩容。
+  注:两档同装一颗 256×16 宏,宏面积相同,容量差在位利用率(3.1%→25%)。
+- softmax buffer 本就是宏(`softmax_buffer_sram`);diff decoder 的 D_i 表
+  需 fwd/rev 双读口,保留触发器。测试套增补:宏版 dbuf 的 GEMV 全测、
+  8/64 两档 buffer 读写,全部通过。
