@@ -175,7 +175,7 @@ always_comb 的同名 int 混淆,genvar 提升至模块级。
 | N_ch | 16 | channel/stack |
 | N_bank | 1024 | 16 ch × (2 pCH × 2 rank × 4 BG × 4 bank) |
 | N_bg | 256 | 4 bank/组 |
-| N_gemv | 2048 | 文档:每 bank 2 个 GEMV unit |
+| N_gemv | 1024 | 文档:每 bank 2 个 GEMV unit （裁决 chenyi9 2026-09-01：AttAcc Fig.9(b) 两 bank 共享 2 个 GEMV，等效 1/bank；原 2048 记法作废）|
 
 ### 5.2 逐层公式(A(x) = 对应 tag 的 `*_qor.rpt` Design Area)
 

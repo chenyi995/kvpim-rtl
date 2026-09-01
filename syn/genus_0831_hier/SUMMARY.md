@@ -36,13 +36,25 @@
 | ctrl_attacc_p1501 | attacc_hbm_ctrl_top | 1502.0 | 2086.9 | +0.00 | 0 | 7.21 |
 | ctrl_fugue_p1501 | fugue_hbm_ctrl_top | 1502.0 | 5773.8 | +0.00 | 0 | 18.24 |
 
-## Roll-up (N_gemv=2048, N_bg=256, N_ch=16)
+## Roll-up (N_gemv=1024, N_bg=256, N_ch=16) — ASAP7 logic-process areas
 
 | Level | AttAcc um^2 | Fugue um^2 | delta |
 |---|---:|---:|---:|
-| Bank | 20,875,522 | 22,211,959 | +6.40% |
+| Bank | 10,437,761 | 11,105,979 | +6.40% |
 | Bank group | 105,890 | 128,125 | +21.00% |
 | Logic die | 588,567 | 1,619,024 | +175.08% |
 | HBM controller | 2,087 | 5,774 | +176.67% |
-| Stack total | 21,572,067 | 23,964,881 | +11.09% |
+| Stack total | 11,134,306 | 12,858,902 | +15.49% |
 | Logic die (+RoPE ablation) | | 1,623,417 | |
+
+## Roll-up, DRAM-process equivalent (bank/BG x10; die & ctrl on the logic die x1)
+
+| Level | AttAcc um^2 | Fugue um^2 | delta |
+|---|---:|---:|---:|
+| Bank | 104,377,610 | 111,059,794 | +6.40% |
+| Bank group | 1,058,903 | 1,281,249 | +21.00% |
+| Logic die | 588,567 | 1,619,024 | +175.08% |
+| HBM controller | 2,087 | 5,774 | +176.67% |
+| Stack total | 106,027,168 | 113,965,841 | +7.49% |
+
+Cross-check: AttAcc DRAM-side total 13.18 mm^2/die vs the paper's 13.12 mm^2/die (Sec 7.7).

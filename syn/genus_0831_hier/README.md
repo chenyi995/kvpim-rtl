@@ -61,8 +61,10 @@ controller，对齐 dc_0830-02 的 top 与频率）；phase 3 整合
   Fugue（4 MiB）**1,578,385 µm²**，均 slack 0、0 违例——
   **`softmax_buffer_sram` 不需要出口寄存器修复**（FSM 读后的 WAIT 状态
   天然吸收了 latch 型 macro 的半周期，诚实 arc 下依然收敛）。
-- 层级 roll-up（诚实 SRAM arc + LEF 面积 + 修复后 RTL）：bank +6.40%、
-  BG +21.00%、logic die +175.08%、controller +176.67%，
-  **stack 合计 Fugue vs AttAcc = +11.09%**（DC 旧口径 +8.19% 的差异
-  主要来自 macro 面积此前记零与 GEMV 修复）。
+- 层级 roll-up（诚实 SRAM arc + LEF 面积 + 修复后 RTL；N_gemv=1024 与
+  bank/BG ×10 DRAM 等效均为裁决 chenyi9 2026-09-01）：层内增量
+  bank +6.40%、BG +21.00%、logic die +175.08%、controller +176.67%；
+  **stack 合计 Fugue vs AttAcc：ASAP7 原值 +15.49%，DRAM 工艺等效
+  +7.49%**。对表验证：AttAcc DRAM 侧 13.18 mm²/die vs 原文 13.12
+  （§7.7）——N_gemv=1024 + ×10 口径下与 AttAcc 发表数字吻合。
 - 功率列为 Genus 统计值（无 VCD、满活动率），只作相对比较。
