@@ -29,6 +29,9 @@
 
 ## docs/ 里各文件
 
+- **`0831-genus-hier/`** — 0831 Genus 战役的记录页（结果/过程/全部改动/
+  原始数据路径）+ **`DATA_README.md` 与两个 CSV（写论文画图直接用）**
+
 - `Hardware Overhead.md` — 组件线的任务规格（xinyao 手写，四层级定义与频率契约）
 - `0830-02/Hardware_Overhead_Breakdown.md` — 层级 roll-up 公式与计数（N_gemv=2048、N_bg=256、N_ch=16），Genus 的 `collect.py` 沿用同一套
 - `0830-02/Summary.md` — DC 矩阵结果 + 勘误节
