@@ -1,0 +1,34 @@
+== phase 1: leaf macros (tight clocks) ==
+done bf16_mult_p1350 rc=0
+done fp16_mult_p1350 rc=0
+done fp16_add_p1350 rc=0
+done fp16_mult_p700 rc=0
+done bf16_add_p1350 rc=0
+done fp32_add_p630 rc=0
+done fp32_mul_p630 rc=0
+done fp16_add_p700 rc=0
+== phase 2: components (leaves as macros) ==
+done accbuf_attacc_p1501 rc=0
+done accbg_attacc_p1501 rc=0
+done accbg_fugue_p769 rc=0
+skip diffdec_p1501 (done)
+skip causal_p1501 (done)
+done accbuf_fugue_p769 rc=0
+skip recip_p699 (done)
+done acclogic_p1501 rc=0
+skip kvtlb_p1501 (done)
+skip ctrl_attacc_p1501 (done)
+skip ctrl_fugue_p1501 (done)
+done dbuf_p1501 rc=0
+done dbuf_p769 rc=0
+done sfmpe_p699 rc=0
+./run_all.sh: line 31: 3558940 Terminated              G_TAG=$tag G_TOP=$top G_PERIOD_PS=$period G_CPUS=$CPUS G_MACRO_MODS="$macros" G_RETIME="${R:-1}" G_IN_FRAC="${IF:-0.10}" G_EXTRA_LIBS="$extra" G_FILES="$files" G_OUT="$HERE/$tag" "$GENUS" -no_gui -overwrite -f "$HERE/run_genus_0831.tcl" -log genus_$tag > genus_$tag.stdout 2>&1
+FAIL gemv_fugue_p769 rc=143
+./run_all.sh: line 31: 3558949 Terminated              G_TAG=$tag G_TOP=$top G_PERIOD_PS=$period G_CPUS=$CPUS G_MACRO_MODS="$macros" G_RETIME="${R:-1}" G_IN_FRAC="${IF:-0.10}" G_EXTRA_LIBS="$extra" G_FILES="$files" G_OUT="$HERE/$tag" "$GENUS" -no_gui -overwrite -f "$HERE/run_genus_0831.tcl" -log genus_$tag > genus_$tag.stdout 2>&1
+./run_all.sh: line 31: 3558932 Terminated              G_TAG=$tag G_TOP=$top G_PERIOD_PS=$period G_CPUS=$CPUS G_MACRO_MODS="$macros" G_RETIME="${R:-1}" G_IN_FRAC="${IF:-0.10}" G_EXTRA_LIBS="$extra" G_FILES="$files" G_OUT="$HERE/$tag" "$GENUS" -no_gui -overwrite -f "$HERE/run_genus_0831.tcl" -log genus_$tag > genus_$tag.stdout 2>&1
+FAIL gemv_flop_p1501 rc=143
+FAIL gemv_attacc_p1501 rc=143
+done rope_p1501 rc=0
+== phase 3: integrated logic-die softmax fabric ==
+./run_all.sh: line 31: 3633315 Terminated              G_TAG=$tag G_TOP=$top G_PERIOD_PS=$period G_CPUS=$CPUS G_MACRO_MODS="$macros" G_RETIME="${R:-1}" G_IN_FRAC="${IF:-0.10}" G_EXTRA_LIBS="$extra" G_FILES="$files" G_OUT="$HERE/$tag" "$GENUS" -no_gui -overwrite -f "$HERE/run_genus_0831.tcl" -log genus_$tag > genus_$tag.stdout 2>&1
+FAIL sfmarray_attacc_p769 rc=143

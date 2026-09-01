@@ -8,3 +8,5 @@ fv/
 # third-party paper PDFs
 ref/
 testbench/0830-02/*.vvp
+syn/noretime_*/
+__pycache__/

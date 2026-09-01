@@ -1,0 +1,48 @@
+# genus_0831_hier — Genus/ASAP7 leaf-as-macro matrix
+
+| tag | top | period ps | area um^2 | slack ps | viol | P mW |
+|---|---|---:|---:|---:|---:|---:|
+| **-- leaf macros (tight clock) --** | | | | | | |
+| fp16_mult_p700 | fp16_mult | 700.0 | 67.0 | +0.00 | 0 | 0.51 |
+| fp16_add_p700 | fp16_add | 700.0 | 70.8 | +0.00 | 0 | 0.57 |
+| fp16_mult_p1350 | fp16_mult | 1350.0 | 55.7 | +0.10 | 0 | 0.31 |
+| fp16_add_p1350 | fp16_add | 1350.0 | 41.8 | +0.10 | 0 | 0.28 |
+| fp32_add_p630 | fp32_add | 630.0 | 145.0 | +0.00 | 0 | 2.32 |
+| fp32_mul_p630 | fp32_mul | 630.0 | 499.6 | +0.20 | 0 | 5.87 |
+| bf16_mult_p1350 | bf16_mult | 1350.0 | 39.6 | +0.00 | 0 | 0.20 |
+| bf16_add_p1350 | bf16_add | 1350.0 | 35.4 | +0.10 | 0 | 0.17 |
+| **-- bank --** | | | | | | |
+| gemv_attacc_p1501 | gemv_unit | 1502.0 | 10193.1 | +0.70 | 0 | 839.68 |
+| gemv_fugue_p769 | gemv_unit | 769.0 | 10845.7 | +1.10 | 0 | 1635.21 |
+| gemv_flop_p1501 | gemv_unit | 1502.0 | 5844.2 | +65.70 | 0 | 30.77 |
+| dbuf_p1501 | dbuf_16x256 | 1502.0 | 8123.4 | +361.20 | 0 | 817.29 |
+| dbuf_p769 | dbuf_16x256 | 769.0 | 8123.9 | +3.40 | 0 | 1595.83 |
+| **-- bank group --** | | | | | | |
+| accbg_attacc_p1501 | accumulator_bg | 1502.0 | 163.2 | +313.90 | 0 | 1.11 |
+| accbg_fugue_p769 | accumulator_bg | 769.0 | 249.8 | +146.50 | 0 | 2.25 |
+| accbuf_attacc_p1501 | accum_buffer_bg_attacc | 1502.0 | 250.5 | +453.50 | 0 | 24.87 |
+| accbuf_fugue_p769 | accum_buffer_bg_fugue | 769.0 | 250.7 | +182.50 | 0 | 48.57 |
+| **-- logic die --** | | | | | | |
+| acclogic_p1501 | accumulator_logic | 1502.0 | 967.4 | +49.60 | 0 | 6.52 |
+| diffdec_p1501 | diff_decoder_channel_dc_top | 1502.0 | 1543.3 | +0.20 | 0 | 4.75 |
+| causal_p1501 | causal_comparator | 1502.0 | 29.3 | +798.80 | 0 | 0.11 |
+| rope_p1501 | rotate_q_bf16 | 1502.0 | 4393.0 | +0.00 | 0 | 28.43 |
+| recip_p699 | fp32_recip | 699.0 | 1140.3 | +0.00 | 0 | 7.59 |
+| sfmpe_p699 | softmax_pe | 699.0 | 1188.9 | +0.00 | 0 | 12.66 |
+| sfmarray_attacc_p769 | sfm_array_attacc | — | MISSING | | | |
+| sfmarray_fugue_p769 | sfm_array_fugue | — | MISSING | | | |
+| **-- HBM controller --** | | | | | | |
+| kvtlb_p1501 | kv_tlb_top | 1502.0 | 3462.7 | +0.00 | 0 | 9.70 |
+| ctrl_attacc_p1501 | attacc_hbm_ctrl_top | 1502.0 | 2086.9 | +0.00 | 0 | 7.21 |
+| ctrl_fugue_p1501 | fugue_hbm_ctrl_top | 1502.0 | 5773.8 | +0.00 | 0 | 18.24 |
+
+## Roll-up (N_gemv=2048, N_bg=256, N_ch=16)
+
+| Level | AttAcc um^2 | Fugue um^2 | delta |
+|---|---:|---:|---:|
+| Bank | 20,875,522 | 22,211,959 | +6.40% |
+| Bank group | 105,890 | 128,125 | +21.00% |
+| Logic die | nan | nan | +nan% |
+| HBM controller | 2,087 | 5,774 | +176.67% |
+| Stack total | nan | nan | +nan% |
+| Logic die (+RoPE ablation) | | nan | |
