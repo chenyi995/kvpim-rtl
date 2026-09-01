@@ -14,8 +14,8 @@ ORDER = [
     ("fp32_add_p630", "fp32_add"), ("fp32_mul_p630", "fp32_mul"),
     ("bf16_mult_p1350", "bf16_mult"), ("bf16_add_p1350", "bf16_add"),
     ("-- bank --", None),
+    ("gemv_flop_p1501", "gemv_unit"), ("gemv_flop_p769", "gemv_unit"),
     ("gemv_attacc_p1501", "gemv_unit"), ("gemv_fugue_p769", "gemv_unit"),
-    ("gemv_flop_p1501", "gemv_unit"),
     ("dbuf_p1501", "dbuf_16x256"), ("dbuf_p769", "dbuf_16x256"),
     ("-- bank group --", None),
     ("accbg_attacc_p1501", "accumulator_bg"), ("accbg_fugue_p769", "accumulator_bg"),
@@ -88,8 +88,12 @@ def main():
     # x 8 dies almost exactly.
     N_GEMV, N_BG, N_CH = 1024, 256, 16
     DRAM_X = 10.0   # DRAM process ~10x less dense than logic (AttAcc Sec 4.1)
-    bank_att = N_GEMV * a("gemv_attacc_p1501")
-    bank_fug = N_GEMV * a("gemv_fugue_p769")
+    # Bank buffer = the FLOP dbuf (ruling chenyi9 2026-09-01): at 512 B/copy
+    # the 256-row macro floor never amortizes — the flop array is smaller AND
+    # holds exactly the 1 MiB logical capacity (macro rows kept as the
+    # n_cap-expansion reference; crossover ~1 KiB/copy).
+    bank_att = N_GEMV * a("gemv_flop_p1501")
+    bank_fug = N_GEMV * a("gemv_flop_p769")
     bg_att = N_BG * (a("accbg_attacc_p1501") + a("accbuf_attacc_p1501"))
     bg_fug = N_BG * (a("accbg_fugue_p769") + a("accbuf_fugue_p769"))
     die_att = a("sfmarray_attacc_p769") + N_CH * a("acclogic_p1501")
@@ -125,9 +129,12 @@ def main():
         lines.append(f"| {name} | {x:,.0f} | {y:,.0f} "
                      f"| {100*(y-x)/x if x else 0:+.2f}% |")
     lines.append("")
-    lines.append("Cross-check: AttAcc DRAM-side total "
-                 f"{(DRAM_X*(bank_att+bg_att))/8/1e6:.2f} mm^2/die vs the "
-                 "paper's 13.12 mm^2/die (Sec 7.7).")
+    lines.append("Anchor notes: with the flop-optimal bank buffer the AttAcc "
+                 f"DRAM-side total is {(DRAM_X*(bank_att+bg_att))/8/1e6:.2f} "
+                 "mm^2/die — below the paper's 13.12 mm^2/die (Sec 7.7) "
+                 "because the over-provisioned macro buffer is gone; the "
+                 "macro-config reference (gemv_attacc/gemv_fugue rows) "
+                 "reproduces the paper's number (13.18 mm^2/die).")
     open(os.path.join(HERE, "SUMMARY.md"), "w").write("\n".join(lines) + "\n")
     print("\n".join(lines))
 

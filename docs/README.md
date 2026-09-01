@@ -51,9 +51,11 @@
 - [x] 整合 softmax array：双双 @1.3 GHz met（AttAcc 573k / Fugue
       1,578k µm²）；**`softmax_buffer_sram` 无需出口寄存器**（FSM WAIT
       吸收半周期）
-- [x] roll-up 口径修正（裁决 chenyi9 2026-09-01）：**N_gemv=1024**
+- [x] roll-up 口径修正（三项裁决 chenyi9 2026-09-01）：**N_gemv=1024**
       （AttAcc Fig.9(b) 两 bank 共享 2 GEMV）+ bank/BG **×10** DRAM 工艺
-      等效。stack 合计 Fugue vs AttAcc：ASAP7 原值 **+15.49%**、DRAM
-      等效 **+7.49%**；对表验证 13.18 vs 原文 13.12 mm²/die
+      等效 + **bank buffer 用 flop 阵列**（512 B/份时 flop 3.8k µm² <
+      macro 最优 6.0k，物理容量恰 1 MiB；盈亏平衡 ~1 KiB/份）。
+      stack 合计 Fugue vs AttAcc：ASAP7 **+25.53%**、DRAM 等效
+      **+12.60%**；macro 参考配置对表 13.18 vs 原文 13.12 mm²/die
 - [ ] DC 矩阵按勘误复核（开 retime、换 `libs_ps/`、用修复后 RTL）
 - [ ] `docs/0830-02` 的 roll-up 表用 Genus 权威数字刷新

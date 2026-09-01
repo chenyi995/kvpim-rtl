@@ -12,9 +12,10 @@
 | bf16_mult_p1350 | bf16_mult | 1350.0 | 39.6 | +0.00 | 0 | 0.20 |
 | bf16_add_p1350 | bf16_add | 1350.0 | 35.4 | +0.10 | 0 | 0.17 |
 | **-- bank --** | | | | | | |
+| gemv_flop_p1501 | gemv_unit | 1502.0 | 5844.2 | +65.70 | 0 | 30.77 |
+| gemv_flop_p769 | gemv_unit | 769.0 | 6478.1 | +0.50 | 0 | 55.15 |
 | gemv_attacc_p1501 | gemv_unit | 1502.0 | 10193.1 | +0.70 | 0 | 839.68 |
 | gemv_fugue_p769 | gemv_unit | 769.0 | 10845.7 | +1.10 | 0 | 1635.21 |
-| gemv_flop_p1501 | gemv_unit | 1502.0 | 5844.2 | +65.70 | 0 | 30.77 |
 | dbuf_p1501 | dbuf_16x256 | 1502.0 | 8123.4 | +361.20 | 0 | 817.29 |
 | dbuf_p769 | dbuf_16x256 | 769.0 | 8123.9 | +3.40 | 0 | 1595.83 |
 | **-- bank group --** | | | | | | |
@@ -40,21 +41,21 @@
 
 | Level | AttAcc um^2 | Fugue um^2 | delta |
 |---|---:|---:|---:|
-| Bank | 10,437,761 | 11,105,979 | +6.40% |
+| Bank | 5,984,450 | 6,633,588 | +10.85% |
 | Bank group | 105,890 | 128,125 | +21.00% |
 | Logic die | 588,567 | 1,619,024 | +175.08% |
 | HBM controller | 2,087 | 5,774 | +176.67% |
-| Stack total | 11,134,306 | 12,858,902 | +15.49% |
+| Stack total | 6,680,994 | 8,386,510 | +25.53% |
 | Logic die (+RoPE ablation) | | 1,623,417 | |
 
 ## Roll-up, DRAM-process equivalent (bank/BG x10; die & ctrl on the logic die x1)
 
 | Level | AttAcc um^2 | Fugue um^2 | delta |
 |---|---:|---:|---:|
-| Bank | 104,377,610 | 111,059,794 | +6.40% |
+| Bank | 59,844,495 | 66,335,877 | +10.85% |
 | Bank group | 1,058,903 | 1,281,249 | +21.00% |
 | Logic die | 588,567 | 1,619,024 | +175.08% |
 | HBM controller | 2,087 | 5,774 | +176.67% |
-| Stack total | 106,027,168 | 113,965,841 | +7.49% |
+| Stack total | 61,494,053 | 69,241,924 | +12.60% |
 
-Cross-check: AttAcc DRAM-side total 13.18 mm^2/die vs the paper's 13.12 mm^2/die (Sec 7.7).
+Anchor notes: with the flop-optimal bank buffer the AttAcc DRAM-side total is 7.61 mm^2/die — below the paper's 13.12 mm^2/die (Sec 7.7) because the over-provisioned macro buffer is gone; the macro-config reference (gemv_attacc/gemv_fugue rows) reproduces the paper's number (13.18 mm^2/die).
