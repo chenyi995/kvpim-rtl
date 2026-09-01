@@ -29,8 +29,8 @@
 | rope_p1501 | rotate_q_bf16 | 1502.0 | 4393.0 | +0.00 | 0 | 28.43 |
 | recip_p699 | fp32_recip | 699.0 | 1140.3 | +0.00 | 0 | 7.59 |
 | sfmpe_p699 | softmax_pe | 699.0 | 1188.9 | +0.00 | 0 | 12.66 |
-| sfmarray_attacc_p769 | sfm_array_attacc | — | MISSING | | | |
-| sfmarray_fugue_p769 | sfm_array_fugue | — | MISSING | | | |
+| sfmarray_attacc_p769 | sfm_array_attacc | 769.0 | 573089.6 | +0.00 | 0 | 50991.20 |
+| sfmarray_fugue_p769 | sfm_array_fugue | 769.0 | 1578384.7 | +0.00 | 0 | 99208.20 |
 | **-- HBM controller --** | | | | | | |
 | kvtlb_p1501 | kv_tlb_top | 1502.0 | 3462.7 | +0.00 | 0 | 9.70 |
 | ctrl_attacc_p1501 | attacc_hbm_ctrl_top | 1502.0 | 2086.9 | +0.00 | 0 | 7.21 |
@@ -42,7 +42,7 @@
 |---|---:|---:|---:|
 | Bank | 20,875,522 | 22,211,959 | +6.40% |
 | Bank group | 105,890 | 128,125 | +21.00% |
-| Logic die | nan | nan | +nan% |
+| Logic die | 588,567 | 1,619,024 | +175.08% |
 | HBM controller | 2,087 | 5,774 | +176.67% |
-| Stack total | nan | nan | +nan% |
-| Logic die (+RoPE ablation) | | nan | |
+| Stack total | 21,572,067 | 23,964,881 | +11.09% |
+| Logic die (+RoPE ablation) | | 1,623,417 | |

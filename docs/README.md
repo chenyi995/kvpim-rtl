@@ -48,7 +48,8 @@
 
 ## 待办（接手即看）
 
-- [ ] 两个整合 softmax array 的结果落进 `genus_0831_hier/SUMMARY.md`，
-      并据此判定 `softmax_buffer_sram` 是否补出口寄存器
+- [x] 整合 softmax array：双双 @1.3 GHz met（AttAcc 573k / Fugue
+      1,578k µm²）；**`softmax_buffer_sram` 无需出口寄存器**（FSM WAIT
+      吸收半周期）。stack 合计 Fugue vs AttAcc = **+11.09%**
 - [ ] DC 矩阵按勘误复核（开 retime、换 `libs_ps/`、用修复后 RTL）
 - [ ] `docs/0830-02` 的 roll-up 表用 Genus 权威数字刷新

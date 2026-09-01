@@ -54,3 +54,15 @@ controller，对齐 dc_0830-02 的 top 与频率）；phase 3 整合
 `sfm_array_tops.sv` 包装，softmax_pe 冻结为 macro）。层级 roll-up 公式与
 计数（N_gemv=2048、N_bg=256、N_ch=16）沿用
 `docs/0830-02/Hardware_Overhead_Breakdown.md`。
+
+## 最终结果（2026-08-31 深夜，28/28 全部 met）
+
+- 整合 softmax array @1.3 GHz：AttAcc（512 KiB buffer）**573,090 µm²**、
+  Fugue（4 MiB）**1,578,385 µm²**，均 slack 0、0 违例——
+  **`softmax_buffer_sram` 不需要出口寄存器修复**（FSM 读后的 WAIT 状态
+  天然吸收了 latch 型 macro 的半周期，诚实 arc 下依然收敛）。
+- 层级 roll-up（诚实 SRAM arc + LEF 面积 + 修复后 RTL）：bank +6.40%、
+  BG +21.00%、logic die +175.08%、controller +176.67%，
+  **stack 合计 Fugue vs AttAcc = +11.09%**（DC 旧口径 +8.19% 的差异
+  主要来自 macro 面积此前记零与 GEMV 修复）。
+- 功率列为 Genus 统计值（无 VCD、满活动率），只作相对比较。
