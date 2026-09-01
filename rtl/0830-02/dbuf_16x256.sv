@@ -50,5 +50,12 @@ module dbuf_16x256 #(
         if (!rst_n)     rd_data_r <= '0;
         else if (rd_en) rd_data_r <= sel ? mem1[rd_addr] : mem0[rd_addr];
     end
-    assign rd_data = rd_data_r;
+    // Second read stage matching the SRAM-macro buffer's exit register
+    // (both variants present a 2-cycle read to the shared gemv_unit).
+    logic [WIDTH-1:0] rd_data_r2;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) rd_data_r2 <= '0;
+        else        rd_data_r2 <= rd_data_r;
+    end
+    assign rd_data = rd_data_r2;
 endmodule

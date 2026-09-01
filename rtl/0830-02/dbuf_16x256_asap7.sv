@@ -57,5 +57,16 @@ module dbuf_16x256 #(
         end
     endgenerate
 
-    assign rd_data = sel ? q[1] : q[0];
+    // SRAM-exit pipeline register (standard practice; ruling 2026-08-31):
+    // the latch-based srambank drives dataout in the clock LOW phase, so an
+    // unregistered exit leaves only half a period for the downstream
+    // datapath (-430 ps at 666 MHz).  Registering here restores a full-cycle
+    // budget; the read latency becomes 2 cycles and gemv_unit's alignment
+    // pipes carry the extra stage.
+    logic [WIDTH-1:0] rd_q;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) rd_q <= '0;
+        else        rd_q <= sel ? q[1] : q[0];
+    end
+    assign rd_data = rd_q;
 endmodule

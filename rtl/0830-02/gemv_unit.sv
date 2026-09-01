@@ -114,18 +114,25 @@ module gemv_unit (
         .swap    (vec_swap)
     );
 
-    // Align the matrix beat with the 1-cycle registered buffer read.
-    logic [255:0] mat_q;
-    logic         mul_iv;
-    logic [3:0]   bcast_lane_q;   // context mode: which vec_rd lane is S[token]
+    // Align the matrix beat with the 2-cycle buffer read (registered SRAM
+    // read + the exit pipeline register added as the 2026-08-31 timing fix).
+    logic [255:0] mat_p, mat_q;
+    logic         mul_pre, mul_iv;
+    logic [3:0]   bcast_lane_p, bcast_lane_q;  // context: which lane is S[token]
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            mat_q <= '0; mul_iv <= 1'b0; bcast_lane_q <= '0;
+            mat_p <= '0; mat_q <= '0; mul_pre <= 1'b0; mul_iv <= 1'b0;
+            bcast_lane_p <= '0; bcast_lane_q <= '0;
         end else begin
-            mul_iv <= beat_fire;
+            mul_pre <= beat_fire;
+            mul_iv  <= mul_pre;
             if (beat_fire) begin
-                mat_q        <= mat_data;
-                bcast_lane_q <= beat[3:0];
+                mat_p        <= mat_data;
+                bcast_lane_p <= beat[3:0];
+            end
+            if (mul_pre) begin
+                mat_q        <= mat_p;
+                bcast_lane_q <= bcast_lane_p;
             end
         end
     end
@@ -160,22 +167,22 @@ module gemv_unit (
 
     // =====================================================================
     // first/last flag pipes, aligned to each mode's adder-input stage.
-    //   beat issue -> mul input (+1) -> product (+2)          [context adders]
-    //   product -> tree L1..L4 (+3..+6) -> accumulator input  [score adder 15]
+    //   beat issue -> mul input (+2, buffer read latency) -> product (+3)
+    //   product -> tree L1..L4 (+4..+7) -> accumulator input  [score adder 15]
     // =====================================================================
-    logic [6:1] first_pipe, last_pipe;
+    logic [7:1] first_pipe, last_pipe;
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             first_pipe <= '0; last_pipe <= '0;
         end else begin
-            first_pipe <= {first_pipe[5:1], beat_fire & beat_is_first};
-            last_pipe  <= {last_pipe[5:1],  beat_fire & beat_is_last};
+            first_pipe <= {first_pipe[6:1], beat_fire & beat_is_first};
+            last_pipe  <= {last_pipe[6:1],  beat_fire & beat_is_last};
         end
     end
-    wire first_ctx = first_pipe[2];   // at the context adders' input
-    wire last_ctx  = last_pipe[2];
-    wire first_acc = first_pipe[6];   // at the score accumulator's input
-    wire last_acc  = last_pipe[6];
+    wire first_ctx = first_pipe[3];   // at the context adders' input
+    wire last_ctx  = last_pipe[3];
+    wire first_acc = first_pipe[7];   // at the score accumulator's input
+    wire last_acc  = last_pipe[7];
 
     // =====================================================================
     // 16 FP16 adders, ONE set, mode-switched between the reduction tree and
