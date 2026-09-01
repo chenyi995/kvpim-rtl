@@ -1,3 +1,6 @@
+> **导航（2026-08-31）**：本 README 是早期 N28 logic-die 时代的文档。
+> 当前状态、现行 RTL、两套综合矩阵谁权威，请看 **`docs/README.md`**。
+
 # Fugue logic-die RTL (TSMC N28)
 
 RTL for the **Fugue** HBM **logic die** (buffer-die logic for master-diff KV

@@ -97,3 +97,17 @@ review rather than hiding them by relaxing constraints.
 
 Xinyao:
 Timing明天修；这个Area困得有点无法理解为什么对不上，明天再看。
+---
+
+## 勘误（2026-08-31，见 `syn/genus_0831_hier/` 的 Genus 复跑）
+
+1. 上表四个 timing 失败点（GEMV Fugue、BG acc Fugue、diff decoder、
+   RoPE）在开启 retiming 后全部收敛（DC 对应 `compile_ultra -retime`），
+   不是 RTL 问题。
+2. 所有经过 SRAM macro 的 "met"（accbuf、softmax buffer、含 SRAM 的
+   logic die 行）是**假阳性**：上游 .lib 的 clk→dataout arc 因内部单位
+   混写不合法，DC 将其静默丢弃，路径实际未被约束。修复后的 lib 在
+   `syn/genus_0831_hier/libs_ps/`（`convert_sram_libs.py` 生成）。
+3. GEMV/dbuf 各行对应**修复前**的 RTL；2026-08-31 起 `rtl/0830-02` 加入
+   SRAM 出口流水寄存器（commit `a17696d`），修复后 GEMV 在 666 MHz 与
+   1.3 GHz 均 met。权威结果见 `syn/genus_0831_hier/SUMMARY.md`。
