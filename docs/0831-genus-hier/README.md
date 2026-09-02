@@ -18,11 +18,11 @@ hardware-overhead roll-up 的权威数字。
 | 层级 | AttAcc | Fugue | Fugue+RoPE（消融） | Fugue 增量 |
 |---|---:|---:|---:|---:|
 | Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | 6.63 mm² | +10.85% |
-| Bank group（256×acc+buf，flop buffer） | 0.058 mm² | 0.179 mm² | 0.179 mm² | +209.98% |
+| Bank group（256×acc+buf，buffer 各取最优：AttAcc flop / Fugue 宏） | 0.058 mm² | 0.128 mm² | 0.128 mm² | +122.24% |
 | Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | 1.623 mm² | +175.08% |
 | HBM controller | 2,087 µm² | 5,774 µm² | 5,774 µm² | +176.67% |
-| **Stack 合计（ASAP7 原值）** | 6.63 mm² | 8.44 mm² | 8.44 mm² | **+27.20%** |
-| **Stack 合计（DRAM 等效，bank/BG ×10）** | 61.0 mm² | 69.7 mm² | 69.8 mm² | **+14.32%**（+RoPE：+14.33%） |
+| **Stack 合计（ASAP7 原值）** | 6.63 mm² | 8.39 mm² | 8.39 mm² | **+26.44%** |
+| **Stack 合计（DRAM 等效，bank/BG ×10）** | 61.0 mm² | 69.2 mm² | 69.2 mm² | **+13.49%**（+RoPE：+13.50%） |
 
 关键单点：GEMV（flop buffer）@666 MHz / @1.3 GHz met（+65.7 / +0.5 ps）；
 整合 softmax array @1.3 GHz met（AttAcc 573k / Fugue 1,578k µm²，slack 0）。
@@ -51,12 +51,14 @@ hardware-overhead roll-up 的权威数字。
    组合留作 n_cap≥16 扩展档。
 6. **BG buffer 选型**（裁决 2026-09-02，审查中发现）：原实现把 AttAcc 的
    8×FP16（16 B）和 Fugue 的 64×FP16（128 B）装进同一颗 512 B 宏
-   `srambank_64x4x16`，两档面积同为 250 µm²，8× 扩容在数字里为零成本，
-   与 bank 层裁决不一致。改为 flop 阵列（与 bank buffer 同口径）：
-   62.0 / 448.3 µm²，BG +21.0% → **+209.98%**，stack 合计 +12.60% →
-   **+14.32%**（DRAM 等效）。宏版 RTL 与两个旧 run 归档于
-   `archived/rtl/accum_buffer_bg_asap7_macro.sv`、
-   `archived/syn/genus_0831_hier_reference/accbuf_*_macro/`。
+   `srambank_64x4x16`，两档面积同为 250 µm²，8× 扩容在数字里为零成本。
+   四种组合同一脚本综合：16 B flop 62.0 / 宏 250.5；128 B flop 448.3 /
+   宏 250.7（flop ≈0.42 µm²/bit，宏固定 249 µm²，盈亏平衡约 36 个 FP16）。
+   **裁决：各取最优**——AttAcc 用 flop，Fugue 用宏。BG +21.0% →
+   **+122.24%**，stack 合计 +12.60% → **+13.49%**（DRAM 等效）。
+   未选用的两种组合作为参考 run 归档于
+   `archived/syn/genus_0831_hier_reference/accbuf_attacc_p1501_macro/`、
+   `accbuf_fugue_p769_flop/`。
 
 ## 4. 全部改动文件（按 commit）
 
@@ -70,7 +72,7 @@ hardware-overhead roll-up 的权威数字。
 | `1273725` | `collect.py`、`SUMMARY.md`、`Hardware_Overhead_Breakdown.md`、README×2 | N_gemv=1024 + ×10 双表 |
 | `f71956f` | `gemv_flop_p769/`、`collect.py`、`SUMMARY.md`、README×2 | flop 裁决 + 最终 roll-up |
 | （0902 记录） | `docs/0831-genus-hier/` | 本记录页 + DATA_README + CSV |
-| （0902 BG） | `rtl/accum_buffer_bg.sv`、`accbuf_*` 两个 run、SUMMARY/CSV、README×4 | BG buffer 改 flop 阵列，重跑并刷新 roll-up |
+| （0902 BG） | `rtl/accum_buffer_bg.sv`、`accbuf_*` 两个 run、SUMMARY/CSV、README×4 | BG buffer 各取最优实现（AttAcc flop / Fugue 宏），重跑并刷新 roll-up |
 
 ## 5. 原始数据路径（手动复核指南）
 

@@ -51,9 +51,10 @@
 - bank/BG **×10** DRAM 工艺等效。
 - **bank buffer 用 flop 阵列**（512 B/份时 flop 3.8k µm² < macro 最优
   6.0k；盈亏平衡 ~1 KiB/份）。
-- **BG buffer 也用 flop 阵列**（2026-09-02）：宏版把 16 B / 128 B 装进同一颗
-  512 B 宏，两档同面积，扩容零成本；flop 版 62 / 448 µm²。
-  stack 合计 Fugue vs AttAcc：ASAP7 **+27.20%**、DRAM 等效 **+14.32%**。
+- **BG buffer 各取最优实现**（2026-09-02）：原宏版把 16 B / 128 B 装进同一颗
+  512 B 宏，两档同面积，扩容零成本。比较后 AttAcc 16 B 用 flop（62 µm²，
+  宏 250），Fugue 128 B 用宏（251 µm²，flop 448）。
+  stack 合计 Fugue vs AttAcc：ASAP7 **+26.44%**、DRAM 等效 **+13.49%**。
 
 ## 待办
 
