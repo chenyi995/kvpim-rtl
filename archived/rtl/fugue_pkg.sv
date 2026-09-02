@@ -15,25 +15,8 @@ package fugue_pkg;
   localparam integer VEC_W  = LANES * FP16_W;   // 256-bit datapath word
 
   // ---- Structural counts -------------------------------------------------
-  // One 8-Hi HBM3 stack in AttAcc: 16 channels, each with 64 banks.  The
-  // selected AttAcc_bank design puts one GEMV unit (and its local buffers) in
-  // every bank, hence 1024 GEMV units on this logic-die model.
-  localparam integer NUM_CHANNELS       = 16;
-  localparam integer GEMV_PER_CHANNEL   = 64;
-  localparam integer NUM_GEMV           = NUM_CHANNELS * GEMV_PER_CHANNEL;
-
-  // AttAcc §5.1 provisions 256 FP32 softmax PEs.  They are partitioned as
-  // sixteen independent 16-lane softmax engines, one per HBM channel.  Keep
-  // SM_LANES as the flattened top-level bus width; SM_PES_PER_CHANNEL is the
-  // arithmetic/tree width of one independent softmax operation.
-  localparam integer SM_PES_PER_CHANNEL = 16;
-  localparam integer SM_CHANNELS        = NUM_CHANNELS;
-  localparam integer SM_LANES           = SM_CHANNELS * SM_PES_PER_CHANNEL;
-  // Softmax SRAM traffic is 16 FP32 elements = 512 bits/beat.  Each resident
-  // context occupies 8 KiB per array.  The two independent score/exp arrays
-  // therefore total 32 KiB/channel for AttAcc and 256 KiB/channel for Fugue.
-  localparam integer ATTACC_SM_CONTEXTS = 2;
-  localparam integer FUGUE_SM_CONTEXTS  = 16;
+  localparam integer NUM_GEMV = 4;    // GEMV units per slice (AttAcc_bank-like)
+  localparam integer SM_LANES = 16;   // softmax parallel lanes (paper: up to 256)
   // A 2048-token attention row is processed as 128 sixteen-score tiles.
   // This is also the minimum depth of the Fugue per-word diff-mask table.
   localparam integer SM_WORDS = 128;
@@ -60,11 +43,8 @@ package fugue_pkg;
     PIM_SFM        = 4'h4,  // softmax
     PIM_ROTATE     = 4'h5,  // RoPE rotate on Q/K   (Fugue-new)
     PIM_WR_GB      = 4'h6,  // write into GEMV buffer
-    // Direction convention follows the original attacc_drampim code (MVSB =
-    // move TO the softmax buffer, MVGB = move TO the GEMV buffer); the OCR'd
-    // paper text has the two swapped.
-    PIM_MV_GB      = 4'h7,  // move softmax out -> GEMV buffer (die -> bank)
-    PIM_MV_SB      = 4'h8,  // move GEMV out -> softmax buffer (bank -> die)
+    PIM_MV_GB      = 4'h7,  // move GEMV out -> softmax buffer
+    PIM_MV_SB      = 4'h8,  // move softmax out -> GEMV buffer
     PIM_RD_SB      = 4'h9,  // read final result from softmax buffer
     PIM_SET_META   = 4'hA,  // load diff-decoder mask (Fugue master-diff merge)
     PIM_ATTACH     = 4'hB   // KV TLB: load (ctx, layer) descriptors; imm[0]=1 -> flush
@@ -86,15 +66,9 @@ package fugue_pkg;
     CFG_KVBASE   = 4'h3,  // AttAcc: KV base (256-B vector units); Fugue: page-table directory base (32-B units)
     CFG_PARTMODE = 4'h4,
     CFG_ROPEBASE = 4'h5,  // RoPE theta base (seed for angle generator)
-    CFG_KVCTX    = 4'h6,  // {pools[17:16], layer[14:8], ctx[7:0]} of the KV scans (pools 0 -> master)
-    CFG_BATCH    = 4'h7   // batch size.  With imm[15]=1 the same PIM_SET_CONFIG
-                          // writes the per-request L table entry imm[4:0]
-                          // (paper: config memory stores batch size and the L
-                          // of each request within the batch)
+    CFG_KVCTX    = 4'h6   // {pools[17:16], layer[14:8], ctx[7:0]} of the KV scans (pools 0 -> master)
   } cfg_idx_e;
   localparam integer NUM_CFG = 8;
-  // Per-request sequence-length table depth ("L of each request").
-  localparam integer REQ_TABLE_DEPTH = 32;
 
   // ---- Packed instruction word: {op, mode, cfg_idx, vaddr, len, imm} ------
   typedef struct packed {

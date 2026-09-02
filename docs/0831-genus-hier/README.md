@@ -1,12 +1,14 @@
 # 0831 Genus 层次化综合战役：结果、过程与全部改动（记录页）
 
+> 路径说明（2026-09-02 整理，分支 `chenyi-genus-0902`）：`rtl/0830-02/` 已提升为 `rtl/`，`testbench/0830-02/` 提升为 `testbench/`；DC 矩阵 `syn/dc_0830-02`、`docs/0830-02/*` 等旧材料移入 `archived/`（见 `archived/README.md`）。下文 commit 表中的文件名为当时路径。
+
 目标读者：接手人/审稿人，可据此**手动复核每一个数字**。
 战役日期 2026-08-31 ~ 09-01；分支 `xinyao_0831`。
 画图/引用数字请直接用同目录的 **`DATA_README.md` + 两个 CSV**。
 
 ## 1. 做了什么（一句话）
 
-把 `rtl/0830-02` 组件集（bank GEMV / BG accumulator / logic-die 单元 /
+把 `rtl/` 组件集（bank GEMV / BG accumulator / logic-die 单元 /
 HBM controller）在 **Genus/ASAP7 上以 leaf-as-macro 层次化流程完整重综合**
 （29 个 run 全部时序收敛、零违例），修掉三个上游问题，产出四层级
 hardware-overhead roll-up 的权威数字。
@@ -52,9 +54,9 @@ hardware-overhead roll-up 的权威数字。
 
 | Commit | 文件 | 内容 |
 |---|---|---|
-| `a17696d` | `rtl/0830-02/dbuf_16x256_asap7.sv`、`dbuf_16x256.sv`、`gemv_unit.sv` | SRAM 出口寄存器修复 + 对齐链 |
+| `a17696d` | `rtl/dbuf_16x256_asap7.sv`、`dbuf_16x256.sv`、`gemv_unit.sv` | SRAM 出口寄存器修复 + 对齐链 |
 | `65f4650` | `syn/genus_0831_hier/`（脚本 + libs_ps + 首批报告） | 矩阵基础设施 |
-| `c424041` | `docs/README.md`（新建）、`docs/0830-02/Summary.md`（勘误节）、根 `README.md`（导航横幅） | 总导航与 DC 勘误 |
+| `c424041` | `docs/README.md`（新建）、`archived/docs/0830-02/Summary.md`（勘误节）、根 `README.md`（导航横幅） | 总导航与 DC 勘误 |
 | `1f6dc52` | `syn/genus_0831_hier/`（array 报告 + SUMMARY） | 28/28 met |
 | `7627ff1` | `rerun3.log` | 驱动日志收尾 |
 | `1273725` | `collect.py`、`SUMMARY.md`、`Hardware_Overhead_Breakdown.md`、README×2 | N_gemv=1024 + ×10 双表 |
@@ -72,4 +74,4 @@ hardware-overhead roll-up 的权威数字。
   `/data2/tools-additional/pdk/asap7/asap7_sram_0p0/generated/{LIB,LEF}`）
 - **复现**：`cd syn/genus_0831_hier && ./run_all.sh`（断点续跑，8×4=32 核）
 - **功能验证**：`tb_gemv_unit_0830_02`（VCS，flop 与 SRAM 模型两配置），
-  命令模板见根 `CLAUDE.md` §2（xinyao_0825 分支）
+  iverilog 版 `testbench/run_tests.sh`；VCS 命令模板见 xinyao_0825 分支的根 `CLAUDE.md` §2

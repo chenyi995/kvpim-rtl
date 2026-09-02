@@ -72,7 +72,7 @@ module kv_scan_planner import kv_tlb_pkg::*; #(
 );
     typedef enum logic [3:0] {
         S_IDLE, S_M_LK, S_M_WAIT, S_M_WALK, S_M_WALKWAIT,
-        S_IT, S_IT_WAIT, S_IT_BUILD, S_MERGE, S_EMIT, S_FLUSH, S_DONE
+        S_IT, S_IT_WAIT, S_MERGE, S_EMIT, S_FLUSH, S_DONE
     } state_e;
     state_e state;
 
@@ -84,12 +84,6 @@ module kv_scan_planner import kv_tlb_pkg::*; #(
     run_t                pending, nrun;
     logic                pending_valid;
     logic [ENTRIES-1:0]  done_mask;
-
-    // The iterator's selected descriptor is a wide CAM/tournament-tree result.
-    // Register it at the planner boundary: hit response is deliberately
-    // multi-cycle, so run construction is not on the iterator's critical path.
-    logic [IDXW-1:0]     it_idx_q;
-    seg_desc_t           it_desc_q;
 
     assign plan_ready = (state == S_IDLE);
     assign plan_done  = (state == S_DONE);
@@ -123,14 +117,14 @@ module kv_scan_planner import kv_tlb_pkg::*; #(
     logic [KV_ADDR_W-1:0] it_key;
     logic [CNT_W-1:0]   it_count;
     always_comb begin
-        it_start = (it_desc_q.vpos_start > r_lo) ? it_desc_q.vpos_start : r_lo;
-        it_end   = (it_desc_q.vpos_end   < r_hi) ? it_desc_q.vpos_end   : r_hi;
-        if (it_desc_q.kind == KIND_DIFF) begin
-            it_key   = it_desc_q.key_base;
-            it_count = it_desc_q.count;
+        it_start = (it_desc.vpos_start > r_lo) ? it_desc.vpos_start : r_lo;
+        it_end   = (it_desc.vpos_end   < r_hi) ? it_desc.vpos_end   : r_hi;
+        if (it_desc.kind == KIND_DIFF) begin
+            it_key   = it_desc.key_base;
+            it_count = it_desc.count;
         end else begin
-            it_key   = it_desc_q.key_base +
-                       ({{(KV_ADDR_W-POS_W){1'b0}}, it_start - it_desc_q.vpos_start} << STRIDE_SHIFT);
+            it_key   = it_desc.key_base +
+                       ({{(KV_ADDR_W-POS_W){1'b0}}, it_start - it_desc.vpos_start} << STRIDE_SHIFT);
             it_count = it_end - it_start;
         end
     end
@@ -150,7 +144,6 @@ module kv_scan_planner import kv_tlb_pkg::*; #(
             r_ctx <= '0; r_layer <= '0; r_lo <= '0; r_hi <= '0; r_pos <= '0;
             r_pools <= '0; r_fault <= 1'b0;
             pending <= '0; nrun <= '0; pending_valid <= 1'b0; done_mask <= '0;
-            it_idx_q <= '0; it_desc_q <= '0;
         end else begin
             unique case (state)
                 S_IDLE: begin
@@ -190,19 +183,13 @@ module kv_scan_planner import kv_tlb_pkg::*; #(
                 S_IT_WAIT: begin
                     if (it_resp_valid) begin
                         if (it_found) begin
-                            it_idx_q  <= it_idx;
-                            it_desc_q <= it_desc;
-                            state     <= S_IT_BUILD;
+                            nrun <= {it_key, it_count, it_desc.ch_base, it_desc.ch_count, it_desc.kind};
+                            done_mask[it_idx] <= 1'b1;
+                            state <= S_MERGE;
                         end else begin
                             state <= S_FLUSH;
                         end
                     end
-                end
-                S_IT_BUILD: begin
-                    nrun <= {it_key, it_count, it_desc_q.ch_base,
-                             it_desc_q.ch_count, it_desc_q.kind};
-                    done_mask[it_idx_q] <= 1'b1;
-                    state <= S_MERGE;
                 end
                 S_MERGE: begin
                     if (mergeable) begin

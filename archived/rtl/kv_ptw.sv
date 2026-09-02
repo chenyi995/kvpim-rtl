@@ -107,7 +107,7 @@ module kv_ptw import kv_tlb_pkg::*; (
             state <= S_IDLE;
             r_attach <= 1'b0; r_kind <= 1'b0; r_ctx <= '0; r_layer <= '0; r_pos <= '0;
             r_found <= 1'b0; r_fault <= 1'b0;
-            seg_base <= '0; seg_count <= '0; lo <= '0; hi <= '0; at_idx <= '0;
+            seg_base <= '0; seg_count <= '0; lo <= '0; hi <= '0; mid <= '0; at_idx <= '0;
             dir_sel <= '0; desc_sel <= 1'b0; word <= '0; bs_desc <= '0;
             fill_valid <= 1'b0; fill_desc <= '0;
         end else begin

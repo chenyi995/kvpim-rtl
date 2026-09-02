@@ -1,263 +1,277 @@
-// GEMV unit
+// gemv_unit.sv — one AttAcc bank-level GEMV unit, exactly as specified in the
+// AttAcc paper (ASPLOS'24 §5.1): "Each GEMV unit consists of 16 FP16
+// multipliers, 16 FP16 adders, double-buffered 16 256-bit buffers that can
+// store the input vectors, and a control unit."
 //
-// Architecture:
-//   * Two single 16-entry x 256-bit operand buffers (4 kbit each, 8 kbit total)
-//     - buf_mat  : matrix tile coming from DRAM (K-cache row for "score",
-//                  V-cache row for "context")
-//     - buf_vec  : vector operand (Q for "score", attention scores for
-//                  "context")
-//   * 16 FP16 multipliers operate on lane-aligned pairs from the two banks
-//     (256-bit = 16 x FP16 lanes).
-//   * 16 FP16 adders form a 4-stage reduction tree (8+4+2+1) producing one
-//     scalar partial dot-product per cycle that is then accumulated into
-//     the result register.
+//   * 16 FP16 multipliers on lane-aligned pairs of {DRAM column, vector word}.
+//   * 16 FP16 adders, ONE physical set, switched between two modes:
+//       - adder-tree mode (op_is_score=1, Q·K^T): adders 0..14 form the
+//         8+4+2+1 reduction tree, adder 15 is the scalar accumulator that
+//         sums partial dot products across d_head chunks;
+//       - parallel-accumulate mode (op_is_score=0, S·V): each adder i is an
+//         independent lane accumulator, ctx[i] += S[token] * V[token][i].
+//     The a/b/valid inputs of every adder are muxed by the captured mode, so
+//     the same 16 adders serve both modes (no duplicated adder set).
+//   * ONE double-buffered 16x256-bit vector buffer (dbuf_16x256, 2 x 512 B).
+//     Only the vector operand (Q or attention scores) is buffered; the
+//     matrix operand (K/V rows) streams straight off the bank's DRAM column
+//     reads (PIM_MAC_AB "reads necessary data from DRAM cells and GEMV
+//     buffers"), one 256-bit beat per cycle.
+//   * A control unit: captures a pass command, sequences the vector-buffer
+//     read address / broadcast lane per matrix beat, aligns the
+//     first/last-beat flags with the arithmetic pipeline, and produces the
+//     result valids.
 //
-// `op_is_score` selects the reduction axis:
-//   score (Q·K^T): 16 lane products are reduced to one scalar and accumulated
-//                   across d_head chunks.
-//   context (S·V): each of the 16 lane products is accumulated independently
-//                   across sequence-score chunks, producing a 256-bit word.
+// Pass protocol:
+//   pass_start (1-cycle pulse) captures {op_is_score, num_beats, acc_clr}.
+//   Then num_beats matrix beats arrive on mat_valid/mat_data (back-to-back or
+//   gapped).  Score mode: beat b multiplies the DRAM column by vector entry
+//   b[3:0] (d_head chunk b) and the tree+accumulator reduce across beats;
+//   score_out/score_valid deliver one FP16 when the pass drains.  Context
+//   mode: beat b multiplies the DRAM column (16 output dims of token b) by
+//   score S[b] = vector entry b[7:4], lane b[3:0], broadcast to all lanes;
+//   ctx_out/ctx_valid deliver the 16-lane FP16 word when the pass drains.
+//   acc_clr=0 chains a pass onto the previous accumulator state (row-wise
+//   partitioning across multiple runs).
 module gemv_unit (
     input  logic         clk,
     input  logic         rst_n,
 
-    // DRAM read side: data + write address into the matrix buffer.
-    input  logic         mat_wr_en,
-    input  logic [3:0]   mat_wr_addr,
-    input  logic [255:0] mat_wr_data,
-    input  logic         mat_swap,
-
-    // Vector (Q or attn scores) side.
+    // ---- vector (GEMV buffer) fill port: PIM_WR_GB / PIM_MV_SB ----
     input  logic         vec_wr_en,
     input  logic [3:0]   vec_wr_addr,
     input  logic [255:0] vec_wr_data,
-    input  logic         vec_swap,
+    input  logic         vec_swap,       // exchange fill/compute copies
 
-    // Compute control: assert `start` to begin a 16-lane dot product over
-    // `len` matrix rows; produce one scalar per row.
-    input  logic         start,
-    input  logic [3:0]   row_addr,            // matrix row to read
-    input  logic [3:0]   vec_addr,            // vector entry (whole 256b)
-    input  logic         op_is_score,         // 1=score (Q*K), 0=context (S*V)
-    input  logic         accum_clr,           // 1=clear accumulator
-    input  logic         accum_en,            // 1=add product into accumulator
-    output logic [15:0]  result,
-    output logic         result_valid,
-    output logic [255:0] context_result,
-    output logic         context_result_valid
+    // ---- matrix stream: the bank's DRAM column-read data path ----
+    input  logic         mat_valid,
+    input  logic [255:0] mat_data,
+
+    // ---- pass command (control unit) ----
+    input  logic         pass_start,
+    input  logic         op_is_score,    // 1 = Q*K^T (tree), 0 = S*V (parallel acc)
+    input  logic [8:0]   num_beats,      // matrix beats in this pass (1..256)
+    input  logic         acc_clr,        // 1 = start accumulators from zero
+
+    // ---- results ----
+    output logic [15:0]  score_out,
+    output logic         score_valid,
+    output logic [255:0] ctx_out,
+    output logic         ctx_valid,
+    output logic         busy
 );
-    // ---------------------------------------------------------------------
-    // Storage: one 512-B buffer for each operand.  `*_swap` is retained at
-    // the module boundary for legacy command streams but has no storage effect.
-    // ---------------------------------------------------------------------
-    logic [255:0] mat_rd, vec_rd;
-    logic         rd_en;
-    assign rd_en = start;
+    // =====================================================================
+    // Control unit
+    // =====================================================================
+    logic       mode_q;        // captured op_is_score
+    logic       clr_q;         // captured acc_clr
+    logic [8:0] nbeats_q;
+    logic [8:0] beat;          // beats accepted so far
+    logic       running;
 
-    dbuf_16x256 u_buf_mat (
-        .clk     (clk),
-        .rst_n   (rst_n),
-        .wr_en   (mat_wr_en),
-        .wr_addr (mat_wr_addr),
-        .wr_data (mat_wr_data),
-        .rd_en   (rd_en),
-        .rd_addr (row_addr),
-        .rd_data (mat_rd),
-        .swap    (mat_swap)
-    );
+    wire beat_fire = running && mat_valid && (beat != nbeats_q);
+    wire beat_is_first = (beat == 9'd0) && clr_q;
+    wire beat_is_last  = (beat == nbeats_q - 9'd1);
 
-    dbuf_16x256 u_buf_vec (
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            mode_q <= 1'b0; clr_q <= 1'b0; nbeats_q <= '0;
+            beat <= '0; running <= 1'b0;
+        end else begin
+            if (pass_start) begin
+                mode_q   <= op_is_score;
+                clr_q    <= acc_clr;
+                nbeats_q <= num_beats;
+                beat     <= '0;
+                running  <= 1'b1;
+            end else if (beat_fire) begin
+                beat <= beat + 9'd1;
+                if (beat_is_last) running <= 1'b0;
+            end
+        end
+    end
+    assign busy = running;
+
+    // Vector-buffer read address for this beat: score mode walks the d_head
+    // chunks (entry = beat[3:0]); context mode walks the score words (entry =
+    // beat[7:4], one lane per token).
+    logic [3:0] vec_rd_addr;
+    assign vec_rd_addr = mode_q ? beat[3:0] : beat[7:4];
+
+    // =====================================================================
+    // Double-buffered vector buffer (the paper's GEMV buffer)
+    // =====================================================================
+    logic [255:0] vec_rd;
+    dbuf_16x256 u_vec_buf (
         .clk     (clk),
         .rst_n   (rst_n),
         .wr_en   (vec_wr_en),
         .wr_addr (vec_wr_addr),
         .wr_data (vec_wr_data),
-        .rd_en   (rd_en),
-        .rd_addr (vec_addr),
+        .rd_en   (beat_fire),
+        .rd_addr (vec_rd_addr),
         .rd_data (vec_rd),
         .swap    (vec_swap)
     );
 
-    // Pipeline valid that follows the buffer read latency.
-    logic mul_in_valid;
+    // Align the matrix beat with the 2-cycle buffer read (registered SRAM
+    // read + the exit pipeline register added as the 2026-08-31 timing fix).
+    logic [255:0] mat_p, mat_q;
+    logic         mul_pre, mul_iv;
+    logic [3:0]   bcast_lane_p, bcast_lane_q;  // context: which lane is S[token]
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) mul_in_valid <= 1'b0;
-        else        mul_in_valid <= start;
+        if (!rst_n) begin
+            mat_p <= '0; mat_q <= '0; mul_pre <= 1'b0; mul_iv <= 1'b0;
+            bcast_lane_p <= '0; bcast_lane_q <= '0;
+        end else begin
+            mul_pre <= beat_fire;
+            mul_iv  <= mul_pre;
+            if (beat_fire) begin
+                mat_p        <= mat_data;
+                bcast_lane_p <= beat[3:0];
+            end
+            if (mul_pre) begin
+                mat_q        <= mat_p;
+                bcast_lane_q <= bcast_lane_p;
+            end
+        end
     end
 
-    // ---------------------------------------------------------------------
-    // 16 FP16 multipliers (lane-aligned)
-    // ---------------------------------------------------------------------
-    logic [15:0] prod   [16];
-    logic        prod_v [16];
+    // Multiplier B operand: the vector word lane-aligned (score) or one score
+    // broadcast to all 16 lanes (context).
+    logic [15:0] vec_lane [16];
+    logic [15:0] bcast;
+    always_comb begin
+        for (int l = 0; l < 16; l++) vec_lane[l] = vec_rd[l*16 +: 16];
+        bcast = vec_lane[bcast_lane_q];
+    end
 
+    // =====================================================================
+    // 16 FP16 multipliers
+    // =====================================================================
+    logic [15:0] prod   [16];
+    logic        prod_v;
     genvar i;
     generate
         for (i = 0; i < 16; i++) begin : g_mul
+            logic pv;
             fp16_mult u_mul (
-                .clk      (clk),
-                .rst_n    (rst_n),
-                .in_valid (mul_in_valid),
-                .a        (mat_rd[i*16 +: 16]),
-                .b        (vec_rd[i*16 +: 16]),
-                .y        (prod[i]),
-                .out_valid(prod_v[i])
+                .clk(clk), .rst_n(rst_n), .in_valid(mul_iv),
+                .a(mat_q[i*16 +: 16]),
+                .b(mode_q ? vec_lane[i] : bcast),
+                .y(prod[i]), .out_valid(pv)
             );
+            if (i == 0) assign prod_v = pv;
         end
     endgenerate
 
-    // ---------------------------------------------------------------------
-    // 16 FP16 adders arranged as 8 + 4 + 2 + 1 reduction + 1 accumulator
-    // (15 adders for the tree + 1 for the accumulator = 16 total).
-    // ---------------------------------------------------------------------
-    logic [15:0] s1 [8];   logic s1_v [8];
-    logic [15:0] s2 [4];   logic s2_v [4];
-    logic [15:0] s3 [2];   logic s3_v [2];
-    logic [15:0] s4;       logic s4_v;
+    // =====================================================================
+    // first/last flag pipes, aligned to each mode's adder-input stage.
+    //   beat issue -> mul input (+2, buffer read latency) -> product (+3)
+    //   product -> tree L1..L4 (+4..+7) -> accumulator input  [score adder 15]
+    // =====================================================================
+    logic [7:1] first_pipe, last_pipe;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            first_pipe <= '0; last_pipe <= '0;
+        end else begin
+            first_pipe <= {first_pipe[6:1], beat_fire & beat_is_first};
+            last_pipe  <= {last_pipe[6:1],  beat_fire & beat_is_last};
+        end
+    end
+    wire first_ctx = first_pipe[3];   // at the context adders' input
+    wire last_ctx  = last_pipe[3];
+    wire first_acc = first_pipe[7];   // at the score accumulator's input
+    wire last_acc  = last_pipe[7];
+
+    // =====================================================================
+    // 16 FP16 adders, ONE set, mode-switched between the reduction tree and
+    // 16 parallel lane accumulators.
+    //   score:   0..7 = tree L1, 8..11 = L2, 12..13 = L3, 14 = L4,
+    //            15 = scalar accumulator.
+    //   context: adder i accumulates prod[i].
+    // The fp16_add output register free-runs (only out_valid is gated), so
+    // each accumulating adder pairs with a HOLD register that commits only on
+    // a valid result.  The b operand forwards the adder output on the cycle
+    // it is valid (back-to-back beats) and takes the hold register otherwise;
+    // the first beat of a clearing pass substitutes zero.
+    // =====================================================================
+    logic [15:0] add_a [16], add_b [16], add_y [16];
+    logic        add_iv [16], add_ov [16];
+    logic [15:0] acc_hold [16];
+    logic [15:0] fwd [16];
+
+    always_comb begin
+        for (int k = 0; k < 16; k++)
+            fwd[k] = add_ov[k] ? add_y[k] : acc_hold[k];
+
+        for (int k = 0; k < 16; k++) begin
+            add_a[k]  = prod[k];
+            add_b[k]  = first_ctx ? 16'd0 : fwd[k];
+            add_iv[k] = prod_v & ~mode_q;
+        end
+        if (mode_q) begin
+            for (int k = 0; k < 8; k++) begin   // tree level 1
+                add_a[k]  = prod[2*k];
+                add_b[k]  = prod[2*k+1];
+                add_iv[k] = prod_v;
+            end
+            for (int k = 0; k < 4; k++) begin   // tree level 2
+                add_a[8+k]  = add_y[2*k];
+                add_b[8+k]  = add_y[2*k+1];
+                add_iv[8+k] = add_ov[2*k];
+            end
+            for (int k = 0; k < 2; k++) begin   // tree level 3
+                add_a[12+k]  = add_y[8+2*k];
+                add_b[12+k]  = add_y[9+2*k];
+                add_iv[12+k] = add_ov[8+2*k];
+            end
+            add_a[14]  = add_y[12];             // tree level 4
+            add_b[14]  = add_y[13];
+            add_iv[14] = add_ov[12];
+            add_a[15]  = add_y[14];             // scalar accumulator
+            add_b[15]  = first_acc ? 16'd0 : fwd[15];
+            add_iv[15] = add_ov[14];
+        end
+    end
 
     generate
-        for (i = 0; i < 8; i++) begin : g_l1
+        for (i = 0; i < 16; i++) begin : g_add
             fp16_add u_add (
-                .clk(clk), .rst_n(rst_n),
-                .in_valid(prod_v[2*i]),
-                .a(prod[2*i]), .b(prod[2*i+1]),
-                .y(s1[i]), .out_valid(s1_v[i])
-            );
-        end
-        for (i = 0; i < 4; i++) begin : g_l2
-            fp16_add u_add (
-                .clk(clk), .rst_n(rst_n),
-                .in_valid(s1_v[2*i]),
-                .a(s1[2*i]), .b(s1[2*i+1]),
-                .y(s2[i]), .out_valid(s2_v[i])
-            );
-        end
-        for (i = 0; i < 2; i++) begin : g_l3
-            fp16_add u_add (
-                .clk(clk), .rst_n(rst_n),
-                .in_valid(s2_v[2*i]),
-                .a(s2[2*i]), .b(s2[2*i+1]),
-                .y(s3[i]), .out_valid(s3_v[i])
-            );
-        end
-        fp16_add u_l4 (
-            .clk(clk), .rst_n(rst_n),
-            .in_valid(s3_v[0]),
-            .a(s3[0]), .b(s3[1]),
-            .y(s4), .out_valid(s4_v)
-        );
-    endgenerate
-
-    // Score-mode scalar accumulator (16th FP16 adder after the reduction tree).
-    logic [15:0] acc;
-    logic [15:0] acc_in;
-    logic        acc_in_v;
-    logic [15:0] acc_sum;
-    logic        acc_sum_v;
-
-    // accum_en/clr are control signals timed by the caller relative to start.
-    // We pipe them along with the multiplier valid so they line up with s4.
-    logic [5:0] ctrl_pipe_en, ctrl_pipe_clr, ctrl_pipe_score;
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            ctrl_pipe_en  <= '0;
-            ctrl_pipe_clr <= '0;
-            ctrl_pipe_score <= '0;
-        end else begin
-            ctrl_pipe_en  <= {ctrl_pipe_en[4:0],  accum_en};
-            ctrl_pipe_clr <= {ctrl_pipe_clr[4:0], accum_clr};
-            ctrl_pipe_score <= {ctrl_pipe_score[4:0], op_is_score};
-        end
-    end
-
-    logic accum_en_aligned, accum_clr_aligned, score_mode_aligned;
-    assign accum_en_aligned  = ctrl_pipe_en[5];
-    assign accum_clr_aligned = ctrl_pipe_clr[5];
-    assign score_mode_aligned = ctrl_pipe_score[5];
-
-    assign acc_in   = accum_clr_aligned ? 16'd0 : acc;
-    assign acc_in_v = s4_v & accum_en_aligned & score_mode_aligned;
-
-    fp16_add u_acc_add (
-        .clk(clk), .rst_n(rst_n),
-        .in_valid (acc_in_v),
-        .a        (s4),
-        .b        (acc_in),
-        .y        (acc_sum),
-        .out_valid(acc_sum_v)
-    );
-
-    logic result_valid_q;
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            acc            <= 16'd0;
-            result_valid_q <= 1'b0;
-        end else begin
-            result_valid_q <= acc_sum_v;
-            if (acc_sum_v) acc <= acc_sum;
-            else if (accum_clr_aligned) acc <= 16'd0;
-        end
-    end
-
-    // ---------------------------------------------------------------------
-    // Context-mode vector accumulator.  Unlike the score path, products must
-    // NOT be reduced across lanes: lane l is output dimension l and accumulates
-    // S[token] * V[token][l] over token chunks.  The one-cycle bypass preserves
-    // correctness for back-to-back starts despite the registered FP16 add.
-    // ---------------------------------------------------------------------
-    logic [15:0] ctx_acc [16], ctx_sum [16];
-    logic [15:0] ctx_old [16];
-    logic        ctx_sum_v [16];
-    logic        context_result_valid_q;
-    logic [1:0]  ctx_en_pipe, ctx_clr_pipe, ctx_mode_pipe;
-    logic        ctx_issue_v, ctx_clear_aligned;
-
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            ctx_en_pipe   <= '0;
-            ctx_clr_pipe  <= '0;
-            ctx_mode_pipe <= '0;
-        end else begin
-            ctx_en_pipe   <= {ctx_en_pipe[0], accum_en};
-            ctx_clr_pipe  <= {ctx_clr_pipe[0], accum_clr};
-            ctx_mode_pipe <= {ctx_mode_pipe[0], op_is_score};
-        end
-    end
-
-    assign ctx_clear_aligned = ctx_clr_pipe[1];
-    assign ctx_issue_v       = prod_v[0] & ctx_en_pipe[1] & ~ctx_mode_pipe[1];
-
-    generate
-        for (i = 0; i < 16; i++) begin : g_ctx_acc
-            // A previous lane-add result is forwarded while its register is
-            // being committed, avoiding a read-after-write bubble.
-            assign ctx_old[i] = ctx_clear_aligned ? 16'd0
-                              : (ctx_sum_v[i] ? ctx_sum[i] : ctx_acc[i]);
-            fp16_add u_ctx_add (
-                .clk(clk), .rst_n(rst_n), .in_valid(ctx_issue_v),
-                .a(prod[i]), .b(ctx_old[i]),
-                .y(ctx_sum[i]), .out_valid(ctx_sum_v[i])
+                .clk(clk), .rst_n(rst_n), .in_valid(add_iv[i]),
+                .a(add_a[i]), .b(add_b[i]),
+                .y(add_y[i]), .out_valid(add_ov[i])
             );
             always_ff @(posedge clk or negedge rst_n) begin
-                if (!rst_n) ctx_acc[i] <= '0;
-                else if (ctx_sum_v[i]) ctx_acc[i] <= ctx_sum[i];
-                else if (ctx_clear_aligned) ctx_acc[i] <= '0;
+                if (!rst_n)         acc_hold[i] <= '0;
+                else if (add_ov[i]) acc_hold[i] <= add_y[i];
             end
-            assign context_result[i*16 +: 16] = ctx_acc[i];
         end
     endgenerate
 
-    // ctx_acc is committed on the edge after ctx_sum_v is asserted.  Delay
-    // the externally visible valid by that edge so context_result always
-    // denotes the newly committed 16-lane accumulator state.
+    // =====================================================================
+    // Result strobes, aligned to the hold registers: last beat's add input
+    // -> add_y (+1) -> acc_hold visible (+2).
+    // =====================================================================
+    logic sc_last_d, ctx_last_d, score_valid_q, ctx_valid_q;
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) context_result_valid_q <= 1'b0;
-        else        context_result_valid_q <= ctx_sum_v[0];
+        if (!rst_n) begin
+            sc_last_d <= 1'b0; ctx_last_d <= 1'b0;
+            score_valid_q <= 1'b0; ctx_valid_q <= 1'b0;
+        end else begin
+            sc_last_d     <= mode_q  & last_acc & add_iv[15];
+            ctx_last_d    <= ~mode_q & last_ctx & add_iv[0];
+            score_valid_q <= sc_last_d;
+            ctx_valid_q   <= ctx_last_d;
+        end
     end
 
-    // Score and context are separate interfaces; never corrupt a numerical
-    // result with a mode tag.  Both valids are aligned to their own datapaths.
-    assign result       = acc;
-    assign result_valid = result_valid_q;
-    assign context_result_valid = context_result_valid_q;
+    assign score_out   = acc_hold[15];
+    assign score_valid = score_valid_q;
+    generate
+        for (i = 0; i < 16; i++) begin : g_ctx_out
+            assign ctx_out[i*16 +: 16] = acc_hold[i];
+        end
+    endgenerate
+    assign ctx_valid = ctx_valid_q;
 endmodule

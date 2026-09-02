@@ -1,5 +1,5 @@
-// FP32 (IEEE 754 binary32) natural exponential  y = e^x  — 8 cycle latency
-// (registered output at each pipeline stage). Targeted at the softmax
+// FP32 (IEEE 754 binary32) natural exponential  y = e^x  — 3 cycle latency
+// (registered output at each of 3 pipeline stages). Targeted at the softmax
 // path where x = score - max <= 0, but x > 0 is handled by clamping to e^0 = 1.
 //
 // Method:  e^x = 2^(x * log2e),  log2e ~= 1.4426950408 (stored Q1.23).
@@ -117,27 +117,8 @@ module fp32_exp (
     //   product units: 2^-23 (mag) * 2^-23 (log2e) = 2^-46
     //   shift right 23 -> Q.23 magnitude of |t|  (units 2^-23).
     // =======================================================================
-    // Split the 32x24 range-reduction multiplication into two 16x24 partial
-    // products, then recombine them in the following registered stage.
-    logic [27:0] p0,p1,p2,p3,p4,p5,p6,p7;
-    logic        s2q_valid, s2q_is_nan, s2q_is_inf, s2q_is_zero_sub, s2q_is_pos, s2q_clamp_big;
-    logic [27:0] s2q_p0,s2q_p1,s2q_p2,s2q_p3,s2q_p4,s2q_p5,s2q_p6,s2q_p7;
-    logic [31:0] prod_lo_lo, prod_lo_hi, prod_hi_lo, prod_hi_hi;
-    logic        s2p_valid, s2p_is_nan, s2p_is_inf, s2p_is_zero_sub, s2p_is_pos, s2p_clamp_big;
-    logic [31:0] s2p_lo_lo, s2p_lo_hi, s2p_hi_lo, s2p_hi_hi;
-    logic [39:0] prod_lo, prod_hi;
-    assign p0=s1_mag_u[3:0]*LOG2E_Q23; assign p1=s1_mag_u[7:4]*LOG2E_Q23;
-    assign p2=s1_mag_u[11:8]*LOG2E_Q23; assign p3=s1_mag_u[15:12]*LOG2E_Q23;
-    assign p4=s1_mag_u[19:16]*LOG2E_Q23; assign p5=s1_mag_u[23:20]*LOG2E_Q23;
-    assign p6=s1_mag_u[27:24]*LOG2E_Q23; assign p7=s1_mag_u[31:28]*LOG2E_Q23;
-    assign prod_lo_lo = {s2q_p1,4'b0}+s2q_p0; assign prod_lo_hi={s2q_p3,4'b0}+s2q_p2;
-    assign prod_hi_lo = {s2q_p5,4'b0}+s2q_p4; assign prod_hi_hi={s2q_p7,4'b0}+s2q_p6;
-    assign prod_lo = {s2p_lo_hi, 8'b0} + s2p_lo_lo;
-    assign prod_hi = {s2p_hi_hi, 8'b0} + s2p_hi_lo;
-    logic        s2m_valid, s2m_is_nan, s2m_is_inf, s2m_is_zero_sub, s2m_is_pos, s2m_clamp_big;
-    logic [39:0] s2m_prod_lo, s2m_prod_hi;
-    logic [55:0] prod;
-    assign prod = {s2m_prod_hi, 16'b0} + {{16{1'b0}}, s2m_prod_lo};
+    logic [55:0] prod;                 // 32 * 24 = 56 bits
+    assign prod = s1_mag_u * LOG2E_Q23;
 
     logic [32:0] t_mag_u;              // |t| in Q.23 units (33 bits is ample)
     assign t_mag_u = prod[55:23];
@@ -165,7 +146,7 @@ module fp32_exp (
 
     // Underflow clamp: |floor(t)| > 126 (or magnitude-too-large flag).
     logic s1_underflow;
-    assign s1_underflow = s2m_clamp_big || (floor_mag > 11'd126);
+    assign s1_underflow = s1_clamp_big || (floor_mag > 11'd126);
 
     // Stage-1 -> Stage-2 registers.
     logic        s2_valid;
@@ -175,13 +156,6 @@ module fp32_exp (
     logic [22:0] s2_f_u;
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            s2q_valid<=0;s2q_is_nan<=0;s2q_is_inf<=0;s2q_is_zero_sub<=0;s2q_is_pos<=0;s2q_clamp_big<=0;
-            s2q_p0<=0;s2q_p1<=0;s2q_p2<=0;s2q_p3<=0;s2q_p4<=0;s2q_p5<=0;s2q_p6<=0;s2q_p7<=0;
-            s2p_valid <= 1'b0; s2p_is_nan <= 1'b0; s2p_is_inf <= 1'b0; s2p_is_zero_sub <= 1'b0; s2p_is_pos <= 1'b0; s2p_clamp_big <= 1'b0;
-            s2p_lo_lo <= '0; s2p_lo_hi <= '0; s2p_hi_lo <= '0; s2p_hi_hi <= '0;
-            s2m_valid      <= 1'b0; s2m_is_nan <= 1'b0; s2m_is_inf <= 1'b0;
-            s2m_is_zero_sub <= 1'b0; s2m_is_pos <= 1'b0; s2m_clamp_big <= 1'b0;
-            s2m_prod_lo <= '0; s2m_prod_hi <= '0;
             s2_valid       <= 1'b0;
             s2_is_nan      <= 1'b0;
             s2_is_inf      <= 1'b0;
@@ -191,24 +165,11 @@ module fp32_exp (
             s2_floor_mag   <= 11'd0;
             s2_f_u         <= 23'd0;
         end else begin
-            s2q_valid<=s1_valid;s2q_is_nan<=s1_is_nan;s2q_is_inf<=s1_is_inf;s2q_is_zero_sub<=s1_is_zero_sub;s2q_is_pos<=s1_is_pos;s2q_clamp_big<=s1_clamp_big;
-            s2q_p0<=p0;s2q_p1<=p1;s2q_p2<=p2;s2q_p3<=p3;s2q_p4<=p4;s2q_p5<=p5;s2q_p6<=p6;s2q_p7<=p7;
-            s2p_valid      <= s2q_valid; s2p_is_nan <= s2q_is_nan; s2p_is_inf <= s2q_is_inf;
-            s2p_is_zero_sub <= s2q_is_zero_sub; s2p_is_pos <= s2q_is_pos; s2p_clamp_big <= s2q_clamp_big;
-            s2p_lo_lo <= prod_lo_lo; s2p_lo_hi <= prod_lo_hi; s2p_hi_lo <= prod_hi_lo; s2p_hi_hi <= prod_hi_hi;
-            s2m_valid      <= s2p_valid;
-            s2m_is_nan     <= s2p_is_nan;
-            s2m_is_inf     <= s2p_is_inf;
-            s2m_is_zero_sub <= s2p_is_zero_sub;
-            s2m_is_pos     <= s2p_is_pos;
-            s2m_clamp_big  <= s2p_clamp_big;
-            s2m_prod_lo    <= prod_lo;
-            s2m_prod_hi    <= prod_hi;
-            s2_valid       <= s2m_valid;
-            s2_is_nan      <= s2m_is_nan;
-            s2_is_inf      <= s2m_is_inf;
-            s2_is_zero_sub <= s2m_is_zero_sub;
-            s2_is_pos      <= s2m_is_pos;
+            s2_valid       <= s1_valid;
+            s2_is_nan      <= s1_is_nan;
+            s2_is_inf      <= s1_is_inf;
+            s2_is_zero_sub <= s1_is_zero_sub;
+            s2_is_pos      <= s1_is_pos;
             s2_underflow   <= s1_underflow;
             s2_floor_mag   <= floor_mag;
             s2_f_u         <= f_u;
@@ -301,56 +262,13 @@ module fp32_exp (
         endcase
     end
 
-    // Stage-2 -> Stage-3 registers.  The LUT muxes are isolated from the
-    // interpolation multiplier so this path closes at the PE macro clock.
-    logic        s3_valid, s3_is_nan, s3_is_inf, s3_is_zero_sub, s3_is_pos, s3_underflow;
-    logic [10:0] s3_floor_mag;
-    logic [16:0] s3_frac_lo;
-    logic [23:0] s3_lut_base, s3_lut_next;
-
     // Linear interpolation: base + (next-base) * frac_lo / 2^17.
     logic [23:0] lut_delta;
-    assign lut_delta = s3_lut_next - s3_lut_base;       // >= 0, small
-    // Split the interpolation products once more.  The former 12x9/12x8
-    // multipliers were the post-s10 critical path; four 6-bit products keep
-    // the macro leaf's individual arithmetic cones below the 0.699 ns clock.
-    logic [14:0] interp_lo_lo_lo, interp_lo_lo_hi;
-    logic [14:0] interp_lo_hi_lo, interp_lo_hi_hi;
-    logic [13:0] interp_hi_lo_lo, interp_hi_lo_hi;
-    logic [13:0] interp_hi_hi_lo, interp_hi_hi_hi;
-    logic        s4_valid, s4_is_nan, s4_is_inf, s4_is_zero_sub, s4_is_pos, s4_underflow;
-    logic [10:0] s4_floor_mag;
-    logic [23:0] s4_lut_base, s4_delta;
-    logic [16:0] s4_frac_lo;
-    logic        s5_valid, s5_is_nan, s5_is_inf, s5_is_zero_sub, s5_is_pos, s5_underflow;
-    logic [10:0] s5_floor_mag;
-    logic [23:0] s5_lut_base;
-    logic [14:0] s5_interp_lo_lo_lo, s5_interp_lo_lo_hi;
-    logic [14:0] s5_interp_lo_hi_lo, s5_interp_lo_hi_hi;
-    logic [13:0] s5_interp_hi_lo_lo, s5_interp_hi_lo_hi;
-    logic [13:0] s5_interp_hi_hi_lo, s5_interp_hi_hi_hi;
-    logic        s6_valid, s6_is_nan, s6_is_inf, s6_is_zero_sub, s6_is_pos, s6_underflow;
-    logic [10:0] s6_floor_mag;
-    logic [23:0] s6_lut_base;
-    logic [20:0] s6_interp_lo_lo, s6_interp_lo_hi;
-    logic [19:0] s6_interp_hi_lo, s6_interp_hi_hi;
-    logic        s7_valid, s7_is_nan, s7_is_inf, s7_is_zero_sub, s7_is_pos, s7_underflow;
-    logic [10:0] s7_floor_mag;
-    logic [23:0] s7_lut_base;
-    logic [32:0] s7_interp_lo;
-    logic [31:0] s7_interp_hi;
-    assign interp_lo_lo_lo = s4_delta[5:0]   * s4_frac_lo[8:0];
-    assign interp_lo_lo_hi = s4_delta[11:6]  * s4_frac_lo[8:0];
-    assign interp_lo_hi_lo = s4_delta[17:12] * s4_frac_lo[8:0];
-    assign interp_lo_hi_hi = s4_delta[23:18] * s4_frac_lo[8:0];
-    assign interp_hi_lo_lo = s4_delta[5:0]   * s4_frac_lo[16:9];
-    assign interp_hi_lo_hi = s4_delta[11:6]  * s4_frac_lo[16:9];
-    assign interp_hi_hi_lo = s4_delta[17:12] * s4_frac_lo[16:9];
-    assign interp_hi_hi_hi = s4_delta[23:18] * s4_frac_lo[16:9];
-    logic [40:0] interp_sum;
-    assign interp_sum = {s7_interp_hi, 9'b0} + {{8{1'b0}}, s7_interp_lo};
+    assign lut_delta = lut_next - lut_base;             // >= 0, small
+    logic [40:0] interp_prod;                            // 24 * 17 = 41 bits
+    assign interp_prod = lut_delta * {24'd0, frac_lo};
     logic [23:0] mant_frac;                              // 23-bit 2^f fraction (+1 guard)
-    assign mant_frac = s7_lut_base + interp_sum[40:17];
+    assign mant_frac = lut_base + interp_prod[40:17];
 
     // Saturate to the largest representable fraction (should not overflow, but
     // guard against the 2.0 boundary case).
@@ -359,20 +277,20 @@ module fp32_exp (
 
     // binary32 exponent field:  i = -floor_mag ,  biased = 127 - floor_mag.
     logic signed [9:0] exp_field;
-    assign exp_field = 10'sd127 - $signed({1'b0, s7_floor_mag[8:0]});
+    assign exp_field = 10'sd127 - $signed({1'b0, s2_floor_mag[8:0]});
 
     // Assemble result with all boundary handling.
     logic [31:0] y_comb;
     always_comb begin
-        if (s7_is_nan) begin
+        if (s2_is_nan) begin
             y_comb = 32'h7FC00000;                       // qNaN
-        end else if (s7_is_inf && s7_is_pos) begin
+        end else if (s2_is_inf && s2_is_pos) begin
             y_comb = 32'h7F800000;                       // e^(+inf) = +inf
-        end else if (s7_is_inf) begin
+        end else if (s2_is_inf) begin
             y_comb = 32'h00000000;                       // e^(-inf) = +0
-        end else if (s7_is_zero_sub || s7_is_pos) begin
+        end else if (s2_is_zero_sub || s2_is_pos) begin
             y_comb = 32'h3F800000;                       // e^0 = 1 ; x>0 clamp->1
-        end else if (s7_underflow) begin
+        end else if (s2_underflow) begin
             y_comb = 32'h00000000;                       // underflow flush -> +0
         end else if (exp_field <= 10'sd0) begin
             y_comb = 32'h00000000;                       // subnormal flush -> +0
@@ -383,73 +301,14 @@ module fp32_exp (
         end
     end
 
-    // Stage-4 -> output registers.
+    // Stage-2 -> output registers.
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             y         <= 32'd0;
             out_valid <= 1'b0;
-            s3_valid <= 1'b0; s3_is_nan <= 1'b0; s3_is_inf <= 1'b0;
-            s3_is_zero_sub <= 1'b0; s3_is_pos <= 1'b0; s3_underflow <= 1'b0;
-            s3_floor_mag <= '0; s3_frac_lo <= '0; s3_lut_base <= '0; s3_lut_next <= '0;
-            s4_valid <= 1'b0; s4_is_nan <= 1'b0; s4_is_inf <= 1'b0;
-            s4_is_zero_sub <= 1'b0; s4_is_pos <= 1'b0; s4_underflow <= 1'b0;
-            s4_floor_mag <= '0; s4_lut_base <= '0; s4_delta <= '0; s4_frac_lo <= '0;
-            s5_valid <= 1'b0; s5_is_nan <= 1'b0; s5_is_inf <= 1'b0; s5_is_zero_sub <= 1'b0; s5_is_pos <= 1'b0; s5_underflow <= 1'b0;
-            s5_floor_mag <= '0; s5_lut_base <= '0;
-            s5_interp_lo_lo_lo <= '0; s5_interp_lo_lo_hi <= '0;
-            s5_interp_lo_hi_lo <= '0; s5_interp_lo_hi_hi <= '0;
-            s5_interp_hi_lo_lo <= '0; s5_interp_hi_lo_hi <= '0;
-            s5_interp_hi_hi_lo <= '0; s5_interp_hi_hi_hi <= '0;
-            s6_valid <= 1'b0; s6_is_nan <= 1'b0; s6_is_inf <= 1'b0; s6_is_zero_sub <= 1'b0; s6_is_pos <= 1'b0; s6_underflow <= 1'b0;
-            s6_floor_mag <= '0; s6_lut_base <= '0;
-            s6_interp_lo_lo <= '0; s6_interp_lo_hi <= '0; s6_interp_hi_lo <= '0; s6_interp_hi_hi <= '0;
-            s7_valid <= 1'b0; s7_is_nan <= 1'b0; s7_is_inf <= 1'b0; s7_is_zero_sub <= 1'b0; s7_is_pos <= 1'b0; s7_underflow <= 1'b0;
-            s7_floor_mag <= '0; s7_lut_base <= '0; s7_interp_lo <= '0; s7_interp_hi <= '0;
         end else begin
-            s3_valid       <= s2_valid;
-            s3_is_nan      <= s2_is_nan;
-            s3_is_inf      <= s2_is_inf;
-            s3_is_zero_sub <= s2_is_zero_sub;
-            s3_is_pos      <= s2_is_pos;
-            s3_underflow   <= s2_underflow;
-            s3_floor_mag   <= s2_floor_mag;
-            s3_frac_lo     <= frac_lo;
-            s3_lut_base    <= lut_base;
-            s3_lut_next    <= lut_next;
-            s4_valid       <= s3_valid;
-            s4_is_nan      <= s3_is_nan;
-            s4_is_inf      <= s3_is_inf;
-            s4_is_zero_sub <= s3_is_zero_sub;
-            s4_is_pos      <= s3_is_pos;
-            s4_underflow   <= s3_underflow;
-            s4_floor_mag   <= s3_floor_mag;
-            s4_lut_base    <= s3_lut_base;
-            s4_delta       <= lut_delta;
-            s4_frac_lo     <= s3_frac_lo;
-            s5_valid       <= s4_valid;
-            s5_is_nan      <= s4_is_nan; s5_is_inf <= s4_is_inf; s5_is_zero_sub <= s4_is_zero_sub;
-            s5_is_pos      <= s4_is_pos; s5_underflow <= s4_underflow;
-            s5_floor_mag   <= s4_floor_mag; s5_lut_base <= s4_lut_base;
-            s5_interp_lo_lo_lo <= interp_lo_lo_lo; s5_interp_lo_lo_hi <= interp_lo_lo_hi;
-            s5_interp_lo_hi_lo <= interp_lo_hi_lo; s5_interp_lo_hi_hi <= interp_lo_hi_hi;
-            s5_interp_hi_lo_lo <= interp_hi_lo_lo; s5_interp_hi_lo_hi <= interp_hi_lo_hi;
-            s5_interp_hi_hi_lo <= interp_hi_hi_lo; s5_interp_hi_hi_hi <= interp_hi_hi_hi;
-            s6_valid       <= s5_valid;
-            s6_is_nan      <= s5_is_nan; s6_is_inf <= s5_is_inf; s6_is_zero_sub <= s5_is_zero_sub;
-            s6_is_pos      <= s5_is_pos; s6_underflow <= s5_underflow;
-            s6_floor_mag   <= s5_floor_mag; s6_lut_base <= s5_lut_base;
-            s6_interp_lo_lo <= {s5_interp_lo_lo_hi, 6'b0} + s5_interp_lo_lo_lo;
-            s6_interp_lo_hi <= {s5_interp_lo_hi_hi, 6'b0} + s5_interp_lo_hi_lo;
-            s6_interp_hi_lo <= {s5_interp_hi_lo_hi, 6'b0} + s5_interp_hi_lo_lo;
-            s6_interp_hi_hi <= {s5_interp_hi_hi_hi, 6'b0} + s5_interp_hi_hi_lo;
-            s7_valid       <= s6_valid;
-            s7_is_nan      <= s6_is_nan; s7_is_inf <= s6_is_inf; s7_is_zero_sub <= s6_is_zero_sub;
-            s7_is_pos      <= s6_is_pos; s7_underflow <= s6_underflow;
-            s7_floor_mag   <= s6_floor_mag; s7_lut_base <= s6_lut_base;
-            s7_interp_lo   <= {s6_interp_lo_hi, 12'b0} + s6_interp_lo_lo;
-            s7_interp_hi   <= {s6_interp_hi_hi, 12'b0} + s6_interp_hi_lo;
             y         <= y_comb;
-            out_valid <= s7_valid;
+            out_valid <= s2_valid;
         end
     end
 endmodule

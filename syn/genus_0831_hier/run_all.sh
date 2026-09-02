@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Genus/ASAP7 hierarchical (leaf-as-macro) matrix for rtl/0830-02.
+# Genus/ASAP7 hierarchical (leaf-as-macro) matrix for rtl/ (the 0830-02 component set).
 # Phase 1: leaf multipliers/adders at a TIGHTER clock -> frozen mapped netlists.
-# Phase 2: every component of the DC 0830-02 matrix; leaf netlists read in and
+# Phase 2: every component of the (archived) DC 0830-02 matrix; leaf netlists read in and
 #          dont_touch'ed (macro treatment), SRAM macros as real .lib views.
 # Phase 3: integrated logic-die softmax fabric (softmax_pe frozen as macro).
 # Parallelism: JOBS x CPUS <= 32 cores (default 8 x 4).
 set -uo pipefail
 cd "$(dirname "$0")"
 HERE=$(pwd)
-RTL=$(cd ../../rtl/0830-02 && pwd)
+RTL=$(cd ../../rtl && pwd)   # official component RTL (was rtl/0830-02 before the 2026-09-02 tidy)
 GENUS=${GENUS:-/data/eda_tools/cadence/DDI251/GENUS251/tools.lnx86/bin/genus}
 JOBS=${JOBS:-8}
 CPUS=${CPUS:-4}
@@ -72,6 +72,8 @@ echo "== phase 2: components (leaves as macros) =="
 throttle; run_one gemv_attacc_p1501 gemv_unit $P_ATT "$M16" "$SRAMS" $F16A dbuf_16x256_asap7.sv gemv_unit.sv &
 throttle; run_one gemv_fugue_p769   gemv_unit $P_FUG "$M16" "$SRAMS" $F16F dbuf_16x256_asap7.sv gemv_unit.sv &
 throttle; run_one gemv_flop_p1501   gemv_unit $P_ATT "$M16" "" $F16A dbuf_16x256.sv gemv_unit.sv &
+# flop-buffer bank at 1.3 GHz (ruling 2026-09-01; originally run by hand, added here for reproducibility)
+throttle; run_one gemv_flop_p769    gemv_unit $P_FUG "$M16" "" $F16F dbuf_16x256.sv gemv_unit.sv &
 throttle; run_one dbuf_p1501 dbuf_16x256 $P_ATT "" "$SRAMS" dbuf_16x256_asap7.sv &
 throttle; run_one dbuf_p769  dbuf_16x256 $P_FUG "" "$SRAMS" dbuf_16x256_asap7.sv &
 # ---- bank group ----

@@ -1,6 +1,8 @@
 # genus_0831_hier — Genus/ASAP7 层次化（leaf-as-macro）综合矩阵
 
-对 `rtl/0830-02` 组件集的独立复跑（与 `syn/dc_0830-02` 的 DC 矩阵同口径），
+> 路径说明（2026-09-02 整理）：本目录读取的 RTL 现为仓库根 `rtl/`（原 `rtl/0830-02/`）；对照的 DC 矩阵已移至 `archived/syn/dc_0830-02/`。
+
+对 `rtl/` 组件集的独立复跑（与 `archived/syn/dc_0830-02` 的 DC 矩阵同口径），
 外加两个整合 softmax array top（"整体"）。全部脚本、转换器与各 run 的
 qor/area/power/timing/gates 报告都在本文件夹；mapped 网表、fv/、genus
 运行日志为可再生大件，不入库（与 dc_0830-02 的惯例一致，重跑
@@ -32,7 +34,7 @@ qor/area/power/timing/gates 报告都在本文件夹；mapped 网表、fv/、gen
    "timing met" 是把非法 arc 静默丢弃后的假阳性**——dc_0830-02 里所有
    经过 SRAM 的时序结论需要重审。
 2. **SRAM 出口缺流水寄存器**（裁决 chenyi9 2026-08-31，修在
-   `rtl/0830-02`）：`srambank_*_6t122` 是 latch 型 macro，读数据在时钟
+   `rtl/`）：`srambank_*_6t122` 是 latch 型 macro，读数据在时钟
    **低相位**出（下降沿 +72 ps）；wrapper 原来把 dataout 裸接乘法器，
    下游只剩半周期（666 MHz 即 -430 ps）。**最终修法 = 出口打一拍**
    （`dbuf_16x256_asap7.sv` 加 `rd_q`；flop 参考版 `dbuf_16x256.sv` 同步
@@ -53,7 +55,7 @@ controller，对齐 dc_0830-02 的 top 与频率）；phase 3 整合
 `softmax_array_256`（AttAcc CONTEXTS=2 / Fugue CONTEXTS=16，
 `sfm_array_tops.sv` 包装，softmax_pe 冻结为 macro）。层级 roll-up 公式与
 计数（N_gemv=2048、N_bg=256、N_ch=16）沿用
-`docs/0830-02/Hardware_Overhead_Breakdown.md`。
+`archived/docs/0830-02/Hardware_Overhead_Breakdown.md`。
 
 ## 最终结果（2026-08-31 深夜，28/28 全部 met）
 

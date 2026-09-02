@@ -1,120 +1,48 @@
-> **导航（2026-08-31）**：本 README 是早期 N28 logic-die 时代的文档。
-> 当前状态、现行 RTL、两套综合矩阵谁权威，请看 **`docs/README.md`**。
+# kvpim-rtl — Fugue 硬件 overhead：组件 RTL + Genus/ASAP7 权威结果
 
-# Fugue logic-die RTL (TSMC N28)
+分支 `chenyi-genus-0902`（2026-09-02 整理）。本分支只把**最终进论文**的代码与
+结果放在正式目录；其余历史材料全部在 `archived/`（见 `archived/README.md`）。
 
-RTL for the **Fugue** HBM **logic die** (buffer-die logic for master-diff KV
-attention). It extends **AttAcc**'s near-DRAM buffer-die logic with three Fugue
-additions — a **KV TLB**, a **RoPE rotate-Q unit**, and a bidirectional
-**master-diff `diff_decoder`** — and synthesizes on **TSMC N28** with Cadence
-**Genus** in a **full-flatten** flow.
+## 目录
 
-Two synthesizable tops let you measure the added-hardware cost head-to-head:
-- `attacc_logic_die` — the AttAcc-original baseline (GEMV + softmax + accumulator + controller, direct addressing).
-- `fugue_logic_die`  — the baseline **+ TLB + rotate_q_unit + diff_decoder**.
+| 目录 | 内容 |
+|---|---|
+| `rtl/` | 正式组件 RTL（原 `rtl/0830-02/`，含 commit `a17696d` 的 SRAM 出口寄存器修复）：bank GEMV、BG accumulator/buffer、logic-die 单元、softmax array、HBM controller + KV TLB |
+| `syn/genus_0831_hier/` | **权威综合结果**：Genus 25.1 / ASAP7 TT 0.7 V，层次化 leaf-as-macro 流程。脚本 `run_genus_0831.tcl` + 驱动 `run_all.sh`，修复后的 SRAM lib `libs_ps/`，每个 run 的 `<top>_{qor,area,power,timing,gates}.rpt`，汇总 `SUMMARY.md`（`collect.py` 生成） |
+| `docs/0831-genus-hier/` | 论文数据包：`DATA_README.md` + `components.csv` + `rollup.csv`，以及战役记录页 `README.md` |
+| `docs/README.md` | 导航、方法学要点、三条关键结论与待办 |
+| `docs/Hardware Overhead.md` | 组件线任务规格（四层级定义与频率契约） |
+| `docs/ASAP7_SRAM_AREA_COMPARISON.md` | SRAM macro 面积比较（bank buffer 选型的支撑） |
+| `testbench/` | `rtl/` 的 iverilog 单元测试（原 `testbench/0830-02/`），`run_tests.sh` |
+| `archived/` | 旧 N28 logic-die RTL/文档、DC 矩阵、0828 基线、旧 testbench、本机综合产物 |
 
-## Result headline (N28, SS/0.72 V/125 °C, full-flatten, 500 MHz)
+## 最终结果（Genus/ASAP7，29/29 run 全部 met）
 
-| Metric | AttAcc baseline | Fugue | Δ = added hardware |
+| 层级 | AttAcc | Fugue | 增量 |
 |---|---:|---:|---:|
-| Total area | 473,939 µm² (0.474 mm²) | 516,310 µm² (0.516 mm²) | **+42,372 µm² (+8.9%)** |
-| Std-cell instances | 270,772 | 299,896 | +29,124 (+10.8%) |
-| Total power (Genus est.) | 285.8 mW | 295.4 mW | +9.7 mW (+3.4%) |
-| Clock (met, 0 violations) | 500 MHz | 500 MHz | timing-neutral |
-| Critical path | GEMV buf → FP16 mult | `rotate_q_unit` RoPE MAC | shifts into RoPE |
+| Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | +10.85% |
+| Bank group（256×acc+buf） | 0.106 mm² | 0.128 mm² | +21.00% |
+| Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | +175.08% |
+| HBM controller | 2,087 µm² | 5,774 µm² | +176.67% |
+| Stack 合计（ASAP7 原值） | 6.68 mm² | 8.39 mm² | **+25.53%** |
+| Stack 合计（DRAM 等效，bank/BG ×10） | 61.5 mm² | 69.2 mm² | **+12.60%** |
 
-Approx Δ split (vs an intermediate no-diff-decoder run at 508,517 µm²):
-`rotate_q_unit`+`tlb` ≈ +34.6k µm², `diff_decoder` ≈ +7.8k µm².
-Full reports: `syn/build_attacc/reports_attacc/`, `syn/build_fugue/reports_fugue/`.
+来源：`syn/genus_0831_hier/SUMMARY.md`；每个数字的复核路径见 `docs/0831-genus-hier/README.md` §5。
 
-## What's here
+## Bank level 用的是什么
 
-```
-rtl/
-  fugue_pkg.sv          shared params, PIM opcodes (incl. PIM_SET_META), types
-  # --- reused as-is from KV-rtl/gemv_n28 ---
-  fp16_mult.sv fp16_add.sv   IEEE754 binary16 mul/add (1-cyc, RNE, FTZ)
-  dbuf_16x256.sv             double-buffered 16x256b operand store (flops)
-  gemv_unit.sv               16-lane FP16 GEMV (16 mul + 8+4+2+1 tree + acc)
-  # --- new FP32 arithmetic for softmax (agent-authored, style-matched) ---
-  fp32_add.sv fp32_mul.sv fp32_exp.sv fp32_recip.sv
-  # --- compute datapath ---
-  rotate_q_unit.sv      RoPE rotate on a 256b (8-pair) Q/K word   [NEW]
-  accumulator.sv        FP16 cross-GEMV partial-sum reduction
-  softmax_unit.sv       FP32 max->exp->normalize over a LANES tile
-  diff_decoder.sv       bidirectional master-diff merge decoder   [NEW]
-  # --- KV address translation (drampim CacheBlendTLB in hardware, see KV_TLB.md) ---
-  kv_tlb_pkg.sv         drampim geometry (34-b HBM addr, 256-B vectors, V=K+8MiB), seg_desc_t, run_t
-  kv_seg_tlb.sv         fully-assoc *segment* range-CAM + min-key iterate   [NEW]
-  kv_ptw.sv             page-table walker: directory + binary search / attach [NEW]
-  kv_scan_planner.sv    scan_runs in hardware (cover + physical-order merge)  [NEW]
-  kv_tlb_top.sv         LOOKUP / PLAN / ATTACH / FLUSH command port + run stream
-  kv_tlb_variants.sv    kv_tlb_e16 / e32 / e64 synthesis tops (ENTRIES sweep)
-  direct_addr_plan.sv   AttAcc baseline: same port, one affine run, no table
-  attacc_controller.sv  instr queue + decoder + config regfile + run-based
-                        DRAM addr-gen (plan port) + DRAM cmd FSM + PIM_SET_META/ATTACH
-  # --- tops ---
-  fugue_logic_die.sv    Fugue (baseline + 3 additions)
-  attacc_logic_die.sv   AttAcc-original baseline
-testbench/
-  tb_kv_tlb.sv          segment TLB vs drampim-derived vectors (vectors/kv_tlb/)
-  gen_kv_tlb_vectors.py builds those vectors from attacc_drampim's CacheBlendTLB
-syn/
-  run_syn.tcl           Genus recipe (T-cube style, ungroup -all -flatten)
-  run_syn_hier.tcl      hierarchy-preserving recipe (per-block area breakdown)
-  tsmcn28_mmmc.tcl      TSMC N28 MMMC (SS/FF/TT) — from T-cube
-  filelist_fugue.f  filelist_attacc.f  filelist.f(=fugue)  Makefile
-  area_breakdown.py     parse hier area reports -> stacked-area table
-  AREA_BREAKDOWN.md     per-block area deliverable (phase 2)
-  build_attacc/  build_fugue/          isolated A/B run dirs + reports (flat)
-  build_attacc_hier/  build_fugue_hier/ isolated A/B run dirs (hierarchical)
-```
+- RTL：`rtl/gemv_unit.sv` + `rtl/dbuf_16x256.sv`（flop 阵列 buffer，2026-09-01 裁决）+ 冻结的 `fp16_mult`/`fp16_add` 叶子网表。
+- run：`gemv_flop_p1501`（AttAcc，666 MHz）与 `gemv_flop_p769`（Fugue，1.3 GHz）。
+- `gemv_attacc_p1501` / `gemv_fugue_p769`（`dbuf_16x256_asap7.sv` + SRAM macro）只作对表 AttAcc 原文 13.12 mm²/die 的参考配置，不进 roll-up。
 
-## The three Fugue-new blocks
-
-- **`rotate_q_unit`** — RoPE, following **RoPIM** (Jeon et al., IEEE CAL 2025):
-  datapath **separate → negate → multiply → add**, adjacent-pair convention
-  `y[2i]=x[2i]·cos − x[2i+1]·sin`, `y[2i+1]=x[2i]·sin + x[2i+1]·cos`. Negate =
-  FP16 sign-bit flip; cos/sin are streamed operands (not CORDIC/ROM). Reuses
-  `fp16_mult`+`fp16_add`, 2-cycle.
-- **`kv_tlb_top`** (segment TLB) — `attacc_drampim`'s `CacheBlendTLB` in
-  hardware: a 32-entry fully-associative *range* CAM of segment descriptors
-  (a consumer's logical token range → one physically contiguous K/V run in
-  the master or diff channel pool), a page-table walker (directory + binary
-  search; `ATTACH` bulk-loads a (ctx, layer)) and a scan planner that emits
-  `scan_runs`-identical run lists (physical-address order, adjacency merge).
-  The controller consumes runs and issues ACT/RD per 32-B column.  Details,
-  scale justification and measured cycles: **`KV_TLB.md`**.  (The former
-  page-granular `tlb.sv` — 32 × 2 KiB VPN→PPN, linear page table — is gone;
-  the area numbers above were measured with it and predate this swap.)
-- **`diff_decoder`** — bidirectional master-diff merge. One control-loaded
-  `diff_mask[]` (per score word) drives **forward** (compact diff scores
-  scattered by mask, overwriting the master score → softmax) and **reverse**
-  (softmax probabilities split by the same mask into master/diff sides). Mask is
-  loaded by the **`PIM_SET_META`** instruction — same control path as `cfg[]`.
-
-## Synthesize
+## 复现
 
 ```sh
-cd syn
-make both                     # AttAcc baseline + Fugue, in parallel, 500 MHz
-make attacc                   # baseline only
-make fugue PERIOD_NS=1.5      # Fugue at ~667 MHz target
+cd syn/genus_0831_hier && ./run_all.sh      # 断点续跑，JOBS x CPUS 默认 8x4
+python3 collect.py                          # 重生成 SUMMARY.md
+cd ../../docs/0831-genus-hier && python3 export_csv.py   # 重生成 CSV
+testbench/run_tests.sh                      # iverilog 单元测试
 ```
 
-Uses Genus at `/data/eda_tools/cadence/DDI251/GENUS251/...` and the TSMC N28
-PDK at `/data2/tools-additional/pdk/N28`. Reports land in
-`build_<tag>/reports_<tag>/` (area/timing/power/gates/qor); mapped netlist in
-`build_<tag>/outputs_<tag>/`.
-
-## Next steps & handoff
-
-See **`HANDOFF.md`** for the full status, design decisions, environment
-gotchas, representative-vs-real stand-ins, and the prioritized next-step work.
-The first item — **per-block hierarchical area breakdown** — is **done**:
-see **`syn/AREA_BREAKDOWN.md`** (the +42k µm² Fugue tax is 96% the three added
-blocks: RoPE 28k, TLB 6.8k, diff_decoder 5.0k). A follow-on block,
-**`syn/ROTATE_M2_BF16.md`**, synthesizes a BF16 RoPE rotate that generates its
-own cos/sin on-die (LUT+interp sincos = 3,018 µm²/lane; full 8-pair word 44.8k µm²
-@ 500 MHz), so the die needs only the angle from upstream. Next up: Fmax sweep +
-testbenches.
+`run_all.sh` 在整理时补上了 `gemv_flop_p769` 这一行（该 run 原为手动补跑），
+现在一次跑完即得 SUMMARY 中的全部 29 行。

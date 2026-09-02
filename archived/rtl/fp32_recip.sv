@@ -327,68 +327,19 @@ module fp32_recip (
     logic        v_s1;
 
     // ---------------------------------------------------------------------------
-    // Pipelined first Newton multiply: P = M * r0.
-    //
-    // A monolithic 24x32 multiply is the former critical divider path.  Split
-    // it into 16-bit partial products, a cross-term sum, and a final combine.
-    // All three boundaries are registers so each arithmetic leaf is small
-    // enough for the 0.699 ns leaf target.
+    // Stage 1 combinational: first Newton multiply  P = M * r0  and  TWO = 2 - m*r0
     // ---------------------------------------------------------------------------
-    logic [31:0] p00_p;
-    logic [31:0] p01_p;
-    logic [23:0] p10_p;
-    logic [23:0] p11_p;
-    // The low 17 bits are consumed by the existing fixed-point datapath.
-    // Build them bytewise to avoid a 17-bit ripple carry in one cycle.
-    logic [8:0]  pcross_lo_p;
-    logic [8:0]  pcross_hi_p;
-    logic [16:0] pcross_p;
-    logic [31:0] p00_x;
-    logic [23:0] p11_x;
-    logic [31:0] p00_c;
-    logic [23:0] p11_c;
+    // P is Q(23+30)=Q53 in 56 bits (value m*r0, in ~[0.5,2)).
     logic [55:0] prod_P;
+    assign prod_P = mant_M_s1 * seed_s1;
+    // Align P down to Q2.30 (>>23) and subtract from 2.0 (2<<30).
     logic [31:0] p30;
     logic [31:0] two_minus;
-
-    logic [31:0] p00_m, p01_m, p10_m, p11_m;
-    logic        p00_mv, p01_mv, p10_mv, p11_mv;
-    fp32_recip_mul16_pipe u_p00 (.clk(clk), .rst_n(rst_n), .a(mant_M_s1[15:0]),
-        .b(seed_s1[15:0]),  .p(p00_m), .out_valid(p00_mv));
-    fp32_recip_mul16_pipe u_p01 (.clk(clk), .rst_n(rst_n), .a(mant_M_s1[15:0]),
-        .b(seed_s1[31:16]), .p(p01_m), .out_valid(p01_mv));
-    fp32_recip_mul16_pipe u_p10 (.clk(clk), .rst_n(rst_n), .a({8'd0, mant_M_s1[23:16]}),
-        .b(seed_s1[15:0]),  .p(p10_m), .out_valid(p10_mv));
-    fp32_recip_mul16_pipe u_p11 (.clk(clk), .rst_n(rst_n), .a({8'd0, mant_M_s1[23:16]}),
-        .b(seed_s1[31:16]), .p(p11_m), .out_valid(p11_mv));
-
-    assign p30       = prod_P[54:23];
-    assign two_minus = {2'b10, 30'd0} - p30;
-    assign prod_P = {24'd0, p00_c}
-                  + ({39'd0, pcross_p} << 16)
-                  + ({32'd0, p11_c} << 32);
-
-    // Partial-product stage controls.
-    logic [7:0] ea_p;
-    logic [7:0] ea_p1, ea_p2, ea_p3;
-    logic [31:0] seed_p;
-    logic [31:0] seed_p1, seed_p2, seed_p3;
-    logic [1:0] cls_p, cls_p1, cls_p2, cls_p3;
-    logic       v_p, v_p1, v_p2, v_p3;
-    // Cross-sum stage controls.
-    logic [7:0] ea_c;
-    logic [31:0] seed_c;
-    logic [1:0] cls_c;
-    logic       v_c;
-    logic [7:0] ea_x;
-    logic [31:0] seed_x;
-    logic [1:0] cls_x;
-    logic       v_x;
+    assign p30       = prod_P[54:23];                 // 32-bit Q2.30 of m*r0
+    assign two_minus = {2'b10, 30'd0} - p30;          // 2.0 (Q2.30) - m*r0 ; always >= 0 here
 
     // ---------------------------------------------------------------------------
-    // Pipelined second Newton multiply: r1 = r0 * (2 - m*r0).
-    // It uses the same 16x16 decomposition.  The final combine is registered
-    // before normalization, so no 32x32 inferred multiplier remains.
+    // Stage 2 registers
     // ---------------------------------------------------------------------------
     logic [31:0] seed_s2;
     logic [31:0] two_s2;
@@ -396,40 +347,18 @@ module fp32_recip (
     logic [1:0]  cls_s2;
     logic        v_s2;
 
-    logic [31:0] r00_p;
-    logic [31:0] r01_p;
-    logic [31:0] r10_p;
-    logic [31:0] r11_p;
-    logic [32:0] rcross_p;
-    logic [31:0] r00_c;
-    logic [31:0] r11_c;
+    // ---------------------------------------------------------------------------
+    // Stage 2 combinational: second Newton multiply  r1 = r0 * (2 - m*r0)
+    // ---------------------------------------------------------------------------
+    // r0 (Q2.30) * two (Q2.30) = Q60 in 64 bits; take [61:30] as Q2.30 result r1.
     logic [63:0] prod_R;
     logic [31:0] recip_r1;
-    assign recip_r1 = prod_R[61:30];
-    assign prod_R = {32'd0, r00_c}
-                  + ({31'd0, rcross_p} << 16)
-                  + ({32'd0, r11_c} << 32);
+    assign prod_R   = seed_s2 * two_s2;
+    assign recip_r1 = prod_R[61:30];                  // 32-bit Q2.30, value 1/1.m in (0.5,1]
 
-    logic [7:0] ea_rp;
-    logic [1:0] cls_rp, cls_rp1, cls_rp2, cls_rp3;
-    logic       v_rp, v_rp1, v_rp2, v_rp3;
-    logic [7:0] ea_rp1, ea_rp2, ea_rp3;
-    logic [7:0] ea_rc;
-    logic [1:0] cls_rc;
-    logic       v_rc;
-
-    logic [31:0] r00_m, r01_m, r10_m, r11_m;
-    logic        r00_mv, r01_mv, r10_mv, r11_mv;
-    fp32_recip_mul16_pipe u_r00 (.clk(clk), .rst_n(rst_n), .a(seed_s2[15:0]),
-        .b(two_s2[15:0]),  .p(r00_m), .out_valid(r00_mv));
-    fp32_recip_mul16_pipe u_r01 (.clk(clk), .rst_n(rst_n), .a(seed_s2[15:0]),
-        .b(two_s2[31:16]), .p(r01_m), .out_valid(r01_mv));
-    fp32_recip_mul16_pipe u_r10 (.clk(clk), .rst_n(rst_n), .a(seed_s2[31:16]),
-        .b(two_s2[15:0]),  .p(r10_m), .out_valid(r10_mv));
-    fp32_recip_mul16_pipe u_r11 (.clk(clk), .rst_n(rst_n), .a(seed_s2[31:16]),
-        .b(two_s2[31:16]), .p(r11_m), .out_valid(r11_mv));
-
-    // Final reciprocal result register.
+    // ---------------------------------------------------------------------------
+    // Stage 3 registers
+    // ---------------------------------------------------------------------------
     logic [31:0] r1_s3;
     logic [7:0]  ea_s3;
     logic [1:0]  cls_s3;
@@ -517,8 +446,8 @@ module fp32_recip (
     end
 
     // ---------------------------------------------------------------------------
-    // Pipeline registers. out_valid tracks the seven arithmetic stages and
-    // output register; each new stage carries exponent/special-case metadata.
+    // Pipeline registers (4 stages: s1, s2, s3, output). out_valid tracks in_valid
+    // through the same four stages.
     // ---------------------------------------------------------------------------
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -528,70 +457,13 @@ module fp32_recip (
             ea_s1     <= 8'd0;
             cls_s1    <= 2'b00;
             v_s1      <= 1'b0;
-            p00_p     <= 32'd0;
-            p01_p     <= 32'd0;
-            p10_p     <= 24'd0;
-            p11_p     <= 24'd0;
-            ea_p      <= 8'd0;
-            ea_p1     <= 8'd0;
-            ea_p2     <= 8'd0;
-            ea_p3     <= 8'd0;
-            seed_p    <= 32'd0;
-            seed_p1   <= 32'd0;
-            seed_p2   <= 32'd0;
-            seed_p3   <= 32'd0;
-            cls_p     <= 2'b00;
-            cls_p1    <= 2'b00;
-            cls_p2    <= 2'b00;
-            cls_p3    <= 2'b00;
-            v_p       <= 1'b0;
-            v_p1      <= 1'b0;
-            v_p2      <= 1'b0;
-            v_p3      <= 1'b0;
-            pcross_lo_p <= 9'd0;
-            pcross_hi_p <= 9'd0;
-            pcross_p  <= 17'd0;
-            p00_x     <= 32'd0;
-            p11_x     <= 24'd0;
-            p00_c     <= 32'd0;
-            p11_c     <= 24'd0;
-            ea_x      <= 8'd0;
-            seed_x    <= 32'd0;
-            cls_x     <= 2'b00;
-            v_x       <= 1'b0;
-            ea_c      <= 8'd0;
-            seed_c    <= 32'd0;
-            cls_c     <= 2'b00;
-            v_c       <= 1'b0;
-            // First-Newton result / second-Newton input
+            // Stage 2
             seed_s2   <= 32'd0;
             two_s2    <= 32'd0;
             ea_s2     <= 8'd0;
             cls_s2    <= 2'b00;
             v_s2      <= 1'b0;
-            r00_p     <= 32'd0;
-            r01_p     <= 32'd0;
-            r10_p     <= 32'd0;
-            r11_p     <= 32'd0;
-            ea_rp     <= 8'd0;
-            ea_rp1    <= 8'd0;
-            ea_rp2    <= 8'd0;
-            ea_rp3    <= 8'd0;
-            cls_rp    <= 2'b00;
-            cls_rp1   <= 2'b00;
-            cls_rp2   <= 2'b00;
-            cls_rp3   <= 2'b00;
-            v_rp      <= 1'b0;
-            v_rp1     <= 1'b0;
-            v_rp2     <= 1'b0;
-            v_rp3     <= 1'b0;
-            rcross_p  <= 33'd0;
-            r00_c     <= 32'd0;
-            r11_c     <= 32'd0;
-            ea_rc     <= 8'd0;
-            cls_rc    <= 2'b00;
-            v_rc      <= 1'b0;
-            // Final reciprocal / normalize input
+            // Stage 3
             r1_s3     <= 32'd0;
             ea_s3     <= 8'd0;
             cls_s3    <= 2'b00;
@@ -606,142 +478,20 @@ module fp32_recip (
             ea_s1     <= ea;
             cls_s1    <= cls_s0;
             v_s1      <= in_valid;
-
-            // First Newton multiply partial products (24x32 = 16/8 x 16/16).
-            p00_p     <= p00_m;
-            p01_p     <= p01_m;
-            p10_p     <= p10_m[23:0];
-            p11_p     <= p11_m[23:0];
-            ea_p1     <= ea_s1;
-            ea_p2     <= ea_p1;
-            ea_p3     <= ea_p2;
-            ea_p      <= ea_p3;
-            seed_p1   <= seed_s1;
-            seed_p2   <= seed_p1;
-            seed_p3   <= seed_p2;
-            seed_p    <= seed_p3;
-            cls_p1    <= cls_s1;
-            cls_p2    <= cls_p1;
-            cls_p3    <= cls_p2;
-            cls_p     <= cls_p3;
-            v_p1      <= v_s1;
-            v_p2      <= v_p1;
-            v_p3      <= v_p2;
-            v_p       <= v_p3;
-
-            // First Newton cross sum.  Register the byte sums first, then
-            // propagate the one carry bit in the following cycle.
-            pcross_lo_p <= {1'b0, p01_p[7:0]} + {1'b0, p10_p[7:0]};
-            pcross_hi_p <= {1'b0, p01_p[15:8]} + {1'b0, p10_p[15:8]};
-            p00_x     <= p00_p;
-            p11_x     <= p11_p;
-            ea_x      <= ea_p;
-            seed_x    <= seed_p;
-            cls_x     <= cls_p;
-            v_x       <= v_p;
-            pcross_p  <= {pcross_hi_p + pcross_lo_p[8], pcross_lo_p[7:0]};
-            p00_c     <= p00_x;
-            p11_c     <= p11_x;
-            ea_c      <= ea_x;
-            seed_c    <= seed_x;
-            cls_c     <= cls_x;
-            v_c       <= v_x;
-            seed_s2   <= seed_c;
+            // Stage 2 <- Stage 1
+            seed_s2   <= seed_s1;
             two_s2    <= two_minus;
-            ea_s2     <= ea_c;
-            cls_s2    <= cls_c;
-            v_s2      <= v_c;
-
-            // Second Newton multiply partial products (32x32 = 16x16 terms).
-            r00_p     <= r00_m;
-            r01_p     <= r01_m;
-            r10_p     <= r10_m;
-            r11_p     <= r11_m;
-            ea_rp1    <= ea_s2;
-            ea_rp2    <= ea_rp1;
-            ea_rp3    <= ea_rp2;
-            ea_rp     <= ea_rp3;
-            cls_rp1   <= cls_s2;
-            cls_rp2   <= cls_rp1;
-            cls_rp3   <= cls_rp2;
-            cls_rp    <= cls_rp3;
-            v_rp1     <= v_s2;
-            v_rp2     <= v_rp1;
-            v_rp3     <= v_rp2;
-            v_rp      <= v_rp3;
-
-            // Second Newton cross sum and final product combine.
-            rcross_p  <= {1'b0, r01_p} + {1'b0, r10_p};
-            r00_c     <= r00_p;
-            r11_c     <= r11_p;
-            ea_rc     <= ea_rp;
-            cls_rc    <= cls_rp;
-            v_rc      <= v_rp;
-            r1_s3     <= prod_R[61:30];
-            ea_s3     <= ea_rc;
-            cls_s3    <= cls_rc;
-            v_s3      <= v_rc;
+            ea_s2     <= ea_s1;
+            cls_s2    <= cls_s1;
+            v_s2      <= v_s1;
+            // Stage 3 <- Stage 2
+            r1_s3     <= recip_r1;
+            ea_s3     <= ea_s2;
+            cls_s3    <= cls_s2;
+            v_s3      <= v_s2;
             // Output <- Stage 3
             y         <= y_comb;
             out_valid <= v_s3;
-        end
-    end
-endmodule
-
-// A registered 16x16 unsigned multiplier assembled from four 8x8 products.
-// This is deliberately a separate leaf: DC can optimize the small arithmetic
-// cone without ever rebuilding a 16x16/32x32 multiplier across the boundary.
-module fp32_recip_mul16_pipe (
-    input  logic        clk,
-    input  logic        rst_n,
-    input  logic [15:0] a,
-    input  logic [15:0] b,
-    output logic [31:0] p,
-    output logic        out_valid
-);
-    logic [15:0] ll_q, lh_q, hl_q, hh_q;
-    logic [8:0]  cross_lo_q, cross_hi_q;
-    logic [16:0] cross_q;
-    logic [15:0] ll_d, hh_d, ll_c, hh_c;
-    logic        v1, v2, v3;
-
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            ll_q      <= 16'd0;
-            lh_q      <= 16'd0;
-            hl_q      <= 16'd0;
-            hh_q      <= 16'd0;
-            cross_lo_q <= 9'd0;
-            cross_hi_q <= 9'd0;
-            cross_q   <= 17'd0;
-            ll_d      <= 16'd0;
-            hh_d      <= 16'd0;
-            ll_c      <= 16'd0;
-            hh_c      <= 16'd0;
-            p         <= 32'd0;
-            v1        <= 1'b0;
-            v2        <= 1'b0;
-            v3        <= 1'b0;
-            out_valid <= 1'b0;
-        end else begin
-            ll_q      <= a[7:0]  * b[7:0];
-            lh_q      <= a[7:0]  * b[15:8];
-            hl_q      <= a[15:8] * b[7:0];
-            hh_q      <= a[15:8] * b[15:8];
-            v1        <= 1'b1;
-            cross_lo_q <= {1'b0, lh_q[7:0]} + {1'b0, hl_q[7:0]};
-            cross_hi_q <= {1'b0, lh_q[15:8]} + {1'b0, hl_q[15:8]};
-            ll_d      <= ll_q;
-            hh_d      <= hh_q;
-            v2        <= v1;
-            cross_q   <= {cross_hi_q + cross_lo_q[8], cross_lo_q[7:0]};
-            ll_c      <= ll_d;
-            hh_c      <= hh_d;
-            v3        <= v2;
-            p         <= {16'd0, ll_c}
-                       + ({15'd0, cross_q} << 8)
-                       + ({16'd0, hh_c} << 16);
-            out_valid <= v3;
         end
     end
 endmodule

@@ -1,12 +1,14 @@
-# Genus build artifacts (regenerable; reports summarized in docs / collect_mq_results.py)
-syn/build_*/
-syn/outputs_*/
-syn/*.log
-syn/*.cmd
-syn/*.out
+# --- official tree ---
+testbench/*.vvp
+__pycache__/
 fv/
 # third-party paper PDFs
 ref/
-testbench/0830-02/*.vvp
-syn/noretime_*/
-__pycache__/
+# --- archived/ : local synthesis artifacts moved out of syn/ on 2026-09-02 (regenerable, never tracked) ---
+archived/syn/build_*/
+archived/syn/outputs_*/
+archived/syn/noretime_*/
+archived/syn/*.log
+archived/syn/*.cmd
+archived/syn/*.out
+archived/testbench/0830-02/*.vvp

@@ -1,4 +1,4 @@
-// FP32 (IEEE 754 binary32) adder — 1 cycle latency (registered output).
+// FP32 (IEEE 754 binary32) adder — four pipeline stages.
 // Subnormals flushed to zero. Round-to-nearest-even.
 module fp32_add (
     input  logic        clk,
@@ -70,11 +70,28 @@ module fp32_add (
     logic same_sign;
     assign same_sign = (sa == sb);
 
+    // Stage 0: isolate exponent comparison/alignment (including the barrel
+    // shift and sticky-bit generation) from the 28-bit add/subtract.
+    logic [26:0] mant_l_ext_s0, mant_s_ext_s0;
+    logic        same_sign_s0, sign_l_s0, sa_s0, sb_s0;
+    logic [7:0]  exp_l_s0;
+    logic        a_is_zero_s0, b_is_zero_s0, a_is_inf_s0, b_is_inf_s0;
+    logic        a_is_nan_s0, b_is_nan_s0, valid_s0;
+
     logic [27:0] sum_raw;
     always_comb begin
-        if (same_sign) sum_raw = {1'b0, mant_l_ext} + {1'b0, mant_s_ext};
-        else           sum_raw = {1'b0, mant_l_ext} - {1'b0, mant_s_ext};
+        if (same_sign_s0) sum_raw = {1'b0, mant_l_ext_s0} + {1'b0, mant_s_ext_s0};
+        else              sum_raw = {1'b0, mant_l_ext_s0} - {1'b0, mant_s_ext_s0};
     end
+
+    // Stage 1 closes the exponent alignment and magnitude add/subtract path.
+    // The following normalization/round/pack logic works only on these
+    // registers, so it is a distinct clock-to-clock timing stage.
+    logic [27:0] sum_raw_s1;
+    logic        same_sign_s1, sign_l_s1, sa_s1, sb_s1;
+    logic [7:0]  exp_l_s1;
+    logic        a_is_zero_s1, b_is_zero_s1, a_is_inf_s1, b_is_inf_s1;
+    logic        a_is_nan_s1, b_is_nan_s1, valid_s1;
 
     // Normalize: if same_sign there can be a carry-out -> shift right 1.
     // If different sign there can be many leading zeros -> shift left.
@@ -83,14 +100,14 @@ module fp32_add (
     logic [4:0]  lz;
     always_comb begin
         lz = 5'd0;
-        mant_norm = sum_raw[26:0];
-        exp_norm  = exp_l;
-        if (same_sign && sum_raw[27]) begin
-            mant_norm = {sum_raw[27:2], sum_raw[1] | sum_raw[0]};
-            exp_norm  = exp_l + 8'd1;
+        mant_norm = sum_raw_s1[26:0];
+        exp_norm  = exp_l_s1;
+        if (same_sign_s1 && sum_raw_s1[27]) begin
+            mant_norm = {sum_raw_s1[27:2], sum_raw_s1[1] | sum_raw_s1[0]};
+            exp_norm  = exp_l_s1 + 8'd1;
         end else begin
             // Find leading 1 in sum_raw[26:0] and shift left.
-            casez (sum_raw[26:0])
+            casez (sum_raw_s1[26:0])
                 27'b1??????????????????????????: lz = 5'd0;
                 27'b01?????????????????????????: lz = 5'd1;
                 27'b001????????????????????????: lz = 5'd2;
@@ -124,13 +141,22 @@ module fp32_add (
                 mant_norm = 27'd0;
                 exp_norm  = 8'd0;
             end else begin
-                mant_norm = sum_raw[26:0] << lz;
-                exp_norm  = (exp_l > {3'b0, lz}) ? (exp_l - {3'b0, lz}) : 8'd0;
+                mant_norm = sum_raw_s1[26:0] << lz;
+                exp_norm  = (exp_l_s1 > {3'b0, lz}) ? (exp_l_s1 - {3'b0, lz}) : 8'd0;
             end
         end
     end
 
-    // Round-to-nearest-even from the 27-bit aligned form:
+    // Register the normalization result before rounding/packing.  This breaks
+    // the formerly critical sum_raw_s1 -> y path when adders are used at the
+    // root of the softmax reduction tree.
+    logic [26:0] mant_norm_s2;
+    logic [7:0]  exp_norm_s2;
+    logic        sign_l_s2, sa_s2, sb_s2;
+    logic        a_is_zero_s2, b_is_zero_s2, a_is_inf_s2, b_is_inf_s2;
+    logic        a_is_nan_s2, b_is_nan_s2, valid_s2;
+
+    // Round-to-nearest-even from the registered normalized form:
     //   [26]    -> hidden 1
     //   [25:3]  -> 23 mantissa bits
     //   [2]     -> guard
@@ -141,37 +167,37 @@ module fp32_add (
     logic [23:0] mant_rounded;
     logic [7:0]  exp_rounded;
     always_comb begin
-        guard    = mant_norm[2];
-        round_b  = mant_norm[1];
-        sticky   = mant_norm[0];
-        round_up = guard & (round_b | sticky | mant_norm[3]);
+        guard    = mant_norm_s2[2];
+        round_b  = mant_norm_s2[1];
+        sticky   = mant_norm_s2[0];
+        round_up = guard & (round_b | sticky | mant_norm_s2[3]);
 
-        mant_rounded = {1'b0, mant_norm[25:3]} + {23'd0, round_up};
-        exp_rounded  = exp_norm;
+        mant_rounded = {1'b0, mant_norm_s2[25:3]} + {23'd0, round_up};
+        exp_rounded  = exp_norm_s2;
         if (mant_rounded[23]) begin
             mant_rounded = {1'b0, 1'b1, 22'd0};
-            exp_rounded  = exp_norm + 8'd1;
+            exp_rounded  = exp_norm_s2 + 8'd1;
         end
     end
 
     // Pack
     logic [31:0] y_comb;
     always_comb begin
-        if (a_is_nan || b_is_nan ||
-            (a_is_inf && b_is_inf && (sa != sb))) begin
+        if (a_is_nan_s2 || b_is_nan_s2 ||
+            (a_is_inf_s2 && b_is_inf_s2 && (sa_s2 != sb_s2))) begin
             y_comb = {1'b0, 8'd255, 23'h400000};             // qNaN
-        end else if (a_is_inf) begin
-            y_comb = {sa, 8'd255, 23'd0};
-        end else if (b_is_inf) begin
-            y_comb = {sb, 8'd255, 23'd0};
-        end else if (a_is_zero && b_is_zero) begin
-            y_comb = {sa & sb, 8'd0, 23'd0};
+        end else if (a_is_inf_s2) begin
+            y_comb = {sa_s2, 8'd255, 23'd0};
+        end else if (b_is_inf_s2) begin
+            y_comb = {sb_s2, 8'd255, 23'd0};
+        end else if (a_is_zero_s2 && b_is_zero_s2) begin
+            y_comb = {sa_s2 & sb_s2, 8'd0, 23'd0};
         end else if (exp_rounded >= 8'd255) begin
-            y_comb = {sign_l, 8'd255, 23'd0};                // overflow -> inf
-        end else if (mant_norm == 27'd0) begin
+            y_comb = {sign_l_s2, 8'd255, 23'd0};             // overflow -> inf
+        end else if (mant_norm_s2 == 27'd0) begin
             y_comb = 32'd0;
         end else begin
-            y_comb = {sign_l, exp_rounded, mant_rounded[22:0]};
+            y_comb = {sign_l_s2, exp_rounded, mant_rounded[22:0]};
         end
     end
 
@@ -179,9 +205,38 @@ module fp32_add (
         if (!rst_n) begin
             y         <= 32'd0;
             out_valid <= 1'b0;
+            mant_l_ext_s0 <= '0; mant_s_ext_s0 <= '0; same_sign_s0 <= 1'b0;
+            sign_l_s0 <= 1'b0; sa_s0 <= 1'b0; sb_s0 <= 1'b0; exp_l_s0 <= '0;
+            a_is_zero_s0 <= 1'b0; b_is_zero_s0 <= 1'b0; a_is_inf_s0 <= 1'b0;
+            b_is_inf_s0 <= 1'b0; a_is_nan_s0 <= 1'b0; b_is_nan_s0 <= 1'b0; valid_s0 <= 1'b0;
+            sum_raw_s1 <= '0; same_sign_s1 <= 1'b0; sign_l_s1 <= 1'b0; sa_s1 <= 1'b0; sb_s1 <= 1'b0;
+            exp_l_s1 <= '0; a_is_zero_s1 <= 1'b0; b_is_zero_s1 <= 1'b0;
+            a_is_inf_s1 <= 1'b0; b_is_inf_s1 <= 1'b0; a_is_nan_s1 <= 1'b0;
+            b_is_nan_s1 <= 1'b0; valid_s1 <= 1'b0;
+            mant_norm_s2 <= '0; exp_norm_s2 <= '0; sign_l_s2 <= 1'b0;
+            sa_s2 <= 1'b0; sb_s2 <= 1'b0; a_is_zero_s2 <= 1'b0; b_is_zero_s2 <= 1'b0;
+            a_is_inf_s2 <= 1'b0; b_is_inf_s2 <= 1'b0; a_is_nan_s2 <= 1'b0;
+            b_is_nan_s2 <= 1'b0; valid_s2 <= 1'b0;
         end else begin
+            mant_l_ext_s0 <= mant_l_ext; mant_s_ext_s0 <= mant_s_ext;
+            same_sign_s0 <= same_sign; sign_l_s0 <= sign_l; sa_s0 <= sa; sb_s0 <= sb; exp_l_s0 <= exp_l;
+            a_is_zero_s0 <= a_is_zero; b_is_zero_s0 <= b_is_zero;
+            a_is_inf_s0 <= a_is_inf; b_is_inf_s0 <= b_is_inf;
+            a_is_nan_s0 <= a_is_nan; b_is_nan_s0 <= b_is_nan; valid_s0 <= in_valid;
+            sum_raw_s1 <= sum_raw;
+            same_sign_s1 <= same_sign_s0; sign_l_s1 <= sign_l_s0; sa_s1 <= sa_s0; sb_s1 <= sb_s0; exp_l_s1 <= exp_l_s0;
+            a_is_zero_s1 <= a_is_zero_s0; b_is_zero_s1 <= b_is_zero_s0;
+            a_is_inf_s1 <= a_is_inf_s0; b_is_inf_s1 <= b_is_inf_s0;
+            a_is_nan_s1 <= a_is_nan_s0; b_is_nan_s1 <= b_is_nan_s0;
+            valid_s1 <= valid_s0;
+            mant_norm_s2 <= mant_norm; exp_norm_s2 <= exp_norm;
+            sign_l_s2 <= sign_l_s1; sa_s2 <= sa_s1; sb_s2 <= sb_s1;
+            a_is_zero_s2 <= a_is_zero_s1; b_is_zero_s2 <= b_is_zero_s1;
+            a_is_inf_s2 <= a_is_inf_s1; b_is_inf_s2 <= b_is_inf_s1;
+            a_is_nan_s2 <= a_is_nan_s1; b_is_nan_s2 <= b_is_nan_s1;
+            valid_s2 <= valid_s1;
             y         <= y_comb;
-            out_valid <= in_valid;
+            out_valid <= valid_s2;
         end
     end
 endmodule
