@@ -15,7 +15,7 @@
   **含 SRAM 出口流水寄存器修复**（commit `a17696d`：
   `dbuf_16x256_asap7.sv`、`dbuf_16x256.sv`、`gemv_unit.sv`，读延迟 2 拍，
   裁决记录见 `syn/genus_0831_hier/README.md`）。
-- `archived/rtl/`：N28 logic-die 时代的实现，组件线不再使用。
+- `archived/rtl/logic_die_n28/`：N28 logic-die 时代的实现，组件线不再使用；`archived/rtl/` 其余为组件线里被裁决替换的实现（宏版 dbuf、RoPE、DC 专用 top）。
 
 ## 综合结果：信谁
 
