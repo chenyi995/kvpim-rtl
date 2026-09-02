@@ -26,10 +26,10 @@ throttle() { while [ "$(jobs -rp | wc -l)" -ge "$JOBS" ]; do sleep 5; done; }
 F16F="$OFF/fp16_mult_p700/fp16_mult_mapped.v $OFF/fp16_add_p700/fp16_add_mapped.v"
 F16A="$OFF/fp16_mult_p1350/fp16_mult_mapped.v $OFF/fp16_add_p1350/fp16_add_mapped.v"
 M16="fp16_mult fp16_add"
-throttle; run_one gemv_attacc_p1501 gemv_unit $P_ATT "$M16" "$SRAMS" $F16A dbuf_16x256_asap7.sv gemv_unit.sv &
-throttle; run_one gemv_fugue_p769   gemv_unit $P_FUG "$M16" "$SRAMS" $F16F dbuf_16x256_asap7.sv gemv_unit.sv &
-throttle; run_one dbuf_p1501 dbuf_16x256 $P_ATT "" "$SRAMS" dbuf_16x256_asap7.sv &
-throttle; run_one dbuf_p769  dbuf_16x256 $P_FUG "" "$SRAMS" dbuf_16x256_asap7.sv &
+throttle; run_one gemv_attacc_p1501 gemv_unit $P_ATT "$M16" "$SRAMS" $F16A $(cd ../../rtl && pwd)/dbuf_16x256_asap7.sv gemv_unit.sv &
+throttle; run_one gemv_fugue_p769   gemv_unit $P_FUG "$M16" "$SRAMS" $F16F $(cd ../../rtl && pwd)/dbuf_16x256_asap7.sv gemv_unit.sv &
+throttle; run_one dbuf_p1501 dbuf_16x256 $P_ATT "" "$SRAMS" $(cd ../../rtl && pwd)/dbuf_16x256_asap7.sv &
+throttle; run_one dbuf_p769  dbuf_16x256 $P_FUG "" "$SRAMS" $(cd ../../rtl && pwd)/dbuf_16x256_asap7.sv &
 throttle; run_one recip_p699 fp32_recip $P_SFM "" "" fp32_recip.sv &
 throttle; run_one kvtlb_p1501 kv_tlb_top $P_ATT "" "" kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv &
 # BG buffer: the implementations NOT chosen by the 2026-09-02 ruling

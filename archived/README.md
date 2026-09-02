@@ -10,7 +10,8 @@
 | 现路径 | 原路径 | 内容 | 为什么归档 |
 |---|---|---|---|
 | `root/README.md`、`root/HANDOFF.md`、`root/KV_TLB.md`、`root/ChangeNotes.md` | 仓库根 | TSMC N28 logic-die 时代的说明、交接与变更记录 | 描述的是 `rtl/`（旧外层文件）与 N28 full-flatten 流程，已被 ASAP7 组件线取代 |
-| `rtl/*.sv` | `rtl/*.sv`（外层） | N28 logic-die 整体 RTL（`fugue_logic_die`、`attacc_logic_die`、MQ bank PE、mac_tree 等） | 组件线不再使用；同名文件（如 `gemv_unit.sv`）与正式 `rtl/` 的**不是同一版本** |
+| `rtl/logic_die_n28/*.sv` | `rtl/*.sv`（外层） | N28 logic-die 整体 RTL（`fugue_logic_die`、`attacc_logic_die`、MQ bank PE、mac_tree 等） | 组件线不再使用；同名文件（如 `gemv_unit.sv`、`dbuf_16x256_asap7.sv`）与正式/组件线的**不是同一版本** |
+| `rtl/dbuf_16x256_asap7.sv` | `rtl/` | GEMV 双缓冲的 SRAM 宏实现（含 `a17696d` 出口寄存器修复） | bank buffer 裁决后正式流程用 flop 版；宏版只供归档的 macro-buffer 参考 run 与其 tb（见 `rtl/README_dbuf_asap7.md`） |
 | `rtl/rope/` | `rtl/` | `rotate_q_bf16.sv`、`sincos_bf16.sv`、`bf16_mult.sv`、`bf16_add.sv`：RoPE 旋转单元及其 BF16 叶子 | 裁决 2026-09-02：Fugue 论文口径在 GPU 做 RoPE，消融配置不进正式结果（见该目录 README） |
 | `rtl/dc_synth_tops/` | `rtl/0830-02/`（现 `rtl/`） | `softmax_buffer_dc_tops.sv`、`softmax_pe_blackbox.sv`：仅 DC 流程用的综合 top / 黑盒声明 | Genus 权威矩阵与 testbench 均不引用（见该目录 README） |
 | `syn/dc_0830-02/` | `syn/dc_0830-02/` | Synopsys DC/ASAP7 组件级矩阵（309 个报告） | **部分失效**：未开 retime；DC 静默丢弃了上游 SRAM lib 的非法 clk→dataout arc，所有经 SRAM 的 "met" 是假阳性；GEMV 行对应 SRAM 出口寄存器修复前的 RTL。勘误见 `docs/0830-02/Summary.md` 末尾 |

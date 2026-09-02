@@ -1,6 +1,6 @@
 # genus_0831_hier — Genus/ASAP7 层次化（leaf-as-macro）综合矩阵
 
-> 路径说明（2026-09-02 整理）：本目录读取的 RTL 现为仓库根 `rtl/`（原 `rtl/0830-02/`）；对照的 DC 矩阵已移至 `archived/syn/dc_0830-02/`。
+> 路径说明（2026-09-02 整理）：本目录读取的 RTL 现为仓库根 `rtl/`（原 `rtl/0830-02/`；宏版 `dbuf_16x256_asap7.sv` 已归档）；对照的 DC 矩阵已移至 `archived/syn/dc_0830-02/`。
 
 对 `rtl/` 组件集的独立复跑（与 `archived/syn/dc_0830-02` 的 DC 矩阵同口径），
 外加两个整合 softmax array top（"整体"）。全部脚本、转换器与各 run 的

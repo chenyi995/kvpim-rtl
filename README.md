@@ -7,7 +7,7 @@
 
 | 目录 | 内容 |
 |---|---|
-| `rtl/` | 正式组件 RTL（原 `rtl/0830-02/`，含 commit `a17696d` 的 SRAM 出口寄存器修复；FP16 乘/加为完整 IEEE-754（含 subnormal）、BG 累加器 16 lane、BG buffer 各取最优实现，裁决 2026-09-02；文件集合 = `run_all.sh` 与 `testbench/run_tests.sh` 读入的集合）：bank GEMV、BG accumulator/buffer、logic-die 单元、softmax array、HBM controller + KV TLB |
+| `rtl/` | 正式组件 RTL（原 `rtl/0830-02/`，含 commit `a17696d` 的 SRAM 出口寄存器修复；FP16 乘/加为完整 IEEE-754（含 subnormal）、BG 累加器 16 lane、BG buffer 各取最优实现，裁决 2026-09-02；29 个文件恰为 `run_all.sh` 读入的集合）：bank GEMV、BG accumulator/buffer、logic-die 单元、softmax array、HBM controller + KV TLB |
 | `syn/genus_0831_hier/` | **权威综合结果**：Genus 25.1 / ASAP7 TT 0.7 V，层次化 leaf-as-macro 流程。脚本 `run_genus_0831.tcl` + 驱动 `run_all.sh`，修复后的 SRAM lib `libs_ps/`，每个 run 的 `<top>_{qor,area,power,timing,gates}.rpt`，汇总 `SUMMARY.md`（`collect.py` 生成） |
 | `docs/0831-genus-hier/` | 论文数据包（只含 AttAcc baseline 与 Fugue 两类配置）：`DATA_README.md` + `components.csv` + `rollup.csv`，以及战役记录页 `README.md` |
 | `docs/README.md` | 导航、方法学要点、三条关键结论与待办 |
