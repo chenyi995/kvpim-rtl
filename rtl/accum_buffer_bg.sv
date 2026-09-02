@@ -1,4 +1,4 @@
-// accum_buffer_bg.sv — the bank-group accumulator buffer, flop array.
+// accum_buffer_bg.sv — the bank-group accumulator buffer.
 //
 // Capacity (Fugue paper §4.3.1–4.3.2): the multi-query command lets every
 // scanned K column serve all resident queries, so the buffer scales with the
@@ -9,18 +9,18 @@
 // The context side streams (probabilities over TSV, partials bypassed), so
 // the score side sets the size.
 //
-// Implementation (ruling chenyi9 2026-09-02, consistent with the bank-buffer
-// ruling of 2026-09-01): a flop array.  At 16 B / 128 B the smallest ASAP7
-// SRAM macro (srambank_64x4x16, 512 B, 249 um^2) never amortizes — it made
-// both capacities cost the same 250 um^2 and hid the 8x growth.  Genus/ASAP7:
-// flop 8x16b = 62 um^2, 64x16b = 448 um^2.  The macro version is kept in
-// archived/rtl/accum_buffer_bg_asap7_macro.sv.
-//
-// Port contract is unchanged from the macro version so the scheduler and the
-// testbench see the same device: one command per cycle, write has priority
-// (a read issued in the same cycle as a write is dropped), read data is
-// registered (1-cycle) and holds until the next read.
-module accum_buffer_bg #(
+// Implementation — each configuration takes its own area-optimal choice
+// (ruling chenyi9 2026-09-02, Genus/ASAP7 TT 0.7 V, same script):
+//   16 B : flop array 62.0 um^2  vs  smallest macro 250.5 um^2  -> FLOP
+//   128 B: flop array 448.3 um^2 vs  smallest macro 250.7 um^2  -> MACRO
+// (flop ~0.42 um^2/bit; the smallest ASAP7 macro srambank_64x4x16 is a fixed
+// 512 B / 249 um^2; crossover ~36 FP16 entries.)  Both implementations
+// present the same port contract: one command per cycle, write priority
+// (a read issued in the same cycle as a write is dropped), read data
+// registered (1-cycle) and held until the next read.
+
+// ---- flop-array implementation ------------------------------------------
+module accum_buffer_bg_flop #(
     parameter integer DEPTH = 8
 ) (
     input  logic                     clk,
@@ -44,8 +44,44 @@ module accum_buffer_bg #(
     end
 endmodule
 
-// Synthesis tops for the two capacities (16 B vs 128 B of staging).
-module accum_buffer_bg_attacc (
+// ---- ASAP7 SRAM-macro implementation --------------------------------------
+// One srambank_64x4x16_6t122 (256 x 16 b).  Single macro port, write
+// priority; read data is registered inside the macro (1-cycle).  Note the
+// macro is latch-type (data out in the low clock phase): when this buffer is
+// integrated in front of arithmetic, add an exit register as in
+// dbuf_16x256_asap7.sv.
+module accum_buffer_bg_macro #(
+    parameter integer DEPTH = 64
+) (
+    input  logic                     clk,
+    input  logic                     rst_n,
+    input  logic                     wr_en,
+    input  logic [$clog2(DEPTH)-1:0] wr_addr,
+    input  logic [15:0]              wr_data,
+    input  logic                     rd_en,
+    input  logic [$clog2(DEPTH)-1:0] rd_addr,
+    output logic [15:0]              rd_data
+);
+    localparam integer AW = $clog2(DEPTH);
+
+    wire [7:0] addr8 = {{(8-AW){1'b0}}, wr_en ? wr_addr : rd_addr};
+
+    srambank_64x4x16_6t122 u_mem (
+        .clk     (clk),
+        .ADDRESS (addr8),
+        .wd      (wr_data),
+        .banksel (wr_en | rd_en),
+        .read    (rd_en & ~wr_en),
+        .write   (wr_en),
+        .dataout (rd_data)
+    );
+
+    logic _unused;
+    assign _unused = rst_n;
+endmodule
+
+// ---- synthesis tops: each capacity with its optimal implementation --------
+module accum_buffer_bg_attacc (      // 8 x FP16 = 16 B, flop array
     input  logic        clk,
     input  logic        rst_n,
     input  logic        wr_en,
@@ -55,10 +91,10 @@ module accum_buffer_bg_attacc (
     input  logic [2:0]  rd_addr,
     output logic [15:0] rd_data
 );
-    accum_buffer_bg #(.DEPTH(8)) u_buf (.*);
+    accum_buffer_bg_flop #(.DEPTH(8)) u_buf (.*);
 endmodule
 
-module accum_buffer_bg_fugue (
+module accum_buffer_bg_fugue (       // 64 x FP16 = 128 B, SRAM macro
     input  logic        clk,
     input  logic        rst_n,
     input  logic        wr_en,
@@ -68,5 +104,5 @@ module accum_buffer_bg_fugue (
     input  logic [5:0]  rd_addr,
     output logic [15:0] rd_data
 );
-    accum_buffer_bg #(.DEPTH(64)) u_buf (.*);
+    accum_buffer_bg_macro #(.DEPTH(64)) u_buf (.*);
 endmodule
