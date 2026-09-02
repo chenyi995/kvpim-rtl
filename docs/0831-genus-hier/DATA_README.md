@@ -23,6 +23,7 @@
 roll-up 公式：每层 = Σ count_per_stack × area_um2（按 used_by 归入配置）；
 `dram_equivalent` 视图对 bank、bank_group 再 ×10。与
 `syn/genus_0831_hier/collect.py` 的结果逐数相同（2026-09-02 核对）。
+**审查签收：`components.csv` 13 行逐项对照 RTL 与原始报告核对无误（chenyi9，2026-09-02）。**
 
 ## 结果（µm²）
 
