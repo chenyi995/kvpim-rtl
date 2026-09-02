@@ -57,14 +57,14 @@ python3 collect.py           # 汇总 -> SUMMARY.md（逐组件 + 四层级 roll
 |---|---|---|
 | 流程输入：叶子宏 | `fp16_{mult,add}_p700`、`fp16_{mult,add}_p1350`、`fp32_{add,mul}_p630`、`bf16_{mult,add}_p1350`、`sfmpe_p699` | 紧时钟单独综合，mapped 网表被上层读入并冻结；报告证明叶子自身 met |
 | bank | `gemv_flop_p1501`（AttAcc）、`gemv_flop_p769`（Fugue） | flop buffer 版 GEMV |
-| bank group | `accbg_*`、`accbuf_*` | accumulator + buffer |
+| bank group | `accbg_*`、`accbuf_*` | accumulator + buffer（buffer 为 flop 阵列，裁决 2026-09-02；宏版旧 run 在 `archived/syn/genus_0831_hier_reference/accbuf_*_macro/`） |
 | logic die | `sfmarray_attacc_p769`、`sfmarray_fugue_p769`、`acclogic_p1501`、`diffdec_p1501`、`causal_p1501`、`rope_p1501` | 整合 softmax array + per-channel 单元；`rope` 只进 Fugue+RoPE 消融 |
 | HBM controller | `ctrl_attacc_p1501`、`ctrl_fugue_p1501` | |
 | 脚本/库 | `run_all.sh`、`run_genus_0831.tcl`、`collect.py`、`convert_sram_libs.py`、`libs_ps/`、`sfm_array_tops.sv` | |
 
 三类配置之外的参考 run（macro-buffer GEMV、单体 dbuf/TLB/recip）与驱动日志
 已移至 `archived/syn/genus_0831_hier_reference/`；其中 `gemv_attacc_p1501`
-仍被 `collect.py` 读取以计算 13.18 mm²/die 校准锚。
+仍被 `collect.py` 读取以计算 13.12 mm²/die 校准锚（BG buffer 改 flop 前为 13.18）。
 
 phase 1 叶子 9 个（含 softmax_pe）；phase 2 组件 11 个；phase 3 整合
 `softmax_array_256`（AttAcc CONTEXTS=2 / Fugue CONTEXTS=16，
@@ -83,8 +83,12 @@ N_gemv=1024、N_bg=256、N_ch=16、bank/BG ×10（裁决 2026-09-01），公式�
   flop 阵列**——512 B/份的容量点上 256 行 macro 底座摊不平，flop 更小
   且物理容量恰为 1 MiB/stack，盈亏平衡在 ~1 KiB/份，macro 组合
   3×80b+1×16b 留作 n_cap 扩展档）：
-  bank +10.85%、BG +21.00%、logic die +175.08%、controller +176.67%；
-  **stack 合计 Fugue vs AttAcc：ASAP7 原值 +25.53%，DRAM 工艺等效
-  +12.60%**。锚点：macro 参考配置复现原文 13.12 mm²/die（我们 13.18）；
-  flop 最优配置 7.61 mm²/die，低于原文属预期（超配消除）。
+  bank +10.85%、BG +209.98%、logic die +175.08%、controller +176.67%；
+  **stack 合计 Fugue vs AttAcc：ASAP7 原值 +27.20%，DRAM 工艺等效
+  +14.32%**。锚点：macro 参考配置复现原文 13.12 mm²/die（我们 13.12）；
+  flop 配置 7.55 mm²/die，低于原文属预期（超配消除）。
+- **BG buffer 改 flop 阵列**（裁决 chenyi9 2026-09-02）：原宏版把 16 B 与
+  128 B 都装进同一颗 512 B `srambank_64x4x16`（两档同为 250 µm²，扩容零
+  成本）；flop 版 62.0 / 448.3 µm²，两 run 均 met（slack +960 / +296 ps），
+  功能由 `tb_accumulators_0830_02`（VCS）验证通过。
 - 功率列为 Genus 统计值（无 VCD、满活动率），只作相对比较。

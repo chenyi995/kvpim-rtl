@@ -75,8 +75,8 @@ throttle; run_one gemv_flop_p769    gemv_unit $P_FUG "$M16" "" $F16F dbuf_16x256
 # ---- bank group ----
 throttle; run_one accbg_attacc_p1501  accumulator_bg $P_ATT "$M16" "" $F16A accumulator_bg.sv &
 throttle; run_one accbg_fugue_p769    accumulator_bg $P_FUG "$M16" "" $F16F accumulator_bg.sv &
-throttle; run_one accbuf_attacc_p1501 accum_buffer_bg_attacc $P_ATT "" "$SRAMS" accum_buffer_bg.sv &
-throttle; run_one accbuf_fugue_p769   accum_buffer_bg_fugue  $P_FUG "" "$SRAMS" accum_buffer_bg.sv &
+throttle; run_one accbuf_attacc_p1501 accum_buffer_bg_attacc $P_ATT "" "" accum_buffer_bg.sv &   # flop array (ruling 2026-09-02)
+throttle; run_one accbuf_fugue_p769   accum_buffer_bg_fugue  $P_FUG "" "" accum_buffer_bg.sv &
 # ---- logic die components ----
 throttle; run_one acclogic_p1501 accumulator_logic $P_ATT "$M16" "" $F16A accumulator_logic.sv &
 throttle; run_one diffdec_p1501  diff_decoder_channel_dc_top $P_ATT "" "" fugue_pkg.sv diff_decoder.sv diff_decoder_channel_dc_top.sv &

@@ -18,11 +18,11 @@ hardware-overhead roll-up 的权威数字。
 | 层级 | AttAcc | Fugue | Fugue+RoPE（消融） | Fugue 增量 |
 |---|---:|---:|---:|---:|
 | Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | 6.63 mm² | +10.85% |
-| Bank group（256×acc+buf） | 0.106 mm² | 0.128 mm² | 0.128 mm² | +21.00% |
+| Bank group（256×acc+buf，flop buffer） | 0.058 mm² | 0.179 mm² | 0.179 mm² | +209.98% |
 | Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | 1.623 mm² | +175.08% |
 | HBM controller | 2,087 µm² | 5,774 µm² | 5,774 µm² | +176.67% |
-| **Stack 合计（ASAP7 原值）** | 6.68 mm² | 8.39 mm² | 8.39 mm² | **+25.53%** |
-| **Stack 合计（DRAM 等效，bank/BG ×10）** | 61.5 mm² | 69.2 mm² | 69.2 mm² | **+12.60%**（+RoPE：+12.61%） |
+| **Stack 合计（ASAP7 原值）** | 6.63 mm² | 8.44 mm² | 8.44 mm² | **+27.20%** |
+| **Stack 合计（DRAM 等效，bank/BG ×10）** | 61.0 mm² | 69.7 mm² | 69.8 mm² | **+14.32%**（+RoPE：+14.33%） |
 
 关键单点：GEMV（flop buffer）@666 MHz / @1.3 GHz met（+65.7 / +0.5 ps）；
 整合 softmax array @1.3 GHz met（AttAcc 573k / Fugue 1,578k µm²，slack 0）。
@@ -44,11 +44,19 @@ hardware-overhead roll-up 的权威数字。
    `softmax_buffer_sram` 经整合 array 验证**无需**此修复（FSM WAIT 吸收）。
 4. **N_gemv 计数口径**（裁决 2026-09-01）：AttAcc Fig.9(b) 两 bank 共享
    2 个 GEMV → **1024/stack**（原 2048 作废）；bank/BG 需 ×10 DRAM 工艺
-   等效才能与原文对表（macro 参考配置复现 13.12 → 我们 13.18 mm²/die）。
+   等效才能与原文对表（macro 参考配置复现 13.12 → 当时我们 13.18 mm²/die，BG buffer 改 flop 后为 13.12）。
 5. **bank buffer 选型**（裁决 2026-09-01）：规格 256b 带宽 × 1 MiB/stack
    下，**flop 阵列最优**（3.8k µm²/unit，物理容量恰好；macro 最优组合
    3×80b+1×16b/份 = 6.0k 且 16 MiB 超配）。盈亏平衡 ~1 KiB/份，macro
    组合留作 n_cap≥16 扩展档。
+6. **BG buffer 选型**（裁决 2026-09-02，审查中发现）：原实现把 AttAcc 的
+   8×FP16（16 B）和 Fugue 的 64×FP16（128 B）装进同一颗 512 B 宏
+   `srambank_64x4x16`，两档面积同为 250 µm²，8× 扩容在数字里为零成本，
+   与 bank 层裁决不一致。改为 flop 阵列（与 bank buffer 同口径）：
+   62.0 / 448.3 µm²，BG +21.0% → **+209.98%**，stack 合计 +12.60% →
+   **+14.32%**（DRAM 等效）。宏版 RTL 与两个旧 run 归档于
+   `archived/rtl/accum_buffer_bg_asap7_macro.sv`、
+   `archived/syn/genus_0831_hier_reference/accbuf_*_macro/`。
 
 ## 4. 全部改动文件（按 commit）
 
@@ -61,7 +69,8 @@ hardware-overhead roll-up 的权威数字。
 | `7627ff1` | `rerun3.log` | 驱动日志收尾 |
 | `1273725` | `collect.py`、`SUMMARY.md`、`Hardware_Overhead_Breakdown.md`、README×2 | N_gemv=1024 + ×10 双表 |
 | `f71956f` | `gemv_flop_p769/`、`collect.py`、`SUMMARY.md`、README×2 | flop 裁决 + 最终 roll-up |
-| （本次） | `docs/0831-genus-hier/` | 本记录页 + DATA_README + CSV |
+| （0902 记录） | `docs/0831-genus-hier/` | 本记录页 + DATA_README + CSV |
+| （0902 BG） | `rtl/accum_buffer_bg.sv`、`accbuf_*` 两个 run、SUMMARY/CSV、README×4 | BG buffer 改 flop 阵列，重跑并刷新 roll-up |
 
 ## 5. 原始数据路径（手动复核指南）
 

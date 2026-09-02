@@ -12,6 +12,7 @@
 | `dbuf_p1501` / `dbuf_p769` | `dbuf_16x256_asap7` 单体 | 1501.5 / 769 ps | macro buffer 单体面积 8,123 µm²，支撑 flop-vs-macro 裁决 | `docs/ASAP7_SRAM_AREA_COMPARISON.md` 的讨论 |
 | `kvtlb_p1501` | `kv_tlb_top` 单体 | 1501.5 ps | TLB 单体 3,463 µm²（controller 增量的解释） | 无，`ctrl_fugue_p1501` 已含 TLB |
 | `recip_p699` | `fp32_recip` 单体 | 699 ps | 1,140 µm²，早期 softmax 拼装口径的补项 | 无，整合 array run 已含 recip |
+| `accbuf_attacc_p1501_macro` / `accbuf_fugue_p769_macro` | `accum_buffer_bg_{attacc,fugue}`，宏版（`archived/rtl/accum_buffer_bg_asap7_macro.sv`） | 1501.5 / 769 ps | 250.5 / 250.7 µm²：16 B 与 128 B 装同一颗 512 B 宏，两档同面积 | 无；2026-09-02 裁决改 flop 阵列（正式 run `accbuf_*` 62.0 / 448.3 µm²） |
 | `rerun*.log` | — | — | 战役驱动脚本三次续跑的 stdout | 历史 |
 
 重跑：`./run_reference.sh`（使用正式目录的 tcl、`libs_ps/` 与叶子网表，结果写回本目录）。

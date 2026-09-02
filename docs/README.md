@@ -45,13 +45,15 @@
    666 MHz / 1.3 GHz 双双 met。`softmax_buffer_sram` 经整合 array 验证
    无需此修复（FSM WAIT 吸收半周期）。
 
-## 三项裁决（chenyi9 2026-09-01，已体现在 SUMMARY/CSV）
+## 四项裁决（chenyi9 2026-09-01 / 09-02，已体现在 SUMMARY/CSV）
 
 - **N_gemv=1024**（AttAcc Fig.9(b) 两 bank 共享 2 GEMV）。
 - bank/BG **×10** DRAM 工艺等效。
 - **bank buffer 用 flop 阵列**（512 B/份时 flop 3.8k µm² < macro 最优
-  6.0k；盈亏平衡 ~1 KiB/份）。stack 合计 Fugue vs AttAcc：ASAP7
-  **+25.53%**、DRAM 等效 **+12.60%**。
+  6.0k；盈亏平衡 ~1 KiB/份）。
+- **BG buffer 也用 flop 阵列**（2026-09-02）：宏版把 16 B / 128 B 装进同一颗
+  512 B 宏，两档同面积，扩容零成本；flop 版 62 / 448 µm²。
+  stack 合计 Fugue vs AttAcc：ASAP7 **+27.20%**、DRAM 等效 **+14.32%**。
 
 ## 待办
 

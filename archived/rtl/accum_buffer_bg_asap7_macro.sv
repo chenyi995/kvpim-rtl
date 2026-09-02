@@ -1,25 +1,18 @@
-// accum_buffer_bg.sv — the bank-group accumulator buffer, flop array.
+// accum_buffer_bg.sv — the bank-group accumulator buffer, ASAP7 SRAM macro.
 //
 // Capacity (Fugue paper §4.3.1–4.3.2): the multi-query command lets every
 // scanned K column serve all resident queries, so the buffer scales with the
 // bank's resident-query capacity n_cap = S_gemvbuf/64 B = 8:
-//   AttAcc : 1 query in flight  -> DEPTH = 8   FP16 (8-token score staging, 16 B)
+//   AttAcc : 1 query in flight  -> DEPTH = 8   FP16 (8-token score staging)
 //   Fugue  : n_cap = 8 queries  -> DEPTH = 8*8 = 64 FP16 (same per-query
-//            staging depth, one set per resident query, 128 B), 8x enlargement.
+//            staging depth, one set per resident query), 8x enlargement.
 // The context side streams (probabilities over TSV, partials bypassed), so
 // the score side sets the size.
 //
-// Implementation (ruling chenyi9 2026-09-02, consistent with the bank-buffer
-// ruling of 2026-09-01): a flop array.  At 16 B / 128 B the smallest ASAP7
-// SRAM macro (srambank_64x4x16, 512 B, 249 um^2) never amortizes — it made
-// both capacities cost the same 250 um^2 and hid the 8x growth.  Genus/ASAP7:
-// flop 8x16b = 62 um^2, 64x16b = 448 um^2.  The macro version is kept in
-// archived/rtl/accum_buffer_bg_asap7_macro.sv.
-//
-// Port contract is unchanged from the macro version so the scheduler and the
-// testbench see the same device: one command per cycle, write has priority
-// (a read issued in the same cycle as a write is dropped), read data is
-// registered (1-cycle) and holds until the next read.
+// One srambank_64x4x16_6t122 (256 x 16 b) holds either configuration; the
+// single macro port serves one command per cycle (write priority — the
+// scheduler must not read and write the same cycle).  Read data is
+// registered inside the macro (1-cycle), like the flop version it replaces.
 module accum_buffer_bg #(
     parameter integer DEPTH = 8
 ) (
@@ -32,19 +25,26 @@ module accum_buffer_bg #(
     input  logic [$clog2(DEPTH)-1:0] rd_addr,
     output logic [15:0]              rd_data
 );
-    logic [15:0] mem [DEPTH];
+    localparam integer AW = $clog2(DEPTH);
 
-    always_ff @(posedge clk) begin
-        if (wr_en) mem[wr_addr] <= wr_data;
-    end
+    wire [7:0] addr8 = {{(8-AW){1'b0}}, wr_en ? wr_addr : rd_addr};
 
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n)                rd_data <= '0;
-        else if (rd_en && !wr_en)  rd_data <= mem[rd_addr];
-    end
+    srambank_64x4x16_6t122 u_mem (
+        .clk     (clk),
+        .ADDRESS (addr8),
+        .wd      (wr_data),
+        .banksel (wr_en | rd_en),
+        .read    (rd_en & ~wr_en),
+        .write   (wr_en),
+        .dataout (rd_data)
+    );
+
+    logic _unused;
+    assign _unused = rst_n;
 endmodule
 
-// Synthesis tops for the two capacities (16 B vs 128 B of staging).
+// Synthesis tops for the two capacities (same macro, different used depth;
+// the architectural difference is 16 B vs 128 B of staging).
 module accum_buffer_bg_attacc (
     input  logic        clk,
     input  logic        rst_n,

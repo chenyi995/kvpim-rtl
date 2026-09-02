@@ -32,4 +32,7 @@ throttle; run_one dbuf_p1501 dbuf_16x256 $P_ATT "" "$SRAMS" dbuf_16x256_asap7.sv
 throttle; run_one dbuf_p769  dbuf_16x256 $P_FUG "" "$SRAMS" dbuf_16x256_asap7.sv &
 throttle; run_one recip_p699 fp32_recip $P_SFM "" "" fp32_recip.sv &
 throttle; run_one kvtlb_p1501 kv_tlb_top $P_ATT "" "" kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv &
+MACRO_RTL=$(cd ../../rtl && pwd)
+throttle; run_one accbuf_attacc_p1501_macro accum_buffer_bg_attacc $P_ATT "" "$SRAMS" $MACRO_RTL/accum_buffer_bg_asap7_macro.sv &
+throttle; run_one accbuf_fugue_p769_macro   accum_buffer_bg_fugue  $P_FUG "" "$SRAMS" $MACRO_RTL/accum_buffer_bg_asap7_macro.sv &
 wait; echo REFERENCE_DONE

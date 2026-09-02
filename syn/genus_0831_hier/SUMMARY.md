@@ -18,8 +18,8 @@
 | **-- bank group --** | | | | | | |
 | accbg_attacc_p1501 | accumulator_bg | 1502.0 | 163.2 | +313.90 | 0 | 1.11 |
 | accbg_fugue_p769 | accumulator_bg | 769.0 | 249.8 | +146.50 | 0 | 2.25 |
-| accbuf_attacc_p1501 | accum_buffer_bg_attacc | 1502.0 | 250.5 | +453.50 | 0 | 24.87 |
-| accbuf_fugue_p769 | accum_buffer_bg_fugue | 769.0 | 250.7 | +182.50 | 0 | 48.57 |
+| accbuf_attacc_p1501 | accum_buffer_bg_attacc | 1502.0 | 62.0 | +960.10 | 0 | 0.33 |
+| accbuf_fugue_p769 | accum_buffer_bg_fugue | 769.0 | 448.3 | +296.30 | 0 | 3.12 |
 | **-- logic die --** | | | | | | |
 | acclogic_p1501 | accumulator_logic | 1502.0 | 967.4 | +49.60 | 0 | 6.52 |
 | diffdec_p1501 | diff_decoder_channel_dc_top | 1502.0 | 1543.3 | +0.20 | 0 | 4.75 |
@@ -36,10 +36,10 @@
 | Level | AttAcc um^2 | Fugue um^2 | delta |
 |---|---:|---:|---:|
 | Bank | 5,984,450 | 6,633,588 | +10.85% |
-| Bank group | 105,890 | 128,125 | +21.00% |
+| Bank group | 57,652 | 178,711 | +209.98% |
 | Logic die | 588,567 | 1,619,024 | +175.08% |
 | HBM controller | 2,087 | 5,774 | +176.67% |
-| Stack total | 6,680,994 | 8,386,510 | +25.53% |
+| Stack total | 6,632,756 | 8,437,096 | +27.20% |
 | Logic die (+RoPE ablation) | | 1,623,417 | |
 
 ## Roll-up, DRAM-process equivalent (bank/BG x10; die & ctrl on the logic die x1)
@@ -47,9 +47,9 @@
 | Level | AttAcc um^2 | Fugue um^2 | delta |
 |---|---:|---:|---:|
 | Bank | 59,844,495 | 66,335,877 | +10.85% |
-| Bank group | 1,058,903 | 1,281,249 | +21.00% |
+| Bank group | 576,517 | 1,787,110 | +209.98% |
 | Logic die | 588,567 | 1,619,024 | +175.08% |
 | HBM controller | 2,087 | 5,774 | +176.67% |
-| Stack total | 61,494,053 | 69,241,924 | +12.60% |
+| Stack total | 61,011,667 | 69,747,785 | +14.32% |
 
-Anchor notes: with the flop-optimal bank buffer the AttAcc DRAM-side total is 7.61 mm^2/die — below the paper's 13.12 mm^2/die (Sec 7.7) because the over-provisioned macro buffer is gone; the macro-buffer reference (archived run gemv_attacc_p1501, 10,193.1 um^2) reproduces the paper's number (13.18 mm^2/die).
+Anchor notes: with the flop-optimal bank buffer the AttAcc DRAM-side total is 7.55 mm^2/die — below the paper's 13.12 mm^2/die (Sec 7.7) because the over-provisioned macro buffer is gone; the macro-buffer reference (archived run gemv_attacc_p1501, 10,193.1 um^2) reproduces the paper's number (13.12 mm^2/die).
