@@ -57,7 +57,8 @@ roll-up 公式：每层 = Σ count_per_stack × area_um2（按 used_by 归入配
 ## 可直接引用的锚点句（已验证）
 
 1. 校准锚：AttAcc 的 macro-buffer 参考配置下 DRAM 侧 = **13.18 mm²/die**
-   vs 原文 13.12（§7.7）。该配置的 run（`gemv_attacc_p1501`）不在本目录，
+   vs 原文 13.12（§7.7）。该配置的 run（`gemv_attacc_p1501`）已归档在
+   `archived/syn/genus_0831_hier_reference/`，`collect.py` 仍读取它，
    数字见 `syn/genus_0831_hier/SUMMARY.md` 的 Anchor notes。
 2. flop 最优 bank buffer 下 AttAcc DRAM 侧 = 7.61 mm²/die（低于原文，因消除
    16× macro 超配）。

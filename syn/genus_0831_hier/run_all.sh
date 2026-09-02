@@ -68,14 +68,10 @@ M32="fp32_add fp32_mul"
 MBF="bf16_mult bf16_add"
 
 echo "== phase 2: components (leaves as macros) =="
-# ---- bank ----
-throttle; run_one gemv_attacc_p1501 gemv_unit $P_ATT "$M16" "$SRAMS" $F16A dbuf_16x256_asap7.sv gemv_unit.sv &
-throttle; run_one gemv_fugue_p769   gemv_unit $P_FUG "$M16" "$SRAMS" $F16F dbuf_16x256_asap7.sv gemv_unit.sv &
+# ---- bank ----  (macro-buffer / standalone-dbuf reference runs: archived/syn/genus_0831_hier_reference/run_reference.sh)
 throttle; run_one gemv_flop_p1501   gemv_unit $P_ATT "$M16" "" $F16A dbuf_16x256.sv gemv_unit.sv &
 # flop-buffer bank at 1.3 GHz (ruling 2026-09-01; originally run by hand, added here for reproducibility)
 throttle; run_one gemv_flop_p769    gemv_unit $P_FUG "$M16" "" $F16F dbuf_16x256.sv gemv_unit.sv &
-throttle; run_one dbuf_p1501 dbuf_16x256 $P_ATT "" "$SRAMS" dbuf_16x256_asap7.sv &
-throttle; run_one dbuf_p769  dbuf_16x256 $P_FUG "" "$SRAMS" dbuf_16x256_asap7.sv &
 # ---- bank group ----
 throttle; run_one accbg_attacc_p1501  accumulator_bg $P_ATT "$M16" "" $F16A accumulator_bg.sv &
 throttle; run_one accbg_fugue_p769    accumulator_bg $P_FUG "$M16" "" $F16F accumulator_bg.sv &
@@ -86,10 +82,8 @@ throttle; run_one acclogic_p1501 accumulator_logic $P_ATT "$M16" "" $F16A accumu
 throttle; run_one diffdec_p1501  diff_decoder_channel_dc_top $P_ATT "" "" fugue_pkg.sv diff_decoder.sv diff_decoder_channel_dc_top.sv &
 throttle; run_one causal_p1501   causal_comparator $P_ATT "" "" causal_comparator.sv &
 throttle; run_one rope_p1501     rotate_q_bf16 $P_ATT "$MBF" "" $BF16 sincos_bf16.sv rotate_q_bf16.sv &
-throttle; run_one recip_p699     fp32_recip $P_SFM "" "" fp32_recip.sv &
 throttle; run_one sfmpe_p699     softmax_pe $P_SFM "$M32" "" $F32 fp32_exp.sv softmax_pe.sv &
 # ---- HBM controller ----
-throttle; run_one kvtlb_p1501 kv_tlb_top $P_ATT "" "" kv_tlb_pkg.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv &
 throttle; run_one ctrl_attacc_p1501 attacc_hbm_ctrl_top $P_ATT "" "" fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv direct_addr_plan.sv dma_engine.sv attacc_hbm_ctrl_top.sv &
 throttle; run_one ctrl_fugue_p1501  fugue_hbm_ctrl_top  $P_ATT "" "" fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv kv_seg_tlb.sv kv_ptw.sv kv_scan_planner.sv kv_tlb_top.sv dma_engine.sv fugue_hbm_ctrl_top.sv &
 wait

@@ -8,15 +8,14 @@ import re
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 ORDER = [
-    ("-- leaf macros (tight clock) --", None),
+    ("-- flow inputs: leaf macros (tight clock, frozen netlists) --", None),
     ("fp16_mult_p700", "fp16_mult"), ("fp16_add_p700", "fp16_add"),
     ("fp16_mult_p1350", "fp16_mult"), ("fp16_add_p1350", "fp16_add"),
     ("fp32_add_p630", "fp32_add"), ("fp32_mul_p630", "fp32_mul"),
     ("bf16_mult_p1350", "bf16_mult"), ("bf16_add_p1350", "bf16_add"),
+    ("sfmpe_p699", "softmax_pe"),
     ("-- bank --", None),
     ("gemv_flop_p1501", "gemv_unit"), ("gemv_flop_p769", "gemv_unit"),
-    ("gemv_attacc_p1501", "gemv_unit"), ("gemv_fugue_p769", "gemv_unit"),
-    ("dbuf_p1501", "dbuf_16x256"), ("dbuf_p769", "dbuf_16x256"),
     ("-- bank group --", None),
     ("accbg_attacc_p1501", "accumulator_bg"), ("accbg_fugue_p769", "accumulator_bg"),
     ("accbuf_attacc_p1501", "accum_buffer_bg_attacc"),
@@ -26,18 +25,21 @@ ORDER = [
     ("diffdec_p1501", "diff_decoder_channel_dc_top"),
     ("causal_p1501", "causal_comparator"),
     ("rope_p1501", "rotate_q_bf16"),
-    ("recip_p699", "fp32_recip"), ("sfmpe_p699", "softmax_pe"),
     ("sfmarray_attacc_p769", "sfm_array_attacc"),
     ("sfmarray_fugue_p769", "sfm_array_fugue"),
     ("-- HBM controller --", None),
-    ("kvtlb_p1501", "kv_tlb_top"),
     ("ctrl_attacc_p1501", "attacc_hbm_ctrl_top"),
     ("ctrl_fugue_p1501", "fugue_hbm_ctrl_top"),
 ]
+# Reference runs outside the three paper configurations (macro-buffer GEMV,
+# standalone dbuf / TLB / recip) were archived on 2026-09-02; only the
+# macro-buffer AttAcc GEMV is still read, for the 13.12 mm^2/die anchor.
+REF_DIR = os.path.normpath(os.path.join(HERE, "..", "..", "archived", "syn",
+                                        "genus_0831_hier_reference"))
 
 
-def parse(tag, top):
-    rep = os.path.join(HERE, tag)
+def parse(tag, top, base=None):
+    rep = os.path.join(base or HERE, tag)
     try:
         qor = open(os.path.join(rep, f"{top}_qor.rpt")).read()
         area = open(os.path.join(rep, f"{top}_area.rpt")).read()
@@ -129,12 +131,21 @@ def main():
         lines.append(f"| {name} | {x:,.0f} | {y:,.0f} "
                      f"| {100*(y-x)/x if x else 0:+.2f}% |")
     lines.append("")
+    flop_die = (DRAM_X * (bank_att + bg_att)) / 8 / 1e6
+    ref = parse("gemv_attacc_p1501", "gemv_unit", REF_DIR)
+    if ref is not None:
+        macro_die = DRAM_X * (N_GEMV * ref["area"] + bg_att) / 8 / 1e6
+        macro_txt = (f"the macro-buffer reference (archived run "
+                     f"gemv_attacc_p1501, {ref['area']:,.1f} um^2) reproduces the "
+                     f"paper's number ({macro_die:.2f} mm^2/die)")
+    else:
+        macro_txt = ("the macro-buffer reference run gemv_attacc_p1501 "
+                     "(archived/syn/genus_0831_hier_reference) reproduced the "
+                     "paper's number (13.18 mm^2/die)")
     lines.append("Anchor notes: with the flop-optimal bank buffer the AttAcc "
-                 f"DRAM-side total is {(DRAM_X*(bank_att+bg_att))/8/1e6:.2f} "
-                 "mm^2/die — below the paper's 13.12 mm^2/die (Sec 7.7) "
-                 "because the over-provisioned macro buffer is gone; the "
-                 "macro-config reference (gemv_attacc/gemv_fugue rows) "
-                 "reproduces the paper's number (13.18 mm^2/die).")
+                 f"DRAM-side total is {flop_die:.2f} mm^2/die — below the "
+                 "paper's 13.12 mm^2/die (Sec 7.7) because the over-provisioned "
+                 f"macro buffer is gone; {macro_txt}.")
     open(os.path.join(HERE, "SUMMARY.md"), "w").write("\n".join(lines) + "\n")
     print("\n".join(lines))
 

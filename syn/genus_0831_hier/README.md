@@ -50,11 +50,26 @@ qor/area/power/timing/gates 报告都在本文件夹；mapped 网表、fv/、gen
 python3 collect.py           # 汇总 -> SUMMARY.md（逐组件 + 四层级 roll-up）
 ```
 
-矩阵内容：phase 1 叶子 8 个；phase 2 组件 17 个（bank/BG/logic die/HBM
-controller，对齐 dc_0830-02 的 top 与频率）；phase 3 整合
+目录内容（2026-09-02 整理后，只保留三类配置 AttAcc / Fugue / Fugue+RoPE
+所需的 run）：
+
+| 类别 | run 目录 | 说明 |
+|---|---|---|
+| 流程输入：叶子宏 | `fp16_{mult,add}_p700`、`fp16_{mult,add}_p1350`、`fp32_{add,mul}_p630`、`bf16_{mult,add}_p1350`、`sfmpe_p699` | 紧时钟单独综合，mapped 网表被上层读入并冻结；报告证明叶子自身 met |
+| bank | `gemv_flop_p1501`（AttAcc）、`gemv_flop_p769`（Fugue） | flop buffer 版 GEMV |
+| bank group | `accbg_*`、`accbuf_*` | accumulator + buffer |
+| logic die | `sfmarray_attacc_p769`、`sfmarray_fugue_p769`、`acclogic_p1501`、`diffdec_p1501`、`causal_p1501`、`rope_p1501` | 整合 softmax array + per-channel 单元；`rope` 只进 Fugue+RoPE 消融 |
+| HBM controller | `ctrl_attacc_p1501`、`ctrl_fugue_p1501` | |
+| 脚本/库 | `run_all.sh`、`run_genus_0831.tcl`、`collect.py`、`convert_sram_libs.py`、`libs_ps/`、`sfm_array_tops.sv` | |
+
+三类配置之外的参考 run（macro-buffer GEMV、单体 dbuf/TLB/recip）与驱动日志
+已移至 `archived/syn/genus_0831_hier_reference/`；其中 `gemv_attacc_p1501`
+仍被 `collect.py` 读取以计算 13.18 mm²/die 校准锚。
+
+phase 1 叶子 9 个（含 softmax_pe）；phase 2 组件 11 个；phase 3 整合
 `softmax_array_256`（AttAcc CONTEXTS=2 / Fugue CONTEXTS=16，
-`sfm_array_tops.sv` 包装，softmax_pe 冻结为 macro）。层级 roll-up 公式与
-计数（N_gemv=2048、N_bg=256、N_ch=16）沿用
+`sfm_array_tops.sv` 包装，softmax_pe 冻结为 macro）。层级 roll-up 计数
+N_gemv=1024、N_bg=256、N_ch=16、bank/BG ×10（裁决 2026-09-01），公式来源
 `archived/docs/0830-02/Hardware_Overhead_Breakdown.md`。
 
 ## 最终结果（2026-08-31 深夜，28/28 全部 met）

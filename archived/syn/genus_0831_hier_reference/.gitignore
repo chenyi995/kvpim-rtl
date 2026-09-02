@@ -1,0 +1,14 @@
+# commit reports + scripts + converted libs; regenerable bulk stays out
+*
+!.gitignore
+!README.md
+!SUMMARY.md
+!*.tcl
+!*.sh
+!*.py
+!*.sv
+!rerun*.log
+!libs_ps/
+!libs_ps/**
+!*/
+!*/*.rpt
