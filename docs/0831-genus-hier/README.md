@@ -17,15 +17,17 @@ hardware-overhead roll-up 的权威数字。
 
 | 层级 | AttAcc | Fugue | 增量 |
 |---|---:|---:|---:|
-| Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | +10.85% |
-| Bank group（256×acc+buf，buffer 各取最优：AttAcc flop / Fugue 宏） | 0.058 mm² | 0.128 mm² | +122.24% |
-| Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | +175.08% |
+| Bank（1024×GEMV，IEEE FP16，flop buffer） | 6.35 mm² | 7.52 mm² | +18.34% |
+| Bank group（256×16-lane acc + buf，buffer 各取最优：AttAcc flop / Fugue 宏） | 0.273 mm² | 0.421 mm² | +54.36% |
+| Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.620 mm² | +174.91% |
 | HBM controller | 2,087 µm² | 5,774 µm² | +176.67% |
-| **Stack 合计（ASAP7 原值）** | 6.63 mm² | 8.39 mm² | **+26.44%** |
-| **Stack 合计（DRAM 等效，bank/BG ×10）** | 61.0 mm² | 69.2 mm² | **+13.49%** |
+| **Stack 合计（ASAP7 原值）** | 7.22 mm² | 9.57 mm² | **+32.53%** |
+| **Stack 合计（DRAM 等效，bank/BG ×10）** | 66.9 mm² | 81.0 mm² | **+21.19%** |
 
-关键单点：GEMV（flop buffer）@666 MHz / @1.3 GHz met（+65.7 / +0.5 ps）；
+关键单点：GEMV（flop buffer，IEEE 叶子）@666 MHz / @1.3 GHz met（+11.8 / +0.5 ps）；
 整合 softmax array @1.3 GHz met（AttAcc 573k / Fugue 1,578k µm²，slack 0）。
+已知例外：叶子 `fp16_mult_p700` 单独综合（25% 输入预算）slack −15.2 ps，
+集成后由上层 retiming 平衡，`gemv_flop_p769` met。
 
 ## 3. 过程中发现并修复的问题（按时间序）
 
@@ -63,6 +65,22 @@ hardware-overhead roll-up 的权威数字。
    做 RoPE，die 无旋转逻辑；`rotate_q_bf16`/`sincos_bf16`/bf16 叶子的 RTL 与
    `rope_p1501`、`bf16_*_p1350` 三个 run 归档于 `archived/rtl/rope/`、
    `archived/syn/genus_0831_hier_reference/`，roll-up 只保留 AttAcc / Fugue 两列。
+8. **FP16 乘/加改为完整 IEEE-754 binary16**（裁决 2026-09-02）：原单元 flush-
+   to-zero；与 AttAcc 原文对表时我们的算术单元小约 4 倍，怀疑口径差异之一。
+   新单元支持 subnormal 输入/输出（渐进下溢）、RNE、inf/NaN/符号零规则，
+   接口不变；`testbench/tb_fp16_ieee.sv` 用 `gen_fp16_vectors.py`（numpy，
+   float64 精确后单次 RNE）生成的 2×28,576 条向量对拍零失配。叶子面积：
+   mult 55.7→76.0（1350 ps）、67.0→123.1（700 ps）；add 41.8→44.0、70.8→68.2。
+   `fp16_mult_p700` 单独综合 −15.2 ps（见上），集成 met。GEMV 5,844→6,205 /
+   6,478→7,343 µm²，bank 增量 +10.85% → +18.34%。
+9. **BG 累加器改为 16 lane**（裁决 2026-09-02）：AttAcc 原文每 BG 累加器
+   0.036 mm²（DRAM 工艺）"主要是算术单元"，对应 16 lane 各一个 FP16 加法器；
+   规格里的 4→1 标量归约只覆盖分数路径。新 `accumulator_bg` 与 logic-die
+   累加器同微架构（16 lane × 4 word 累加 / bypass）：163→1,003（666 MHz）、
+   250→1,394 µm²（1.3 GHz），BG 增量 +122.24% → +54.36%。stack 合计
+   +26.44% → **+32.53%**（ASAP7）、+13.49% → **+21.19%**（DRAM 等效）。
+   对表：macro-buffer 参考配置（重跑）13.85 mm²/die vs 原文 13.12；
+   单元级 GEMV 0.106 vs 0.094、BG 0.0107 vs 0.036 mm²。
 
 ## 4. 全部改动文件（按 commit）
 
@@ -77,6 +95,7 @@ hardware-overhead roll-up 的权威数字。
 | `f71956f` | `gemv_flop_p769/`、`collect.py`、`SUMMARY.md`、README×2 | flop 裁决 + 最终 roll-up |
 | （0902 记录） | `docs/0831-genus-hier/` | 本记录页 + DATA_README + CSV |
 | （0902 BG） | `rtl/accum_buffer_bg.sv`、`accbuf_*` 两个 run、SUMMARY/CSV、README×4 | BG buffer 各取最优实现（AttAcc flop / Fugue 宏），重跑并刷新 roll-up |
+| （0902 IEEE） | `rtl/fp16_mult.sv`、`rtl/fp16_add.sv`、`rtl/accumulator_bg.sv`、`testbench/tb_fp16_ieee.sv`、`gen_fp16_vectors.py`、`vectors/`、9 个 run + 2 个参考 run 重跑 | 完整 IEEE FP16 + 16-lane BG 累加器 |
 
 ## 5. 原始数据路径（手动复核指南）
 

@@ -56,8 +56,8 @@ python3 collect.py           # 汇总 -> SUMMARY.md（逐组件 + 四层级 roll
 | 类别 | run 目录 | 说明 |
 |---|---|---|
 | 流程输入：叶子宏 | `fp16_{mult,add}_p700`、`fp16_{mult,add}_p1350`、`fp32_{add,mul}_p630`、`sfmpe_p699` | 紧时钟单独综合，mapped 网表被上层读入并冻结；报告证明叶子自身 met |
-| bank | `gemv_flop_p1501`（AttAcc）、`gemv_flop_p769`（Fugue） | flop buffer 版 GEMV |
-| bank group | `accbg_*`、`accbuf_*` | accumulator + buffer（buffer 各取最优：AttAcc 16 B flop、Fugue 128 B 宏，裁决 2026-09-02；未选组合在 `archived/syn/genus_0831_hier_reference/accbuf_*`） |
+| bank | `gemv_flop_p1501`（AttAcc）、`gemv_flop_p769`（Fugue） | flop buffer 版 GEMV，IEEE FP16 叶子 |
+| bank group | `accbg_*`、`accbuf_*` | 16-lane accumulator + buffer（buffer 各取最优：AttAcc 16 B flop、Fugue 128 B 宏，裁决 2026-09-02；未选组合在 `archived/syn/genus_0831_hier_reference/accbuf_*`） |
 | logic die | `sfmarray_attacc_p769`、`sfmarray_fugue_p769`、`acclogic_p1501`、`diffdec_p1501`、`causal_p1501` | 整合 softmax array + per-channel 单元 |
 | HBM controller | `ctrl_attacc_p1501`、`ctrl_fugue_p1501` | |
 | 脚本/库 | `run_all.sh`、`run_genus_0831.tcl`、`collect.py`、`convert_sram_libs.py`、`libs_ps/`、`sfm_array_tops.sv` | |
@@ -83,10 +83,14 @@ N_gemv=1024、N_bg=256、N_ch=16、bank/BG ×10（裁决 2026-09-01），公式�
   flop 阵列**——512 B/份的容量点上 256 行 macro 底座摊不平，flop 更小
   且物理容量恰为 1 MiB/stack，盈亏平衡在 ~1 KiB/份，macro 组合
   3×80b+1×16b 留作 n_cap 扩展档）：
-  bank +10.85%、BG +122.24%、logic die +175.08%、controller +176.67%；
-  **stack 合计 Fugue vs AttAcc：ASAP7 原值 +26.44%，DRAM 工艺等效
-  +13.49%**。锚点：macro 参考配置复现原文 13.12 mm²/die（我们 13.12）；
-  flop 配置 7.55 mm²/die，低于原文属预期（超配消除）。
+  bank +18.34%、BG +54.36%、logic die +174.91%、controller +176.67%；
+  **stack 合计 Fugue vs AttAcc：ASAP7 原值 +32.53%，DRAM 工艺等效
+  +21.19%**（2026-09-02 IEEE FP16 + 16-lane BG 累加器后）。锚点：macro
+  参考配置 13.85 mm²/die vs 原文 13.12；flop 配置 8.28 mm²/die。
+- **FP16 叶子改完整 IEEE-754、BG 累加器改 16 lane**（裁决 chenyi9
+  2026-09-02）：重跑 4 个 fp16 叶子 + gemv_flop ×2 + accbg ×2 + acclogic。
+  `fp16_mult_p700` 单独综合在 25% 输入预算下 −15.2 ps（15 条路径）；集成的
+  `gemv_flop_p769` 由上层 retiming 平衡后 met（+0.5 ps），以集成结果为准。
 - **BG buffer 各取最优实现**（裁决 chenyi9 2026-09-02）：原宏版把 16 B 与
   128 B 都装进同一颗 512 B `srambank_64x4x16`（两档同为 250 µm²，扩容零
   成本）。四种组合比较后 AttAcc 16 B 用 flop（62.0，宏 250.5），Fugue

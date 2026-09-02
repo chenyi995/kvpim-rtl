@@ -7,8 +7,9 @@
 
 | run | top | 周期 | 用途 | 现在谁还用它 |
 |---|---|---:|---|---|
-| `gemv_attacc_p1501` | gemv_unit + `dbuf_16x256_asap7`（SRAM macro buffer） | 1501.5 ps | AttAcc 原文 macro-buffer 配置，10,193 µm² | `syn/genus_0831_hier/collect.py` 读它算 **13.18 mm²/die 校准锚**（论文 §5 方法学引用） |
-| `gemv_fugue_p769` | 同上 | 769 ps | 同配置 1.3 GHz，10,846 µm² | 无（bank buffer 裁决后被 flop 版取代） |
+| `gemv_attacc_p1501` | gemv_unit + `dbuf_16x256_asap7`（SRAM macro buffer），IEEE 叶子（2026-09-02 重跑） | 1501.5 ps | AttAcc 原文 macro-buffer 配置，10,557 µm² | `syn/genus_0831_hier/collect.py` 读它算校准锚：**13.85 mm²/die vs 原文 13.12** |
+| `gemv_fugue_p769` | 同上 | 769 ps | 同配置 1.3 GHz，11,703 µm² | 无（bank buffer 裁决后被 flop 版取代） |
+| `gemv_attacc_p1501_ftz` / `gemv_fugue_p769_ftz` | 同上，flush-to-zero 叶子（IEEE 改造前） | 1501.5 / 769 ps | 10,193 / 10,846 µm²（当时锚点 13.18 → BG flop 后 13.12） | 历史 |
 | `dbuf_p1501` / `dbuf_p769` | `dbuf_16x256_asap7` 单体 | 1501.5 / 769 ps | macro buffer 单体面积 8,123 µm²，支撑 flop-vs-macro 裁决 | `docs/ASAP7_SRAM_AREA_COMPARISON.md` 的讨论 |
 | `kvtlb_p1501` | `kv_tlb_top` 单体 | 1501.5 ps | TLB 单体 3,463 µm²（controller 增量的解释） | 无，`ctrl_fugue_p1501` 已含 TLB |
 | `recip_p699` | `fp32_recip` 单体 | 699 ps | 1,140 µm²，早期 softmax 拼装口径的补项 | 无，整合 array run 已含 recip |
