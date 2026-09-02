@@ -1,60 +1,76 @@
-# DATA README — 给写论文/画图 agent 的快速取数指南
+# DATA README — 论文取数指南（三类配置）
 
-本页 + 同目录两个 CSV 就是画图所需的全部；不需要读综合报告原文。
-数字口径的裁决与来龙去脉见同目录 `README.md`；逐 run 原始报告在
-`syn/genus_0831_hier/<tag>/`（复核用）。
+本目录只包含**进论文的三类配置**的数据：
+**AttAcc baseline**、**Fugue**（论文口径，RoPE 在 GPU 上做，die 无旋转逻辑）、
+**Fugue + RoPE**（消融：die 上再加 1 个 `rotate_q_bf16` @666 MHz）。
+矩阵里其余 15 个 run（叶子宏、macro-buffer 参考、单体 dbuf/TLB、softmax 内部件）
+不在这里，需要时看 `syn/genus_0831_hier/SUMMARY.md`。
+逐 run 原始报告在 `syn/genus_0831_hier/<tag>/`。
 
 ## 文件
 
-| 文件 | 内容 | 每行 |
+| 文件 | 内容 | 列 |
 |---|---|---|
-| `components.csv` | 29 个综合点 | tag, top, level(leaf/bank/bg/logic_die/hbm_ctrl), config, **in_rollup**, period_ps, f_ghz, area_um2, slack_ps, violations, power_mw |
-| `rollup.csv` | 四层级 + stack 合计 ×2 视图 | view(asap7_raw / dram_equivalent), level, attacc_um2, fugue_um2, delta_pct |
-| `export_csv.py` | 从原始报告重新生成上面两个 CSV | 矩阵重跑后执行一次即可 |
+| `components.csv` | 进 roll-up 的 14 个综合点 | tag, top, level, **used_by**（attacc / fugue / fugue_rope，`+` 连接）, **count_per_stack**（1024 / 256 / 16 / 1）, period_ps, f_ghz, area_um2, slack_ps, violations, power_mw |
+| `rollup.csv` | 四层级 + stack 合计 × 2 视图 × 3 配置 | view(asap7_raw / dram_equivalent), level, attacc_um2, fugue_um2, fugue_rope_um2, fugue_delta_pct, fugue_rope_delta_pct |
+| `export_csv.py` | 从原始报告重新生成两个 CSV，并校验每个点 slack ≥ 0、violations = 0 | 矩阵重跑后执行一次 |
 
-## 画图直接可用的口径
+roll-up 公式：每层 = Σ count_per_stack × area_um2（按 used_by 归入配置）；
+`dram_equivalent` 视图对 bank、bank_group 再 ×10。与
+`syn/genus_0831_hier/collect.py` 的结果逐数相同（2026-09-02 核对）。
 
-- **主图（论文 §6.2 area 部分）**：`rollup.csv` 里 `view=dram_equivalent`
-  的五行 → AttAcc vs Fugue 分层条形图（log y 轴，bank 与 controller 差
-  四个量级）或堆叠条 + 右侧 delta 标注。**头条数字：stack_total
-  delta = +12.60%**（DRAM 等效）；ASAP7 原值视图 +25.53% 放 methodology
-  或附录。
-- **分层增量图**：delta_pct 列（+10.85 / +21.0 / +175.1 / +176.7）——
-  讲"增量集中在 logic die（softmax buffer 512 KiB→4 MiB）与 controller
-  （TLB），bank 侧只 +10.85%"的故事。
-- **组件散点/表**：`components.csv` 过滤 `in_rollup=True` 得 roll-up 的
-  11 个成分；`in_rollup=False` 是参考点（macro-buffer GEMV、单测 dbuf、
-  TLB 单体、RoPE ablation、叶子）。所有点 slack ≥ 0、violations = 0，
-  可以在表格里加一列 "timing" 全写 met。
+## 结果（µm²）
+
+| 视图 | 层级 | AttAcc | Fugue | Fugue+RoPE | Fugue Δ | Fugue+RoPE Δ |
+|---|---|---:|---:|---:|---:|---:|
+| ASAP7 原值 | bank | 5,984,450 | 6,633,588 | 6,633,588 | +10.85% | +10.85% |
+| | bank_group | 105,890 | 128,125 | 128,125 | +21.00% | +21.00% |
+| | logic_die | 588,567 | 1,619,024 | 1,623,417 | +175.08% | +175.83% |
+| | hbm_controller | 2,087 | 5,774 | 5,774 | +176.67% | +176.67% |
+| | **stack_total** | 6,680,994 | 8,386,510 | 8,390,903 | **+25.53%** | +25.59% |
+| DRAM 等效 | bank | 59,844,495 | 66,335,877 | 66,335,877 | +10.85% | +10.85% |
+| | bank_group | 1,058,903 | 1,281,249 | 1,281,249 | +21.00% | +21.00% |
+| | logic_die | 588,567 | 1,619,024 | 1,623,417 | +175.08% | +175.83% |
+| | hbm_controller | 2,087 | 5,774 | 5,774 | +176.67% | +176.67% |
+| | **stack_total** | 61,494,053 | 69,241,924 | 69,246,317 | **+12.60%** | +12.61% |
+
+## 画图口径
+
+- **主图（§6 area）**：`rollup.csv` 中 `view=dram_equivalent` 的五行，
+  AttAcc vs Fugue 分层条形图（log y 轴）。头条数字 **+12.60%**；
+  ASAP7 原值视图 +25.53% 放 methodology 或附录。
+- **分层增量**：`fugue_delta_pct` 列（+10.85 / +21.0 / +175.1 / +176.7）。
+- **RoPE 消融**：`fugue_rope_*` 列；RoPE 只影响 logic_die（+4,393 µm²），
+  stack 合计从 +12.60% 变为 +12.61%。
+- **组件表**：`components.csv` 全部 14 行；所有点 slack ≥ 0、violations = 0，
+  "timing" 列可全写 met。
 
 ## 单位与换算
 
-- 面积 µm²；mm² = ÷1e6。功率 mW（Genus 统计值，无 VCD，**只作
-  AttAcc-vs-Fugue 相对比较，不要引用绝对瓦数**）。
-- `dram_equivalent` 视图 = bank 与 bank_group 面积 ×10（DRAM 工艺密度
-  惩罚，AttAcc §4.1 口径），logic_die 与 hbm_controller 不乘（在 buffer
-  die，真 logic 工艺）。
-- 频率：1501.5 ps = 666 MHz（AttAcc 档）、769 ps = 1.3 GHz（Fugue 档，
-  即平衡点研究的 f*）、699 ps = softmax 档。
+- 面积 µm²；mm² = ÷1e6。功率 mW（Genus 统计值，无 VCD，**只作相对比较，
+  不要引用绝对瓦数**；bank 两行还处于不同时钟，连相对比较也要谨慎）。
+- `dram_equivalent` = bank 与 bank_group ×10（AttAcc §4.1 引用的 DRAM 工艺
+  密度口径），logic_die 与 hbm_controller 在 buffer die，不乘。
+- 频率：1501.5 ps = 666 MHz（AttAcc 档）、769 ps = 1.3 GHz（Fugue 档）。
+  `acclogic/diffdec/causal/rope/ctrl` 三类配置均在 666 MHz 综合（规格）。
 
-## 写作可直接引用的锚点句（已验证）
+## 可直接引用的锚点句（已验证）
 
-1. 校准锚：macro 参考配置下 AttAcc DRAM 侧 = **13.18 mm²/die** vs
-   原文发表值 13.12（§7.7）——方法学可信度句。
-2. flop 最优 bank buffer 下 AttAcc DRAM 侧 = 7.61 mm²/die（低于原文，
-   因消除 16× macro 超配——优化贡献句）。
-3. 整合 softmax fabric（16 通道 + 全部 SRAM buffer）**1.3 GHz 时序收敛**
+1. 校准锚：AttAcc 的 macro-buffer 参考配置下 DRAM 侧 = **13.18 mm²/die**
+   vs 原文 13.12（§7.7）。该配置的 run（`gemv_attacc_p1501`）不在本目录，
+   数字见 `syn/genus_0831_hier/SUMMARY.md` 的 Anchor notes。
+2. flop 最优 bank buffer 下 AttAcc DRAM 侧 = 7.61 mm²/die（低于原文，因消除
+   16× macro 超配）。
+3. 整合 softmax fabric（16 通道 + 全部 SRAM buffer）1.3 GHz 时序收敛
    （slack 0，AttAcc 573k / Fugue 1,578k µm²）。
-4. GEMV 提频到 1.3 GHz 的面积代价 **+10.85%**（flop 版 5,844→6,478 µm²）
-   ——与平衡点论文包（xinyao_0825 分支 `docs/Fugue-asplos2027/`，
-   n=8、8 tCK、+4.3% 那套 mq_bank_pe 口径）**不是同一个 RTL**，引用时
-   注意区分：那边是 MQ bank PE（含驻留轮转），这边是 AttAcc 原版
-   gemv_unit 组件；两个数都真，各配各的 claim。
+4. bank GEMV：**同一 RTL** 从 666 MHz 提到 1.3 GHz 的面积代价 +10.85%
+   （5,844→6,478 µm²），增量全部来自 fp16 乘/加叶子在紧时钟下的面积
+   （adder +69%、mult +20%），buffer 与胶合逻辑不变。
 
-## 已知 caveat（审稿防线，图注/正文提前声明）
+## 已知 caveat
 
 - 综合级数据（无布线/CTS）；TT 0.7 V 单角；功率为统计值。
 - bank/BG 的 ×10 是 AttAcc 引用的文献口径，非我们实测。
+- gemv_flop_p769 在 1.3 GHz 的 slack 为 0（累加反馈环用满 734 ps）。
 - logic die 的 Fugue 版 buffer 按每通道 256 KiB（4 MiB/die）配置；
-  若采用调度压缩方案（分批扫 pCH）可回落到原装 512 KiB——见
-  `docs/ASAP7_SRAM_AREA_COMPARISON.md` 的价格表。
+  若采用分批扫描方案可回落到 512 KiB——见 `docs/ASAP7_SRAM_AREA_COMPARISON.md`。

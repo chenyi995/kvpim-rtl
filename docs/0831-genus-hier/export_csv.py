@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Export the genus_0831_hier matrix to plotting-ready CSVs.
+"""Export the paper's three configurations (AttAcc baseline, Fugue, Fugue+RoPE
+ablation) from the genus_0831_hier reports to plotting-ready CSVs.
 
-Reads the raw reports under syn/genus_0831_hier/ (single source of truth)
-and writes components.csv + rollup.csv next to this script.  Re-run any time
-the matrix is re-synthesized.
+Reads the raw reports under syn/genus_0831_hier/<tag>/ (single source of
+truth) and writes components.csv + rollup.csv next to this script.  Only the
+runs that enter the three roll-ups are exported; every other run of the
+matrix (leaf macros, macro-buffer references, standalone TLB/dbuf, softmax
+internals) stays in syn/genus_0831_hier/SUMMARY.md.
 """
 import csv
 import os
@@ -14,84 +17,78 @@ SYN = os.path.normpath(os.path.join(HERE, "..", "..", "syn", "genus_0831_hier"))
 sys.path.insert(0, SYN)
 import collect  # noqa: E402  (the matrix's own parser)
 
-# tag -> (level, config, in_rollup)
-META = {
-    "fp16_mult_p700":  ("leaf", "fugue-clock leaf", False),
-    "fp16_add_p700":   ("leaf", "fugue-clock leaf", False),
-    "fp16_mult_p1350": ("leaf", "attacc-clock leaf", False),
-    "fp16_add_p1350":  ("leaf", "attacc-clock leaf", False),
-    "fp32_add_p630":   ("leaf", "softmax leaf", False),
-    "fp32_mul_p630":   ("leaf", "softmax leaf", False),
-    "bf16_mult_p1350": ("leaf", "rope leaf", False),
-    "bf16_add_p1350":  ("leaf", "rope leaf", False),
-    "gemv_flop_p1501": ("bank", "attacc (flop buffer, ROLLUP)", True),
-    "gemv_flop_p769":  ("bank", "fugue (flop buffer, ROLLUP)", True),
-    "gemv_attacc_p1501": ("bank", "attacc (macro buffer, reference)", False),
-    "gemv_fugue_p769":   ("bank", "fugue (macro buffer, reference)", False),
-    "dbuf_p1501": ("bank", "macro buffer alone, reference", False),
-    "dbuf_p769":  ("bank", "macro buffer alone, reference", False),
-    "accbg_attacc_p1501":  ("bg", "attacc (ROLLUP)", True),
-    "accbg_fugue_p769":    ("bg", "fugue (ROLLUP)", True),
-    "accbuf_attacc_p1501": ("bg", "attacc buffer (ROLLUP)", True),
-    "accbuf_fugue_p769":   ("bg", "fugue buffer (ROLLUP)", True),
-    "acclogic_p1501": ("logic_die", "both (ROLLUP x16)", True),
-    "diffdec_p1501":  ("logic_die", "fugue-only (ROLLUP x16)", True),
-    "causal_p1501":   ("logic_die", "fugue-only (ROLLUP x16)", True),
-    "rope_p1501":     ("logic_die", "fugue RoPE ablation only", False),
-    "recip_p699":     ("logic_die", "softmax leaf, inside array", False),
-    "sfmpe_p699":     ("logic_die", "softmax PE macro, inside array", False),
-    "sfmarray_attacc_p769": ("logic_die", "attacc integrated array (ROLLUP)", True),
-    "sfmarray_fugue_p769":  ("logic_die", "fugue integrated array (ROLLUP)", True),
-    "kvtlb_p1501":       ("hbm_ctrl", "fugue TLB alone, reference", False),
-    "ctrl_attacc_p1501": ("hbm_ctrl", "attacc (ROLLUP)", True),
-    "ctrl_fugue_p1501":  ("hbm_ctrl", "fugue (ROLLUP)", True),
-}
+CONFIGS = ("attacc", "fugue", "fugue_rope")
+N_GEMV, N_BG, N_CH, DRAM_X = 1024, 256, 16, 10.0   # rulings 2026-09-01
+
+# tag, top, level, count per stack, configs that instantiate it
+ROWS = [
+    ("gemv_flop_p1501",      "gemv_unit",                   "bank",           N_GEMV, ("attacc",)),
+    ("gemv_flop_p769",       "gemv_unit",                   "bank",           N_GEMV, ("fugue", "fugue_rope")),
+    ("accbg_attacc_p1501",   "accumulator_bg",              "bank_group",     N_BG,   ("attacc",)),
+    ("accbuf_attacc_p1501",  "accum_buffer_bg_attacc",      "bank_group",     N_BG,   ("attacc",)),
+    ("accbg_fugue_p769",     "accumulator_bg",              "bank_group",     N_BG,   ("fugue", "fugue_rope")),
+    ("accbuf_fugue_p769",    "accum_buffer_bg_fugue",       "bank_group",     N_BG,   ("fugue", "fugue_rope")),
+    ("sfmarray_attacc_p769", "sfm_array_attacc",            "logic_die",      1,      ("attacc",)),
+    ("sfmarray_fugue_p769",  "sfm_array_fugue",             "logic_die",      1,      ("fugue", "fugue_rope")),
+    ("acclogic_p1501",       "accumulator_logic",           "logic_die",      N_CH,   CONFIGS),
+    ("diffdec_p1501",        "diff_decoder_channel_dc_top", "logic_die",      N_CH,   ("fugue", "fugue_rope")),
+    ("causal_p1501",         "causal_comparator",           "logic_die",      N_CH,   ("fugue", "fugue_rope")),
+    ("rope_p1501",           "rotate_q_bf16",               "logic_die",      1,      ("fugue_rope",)),
+    ("ctrl_attacc_p1501",    "attacc_hbm_ctrl_top",         "hbm_controller", 1,      ("attacc",)),
+    ("ctrl_fugue_p1501",     "fugue_hbm_ctrl_top",          "hbm_controller", 1,      ("fugue", "fugue_rope")),
+]
+LEVELS = ("bank", "bank_group", "logic_die", "hbm_controller")
 
 
 def main():
     rows = []
-    for tag, top in collect.ORDER:
-        if top is None:
-            continue
+    for tag, top, level, n, used in ROWS:
         r = collect.parse(tag, top)
         if r is None:
-            continue
-        level, config, roll = META.get(tag, ("?", "?", False))
-        rows.append(dict(tag=tag, top=top, level=level, config=config,
-                         in_rollup=roll, period_ps=r["period"],
+            sys.exit(f"missing reports for {tag}")
+        if r["viol"] != 0 or r["slack"] < 0:
+            sys.exit(f"{tag} does not meet timing: slack {r['slack']} viol {r['viol']}")
+        rows.append(dict(tag=tag, top=top, level=level, used_by="+".join(used),
+                         count_per_stack=n, period_ps=r["period"],
                          f_ghz=round(1000.0 / r["period"], 3),
                          area_um2=r["area"], slack_ps=r["slack"],
-                         violations=r["viol"], power_mw=r["p_mw"]))
+                         violations=r["viol"], power_mw=round(r["p_mw"], 4)))
     with open(os.path.join(HERE, "components.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader()
         w.writerows(rows)
 
-    a = {r["tag"]: r["area_um2"] for r in rows}
-    N_GEMV, N_BG, N_CH, DRAM_X = 1024, 256, 16, 10.0
-    bank = (N_GEMV * a["gemv_flop_p1501"], N_GEMV * a["gemv_flop_p769"])
-    bg = (N_BG * (a["accbg_attacc_p1501"] + a["accbuf_attacc_p1501"]),
-          N_BG * (a["accbg_fugue_p769"] + a["accbuf_fugue_p769"]))
-    die = (a["sfmarray_attacc_p769"] + N_CH * a["acclogic_p1501"],
-           a["sfmarray_fugue_p769"] + N_CH * (a["acclogic_p1501"]
-           + a["diffdec_p1501"] + a["causal_p1501"]))
-    ctl = (a["ctrl_attacc_p1501"], a["ctrl_fugue_p1501"])
+    # roll-up: sum(count x area) per level per config
+    lv = {c: {l: 0.0 for l in LEVELS} for c in CONFIGS}
+    for tag, top, level, n, used in ROWS:
+        a = next(r["area_um2"] for r in rows if r["tag"] == tag)
+        for c in used:
+            lv[c][level] += n * a
     out = []
     for view, fb in (("asap7_raw", 1.0), ("dram_equivalent", DRAM_X)):
-        lv = {"bank": (fb * bank[0], fb * bank[1]),
-              "bank_group": (fb * bg[0], fb * bg[1]),
-              "logic_die": die, "hbm_controller": ctl}
-        tot = tuple(sum(x[i] for x in lv.values()) for i in (0, 1))
-        lv["stack_total"] = tot
-        for name, (x, y) in lv.items():
-            out.append(dict(view=view, level=name,
-                            attacc_um2=round(x, 1), fugue_um2=round(y, 1),
-                            delta_pct=round(100 * (y - x) / x, 2)))
+        tot = {c: 0.0 for c in CONFIGS}
+        for level in LEVELS:
+            f = fb if level in ("bank", "bank_group") else 1.0
+            v = {c: f * lv[c][level] for c in CONFIGS}
+            for c in CONFIGS:
+                tot[c] += v[c]
+            out.append(_row(view, level, v))
+        out.append(_row(view, "stack_total", tot))
     with open(os.path.join(HERE, "rollup.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(out[0].keys()))
         w.writeheader()
         w.writerows(out)
     print(f"wrote {len(rows)} component rows, {len(out)} rollup rows")
+
+
+def _row(view, level, v):
+    a = v["attacc"]
+    return dict(view=view, level=level,
+                attacc_um2=round(a, 1),
+                fugue_um2=round(v["fugue"], 1),
+                fugue_rope_um2=round(v["fugue_rope"], 1),
+                fugue_delta_pct=round(100 * (v["fugue"] - a) / a, 2),
+                fugue_rope_delta_pct=round(100 * (v["fugue_rope"] - a) / a, 2))
 
 
 if __name__ == "__main__":
