@@ -4,7 +4,7 @@
 
 目标读者：接手人/审稿人，可据此**手动复核每一个数字**。
 战役日期 2026-08-31 ~ 09-01；分支 `xinyao_0831`。
-画图/引用数字请直接用同目录的 **`DATA_README.md` + 两个 CSV**（只含三类配置：AttAcc / Fugue / Fugue+RoPE；矩阵其余 run 见 `syn/genus_0831_hier/SUMMARY.md`）。
+画图/引用数字请直接用同目录的 **`DATA_README.md` + 两个 CSV**（只含 AttAcc baseline 与 Fugue 两类配置；RoPE 消融已归档，矩阵其余 run 见 `syn/genus_0831_hier/SUMMARY.md`）。
 
 ## 1. 做了什么（一句话）
 
@@ -15,14 +15,14 @@ hardware-overhead roll-up 的权威数字。
 
 ## 2. 最终结果
 
-| 层级 | AttAcc | Fugue | Fugue+RoPE（消融） | Fugue 增量 |
-|---|---:|---:|---:|---:|
-| Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | 6.63 mm² | +10.85% |
-| Bank group（256×acc+buf，buffer 各取最优：AttAcc flop / Fugue 宏） | 0.058 mm² | 0.128 mm² | 0.128 mm² | +122.24% |
-| Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | 1.623 mm² | +175.08% |
-| HBM controller | 2,087 µm² | 5,774 µm² | 5,774 µm² | +176.67% |
-| **Stack 合计（ASAP7 原值）** | 6.63 mm² | 8.39 mm² | 8.39 mm² | **+26.44%** |
-| **Stack 合计（DRAM 等效，bank/BG ×10）** | 61.0 mm² | 69.2 mm² | 69.2 mm² | **+13.49%**（+RoPE：+13.50%） |
+| 层级 | AttAcc | Fugue | 增量 |
+|---|---:|---:|---:|
+| Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | +10.85% |
+| Bank group（256×acc+buf，buffer 各取最优：AttAcc flop / Fugue 宏） | 0.058 mm² | 0.128 mm² | +122.24% |
+| Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | +175.08% |
+| HBM controller | 2,087 µm² | 5,774 µm² | +176.67% |
+| **Stack 合计（ASAP7 原值）** | 6.63 mm² | 8.39 mm² | **+26.44%** |
+| **Stack 合计（DRAM 等效，bank/BG ×10）** | 61.0 mm² | 69.2 mm² | **+13.49%** |
 
 关键单点：GEMV（flop buffer）@666 MHz / @1.3 GHz met（+65.7 / +0.5 ps）；
 整合 softmax array @1.3 GHz met（AttAcc 573k / Fugue 1,578k µm²，slack 0）。
@@ -59,6 +59,10 @@ hardware-overhead roll-up 的权威数字。
    未选用的两种组合作为参考 run 归档于
    `archived/syn/genus_0831_hier_reference/accbuf_attacc_p1501_macro/`、
    `accbuf_fugue_p769_flop/`。
+7. **RoPE 消融移出正式结果**（裁决 2026-09-02）：论文口径的 Fugue 在 GPU 上
+   做 RoPE，die 无旋转逻辑；`rotate_q_bf16`/`sincos_bf16`/bf16 叶子的 RTL 与
+   `rope_p1501`、`bf16_*_p1350` 三个 run 归档于 `archived/rtl/rope/`、
+   `archived/syn/genus_0831_hier_reference/`，roll-up 只保留 AttAcc / Fugue 两列。
 
 ## 4. 全部改动文件（按 commit）
 

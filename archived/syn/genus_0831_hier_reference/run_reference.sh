@@ -19,7 +19,7 @@ run_one() { local tag=$1 top=$2 period=$3 macros=$4 extra=$5; shift 5
   if ls "$HERE/$tag"/*_qor.rpt >/dev/null 2>&1; then echo "skip $tag (done)"; return 0; fi
   mkdir -p "$HERE/$tag"
   ( cd "$HERE/$tag" && G_TAG=$tag G_TOP=$top G_PERIOD_PS=$period G_CPUS=$CPUS G_MACRO_MODS="$macros" \
-    G_RETIME=1 G_IN_FRAC=0.10 G_EXTRA_LIBS="$extra" G_FILES="$files" G_OUT="$HERE/$tag" \
+    G_RETIME="${R:-1}" G_IN_FRAC="${IF:-0.10}" G_EXTRA_LIBS="$extra" G_FILES="$files" G_OUT="$HERE/$tag" \
     "$GENUS" -no_gui -overwrite -f "$OFF/run_genus_0831.tcl" -log genus_$tag > genus_$tag.stdout 2>&1 )
   ls "$HERE/$tag"/*_qor.rpt >/dev/null 2>&1 && echo "done $tag" || echo "FAIL $tag"; }
 throttle() { while [ "$(jobs -rp | wc -l)" -ge "$JOBS" ]; do sleep 5; done; }
@@ -35,4 +35,10 @@ throttle; run_one kvtlb_p1501 kv_tlb_top $P_ATT "" "" kv_tlb_pkg.sv kv_seg_tlb.s
 # BG buffer: the implementations NOT chosen by the 2026-09-02 ruling
 throttle; run_one accbuf_attacc_p1501_macro accum_buffer_bg_attacc_macro $P_ATT "" "$SRAMS" accum_buffer_bg.sv "$HERE/accum_buffer_bg_ref_tops.sv" &
 throttle; run_one accbuf_fugue_p769_flop    accum_buffer_bg_fugue_flop  $P_FUG "" ""        accum_buffer_bg.sv "$HERE/accum_buffer_bg_ref_tops.sv" &
+# RoPE ablation (archived 2026-09-02): bf16 leaves at the tight clock, then rotate_q_bf16 @666 MHz
+ROPE_RTL=$(cd ../../rtl/rope && pwd)
+throttle; R=0 IF=0.25 run_one bf16_mult_p1350 bf16_mult 1350 "" "" $ROPE_RTL/bf16_mult.sv &
+throttle; R=0 IF=0.25 run_one bf16_add_p1350  bf16_add  1350 "" "" $ROPE_RTL/bf16_add.sv &
+wait
+throttle; run_one rope_p1501 rotate_q_bf16 $P_ATT "bf16_mult bf16_add" "" $HERE/bf16_mult_p1350/bf16_mult_mapped.v $HERE/bf16_add_p1350/bf16_add_mapped.v $ROPE_RTL/sincos_bf16.sv $ROPE_RTL/rotate_q_bf16.sv &
 wait; echo REFERENCE_DONE

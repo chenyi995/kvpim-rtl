@@ -9,23 +9,23 @@
 |---|---|
 | `rtl/` | 正式组件 RTL（原 `rtl/0830-02/`，含 commit `a17696d` 的 SRAM 出口寄存器修复；BG buffer 各取最优实现：AttAcc flop / Fugue 宏，裁决 2026-09-02；文件集合 = `run_all.sh` 与 `testbench/run_tests.sh` 读入的集合）：bank GEMV、BG accumulator/buffer、logic-die 单元、softmax array、HBM controller + KV TLB |
 | `syn/genus_0831_hier/` | **权威综合结果**：Genus 25.1 / ASAP7 TT 0.7 V，层次化 leaf-as-macro 流程。脚本 `run_genus_0831.tcl` + 驱动 `run_all.sh`，修复后的 SRAM lib `libs_ps/`，每个 run 的 `<top>_{qor,area,power,timing,gates}.rpt`，汇总 `SUMMARY.md`（`collect.py` 生成） |
-| `docs/0831-genus-hier/` | 论文数据包（只含 AttAcc / Fugue / Fugue+RoPE 三类配置）：`DATA_README.md` + `components.csv` + `rollup.csv`，以及战役记录页 `README.md` |
+| `docs/0831-genus-hier/` | 论文数据包（只含 AttAcc baseline 与 Fugue 两类配置）：`DATA_README.md` + `components.csv` + `rollup.csv`，以及战役记录页 `README.md` |
 | `docs/README.md` | 导航、方法学要点、三条关键结论与待办 |
 | `docs/Hardware Overhead.md` | 组件线任务规格（四层级定义与频率契约） |
 | `docs/ASAP7_SRAM_AREA_COMPARISON.md` | SRAM macro 面积比较（bank buffer 选型的支撑） |
 | `testbench/` | `rtl/` 的 iverilog 单元测试（原 `testbench/0830-02/`），`run_tests.sh` |
-| `archived/` | 旧 N28 logic-die RTL/文档、DC 矩阵、0828 基线、旧 testbench、本机综合产物 |
+| `archived/` | 旧 N28 logic-die RTL/文档、DC 矩阵、0828 基线、旧 testbench、本机综合产物、RoPE 单元与消融 run、未选用的 buffer 实现 |
 
 ## 最终结果（Genus/ASAP7，全部 run met；2026-09-02 BG buffer 裁决后重跑）
 
-| 层级 | AttAcc | Fugue | Fugue+RoPE（消融） | Fugue 增量 |
-|---|---:|---:|---:|---:|
-| Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | 6.63 mm² | +10.85% |
-| Bank group（256×acc+buf，buffer 各取最优） | 0.058 mm² | 0.128 mm² | 0.128 mm² | +122.24% |
-| Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | 1.623 mm² | +175.08% |
-| HBM controller | 2,087 µm² | 5,774 µm² | 5,774 µm² | +176.67% |
-| Stack 合计（ASAP7 原值） | 6.63 mm² | 8.39 mm² | 8.39 mm² | **+26.44%** |
-| Stack 合计（DRAM 等效，bank/BG ×10） | 61.0 mm² | 69.2 mm² | 69.2 mm² | **+13.49%**（+RoPE：+13.50%） |
+| 层级 | AttAcc | Fugue | 增量 |
+|---|---:|---:|---:|
+| Bank（1024×GEMV，flop buffer） | 5.98 mm² | 6.63 mm² | +10.85% |
+| Bank group（256×acc+buf，buffer 各取最优） | 0.058 mm² | 0.128 mm² | +122.24% |
+| Logic die（整合 softmax array + per-ch 单元） | 0.589 mm² | 1.619 mm² | +175.08% |
+| HBM controller | 2,087 µm² | 5,774 µm² | +176.67% |
+| Stack 合计（ASAP7 原值） | 6.63 mm² | 8.39 mm² | **+26.44%** |
+| Stack 合计（DRAM 等效，bank/BG ×10） | 61.0 mm² | 69.2 mm² | **+13.49%** |
 
 来源：`syn/genus_0831_hier/SUMMARY.md`；每个数字的复核路径见 `docs/0831-genus-hier/README.md` §5。
 

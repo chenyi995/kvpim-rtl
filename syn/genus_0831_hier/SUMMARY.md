@@ -9,8 +9,6 @@
 | fp16_add_p1350 | fp16_add | 1350.0 | 41.8 | +0.10 | 0 | 0.28 |
 | fp32_add_p630 | fp32_add | 630.0 | 145.0 | +0.00 | 0 | 2.32 |
 | fp32_mul_p630 | fp32_mul | 630.0 | 499.6 | +0.20 | 0 | 5.87 |
-| bf16_mult_p1350 | bf16_mult | 1350.0 | 39.6 | +0.00 | 0 | 0.20 |
-| bf16_add_p1350 | bf16_add | 1350.0 | 35.4 | +0.10 | 0 | 0.17 |
 | sfmpe_p699 | softmax_pe | 699.0 | 1188.9 | +0.00 | 0 | 12.66 |
 | **-- bank --** | | | | | | |
 | gemv_flop_p1501 | gemv_unit | 1502.0 | 5844.2 | +65.70 | 0 | 30.77 |
@@ -24,7 +22,6 @@
 | acclogic_p1501 | accumulator_logic | 1502.0 | 967.4 | +49.60 | 0 | 6.52 |
 | diffdec_p1501 | diff_decoder_channel_dc_top | 1502.0 | 1543.3 | +0.20 | 0 | 4.75 |
 | causal_p1501 | causal_comparator | 1502.0 | 29.3 | +798.80 | 0 | 0.11 |
-| rope_p1501 | rotate_q_bf16 | 1502.0 | 4393.0 | +0.00 | 0 | 28.43 |
 | sfmarray_attacc_p769 | sfm_array_attacc | 769.0 | 573089.6 | +0.00 | 0 | 50991.20 |
 | sfmarray_fugue_p769 | sfm_array_fugue | 769.0 | 1578384.7 | +0.00 | 0 | 99208.20 |
 | **-- HBM controller --** | | | | | | |
@@ -40,7 +37,6 @@
 | Logic die | 588,567 | 1,619,024 | +175.08% |
 | HBM controller | 2,087 | 5,774 | +176.67% |
 | Stack total | 6,632,756 | 8,386,510 | +26.44% |
-| Logic die (+RoPE ablation) | | 1,623,417 | |
 
 ## Roll-up, DRAM-process equivalent (bank/BG x10; die & ctrl on the logic die x1)
 

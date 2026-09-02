@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Export the paper's three configurations (AttAcc baseline, Fugue, Fugue+RoPE
-ablation) from the genus_0831_hier reports to plotting-ready CSVs.
+"""Export the paper's two configurations (AttAcc baseline, Fugue) from the genus_0831_hier reports to plotting-ready CSVs.
 
 Reads the raw reports under syn/genus_0831_hier/<tag>/ (single source of
 truth) and writes components.csv + rollup.csv next to this script.  Only the
@@ -17,25 +16,24 @@ SYN = os.path.normpath(os.path.join(HERE, "..", "..", "syn", "genus_0831_hier"))
 sys.path.insert(0, SYN)
 import collect  # noqa: E402  (the matrix's own parser)
 
-CONFIGS = ("attacc", "fugue", "fugue_rope")
+CONFIGS = ("attacc", "fugue")
 N_GEMV, N_BG, N_CH, DRAM_X = 1024, 256, 16, 10.0   # rulings 2026-09-01
 
 # tag, top, level, count per stack, configs that instantiate it
 ROWS = [
     ("gemv_flop_p1501",      "gemv_unit",                   "bank",           N_GEMV, ("attacc",)),
-    ("gemv_flop_p769",       "gemv_unit",                   "bank",           N_GEMV, ("fugue", "fugue_rope")),
+    ("gemv_flop_p769",       "gemv_unit",                   "bank",           N_GEMV, ("fugue",)),
     ("accbg_attacc_p1501",   "accumulator_bg",              "bank_group",     N_BG,   ("attacc",)),
     ("accbuf_attacc_p1501",  "accum_buffer_bg_attacc",      "bank_group",     N_BG,   ("attacc",)),
-    ("accbg_fugue_p769",     "accumulator_bg",              "bank_group",     N_BG,   ("fugue", "fugue_rope")),
-    ("accbuf_fugue_p769",    "accum_buffer_bg_fugue",       "bank_group",     N_BG,   ("fugue", "fugue_rope")),
+    ("accbg_fugue_p769",     "accumulator_bg",              "bank_group",     N_BG,   ("fugue",)),
+    ("accbuf_fugue_p769",    "accum_buffer_bg_fugue",       "bank_group",     N_BG,   ("fugue",)),
     ("sfmarray_attacc_p769", "sfm_array_attacc",            "logic_die",      1,      ("attacc",)),
-    ("sfmarray_fugue_p769",  "sfm_array_fugue",             "logic_die",      1,      ("fugue", "fugue_rope")),
+    ("sfmarray_fugue_p769",  "sfm_array_fugue",             "logic_die",      1,      ("fugue",)),
     ("acclogic_p1501",       "accumulator_logic",           "logic_die",      N_CH,   CONFIGS),
-    ("diffdec_p1501",        "diff_decoder_channel_dc_top", "logic_die",      N_CH,   ("fugue", "fugue_rope")),
-    ("causal_p1501",         "causal_comparator",           "logic_die",      N_CH,   ("fugue", "fugue_rope")),
-    ("rope_p1501",           "rotate_q_bf16",               "logic_die",      1,      ("fugue_rope",)),
+    ("diffdec_p1501",        "diff_decoder_channel_dc_top", "logic_die",      N_CH,   ("fugue",)),
+    ("causal_p1501",         "causal_comparator",           "logic_die",      N_CH,   ("fugue",)),
     ("ctrl_attacc_p1501",    "attacc_hbm_ctrl_top",         "hbm_controller", 1,      ("attacc",)),
-    ("ctrl_fugue_p1501",     "fugue_hbm_ctrl_top",          "hbm_controller", 1,      ("fugue", "fugue_rope")),
+    ("ctrl_fugue_p1501",     "fugue_hbm_ctrl_top",          "hbm_controller", 1,      ("fugue",)),
 ]
 LEVELS = ("bank", "bank_group", "logic_die", "hbm_controller")
 
@@ -86,9 +84,7 @@ def _row(view, level, v):
     return dict(view=view, level=level,
                 attacc_um2=round(a, 1),
                 fugue_um2=round(v["fugue"], 1),
-                fugue_rope_um2=round(v["fugue_rope"], 1),
-                fugue_delta_pct=round(100 * (v["fugue"] - a) / a, 2),
-                fugue_rope_delta_pct=round(100 * (v["fugue_rope"] - a) / a, 2))
+                fugue_delta_pct=round(100 * (v["fugue"] - a) / a, 2))
 
 
 if __name__ == "__main__":

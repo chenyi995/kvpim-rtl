@@ -12,7 +12,6 @@ ORDER = [
     ("fp16_mult_p700", "fp16_mult"), ("fp16_add_p700", "fp16_add"),
     ("fp16_mult_p1350", "fp16_mult"), ("fp16_add_p1350", "fp16_add"),
     ("fp32_add_p630", "fp32_add"), ("fp32_mul_p630", "fp32_mul"),
-    ("bf16_mult_p1350", "bf16_mult"), ("bf16_add_p1350", "bf16_add"),
     ("sfmpe_p699", "softmax_pe"),
     ("-- bank --", None),
     ("gemv_flop_p1501", "gemv_unit"), ("gemv_flop_p769", "gemv_unit"),
@@ -24,7 +23,6 @@ ORDER = [
     ("acclogic_p1501", "accumulator_logic"),
     ("diffdec_p1501", "diff_decoder_channel_dc_top"),
     ("causal_p1501", "causal_comparator"),
-    ("rope_p1501", "rotate_q_bf16"),
     ("sfmarray_attacc_p769", "sfm_array_attacc"),
     ("sfmarray_fugue_p769", "sfm_array_fugue"),
     ("-- HBM controller --", None),
@@ -101,7 +99,6 @@ def main():
     die_att = a("sfmarray_attacc_p769") + N_CH * a("acclogic_p1501")
     die_fug = (a("sfmarray_fugue_p769") + N_CH * (a("acclogic_p1501")
                + a("diffdec_p1501") + a("causal_p1501")))
-    die_fug_rope = die_fug + a("rope_p1501")
     ctl_att = a("ctrl_attacc_p1501")
     ctl_fug = a("ctrl_fugue_p1501")
     tot_att = bank_att + bg_att + die_att + ctl_att
@@ -117,7 +114,6 @@ def main():
                        ("Stack total", tot_att, tot_fug)):
         lines.append(f"| {name} | {x:,.0f} | {y:,.0f} "
                      f"| {100*(y-x)/x if x else 0:+.2f}% |")
-    lines.append(f"| Logic die (+RoPE ablation) | | {die_fug_rope:,.0f} | |")
 
     lines += ["", "## Roll-up, DRAM-process equivalent (bank/BG x10; die & ctrl on the logic die x1)", "",
               "| Level | AttAcc um^2 | Fugue um^2 | delta |",

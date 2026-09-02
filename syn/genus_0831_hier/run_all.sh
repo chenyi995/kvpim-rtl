@@ -55,17 +55,13 @@ throttle; R=0 IF=0.25 run_one fp16_mult_p1350  fp16_mult $P_LEAF_ATT "" "" fp16_
 throttle; R=0 IF=0.25 run_one fp16_add_p1350   fp16_add  $P_LEAF_ATT "" "" fp16_add.sv &
 throttle; R=0 IF=0.25 run_one fp32_add_p630    fp32_add  $P_LEAF_SFM "" "" fp32_add.sv &
 throttle; R=0 IF=0.25 run_one fp32_mul_p630    fp32_mul  $P_LEAF_SFM "" "" fp32_mul.sv &
-throttle; R=0 IF=0.25 run_one bf16_mult_p1350  bf16_mult $P_LEAF_ATT "" "" bf16_mult.sv &
-throttle; R=0 IF=0.25 run_one bf16_add_p1350   bf16_add  $P_LEAF_ATT "" "" bf16_add.sv &
 wait
 
 F16F="$HERE/fp16_mult_p700/fp16_mult_mapped.v $HERE/fp16_add_p700/fp16_add_mapped.v"
 F16A="$HERE/fp16_mult_p1350/fp16_mult_mapped.v $HERE/fp16_add_p1350/fp16_add_mapped.v"
 F32="$HERE/fp32_add_p630/fp32_add_mapped.v $HERE/fp32_mul_p630/fp32_mul_mapped.v"
-BF16="$HERE/bf16_mult_p1350/bf16_mult_mapped.v $HERE/bf16_add_p1350/bf16_add_mapped.v"
 M16="fp16_mult fp16_add"
 M32="fp32_add fp32_mul"
-MBF="bf16_mult bf16_add"
 
 echo "== phase 2: components (leaves as macros) =="
 # ---- bank ----  (macro-buffer / standalone-dbuf reference runs: archived/syn/genus_0831_hier_reference/run_reference.sh)
@@ -81,7 +77,6 @@ throttle; run_one accbuf_fugue_p769   accum_buffer_bg_fugue  $P_FUG "" "$SRAMS" 
 throttle; run_one acclogic_p1501 accumulator_logic $P_ATT "$M16" "" $F16A accumulator_logic.sv &
 throttle; run_one diffdec_p1501  diff_decoder_channel_dc_top $P_ATT "" "" fugue_pkg.sv diff_decoder.sv diff_decoder_channel_dc_top.sv &
 throttle; run_one causal_p1501   causal_comparator $P_ATT "" "" causal_comparator.sv &
-throttle; run_one rope_p1501     rotate_q_bf16 $P_ATT "$MBF" "" $BF16 sincos_bf16.sv rotate_q_bf16.sv &
 throttle; run_one sfmpe_p699     softmax_pe $P_SFM "$M32" "" $F32 fp32_exp.sv softmax_pe.sv &
 # ---- HBM controller ----
 throttle; run_one ctrl_attacc_p1501 attacc_hbm_ctrl_top $P_ATT "" "" fugue_pkg.sv kv_tlb_pkg.sv attacc_controller.sv direct_addr_plan.sv dma_engine.sv attacc_hbm_ctrl_top.sv &

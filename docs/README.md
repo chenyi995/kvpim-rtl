@@ -45,7 +45,7 @@
    666 MHz / 1.3 GHz 双双 met。`softmax_buffer_sram` 经整合 array 验证
    无需此修复（FSM WAIT 吸收半周期）。
 
-## 四项裁决（chenyi9 2026-09-01 / 09-02，已体现在 SUMMARY/CSV）
+## 五项裁决（chenyi9 2026-09-01 / 09-02，已体现在 SUMMARY/CSV）
 
 - **N_gemv=1024**（AttAcc Fig.9(b) 两 bank 共享 2 GEMV）。
 - bank/BG **×10** DRAM 工艺等效。
@@ -55,6 +55,9 @@
   512 B 宏，两档同面积，扩容零成本。比较后 AttAcc 16 B 用 flop（62 µm²，
   宏 250），Fugue 128 B 用宏（251 µm²，flop 448）。
   stack 合计 Fugue vs AttAcc：ASAP7 **+26.44%**、DRAM 等效 **+13.49%**。
+- **RoPE 不进正式结果**（2026-09-02）：Fugue 论文口径在 GPU 上做 RoPE；
+  `rotate_q_bf16` 等 RTL 与 `rope_p1501`/bf16 叶子 run 归档，roll-up 只有
+  AttAcc / Fugue 两列。
 
 ## 待办
 

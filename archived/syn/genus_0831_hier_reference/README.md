@@ -15,6 +15,8 @@
 | `accbuf_attacc_p1501_macro` | AttAcc 16 B BG buffer，SRAM 宏实现 | 1501.5 ps | 250.5 µm²（正式选用 flop 62.0） | 2026-09-02 裁决「各取最优」的对照点；重跑用 `accum_buffer_bg_ref_tops.sv` |
 | `accbuf_fugue_p769_flop` | Fugue 128 B BG buffer，flop 阵列实现 | 769 ps | 448.3 µm²（正式选用宏 250.7） | 同上 |
 | `accbuf_fugue_p769_macro` | Fugue 128 B，宏实现，整理前的原 run | 769 ps | 250.7 µm²，与正式 `accbuf_fugue_p769` 重跑结果相同 | 历史 |
+| `rope_p1501` | `rotate_q_bf16`（`archived/rtl/rope/`） | 1501.5 ps | 4,393 µm²，met；Fugue+RoPE 消融时 die 上加 1 个 | 裁决 2026-09-02：RoPE 不进正式结果 |
+| `bf16_mult_p1350` / `bf16_add_p1350` | RoPE 用的 BF16 叶子，紧时钟冻结网表 | 1350 ps | 39.6 / 35.4 µm² | 仅 `rope_p1501` 读取 |
 | `rerun*.log` | — | — | 战役驱动脚本三次续跑的 stdout | 历史 |
 
 重跑：`./run_reference.sh`（使用正式目录的 tcl、`libs_ps/` 与叶子网表，结果写回本目录）。
