@@ -11,6 +11,7 @@
 |---|---|---|---|
 | `root/README.md`、`root/HANDOFF.md`、`root/KV_TLB.md`、`root/ChangeNotes.md` | 仓库根 | TSMC N28 logic-die 时代的说明、交接与变更记录 | 描述的是 `rtl/`（旧外层文件）与 N28 full-flatten 流程，已被 ASAP7 组件线取代 |
 | `rtl/*.sv` | `rtl/*.sv`（外层） | N28 logic-die 整体 RTL（`fugue_logic_die`、`attacc_logic_die`、MQ bank PE、mac_tree 等） | 组件线不再使用；同名文件（如 `gemv_unit.sv`）与正式 `rtl/` 的**不是同一版本** |
+| `rtl/dc_synth_tops/` | `rtl/0830-02/`（现 `rtl/`） | `softmax_buffer_dc_tops.sv`、`softmax_pe_blackbox.sv`：仅 DC 流程用的综合 top / 黑盒声明 | Genus 权威矩阵与 testbench 均不引用（见该目录 README） |
 | `syn/dc_0830-02/` | `syn/dc_0830-02/` | Synopsys DC/ASAP7 组件级矩阵（309 个报告） | **部分失效**：未开 retime；DC 静默丢弃了上游 SRAM lib 的非法 clk→dataout arc，所有经 SRAM 的 "met" 是假阳性；GEMV 行对应 SRAM 出口寄存器修复前的 RTL。勘误见 `docs/0830-02/Summary.md` 末尾 |
 | `syn/xinyao_0828/` | `syn/xinyao_0828/` | 更早的 DC/SRAM 基线 | 自述 rough/debug |
 | `syn/run_dc_*.sh`、`syn/run_dc_asap7*.tcl`、`syn/summarize_dc_asap7.py` | `syn/` | DC 驱动脚本 | 与 DC 矩阵一起归档 |
