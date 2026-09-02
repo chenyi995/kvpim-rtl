@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1788384320.948350407, "rt":0.43, "ut":0.18, "st":0.07}}
+{"vcselab":{"timestamp_begin":1788384321.449976023, "rt":0.33, "ut":0.10, "st":0.06}}
+{"link":{"timestamp_begin":1788384321.819517994, "rt":0.08, "ut":0.05, "st":0.03}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1788384320.685849155}
+{"VCS_COMP_START_TIME": 1788384320.685849155}
+{"VCS_COMP_END_TIME": 1788384321.966433848}
+{"VCS_USER_OPTIONS": "-full64 -sverilog -timescale=1ns/1ps -o /tmp/claude-1581920/-data2-chenyi9-KV-PIM-kvpim-rtl/d7296adf-cd6e-4e09-bb35-13fabc8a9600/scratchpad/vcs_all/tb_gemv_unit_0830_02 /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fp16_add.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fp16_mult.sv /data2/chenyi9/KV-PIM/kvpim-rtl/testbench/asap7_srambank_models.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/dbuf_16x256_asap7.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/gemv_unit.sv /data2/chenyi9/KV-PIM/kvpim-rtl/testbench/tb_gemv_unit_0830_02.sv"}
+{"vcs1": {"peak_mem": 347112}}
+{"vcselab": {"peak_mem": 195044}}

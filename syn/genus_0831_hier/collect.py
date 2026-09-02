@@ -132,12 +132,12 @@ def main():
     if ref is not None:
         macro_die = DRAM_X * (N_GEMV * ref["area"] + bg_att) / 8 / 1e6
         macro_txt = (f"the macro-buffer reference (archived run "
-                     f"gemv_attacc_p1501, {ref['area']:,.1f} um^2) reproduces the "
-                     f"paper's number ({macro_die:.2f} mm^2/die)")
+                     f"gemv_attacc_p1501, {ref['area']:,.1f} um^2) lands at "
+                     f"{macro_die:.2f} mm^2/die against the paper's 13.12")
     else:
         macro_txt = ("the macro-buffer reference run gemv_attacc_p1501 "
-                     "(archived/syn/genus_0831_hier_reference) reproduced the "
-                     "paper's number (13.18 mm^2/die)")
+                     "(archived/syn/genus_0831_hier_reference) is missing — "
+                     "rerun run_reference.sh there to recompute the anchor")
     lines.append("Anchor notes: with the flop-optimal bank buffer the AttAcc "
                  f"DRAM-side total is {flop_die:.2f} mm^2/die — below the "
                  "paper's 13.12 mm^2/die (Sec 7.7) because the over-provisioned "

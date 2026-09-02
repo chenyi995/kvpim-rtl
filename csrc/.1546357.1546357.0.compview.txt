@@ -1,0 +1,7 @@
+Command exited with non-zero status 255
+{"vcs1":{"timestamp_begin":1788384322.609072851, "rt":0.26, "ut":0.05, "st":0.03}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1788384322.335697048}
+{"VCS_COMP_START_TIME": 1788384322.335697048}
+{"VCS_COMP_END_TIME": 1788384322.925036853}
+{"VCS_USER_OPTIONS": "-full64 -sverilog -timescale=1ns/1ps -o /tmp/claude-1581920/-data2-chenyi9-KV-PIM-kvpim-rtl/d7296adf-cd6e-4e09-bb35-13fabc8a9600/scratchpad/vcs_all/tb_logic_die_units_0830_02 /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fugue_pkg.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fp32_add.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fp32_mul.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fp32_exp.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fp32_recip.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/softmax_pe.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/causal_comparator.sv /data2/chenyi9/KV-PIM/kvpim-rtl/testbench/asap7_srambank_models.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/softmax_buffer_sram.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/softmax_unit.sv /data2/chenyi9/KV-PIM/kvpim-rtl/testbench/tb_logic_die_units_0830_02.sv"}
+{"vcs1": {"peak_mem": 249848}}

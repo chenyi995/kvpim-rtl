@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1788384273.215401264, "rt":0.34, "ut":0.09, "st":0.05}}
+{"vcselab":{"timestamp_begin":1788384273.621956257, "rt":0.25, "ut":0.07, "st":0.02}}
+{"link":{"timestamp_begin":1788384273.917922596, "rt":0.09, "ut":0.04, "st":0.05}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1788384272.991143090}
+{"VCS_COMP_START_TIME": 1788384272.991143090}
+{"VCS_COMP_END_TIME": 1788384274.068786308}
+{"VCS_USER_OPTIONS": "-full64 -sverilog -timescale=1ns/1ps -o /tmp/claude-1581920/-data2-chenyi9-KV-PIM-kvpim-rtl/d7296adf-cd6e-4e09-bb35-13fabc8a9600/scratchpad/vcs_fp16/simv rtl/fp16_mult.sv rtl/fp16_add.sv testbench/tb_fp16_ieee.sv"}
+{"vcs1": {"peak_mem": 344704}}
+{"vcselab": {"peak_mem": 178580}}

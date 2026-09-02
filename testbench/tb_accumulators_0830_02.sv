@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-// tb for the 0830-02 accumulators: BG-level 4->1 (bypass/sum) + buffer,
+// tb for the 0830-02 accumulators: BG-level 16-lane x 4-word (bypass/sum) + buffer,
 // logic-die-level 16-lane x 4-beat (bypass/sum).
 module tb_accumulators_0830_02;
   logic clk=0, rst_n=0;
@@ -16,13 +16,12 @@ module tb_accumulators_0830_02;
     end
   endfunction
 
-  // ---- BG accumulator ----
+  // ---- BG accumulator (16-lane, 4 words per group) ----
   logic bg_iv, bg_byp;
-  logic [3:0][15:0] bg_parts;
-  logic [15:0] bg_out;
+  logic [15:0][15:0] bg_in, bg_out;
   logic bg_ov;
   accumulator_bg u_bg (.clk, .rst_n, .in_valid(bg_iv), .mode_bypass(bg_byp),
-                       .parts(bg_parts), .out(bg_out), .out_valid(bg_ov));
+                       .in_word(bg_in), .out_word(bg_out), .out_valid(bg_ov));
 
   // ---- BG accumulator buffers (ASAP7 macro): AttAcc 8-deep, Fugue 64-deep ----
   logic ab_we, ab_re;
@@ -43,7 +42,7 @@ module tb_accumulators_0830_02;
   accumulator_logic u_lg (.clk, .rst_n, .in_valid(lg_iv), .mode_bypass(lg_byp),
                           .in_word(lg_in), .out_word(lg_out), .out_valid(lg_ov));
 
-  logic [15:0] bg_got[$];
+  logic [15:0][15:0] bg_got[$];
   logic [15:0][15:0] lg_got[$];
   logic [15:0][15:0] lg_chk;
   always @(posedge clk) begin
@@ -52,26 +51,33 @@ module tb_accumulators_0830_02;
   end
 
   initial begin
-    bg_iv=0; bg_byp=0; bg_parts='0;
+    bg_iv=0; bg_byp=0; bg_in='0;
     ab_we=0; ab_re=0; ab_wa='0; ab_ra='0; ab_wd='0;
     fb_we=0; fb_re=0; fb_wa='0; fb_ra='0; fb_wd='0;
     lg_iv=0; lg_byp=0; lg_in='0;
     repeat(3) @(negedge clk); rst_n=1; repeat(2) @(negedge clk);
 
-    // BG sum: 1+2+3+4 = 10
-    bg_parts[0]=fp16(1); bg_parts[1]=fp16(2); bg_parts[2]=fp16(3); bg_parts[3]=fp16(4);
-    bg_byp=0; bg_iv=1; @(negedge clk); bg_iv=0;
-    repeat(4) @(negedge clk);
-    if (bg_got.size()!==1 || bg_got[0]!==fp16(10))
-      $fatal(1,"bg sum: got %0d results, [0]=%h", bg_got.size(), bg_got[0]);
+    // BG sum: word k lane l = (k+1)+l, k=0..3 -> lane sum = 10 + 4l
+    bg_byp=0;
+    for (int k=0;k<4;k++) begin
+      for (int l=0;l<16;l++) bg_in[l]=fp16(k+1+l);
+      bg_iv=1; @(negedge clk);
+    end
+    bg_iv=0; repeat(4) @(negedge clk);
+    if (bg_got.size()!==1) $fatal(1,"bg sum: got %0d results", bg_got.size());
+    for (int l=0;l<16;l++)
+      if (bg_got[0][l]!==fp16(10+4*l)) $fatal(1,"bg sum lane %0d = %h", l, bg_got[0][l]);
 
-    // BG bypass: 5,6,7,8 stream out in order
-    bg_parts[0]=fp16(5); bg_parts[1]=fp16(6); bg_parts[2]=fp16(7); bg_parts[3]=fp16(8);
-    bg_byp=1; bg_iv=1; @(negedge clk); bg_iv=0;
-    repeat(6) @(negedge clk);
+    // BG bypass: 4 words stream through unchanged, one per cycle
+    bg_byp=1;
+    for (int k=0;k<4;k++) begin
+      for (int l=0;l<16;l++) bg_in[l]=fp16(20+k+l);
+      bg_iv=1; @(negedge clk);
+    end
+    bg_iv=0; repeat(3) @(negedge clk);
     if (bg_got.size()!==5) $fatal(1,"bg bypass: %0d results", bg_got.size());
-    for (int i=0;i<4;i++)
-      if (bg_got[1+i]!==fp16(5+i)) $fatal(1,"bg bypass[%0d]=%h", i, bg_got[1+i]);
+    for (int k=0;k<4;k++) for (int l=0;l<16;l++)
+      if (bg_got[1+k][l]!==fp16(20+k+l)) $fatal(1,"bg bypass word %0d lane %0d = %h", k, l, bg_got[1+k][l]);
 
     // AttAcc buffer (8-deep macro): write 8, read back
     for (int i=0;i<8;i++) begin

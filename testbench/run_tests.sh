@@ -6,6 +6,7 @@ R=rtl
 T=testbench
 run() { local n=$1; shift; iverilog -g2012 -s "$n" -o "$T/$n.vvp" "$@" "$T/$n.sv"; vvp "$T/$n.vvp"; }
 
+run tb_fp16_ieee             $R/fp16_mult.sv $R/fp16_add.sv        # IEEE-754 binary16 vs numpy golden vectors (gen_fp16_vectors.py)
 run tb_gemv_unit_0830_02     $R/fp16_add.sv $R/fp16_mult.sv $R/dbuf_16x256.sv $R/gemv_unit.sv
 # same TB over the ASAP7-macro double buffer (the configuration DC synthesizes)
 run tb_gemv_unit_0830_02     $R/fp16_add.sv $R/fp16_mult.sv $T/asap7_srambank_models.sv $R/dbuf_16x256_asap7.sv $R/gemv_unit.sv

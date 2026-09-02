@@ -1,0 +1,7 @@
+Command exited with non-zero status 255
+{"vcs1":{"timestamp_begin":1788384318.662959374, "rt":0.23, "ut":0.03, "st":0.02}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1788384318.427732769}
+{"VCS_COMP_START_TIME": 1788384318.427732769}
+{"VCS_COMP_END_TIME": 1788384318.943656092}
+{"VCS_USER_OPTIONS": "-full64 -sverilog -timescale=1ns/1ps -o /tmp/claude-1581920/-data2-chenyi9-KV-PIM-kvpim-rtl/d7296adf-cd6e-4e09-bb35-13fabc8a9600/scratchpad/vcs_all/tb_accumulators_0830_02 /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/fp16_add.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/accumulator_bg.sv /data2/chenyi9/KV-PIM/kvpim-rtl/testbench/asap7_srambank_models.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/accum_buffer_bg.sv /data2/chenyi9/KV-PIM/kvpim-rtl/rtl/accumulator_logic.sv /data2/chenyi9/KV-PIM/kvpim-rtl/testbench/tb_accumulators_0830_02.sv"}
+{"vcs1": {"peak_mem": 247712}}

@@ -1,66 +1,88 @@
-// accumulator_bg.sv — the bank-group-level accumulator.
+// accumulator_bg.sv — the bank-group-level accumulator, 16 lanes.
 //
-// Spec (docs/Hardware Overhead.md, BG-level): ONE accumulator per bank group
-// that can be switched between a BYPASS mode and a SUM mode.  Sum mode takes
-// four FP16 partial results in parallel and produces their sum as one FP16
-// (row-wise KV partitioning: the four banks of the group each contribute a
-// partial dot product that must be reduced).  Bypass mode is used for
-// column-wise partitioning, where each input is already a complete result:
-// the four captured inputs are forwarded unmodified, one per cycle, onto the
-// single FP16 output.
+// AttAcc (ASPLOS'24 §5.1, §7.7): one accumulator per bank group reduces the
+// partial results of the group's four banks and is bypassed under column-wise
+// partitioning; its 0.036 mm^2 (1z-nm DRAM) is "mostly arithmetic units",
+// i.e. one FP16 adder per output lane of the GEMV unit.  Ruling chenyi9
+// 2026-09-02: model it at that width (the earlier scalar 4->1 unit covered
+// only the score path).
 //
-//   sum mode    : out = ((p0+p1) + (p2+p3)), 2-level FP16 adder tree
-//                 (3 fp16_add), latency 2, one result per in_valid.
-//   bypass mode : latency 1..4, out streams p0,p1,p2,p3 with out_valid
-//                 high for four cycles.  One transaction at a time.
-module accumulator_bg (
-    input  logic               clk,
-    input  logic               rst_n,
-    input  logic               in_valid,
-    input  logic               mode_bypass,   // 1 = bypass, 0 = sum
-    input  logic [3:0][15:0]   parts,         // FP16 partials from the 4 banks
-    output logic [15:0]        out,
-    output logic               out_valid
+//   * Datapath: 16 FP16 lanes (one GEMV output word, 256 b).  Score partials
+//     use lane 0; context partials use all 16 lanes.
+//   * SUM mode: the four banks' words arrive one per cycle (the group's shared
+//     bus); each lane accumulates over GROUP = 4 words and the lane-wise sum
+//     is emitted once — same running-accumulate microarchitecture as the
+//     logic-die accumulator (fp16_add output register free-runs, so a HOLD
+//     register commits on valid results and the b operand forwards the fresh
+//     sum on its valid cycle).
+//   * BYPASS mode: each input word is registered straight through.
+module accumulator_bg #(
+    parameter integer LANES = 16,
+    parameter integer GROUP = 4
+) (
+    input  logic                    clk,
+    input  logic                    rst_n,
+    input  logic                    in_valid,
+    input  logic                    mode_bypass,  // 1 = bypass, 0 = sum-of-GROUP
+    input  logic [LANES-1:0][15:0]  in_word,      // one bank's partial word
+    output logic [LANES-1:0][15:0]  out_word,
+    output logic                    out_valid
 );
-    // ---- sum mode: 2-level FP16 adder tree ----
-    logic [15:0] s1 [2];
-    logic        s1_v [2];
-    logic [15:0] tree_sum;
-    logic        tree_v;
-    wire  sum_iv = in_valid & ~mode_bypass;
+    localparam integer CNT_W = $clog2(GROUP);
 
-    fp16_add u_l1a (.clk(clk), .rst_n(rst_n), .in_valid(sum_iv),
-                    .a(parts[0]), .b(parts[1]), .y(s1[0]), .out_valid(s1_v[0]));
-    fp16_add u_l1b (.clk(clk), .rst_n(rst_n), .in_valid(sum_iv),
-                    .a(parts[2]), .b(parts[3]), .y(s1[1]), .out_valid(s1_v[1]));
-    fp16_add u_l2  (.clk(clk), .rst_n(rst_n), .in_valid(s1_v[0]),
-                    .a(s1[0]), .b(s1[1]), .y(tree_sum), .out_valid(tree_v));
-
-    // ---- bypass mode: capture the four lanes, shift one out per cycle ----
-    logic [3:0][15:0] byp_q;
-    logic [2:0]       byp_left;   // lanes still to emit
-    logic [15:0]      byp_out;
-    logic             byp_v;
+    // ---- group sequencing ----
+    logic [CNT_W-1:0] cnt;
+    wire sum_iv   = in_valid & ~mode_bypass;
+    wire is_first = (cnt == '0);
+    wire is_last  = (cnt == CNT_W'(GROUP-1));
 
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            byp_q <= '0; byp_left <= '0; byp_out <= '0; byp_v <= 1'b0;
-        end else begin
-            byp_v <= 1'b0;
-            if (in_valid && mode_bypass && (byp_left == 3'd0)) begin
-                byp_out  <= parts[0];
-                byp_v    <= 1'b1;
-                byp_q    <= {16'd0, parts[3], parts[2], parts[1]};
-                byp_left <= 3'd3;
-            end else if (byp_left != 3'd0) begin
-                byp_out  <= byp_q[0];
-                byp_v    <= 1'b1;
-                byp_q    <= {16'd0, byp_q[3:1]};
-                byp_left <= byp_left - 3'd1;
+        if (!rst_n)      cnt <= '0;
+        else if (sum_iv) cnt <= is_last ? '0 : cnt + 1'b1;
+    end
+
+    // ---- lane accumulators ----
+    logic [LANES-1:0][15:0] acc_y, acc_hold;
+    logic [LANES-1:0]       acc_ov;
+    genvar l;
+    generate
+        for (l = 0; l < LANES; l++) begin : g_lane
+            fp16_add u_add (
+                .clk(clk), .rst_n(rst_n), .in_valid(sum_iv),
+                .a(in_word[l]),
+                .b(is_first ? 16'd0 : (acc_ov[l] ? acc_y[l] : acc_hold[l])),
+                .y(acc_y[l]), .out_valid(acc_ov[l])
+            );
+            always_ff @(posedge clk or negedge rst_n) begin
+                if (!rst_n)         acc_hold[l] <= '0;
+                else if (acc_ov[l]) acc_hold[l] <= acc_y[l];
             end
+        end
+    endgenerate
+
+    // ---- bypass register ----
+    logic [LANES-1:0][15:0] byp_q;
+    logic                   byp_v;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            byp_q <= '0; byp_v <= 1'b0;
+        end else begin
+            byp_v <= in_valid & mode_bypass;
+            if (in_valid & mode_bypass) byp_q <= in_word;
         end
     end
 
-    assign out       = mode_bypass ? byp_out : tree_sum;
-    assign out_valid = mode_bypass ? byp_v   : tree_v;
+    // ---- output: sum mode strobes when the last word's add commits ----
+    logic last_d, last_q;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            last_d <= 1'b0; last_q <= 1'b0;
+        end else begin
+            last_d <= sum_iv & is_last;
+            last_q <= last_d;
+        end
+    end
+
+    assign out_word  = mode_bypass ? byp_q : acc_hold;
+    assign out_valid = mode_bypass ? byp_v : last_q;
 endmodule

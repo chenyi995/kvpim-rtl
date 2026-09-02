@@ -45,7 +45,7 @@
    666 MHz / 1.3 GHz 双双 met。`softmax_buffer_sram` 经整合 array 验证
    无需此修复（FSM WAIT 吸收半周期）。
 
-## 五项裁决（chenyi9 2026-09-01 / 09-02，已体现在 SUMMARY/CSV）
+## 七项裁决（chenyi9 2026-09-01 / 09-02，已体现在 SUMMARY/CSV）
 
 - **N_gemv=1024**（AttAcc Fig.9(b) 两 bank 共享 2 GEMV）。
 - bank/BG **×10** DRAM 工艺等效。
@@ -54,10 +54,17 @@
 - **BG buffer 各取最优实现**（2026-09-02）：原宏版把 16 B / 128 B 装进同一颗
   512 B 宏，两档同面积，扩容零成本。比较后 AttAcc 16 B 用 flop（62 µm²，
   宏 250），Fugue 128 B 用宏（251 µm²，flop 448）。
-  stack 合计 Fugue vs AttAcc：ASAP7 **+26.44%**、DRAM 等效 **+13.49%**。
+  （此时 stack 合计 ASAP7 +26.44%、DRAM 等效 +13.49%。）
 - **RoPE 不进正式结果**（2026-09-02）：Fugue 论文口径在 GPU 上做 RoPE；
   `rotate_q_bf16` 等 RTL 与 `rope_p1501`/bf16 叶子 run 归档，roll-up 只有
   AttAcc / Fugue 两列。
+- **FP16 乘/加改为完整 IEEE-754**（2026-09-02）：支持 subnormal 输入/输出、
+  渐进下溢、RNE，`tb_fp16_ieee` 对 numpy 黄金向量零失配。叶子面积
+  mult 55.7→76.0（666 MHz）/ 67.0→123.1（1.3 GHz），add 基本不变。
+- **BG 累加器改为 16 lane**（2026-09-02，对齐 AttAcc 原文"累加器主要是算术
+  单元"的规模）：与 logic-die 累加器同微架构，163→1,003 / 250→1,394 µm²。
+  规格 `Hardware Overhead.md` 写的 4→1 标量归约由此偏离，以本裁决为准。
+  **stack 合计 Fugue vs AttAcc：ASAP7 +32.53%、DRAM 等效 +21.19%**。
 
 ## 待办
 
