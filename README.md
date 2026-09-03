@@ -29,6 +29,12 @@
 
 来源：`syn/genus_0831_hier/SUMMARY.md`；每个数字的复核路径见 `docs/0831-genus-hier/README.md` §5。
 
+## 数值格式
+
+bank GEMV 的乘/加、BG 与 logic-die 累加器：**FP16（IEEE-754 binary16 完整实现，含 subnormal）**；
+logic-die softmax：**FP32（binary32，subnormal flush-to-zero）**，与 AttAcc 原文一致。
+逐单元说明见 `docs/0831-genus-hier/DATA_README.md` 的"数值格式"表。
+
 ## Bank level 用的是什么
 
 - RTL：`rtl/gemv_unit.sv` + `rtl/dbuf_16x256.sv`（flop 阵列 buffer，2026-09-01 裁决）+ 冻结的 `fp16_mult`/`fp16_add` 叶子网表（完整 IEEE-754 binary16，`tb_fp16_ieee` 对 numpy 黄金向量 2×28,576 条零失配）。

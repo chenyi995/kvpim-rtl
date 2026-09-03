@@ -12,6 +12,21 @@
 （含 subnormal），BG 累加器 **16 lane**，bank buffer flop 阵列，BG buffer
 各取最优（AttAcc flop / Fugue 宏），N_gemv=1024、N_bg=256、N_ch=16。
 
+## 数值格式（各层算术单元）
+
+| 层级 / 单元 | 格式 | 实现要点 | RTL |
+|---|---|---|---|
+| Bank GEMV 乘法（16 个） | **FP16，IEEE-754 binary16 完整实现** | subnormal 输入/输出（渐进下溢）、RNE、溢出→inf、符号零、inf/NaN 规则；1 拍寄存输出 | `rtl/fp16_mult.sv` |
+| Bank GEMV 加法（16 个，树/并行累加两模式） | **FP16，IEEE-754 binary16 完整实现** | 同上；1 拍 | `rtl/fp16_add.sv` |
+| BG 累加器（16 lane × 4 word） | **FP16**，同一个 `fp16_add` | 每 lane 1 个加法器 + 保持寄存器 | `rtl/accumulator_bg.sv` |
+| Logic-die 累加器（每 channel 1 个，16 lane） | **FP16**，同一个 `fp16_add` | 与 BG 累加器同微架构 | `rtl/accumulator_logic.sv` |
+| Logic-die softmax（256 PE） | **FP32，IEEE-754 binary32，subnormal flush-to-zero** | PE = fp32_add（4 级流水，RNE，FTZ）+ fp32_exp（LUT+线性插值，8 拍）+ fp32_mul（6×6 分解，FTZ）；每 channel 1 个 fp32_recip（LUT + 1 次 Newton-Raphson，FTZ）；求和树与全局累加也是 fp32_add | `rtl/softmax_pe.sv`、`fp32_{add,mul,exp,recip}.sv`、`softmax_unit.sv` |
+
+FP16 单元由 `testbench/tb_fp16_ieee.sv` 对 numpy 黄金向量验证；FP32 单元沿用
+AttAcc 原文的 FP32 softmax 口径（"256 FP32 exponent units, adders, multipliers"），
+subnormal 按 flush-to-zero 处理，未做 IEEE 完整化（softmax 输入为 score − max ≤ 0，
+exp 输出 ∈ (0, 1]，subnormal 只出现在极小概率上）。
+
 ## 文件
 
 | 文件 | 内容 | 列 |
