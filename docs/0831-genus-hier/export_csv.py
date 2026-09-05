@@ -1,6 +1,19 @@
 #!/usr/bin/env python3
 """Export the paper's two configurations (AttAcc baseline, Fugue) from the genus_0831_hier reports to plotting-ready CSVs.
 
+POWER (added 2026-09-04 on chenyi9's request, for the logic-die and
+controller overhead).  components.csv carries two power columns: power_mw,
+one instance's Genus statistical power, and power_mw_per_stack, that times
+count_per_stack.  Summing a level's rows gives that level's per-stack power.
+
+Read the caveats in DATA_README.md before quoting any of it.  In short: no
+SAIF or VCD was supplied, so switching activity is Genus's default guess; and
+the logic-die figure is 94-96% BLACK-BOX MACRO power (the softmax buffers),
+so it reports the SRAM lib, not synthesized logic.  These numbers are for
+relative comparison at best, and they are NOT the paper's energy claim, which
+comes from the HBM3 per-command model.
+
+
 Reads the raw reports under syn/genus_0831_hier/<tag>/ (single source of
 truth) and writes components.csv + rollup.csv next to this script.  Only the
 runs that enter the three roll-ups are exported; every other run of the
@@ -50,7 +63,15 @@ def main():
                          count_per_stack=n, period_ps=r["period"],
                          f_ghz=round(1000.0 / r["period"], 3),
                          area_um2=r["area"], slack_ps=r["slack"],
-                         violations=r["viol"], power_mw=round(r["p_mw"], 4)))
+                         violations=r["viol"], power_mw=round(r["p_mw"], 4),
+                         # Per-stack power of this component: one instance's
+                         # Genus statistical power times how many the stack
+                         # holds.  Lets a level's overhead be read straight off
+                         # by summing the rows of that level (chenyi9 request
+                         # 2026-09-04).  NOT multiplied by the x10 DRAM density
+                         # factor -- that is an AREA convention; AttAcc gives no
+                         # power equivalent for it.
+                         power_mw_per_stack=round(n * r["p_mw"], 4)))
     with open(os.path.join(HERE, "components.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader()

@@ -114,3 +114,44 @@ roll-up 公式：每层 = Σ count_per_stack × area_um2（按 used_by 归入配
   +182 ps），集成到算术单元前需像 bank 层一样加一拍。
 - logic die 的 Fugue 版 buffer 按每通道 256 KiB（4 MiB/die）配置；
   若采用分批扫描方案可回落到 512 KiB——见 `docs/ASAP7_SRAM_AREA_COMPARISON.md`。
+
+## 功耗 / energy overhead（2026-09-04 按 chenyi9 要求提取）
+
+`components.csv` 增加一列 **`power_mw_per_stack` = `count_per_stack` × `power_mw`**。
+把某一级的行加起来，就是该级每 stack 的功耗。面积列一字未动，`rollup.csv` 未变。
+
+### logic die 与 controller 两级（每 stack）
+
+| level | AttAcc | Fugue | 增量 |
+|---|---:|---:|---:|
+| `logic_die` | 51093.73 mW | 99388.59 mW | **+48294.86 mW（+94.52%）** |
+| `hbm_controller` | 7.21 mW | 18.24 mW | **+11.03 mW（+153.05%）** |
+| 两级合计 | 51100.94 mW | 99406.83 mW | **+48305.89 mW（+94.53%）** |
+
+明细（`used_by` 决定哪一侧计入）：
+
+| top | 个数 | 单实例 mW | 每 stack mW | 用于 |
+|---|---:|---:|---:|---|
+| `sfm_array_attacc` | 1 | 50991.2 | 50991.2 | attacc |
+| `sfm_array_fugue` | 1 | 99208.2 | 99208.2 | fugue |
+| `accumulator_logic` | 16 | 6.4082 | 102.53 | 两者 |
+| `diff_decoder_channel_dc_top` | 16 | 4.7543 | 76.07 | fugue |
+| `causal_comparator` | 16 | 0.1117 | 1.79 | fugue |
+| `attacc_hbm_ctrl_top` | 1 | 7.2088 | 7.21 | attacc |
+| `fugue_hbm_ctrl_top` | 1 | 18.2421 | 18.24 | fugue |
+
+### 进正文之前必须先解决的三件事
+
+1. **绝对值不可信。** logic die 的数是 **94–96% 黑盒宏（bbox）功耗** ——
+   Fugue 的 softmax 阵列 99.2 W 里 95.5 W（96.3%）是 bbox，AttAcc 的 51.0 W 里
+   93.7% 是 bbox。那报的是 SRAM lib，不是综合出来的逻辑。
+   `accum_buffer_bg_fugue` 也是 99.8% bbox。
+   其余单元（GEMV、累加器、diff 解码、causal、控制器）bbox 为 0，可信度高得多。
+2. **没有 SAIF / VCD。** 综合脚本里没有任何 `read_saif` / `set_switching_activity`，
+   翻转率用的是 Genus 默认统计值，所以 switching 那一项是猜的。
+3. **这不是正文那句 energy 的同一个量。** 正文
+   "\Fugue{} adds \TBDnum\% per decode step over AttAcc" 说的是
+   **HBM3 per-command 能量模型**下每个 decode step 的能量，
+   不是 Genus 的静态功耗比。**把上表的 +94.53% 填进那句话是错的。**
+
+因此本页数字**只留在这里**，未进论文。要进正文需 chenyi9 先裁决用哪个口径。
